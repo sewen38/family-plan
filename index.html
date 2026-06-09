@@ -479,7 +479,7 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a><a class="dl-secondary" target="_blank" href="https://github.com/sewen38/family-plan/issues/'+(rec.issue||'')+'">查看原始记录</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷，诊断草案完成前下载按钮显示为待完成。请稍后刷新。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。诊断草案完成前不能进入下一阶段，请稍后刷新。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-secondary" target="_blank" href="https://github.com/sewen38/family-plan/issues/'+(rec.issue||'')+'">查看原始记录</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
@@ -546,8 +546,7 @@ function goNextStage(){
   var rec=getDiagnosisIssue(); var issue=rec&&rec.issue?rec.issue:(getIssueFromUrl()||'');
   if(!issue){T('⚠️ 请先提交问卷获取方案编号');return;}
   var body=rec&&rec.body?rec.body:'';
-  // 即使诊断草案尚未生成，也允许进入方案选择页（用户可能只需要部分国家评估）
-  // 仅当 localStorage 完全无记录时才真正阻塞
+  if(!body){T('⏳ 诊断草案尚未生成，不能进入下一阶段');refreshDiagnosis();return;}
   var sp=document.getElementById('solutionPicker');
   if(sp)sp.style.display='block';
 }

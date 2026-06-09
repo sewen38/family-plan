@@ -81,6 +81,12 @@ if(projectsRaw){
   });
 }
 
+
+function openOriginalRecord(){
+  if(!issue){alert('缺少方案编号，无法打开原始记录');return;}
+  window.open('https://github.com/sewen38/family-plan/issues/'+encodeURIComponent(issue),'_blank');
+}
+
 function renderPlan(){
   var h = '';
   
@@ -91,7 +97,7 @@ function renderPlan(){
   h += '<p class="muted">📌 选中项目：<br>';
   projectsParsed.forEach(function(p){h += '<span class="pill">'+(COUNTRY_EMOJI[p.country]||'')+' '+p.project+'</span> ';});
   h += '</p>';
-  h += '<div class="actions"><button class="btn btn-secondary" onclick="history.back()">← 返回汇总页</button><button class="btn btn-primary" onclick="window.print()">🖨️ 保存 / 打印 PDF</button></div>';
+  h += '<div class="actions"><button class="btn btn-secondary" onclick="history.back()">← 返回汇总页</button><button class="btn btn-secondary" onclick="openOriginalRecord()">查看原始记录</button><button class="btn btn-primary" onclick="window.print()">🖨️ 保存 / 打印 PDF</button></div>';
   h += '</div>';
   
   // ===== 费用清单 =====

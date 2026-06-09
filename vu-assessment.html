@@ -170,7 +170,7 @@ table.cm td:first-child{text-align:left;font-weight:500}
   window.goBack=function(){var D=document;D.getElementById("results").classList.remove("show");D.getElementById("qform").style.display="";setTimeout(function(){D.getElementById("qform").scrollIntoView({behavior:"smooth"});},50);};window.onProjectCheck=function(){};
 window.goExecPlan=function(){
   var checks=document.querySelectorAll('input[name="selProject"]:checked');
-  if(checks.length===0){var uu=new URL(window.location.href);var bb=uu.searchParams.get('batch')||'';if(bb==='1'){var ii=uu.searchParams.get('issue')||'';if(ii){try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[ii]=bd[ii]||{};bd[ii]['vu']={projects:[],ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}}var rurl=uu.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+ii;window.location.href=rurl;return;}else{alert('该国家暂无符合的项目，可返回上一页重新选择国家');return;}}
+  if(checks.length===0){var uu=new URL(window.location.href);var bb=uu.searchParams.get('batch')||'';if(bb==='1'){var ii=uu.searchParams.get('issue')||'';if(ii){try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[ii]=bd[ii]||{};bd[ii]['vu']={projects:[],ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}}var rurl=uu.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+ii;window.location.href=rurl;return;}else{window.location.href='https://sewen38.github.io/family-plan/?issue='+(ii||'');return;}}
   var projects=Array.from(checks).map(function(c){return c.value;});
   var u=new URL(window.location.href);
   var batch=u.searchParams.get('batch')||'';
@@ -401,7 +401,7 @@ window.goExecPlan=function(){
     } else {
       h+='<div class="rs-card"><p style="color:#888;text-align:center;padding:20px">⚠️ 暂未匹配到完全符合条件的项目。</p>';
       h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button>';
-      var bu=new URL(window.location.href); if(bu.searchParams.get('batch')==='1') h+='<button class="flow-primary" style="background:#d97706" onclick="goExecPlan()">下一阶段（跳过该国）</button>';
+      h+='<button class="flow-primary" style="background:#d97706" onclick="goExecPlan()">下一阶段（跳过该国）</button>';
       h+='</div></div>';
     }
 
