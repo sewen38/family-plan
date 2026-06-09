@@ -713,7 +713,7 @@ document.getElementById('f').onsubmit=function(e){
   fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
   .then(function(r){return r.json()})
   .then(function(r){
-    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');setTimeout(refreshDiagnosis,1200);}else{showResult(r.msg||'提交成功',true,3)}
+    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');}
   })
   .catch(function(){
     // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
@@ -733,10 +733,11 @@ document.getElementById('f').onsubmit=function(e){
         // Also try to trigger local server for instant processing
         try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.number,name:(m.name||[]).join(',')})}) }catch(e){}
       } else {
-        showResult(null,false,0);
+        document.getElementById('ov').classList.remove('on');
+        renderDiagnosis('⚠️ 自动提交未完成，请复制问卷给智能体生成诊断草案。','');
       }
     })
-    .catch(function(){showResult(null,false,0)});
+    .catch(function(){document.getElementById('ov').classList.remove('on');renderDiagnosis('⚠️ 当前网络无法自动提交，请复制问卷给智能体生成诊断草案。','');});
   });
   
   function showResult(msg,ok,minutes){
