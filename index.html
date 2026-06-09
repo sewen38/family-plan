@@ -479,7 +479,7 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。诊断草案完成前不能进入下一阶段，请稍后刷新。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。不同设备/网络如无法自动生成，请复制问卷文本发给当前智能体，智能体会直接在聊天框生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback('复制问卷文本','发给当前智能体后，将直接生成诊断草案。')">复制问卷给智能体</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
@@ -671,6 +671,24 @@ window.addEventListener('load',function(){
 });
 
 
+
+function buildProtocolText(summary){
+  return '【财税方案快速问卷提交】\n'
+    + '请直接进入 Step 2，生成《跨境家庭全球规划诊断草案》。不要再发送问卷链接。\n'
+    + '如果当前设备/网络无法访问自动提交接口，请以本段问卷内容为准直接生成。\n\n'
+    + '【原始问卷数据】\n'
+    + summary;
+}
+function showCopyFallback(title, tip){
+  var s='<h3>✅ '+(title||'问卷已生成')+'</h3>';
+  s+='<div class="tip" style="color:#1565c0">'+(tip||'请复制下方文本发给当前智能体，即可直接生成诊断草案。')+'</div>';
+  s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:320px;overflow:auto">'+(window._t||'')+'</div>';
+  s+='<button class="btn-copy" onclick="C()">📋 一键复制问卷文本</button>';
+  s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
+  document.getElementById('rc').innerHTML=s;
+  document.getElementById('ov').classList.add('on');window.scrollTo(0,0);
+}
+
 document.getElementById('f').onsubmit=function(e){
   e.preventDefault();
   var fd=new FormData(e.target),m={},body='';
@@ -688,8 +706,9 @@ document.getElementById('f').onsubmit=function(e){
     var v=(m[k]||[]).join('、')||'（未填）';
     summary+=(summary?'\n':'')+Q[k]+'：'+v;
   }
-  window._t=summary;
+  window._t=buildProtocolText(summary);
 
+  // Always keep a cross-device fallback copy ready. Automatic channels are best-effort only.
   // Channel 1: try local server (same WiFi → instant processing)
   fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
   .then(function(r){return r.json()})
