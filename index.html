@@ -353,7 +353,7 @@ input[type=text]:focus,input[type=number]:focus{border-color:#4a90d9}
 
 <div class="btns">
   <button type="button" class="btn-reset" onclick="document.getElementById('f').reset();hideAllAssets();T('已清空')">清空</button>
-  <button type="submit" class="btn-submit">📤 提交</button>
+  <button type="submit" class="btn-submit" onclick="setTimeout(function(){if(!document.body.classList.contains('diagnosis-mode')){try{document.getElementById('f').requestSubmit();}catch(e){}}},80)">📤 提交</button>
 </div>
 </form>
 
@@ -707,8 +707,10 @@ document.getElementById('f').onsubmit=function(e){
     summary+=(summary?'\n':'')+Q[k]+'：'+v;
   }
   window._t=buildProtocolText(summary);
+  document.getElementById('ov').classList.remove('on');
+  renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');
 
-  // Always keep a cross-device fallback copy ready. Automatic channels are best-effort only.
+  // Automatic channels are best-effort only and run after the UI responds immediately.
   // Channel 1: try local server (same WiFi → instant processing)
   fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
   .then(function(r){return r.json()})
