@@ -136,24 +136,25 @@ button:active{transform:scale(0.97)}
 
 <script>
 // Chip toggle logic for all chip groups
-var chipGroups=['revenue','incomeSource','assets','assetType','countries','needs','budget','urgency','keepCN','bizCN'];
 var multiSelect=['incomeSource','assetType','countries','needs'];
-
-chipGroups.forEach(function(g){
-  var wrap=document.getElementById(g+'-chips');
-  if(!wrap) return;
+document.querySelectorAll('.chip-wrap[id$="-chips"]').forEach(function(wrap){
+  var g=wrap.id.replace(/-chips$/,'');
+  var aliases={income:'incomeSource',asset:'assets',country:'countries',need:'needs'};
+  var inputId=aliases[g]||g;
+  var target=document.getElementById(inputId);
+  if(!target) return;
   wrap.addEventListener('click',function(e){
     var c=e.target.closest('.chip');if(!c) return;
-    var isMulti=multiSelect.indexOf(g)>=0;
-    var v=c.dataset.v;
+    var isMulti=multiSelect.indexOf(inputId)>=0;
+    var value=c.dataset.v;
     if(isMulti){
       c.classList.toggle('on');
       var vals=[];wrap.querySelectorAll('.chip.on').forEach(function(x){vals.push(x.dataset.v);});
-      document.getElementById(g).value=vals.join('、');
+      target.value=vals.join('、');
     } else {
       wrap.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});
       c.classList.add('on');
-      document.getElementById(g).value=v;
+      target.value=value;
     }
   });
 });
