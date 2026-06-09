@@ -120,11 +120,16 @@ function renderPlan(){
     'jp-biz':[{item:'注册资本',amount:'JP¥500万',note:'经营·管理签证'},{item:'办公室租金',amount:'JP¥300,000-600,000/月',note:'实体办公空间'},{item:'服务费',amount:'JP¥800,000-1,500,000',note:'行政书士+公司设立'}],
     'vu-dsp':[{item:'政府捐款',amount:'US$130,000',note:'单人申请'},{item:'政府捐款(夫妻)',amount:'US$150,000',note:'主申+配偶'},{item:'政府捐款(家庭)',amount:'US$180,000',note:'主申+配偶+2子女'},{item:'尽职调查费',amount:'US$5,000',note:'每名申请人'},{item:'服务费',amount:'US$8,000-15,000',note:'代理+文件'}],
     'ge-invest':[{item:'投资金额',amount:'US$300,000',note:'格鲁吉亚发展方向基金'},{item:'政府费用',amount:'US$5,000-8,000',note:'居留许可+申请'},{item:'服务费',amount:'US$8,000-15,000',note:'律师+文案'}],
+    'au-generic':[{item:'政府/签证申请费',amount:'按具体签证类别',note:'NIV/技术/雇主担保费用不同'},{item:'职业评估/英语/体检公证',amount:'约AU$3,000-10,000+',note:'按申请人情况'},{item:'专业服务费',amount:'约AU$8,000-25,000+',note:'移民代理/律师'}],
+    'nz-generic':[{item:'政府/签证申请费',amount:'按具体签证类别',note:'SMC/Green List/AIP/AEWV不同'},{item:'职业评估/英语/体检公证',amount:'约NZ$2,000-8,000+',note:'按申请人情况'},{item:'专业服务费',amount:'约NZ$8,000-25,000+',note:'移民顾问/律师'}],
+    'us-generic':[{item:'政府申请费',amount:'按EB-5/EB-1A/NIW/L-1/E-2/O-1类别',note:'USCIS/领馆收费不同'},{item:'律师费',amount:'约US$8,000-80,000+',note:'路径复杂度差异大'},{item:'投资/运营资金',amount:'按项目要求',note:'EB-5/E-2/L-1需额外预算'}],
+    'eu-generic':[{item:'政府申请费',amount:'按国家/路径',note:'葡萄牙/希腊/马耳他/西班牙等不同'},{item:'投资/收入证明',amount:'按具体路径',note:'黄金签证/数字游民/被动收入/雇主路径不同'},{item:'律师/服务费',amount:'约€5,000-25,000+',note:'按国家和复杂度'}],
   };
   
   // Normalize assessment project codes to feeData keys
-  var projectAliases={"ge-invest-realestate":"ge-invest","ge-invest-business":"ge-invest","ge-temp-residence":"ge-invest","ge-temp-rental":"ge-invest","ge-ie-digitalnomad":"ge-invest","ge-ie-freelance":"ge-invest","jp-hsp-70":"jp-hsp","jp-hsp-80":"jp-hsp","jp-super-hsp":"jp-hsp","jp-jskip-income":"jp-biz","jp-biz-2025":"jp-biz","jp-biz-startup":"jp-biz","vu-dsp-single":"vu-dsp","vu-dsp-single-fast":"vu-dsp","vu-dsp-couple":"vu-dsp","vu-dsp-family4":"vu-dsp","vu-dsp-family-big":"vu-dsp","vu-tax-single":"vu-dsp","vu-tax-family":"vu-dsp"};
+  var projectAliases={"tr-realestate-education":"tr-realestate-cbi","sg-techpass-pr":"sg-techpass-pr","au-858-niv":"au-generic","au-186-niv":"au-generic","au-189-skilled":"au-generic","au-189-edu":"au-generic","au-190-state":"au-generic","au-491-regional":"au-generic","au-491-482-combo":"au-generic","au-482-sid":"au-generic","au-186-de":"au-generic","nz-smc-6pt":"nz-generic","nz-green-tier1":"nz-generic","nz-green-smc-combo":"nz-generic","nz-aip-growth":"nz-generic","nz-aip-balanced":"nz-generic","nz-aip-edu":"nz-generic","nz-ict-aewv":"nz-generic","nz-ict-partner-combo":"nz-generic","nz-partner-residence":"nz-generic","us-eb5":"us-generic","us-eb1a":"us-generic","us-niw":"us-generic","us-l1":"us-generic","us-e2":"us-generic","us-o1-eb1a":"us-generic","us-h1b":"us-generic","us-eb5-e2-combo":"us-generic","us-l1-h1b-combo":"us-generic","dm-cbi-single":"dm-realestate","dm-cbi-couple":"dm-realestate","dm-cbi-family":"dm-realestate","dm-cbi-realestate":"dm-realestate","jp-hsp-70":"jp-hsp","jp-hsp-80":"jp-hsp","jp-super-hsp":"jp-hsp","jp-jskip-income":"jp-biz","jp-biz-2025":"jp-biz","jp-biz-startup":"jp-biz","vu-dsp-single":"vu-dsp","vu-dsp-single-fast":"vu-dsp","vu-dsp-couple":"vu-dsp","vu-dsp-family4":"vu-dsp","vu-dsp-family-big":"vu-dsp","vu-tax-single":"vu-dsp","vu-tax-family":"vu-dsp","ge-invest-realestate":"ge-invest","ge-invest-business":"ge-invest","ge-temp-residence":"ge-invest","ge-temp-rental":"ge-invest","ge-ie-digitalnomad":"ge-invest","ge-ie-freelance":"ge-invest"};
   projectsParsed.forEach(function(p){
+    if(/^eu-/.test(p.project)) p._originalProject=p.project, p.project='eu-generic';
     if(projectAliases[p.project]) p._originalProject=p.project, p.project=projectAliases[p.project];
   });
 
@@ -156,6 +161,10 @@ function renderPlan(){
     'jp-hsp':[{type:'政府',payee:'入国管理局',amount:'JP¥4,000-8,000'},{type:'年收',payee:'在日企业',amount:'JP¥3,000万/年(要求)'}],
     'vu-dsp':[{type:'政府',payee:'瓦努阿图移民局',amount:'US$130,000-180,000'},{type:'尽职',payee:'第三方尽调公司',amount:'US$5,000/人'}],
     'ge-invest':[{type:'政府',payee:'格鲁吉亚移民局',amount:'US$5,000-8,000'},{type:'投资',payee:'格鲁吉亚基金',amount:'US$300,000'}],
+    'au-generic':[{type:'政府/评估',payee:'澳洲内政部/评估机构',amount:'按签证类别'},{type:'专业服务',payee:'注册移民代理/律师',amount:'约AU$8,000-25,000+'}],
+    'nz-generic':[{type:'政府/评估',payee:'新西兰移民局/评估机构',amount:'按签证类别'},{type:'专业服务',payee:'持牌移民顾问/律师',amount:'约NZ$8,000-25,000+'}],
+    'us-generic':[{type:'政府',payee:'USCIS/美国领馆',amount:'按类别'},{type:'律师',payee:'美国移民律师',amount:'约US$8,000-80,000+'}],
+    'eu-generic':[{type:'政府',payee:'对应国家移民局',amount:'按国家/路径'},{type:'律师',payee:'当地持牌律师',amount:'约€5,000-25,000+'}],
   };
   var has3rd=false;
   projectsParsed.forEach(function(p){
@@ -185,6 +194,10 @@ function renderPlan(){
     'sg-fo-13o':[{step:'架构设计+法律顾问',time:'2-4周'},{step:'公司设立+银行开户',time:'2-4周'},{step:'MAS申请13O税收优惠',time:'1-2周'},{step:'MAS审批',time:'2-4个月'},{step:'获批→AUM到位→运营',time:'3-6个月'}],
     'sg-ep-pr':[{step:'雇主提交EP申请',time:'1天'},{step:'MOM审批',time:'3-8周'},{step:'获批→领取EP卡',time:'1-2周'},{step:'工作6个月→申请PR',time:'6个月'},{step:'ICA审核',time:'6-12个月'}],
     'sg-gip-a':[{step:'商业计划+材料准备',time:'4-8周'},{step:'提交GIP申请',time:'1天'},{step:'EDB面试+审批',time:'6-12个月'},{step:'原则性批准→完成投资',time:'6个月'},{step:'正式PR批准',time:'1-2个月'}],
+    'au-generic':[{step:'资格评估+路径确认',time:'1-3周'},{step:'材料/职业评估/英语准备',time:'1-3个月'},{step:'递交申请',time:'1天'},{step:'政府审理',time:'3-18个月'},{step:'获批/补件/登陆安排',time:'1-4周'}],
+    'nz-generic':[{step:'资格评估+路径确认',time:'1-3周'},{step:'EOI/雇主/投资材料准备',time:'1-3个月'},{step:'递交申请',time:'1天'},{step:'政府审理',time:'3-12个月'},{step:'获批/补件/登陆安排',time:'1-4周'}],
+    'us-generic':[{step:'路径确认+律师评估',time:'2-4周'},{step:'证据/商业计划/资金文件准备',time:'1-4个月'},{step:'递交申请',time:'1天'},{step:'USCIS/领馆审理',time:'3-24个月+'},{step:'获批/面签/登陆安排',time:'1-8周'}],
+    'eu-generic':[{step:'路径确认+当地律师评估',time:'1-3周'},{step:'税号/银行/住宿/资金材料准备',time:'2-8周'},{step:'递交申请',time:'1天'},{step:'政府审理/生物识别',time:'2-12个月'},{step:'获批/居留卡领取',time:'2-8周'}],
   };
   var totalCycles={
     'hk-ttps-a':'1-2个月','hk-ttps-b':'1-2个月','hk-ncies':'6-12个月',
@@ -192,6 +205,7 @@ function renderPlan(){
     'pt-ari-fund':'8-12个月','gr-gv-800k':'4-6个月','mt-mprp':'8-12个月',
     'dm-realestate':'5-7个月','jp-hsp':'3-6个月','vu-dsp':'2-4个月',
     'ge-invest':'3-6个月','sg-fo-13o':'6-10个月','sg-ep-pr':'12-18个月','sg-gip-a':'12-18个月',
+    'au-generic':'6-18个月','nz-generic':'6-12个月','us-generic':'6-24个月+','eu-generic':'3-12个月',
   };
   projectsParsed.forEach(function(p){
     var tl=timelineData[p.project];
@@ -262,6 +276,10 @@ function showCommission(){
     'vu-dsp':{amount:'US$10,000-20,000',cycle:'1个月',batches:'1次',batch1:'US$10,000-20,000',batch2:'-',contact:'待确认',phone:'待确认'},
     'jp-hsp':{amount:'JP¥500,000-1,500,000',cycle:'1-3个月',batches:'2次',batch1:'JP¥250,000-750,000',batch2:'JP¥250,000-750,000',contact:'待确认',phone:'待确认'},
     'ge-invest':{amount:'US$8,000-15,000',cycle:'1-2个月',batches:'2次',batch1:'US$4,000-7,500',batch2:'US$4,000-7,500',contact:'待确认',phone:'待确认'},
+    'au-generic':{amount:'AU$8,000-25,000+',cycle:'按项目',batches:'根据实际情况',batch1:'待确认',batch2:'待确认',contact:'待确认',phone:'待确认'},
+    'nz-generic':{amount:'NZ$8,000-25,000+',cycle:'按项目',batches:'根据实际情况',batch1:'待确认',batch2:'待确认',contact:'待确认',phone:'待确认'},
+    'us-generic':{amount:'US$8,000-80,000+',cycle:'按项目',batches:'根据实际情况',batch1:'待确认',batch2:'待确认',contact:'待确认',phone:'待确认'},
+    'eu-generic':{amount:'€5,000-25,000+',cycle:'按项目',batches:'根据实际情况',batch1:'待确认',batch2:'待确认',contact:'待确认',phone:'待确认'},
   };
   
   h+='<div class="commission-grid" style="margin-top:12px">';
