@@ -477,9 +477,9 @@ function renderDiagnosis(status,content){
   card.classList.add('on'); st.textContent=status;
   var rec=getDiagnosisIssue()||{};
   if(content){
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a><a class="dl-secondary" target="_blank" href="https://github.com/sewen38/family-plan/issues/'+(rec.issue||'')+'">查看原始记录</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。诊断草案完成前不能进入下一阶段，请稍后刷新。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-secondary" target="_blank" href="https://github.com/sewen38/family-plan/issues/'+(rec.issue||'')+'">查看原始记录</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。诊断草案完成前不能进入下一阶段，请稍后刷新。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
