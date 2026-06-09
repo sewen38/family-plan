@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>移民项目资格评估</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6;-webkit-text-size-adjust:100%}
+.container{max-width:720px;margin:0 auto;padding:0 0 40px}
+.header{background:linear-gradient(135deg,#1a5c8a,#2b8fd8);color:#fff;padding:28px 20px 22px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:21px;margin-bottom:4px}
+.header p{opacity:.85;font-size:13px}
+.country-tabs{display:flex;gap:8px;justify-content:center;margin:10px 12px 0}
+.tab{border:0;border-radius:999px;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;background:#eef1f5;color:#555;transition:.15s}
+.tab.active{background:linear-gradient(135deg,#1a5c8a,#2b8fd8);color:#fff}
+.card{background:#fff;border-radius:14px;padding:24px 18px;margin:16px 12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-size:17px;color:#1a5c8a;margin-bottom:16px;padding-bottom:10px;border-bottom:1.5px solid #eef1f5;display:flex;align-items:center;gap:8px}
+.card h2 .num{background:#1a5c8a;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.fg{margin-bottom:16px}
+.fg label.q{display:block;font-weight:600;font-size:14px;margin-bottom:5px;color:#333}
+.fg .hint{font-size:12px;color:#999;margin-bottom:4px;font-weight:400}
+.fg select,.fg input[type=text]{width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:15px;transition:border .2s;background:#fafafa;-webkit-appearance:none}
+.fg select:focus,.fg input:focus{outline:none;border-color:#2b8fd8;background:#fff}
+.detail-input{margin-top:8px;display:none}
+.detail-input.show{display:block}
+.detail-input input{width:100%;padding:10px 12px;border:1.5px solid #b7d9ff;border-radius:8px;font-size:14px;background:#f0f7ff}
+.detail-input input::placeholder{color:#999}
+.detail-input .label-sm{font-size:12px;color:#666;margin-bottom:4px;display:block}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-row .ropt{flex:1;min-width:80px;padding:10px 16px;border:1.5px solid #ddd;border-radius:8px;text-align:center;cursor:pointer;font-size:14px;background:#fafafa;transition:all .15s;user-select:none}
+.radio-row .ropt:active,.radio-row .ropt.sel{border-color:#2b8fd8;background:#f0f7ff;font-weight:600;color:#1a5c8a}
+.radio-row input{display:none}
+.path-cards{display:flex;flex-direction:column;gap:10px}
+.path-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;background:#fafafa}
+.path-card.sel{border-color:#2b8fd8;background:#f0f7ff}
+.path-card .path-t{font-weight:700;font-size:14px;color:#333;margin-bottom:3px}
+.path-card .path-p{font-size:12px;color:#666}
+.path-card .path-badge{float:right;font-size:10px;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:10px;font-weight:600}
+.btn{display:block;width:calc(100% - 24px);margin:20px auto;padding:14px;background:linear-gradient(135deg,#1a5c8a,#2b8fd8);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.results-wrap{display:none;margin:0 12px}
+.results-wrap.show{display:block}
+.rs-card{background:#fff;border-radius:14px;padding:20px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+h3{font-size:18px;margin-bottom:6px;color:#1a5c8a}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;margin:3px}
+.tg{background:#dcfce7;color:#166534}
+.ty{background:#fef3c7;color:#92400e}
+.tr{background:#fee2e2;color:#991b1b}
+.prog{background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:10px}
+.prog.el{border-left:4px solid #22c55e}
+.prog.mb{border-left:4px solid #f59e0b}
+.prog.no{border-left:4px solid #e0e0e0;opacity:.85}
+.prog h4{font-size:15px;margin-bottom:6px;color:#1a5c8a}
+.prog .st{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:6px}
+.st-q{background:#dcfce7;color:#166534}.st-m{background:#fef3c7;color:#92400e}.st-n{background:#fee2e2;color:#991b1b}
+.g{color:#166534;font-weight:600}.o{color:#c2410c;font-weight:600}
+table.cm{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+table.cm th,table.cm td{border:1px solid #e2e8f0;padding:7px;text-align:center}
+table.cm th{background:#f1f5f9;font-weight:600;font-size:11px}
+.hb{background:#f0f7ff;border:1px solid #b7d9ff;border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.hb.w{background:#fff7ed;border-color:#fed7aa}
+.btn-sm{display:inline-block;padding:10px 20px;margin:4px 0;background:#eef1f5;color:#555;border:none;border-radius:8px;font-size:13px;cursor:pointer}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #ddd;border-top-color:#2b8fd8;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.flow-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.flow-actions button{flex:1;min-width:120px;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer}.flow-primary{background:linear-gradient(135deg,#1a5c8a,#2b8fd8);color:#fff}.flow-secondary{background:#eef1f5;color:#555}.choice-grid{display:grid;gap:10px}.choice-card{border:2px solid #e5e7eb;border-radius:12px;padding:13px;background:#fafafa;cursor:pointer}.choice-card.sel{border-color:#2b8fd8;background:#f0f7ff}.choice-card h4{font-size:15px;color:#1a5c8a;margin-bottom:4px}.choice-card p{font-size:12px;color:#666}.project-list{display:none;margin-top:12px}.project-list.show{display:block}.project-opt{border:1.5px solid #e5e7eb;border-radius:10px;padding:11px;margin-bottom:8px;background:#fff;cursor:pointer}.project-opt.sel{border-color:#22c55e;background:#f0fdf4}.stage-hint{font-size:12px;color:#888;margin-top:6px}
+@media(max-width:400px){.radio-row .ropt{min-width:60px;padding:8px 12px;font-size:13px}.card{padding:18px 14px;margin:10px 8px}.header h1{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🧭 移民项目资格评估</h1><p>选择目标国家 · 约3分钟</p></div>
+<div class="country-tabs">
+  <button class="tab active" onclick="switchCountry('tr')">土耳其</button>
+  <button class="tab" onclick="switchCountry('sg')">新加坡</button>
+</div>
+
+<form id="qform">
+
+<!-- =============== 通用板块 =============== -->
+<div class="card"><h2><span class="num">1</span> 基本信息</h2>
+<div class="fg"><label class="q">年龄</label><select id="age"><option value="">请选择</option><option value="18-30">18-30岁</option><option value="31-40">31-40岁</option><option value="41-50">41-50岁</option><option value="51-60">51-60岁</option><option value="60+">60岁及以上</option></select></div>
+<div class="fg"><label class="q">当前国籍<span class="hint">(如有第二护照，选主要国籍)</span></label><select id="nationality"><option value="">请选择</option><option value="cn">中国内地</option><option value="cn-hkmo">中国香港/澳门</option><option value="foreign">外国国民</option></select></div>
+<div class="fg"><label class="q">是否有无犯罪记录？</label><div class="radio-row"><label class="ropt"><input type="radio" name="nocrim" value="yes"> 是</label><label class="ropt"><input type="radio" name="nocrim" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">婚姻状况</label><select id="marital"><option value="">请选择</option><option value="single">单身</option><option value="married">已婚</option><option value="divorced">离异</option></select></div>
+<div class="fg"><label class="q">是否有子女？</label><div class="radio-row"><label class="ropt"><input type="radio" name="haschild" value="yes"> 是</label><label class="ropt"><input type="radio" name="haschild" value="no"> 否</label></div>
+<div id="dt-child" class="detail-input"><span class="label-sm">子女详情（数量及年龄段）：</span><input type="text" id="child-info" placeholder="例如：2个 5岁/8岁"></div></div>
+</div>
+
+<div class="card"><h2><span class="num">2</span> 资产与预算</h2>
+<div class="fg"><label class="q">个人净资产（人民币）</label><select id="networth"><option value="">请选择</option><option value="below400k">低于400万</option><option value="400k-1m">400万-1000万</option><option value="1m-5m">1000万-5000万</option><option value="gte5m">5000万及以上</option></select></div>
+</div>
+
+<!-- =============== 土耳其板块（默认显示） =============== -->
+<div id="country-tr">
+<div class="card"><h2><span class="num">3</span> 土耳其 · 投资路径选择</h2>
+<p style="font-size:13px;color:#888;margin-bottom:12px">请选择您有意向的投资路径（可多选）</p>
+<div class="path-cards">
+<div class="path-card" data-path="realestate" onclick="togglePath(this)"><div class="path-t">🏠 房地产投资 $40万</div><div class="path-p">购买≥$40万房产，持有3年后可出售。</div></div>
+<div class="path-card" data-path="deposit" onclick="togglePath(this)"><div class="path-t">🏦 银行存款 $50万</div><div class="path-p">存入土耳其银行$50万，锁定3年。</div></div>
+<div class="path-card" data-path="bonds" onclick="togglePath(this)"><div class="path-t">📜 政府债券 $50万</div><div class="path-p">购买土耳其政府债券$50万，持有3年。</div></div>
+<div class="path-card" data-path="fund" onclick="togglePath(this)"><div class="path-t">💰 房地产基金 $50万</div><div class="path-p">投资土耳其房地产投资基金份额$50万。</div></div>
+<div class="path-card" data-path="jobs" onclick="togglePath(this)"><div class="path-t">🏭 创造就业 50岗位</div><div class="path-p">在土耳其设立企业并创造≥50个就业岗位。</div></div>
+</div>
+</div>
+<div class="card"><h2>土耳其 · 补充信息</h2>
+<div class="fg"><label class="q">成年子女（18岁以上）是否需要另行规划？</label><div class="radio-row"><label class="ropt"><input type="radio" name="adultchild" value="yes"> 是</label><label class="ropt"><input type="radio" name="adultchild" value="no"> 否</label></div>
+<div id="dt-adultchild" class="detail-input"><span class="label-sm">详情：</span><input type="text" id="adultchild-info" placeholder="子女年龄与当前状态"></div></div>
+</div>
+</div>
+
+<!-- =============== 新加坡板块（初始隐藏） =============== -->
+<div id="country-sg" style="display:none">
+<div class="card"><h2><span class="num">3</span> 新加坡 · 学历背景</h2>
+<div class="fg"><label class="q">最高学历</label><select id="education"><option value="">请选择</option><option value="doctor">博士</option><option value="master">硕士</option><option value="bachelor">学士(本科)</option><option value="associate">大专/副学士</option><option value="highschool">高中及以下</option></select></div>
+<div class="fg"><label class="q">毕业院校是否属于世界顶尖大学？</label><div class="radio-row"><label class="ropt"><input type="radio" name="topuni" value="yes"> 是</label><label class="ropt"><input type="radio" name="topuni" value="no"> 否</label></div>
+<div id="dt-topuni" class="detail-input"><span class="label-sm">院校名称：</span><input type="text" id="topuni-name" placeholder="如 NUS / 清华 / MIT"></div></div>
+<div class="fg"><label class="q">工作经验年限</label><select id="workyears"><option value="">请选择</option><option value="0-2">0-2年</option><option value="3-5">3-5年</option><option value="5-9">5-9年</option><option value="10+">10年及以上</option></select></div>
+</div>
+<div class="card"><h2>新加坡 · 工作与收入</h2>
+<div class="fg"><label class="q">当前月薪（新元 SGD）</label><select id="salary"><option value="">请选择</option><option value="no-sg-salary">无新加坡工资</option><option value="below5600">低于 S$5,600</option><option value="5600-6199">S$5,600-S$6,199</option><option value="6200-9999">S$6,200-S$9,999</option><option value="10000-19999">S$10,000-S$19,999</option><option value="gte20000">S$20,000+</option></select></div>
+<div class="fg"><label class="q">行业</label><select id="industry"><option value="">请选择</option><option value="finance">金融服务</option><option value="tech">科技/互联网/IT</option><option value="other">其他行业</option></select></div>
+<div class="fg"><label class="q">英文能力</label><select id="english"><option value="">请选择</option><option value="native">精通</option><option value="good">良好</option><option value="basic">基础</option><option value="none">不会</option></select></div>
+</div>
+<div class="card"><h2>新加坡 · 新加坡联系</h2>
+<div class="fg"><label class="q">是否已获新加坡雇主聘用？</label><div class="radio-row"><label class="ropt"><input type="radio" name="sgjob" value="yes"> 已获正式聘用</label><label class="ropt"><input type="radio" name="sgjob" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否有直系亲属在新加坡？</label><div class="radio-row"><label class="ropt"><input type="radio" name="sgfamily" value="yes"> 是</label><label class="ropt"><input type="radio" name="sgfamily" value="no"> 否</label></div></div>
+</div>
+</div>
+
+<button type="button" class="btn" onclick="submitForm()">📊 提交评估</button>
+</form>
+
+<div class="results-wrap" id="results"></div>
+</div>
+
+<script>
+(function(){
+var D=document;
+var RG={};document.querySelectorAll('input[type="radio"]').forEach(function(r){r.addEventListener('change',function(){if(!r.name)return;RG[r.name]=r;this.parentElement.classList.add('sel');var row=this.closest('.radio-row');row.querySelectorAll('.ropt').forEach(function(l){l.classList.remove('sel')});this.parentElement.classList.add('sel');onChange(r.name,r.value);});});
+var selectedPaths=[];
+var country='tr';
+
+window.switchCountry=function(c){
+ country=c;
+ document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active',t.textContent.trim()===(c==='tr'?'土耳其':'新加坡'))});
+ document.getElementById('country-tr').style.display=c==='tr'?'block':'none';
+ document.getElementById('country-sg').style.display=c==='sg'?'block':'none';
+};
+window.togglePath=function(el){el.classList.toggle('sel');var p=el.dataset.path;var i=selectedPaths.indexOf(p);if(i>=0)selectedPaths.splice(i,1);else selectedPaths.push(p);};
+window.goBack=function(){D.getElementById('results').classList.remove('show');D.getElementById('qform').style.display='';setTimeout(function(){D.getElementById('qform').scrollIntoView({behavior:'smooth'});},50);};
+window.goPrevStage=function(){var u=new URL(window.location.href);var ret=u.searchParams.get('return')||'';if(ret){window.location.href=ret;}else{history.length>1?history.back():goBack();}};
+window.selectSolution=function(c){
+ document.querySelectorAll('.choice-card').forEach(function(x){x.classList.remove('sel')});
+ var el=document.querySelector('[data-solution="'+c+'"]');if(el)el.classList.add('sel');
+ document.querySelectorAll('.project-list').forEach(function(x){x.classList.remove('show')});
+ var list=document.getElementById('projects-'+c);if(list)list.classList.add('show');
+ window._selectedSolution=c;
+};
+window.selectProject=function(el,p){document.querySelectorAll('.project-opt').forEach(function(x){x.classList.remove('sel')});el.classList.add('sel');window._selectedProject=p;};
+window.goExecPlan=function(){
+ if(!window._selectedProject){alert('请先选择具体项目');return;}
+ var u=new URL(window.location.href);var iss=u.searchParams.get('issue')||'16';
+ if(country==='tr'){window.location.href='https://sewen38.github.io/tr-assessment/exec.html?issue='+iss+'&solution='+(window._selectedSolution||'A')+'&project='+window._selectedProject;}else{window.location.href='https://sewen38.github.io/sg-assessment/exec.html?issue='+iss+'&solution='+(window._selectedSolution||'A')+'&project='+window._selectedProject;}
+};
+
+function R(nam){var e=RG[nam];return e?e.value:null;}
+function S(id){var e=D.getElementById(id);return e?e.value:'';}
+function Y(v){return v==='yes'?'是':v==='no'?'否':(v||'未填');}
+function onSubmit(n,v){
+ if(n==='haschild')D.getElementById('dt-child').classList.toggle('show',v==='yes');
+ if(n==='adultchild')D.getElementById('dt-adultchild').classList.toggle('show',v==='yes');
+ if(n==='topuni')D.getElementById('dt-topuni').classList.toggle('show',v==='yes');
+}
+
+window.submitForm=function(){
+ var age=S('age'),nat=S('nationality'),nocrim=R('nocrim'),networth=S('networth');
+ if(!age||!nat||!nocrim||!networth){alert('请完成基本信息板块');return;}
+ if(country==='tr'){
+  if(selectedPaths.length===0){alert('可选择「跳过」返回，该国家将在汇总中略去');return;}
+ }
+ if(country==='sg'){
+  var edu=S('education');if(!edu){alert('请选择新加坡学历');return;}
+ }
+
+ var w=D.getElementById('results');
+ D.getElementById('qform').style.display='none';
+ w.innerHTML='<div class="rs-card" style="text-align:center;padding:50px 20px"><div style="font-size:40px">📤</div><h3>已提交</h3><p style="color:#888;font-size:13px;margin:6px 0"><span class="spinner"></span>正在分析评估...</p></div>';
+ w.classList.add('show');w.scrollIntoView({behavior:'smooth'});
+
+ var d={age:age,nationality:nat,nocrim:nocrim,networth:networth,country:country};
+ setTimeout(function(){showResults(d);},2000);
+};
+
+function showResults(d){
+ if(d.nocrim==='no'){D.getElementById('results').innerHTML='<div class="rs-card" style="border-left:4px solid #ef4444"><h3>⚠️ 评估结果</h3><p style="color:#991b1b;font-weight:600;margin:8px 0">经核实，您可能存在犯罪记录。所有移民项目均要求申请人提供无犯罪记录证明。建议先咨询移民律师评估记录性质。</p><div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改</button></div></div>';return;}
+
+ var nwOk=d.networth!=='below400k';
+ var ageOk=d.age.indexOf('60')===-1;
+ var h='<div class="rs-card" style="border-left:4px solid #22c55e"><h3>📊 快速评估结果</h3>';
+ var allOk=nwOk&&ageOk;
+ if(allOk){h+='<p style="font-size:14px;color:#166534;margin:6px 0">✅ 基本信息满足常规评估条件。</p>';}
+ else{h+='<p style="font-size:14px;color:#92400e;margin:6px 0">⚠️ 有部分条件需进一步确认。</p>';}
+ h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+ h+='<span class="tag tg">年龄≤59岁</span>';if(nwOk)h+='<span class="tag tg">净资产≥400万</span>';
+ h+='</div></div>';
+
+ h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:12px;color:#1a5c8a">✅ 请选择下一阶段执行方案</h3>';
+ h+='<div class="choice-grid">';
+ if(d.country==='tr'){
+  h+='<div class="choice-card" data-solution="A" onclick="selectSolution(\'A\')"><h4>方案A：土耳其房地产基金入籍</h4><p>适合偏好标准化金融产品、希望减少选房复杂度的客户。</p></div>';
+  h+='<div class="choice-card" data-solution="B" onclick="selectSolution(\'B\')"><h4>方案B：土耳其40万美元购房入籍</h4><p>适合希望持有实物房产并关注3年后出售退出的客户。</p></div>';
+  h+='<div class="choice-card" data-solution="C" onclick="selectSolution(\'C\')"><h4>方案C：土耳其存款/债券入籍</h4><p>适合偏好现金或固收路径、可接受50万美元锁定的客户。</p></div>';
+  h+='</div>';
+  h+='<div id="projects-A" class="project-list"><div class="stage-hint">请选择项目：</div><div class="project-opt" onclick="selectProject(this,\'tr-fund-cbi\')">土耳其房地产投资基金入籍 · 50万美元 · 锁定3年</div><div class="project-opt" onclick="selectProject(this,\'tr-fund-e2\')">土耳其基金入籍 + 美国E-2后续规划</div></div>';
+  h+='<div id="projects-B" class="project-list"><div class="stage-hint">请选择项目：</div><div class="project-opt" onclick="selectProject(this,\'tr-realestate-cbi\')">土耳其购房入籍 · 40万美元 · 持有3年</div><div class="project-opt" onclick="selectProject(this,\'tr-realestate-education\')">土耳其购房入籍 + 子女教育/华侨生规划</div></div>';
+  h+='<div id="projects-C" class="project-list"><div class="stage-hint">请选择项目：</div><div class="project-opt" onclick="selectProject(this,\'tr-deposit-cbi\')">土耳其银行存款入籍 · 50万美元 · 锁定3年</div><div class="project-opt" onclick="selectProject(this,\'tr-bonds-cbi\')">土耳其政府债券入籍 · 50万美元 · 持有3年</div></div>';
+ }else{
+  h+='<div class="choice-card" data-solution="A" onclick="selectSolution(\'A\')"><h4>方案A：新加坡家族办公室 13O/13U</h4><p>适合高净值家庭做资产管理、税务豁免和EP/PR路径。</p></div>';
+  h+='<div class="choice-card" data-solution="B" onclick="selectSolution(\'B\')"><h4>方案B：EP就业准证 → PR</h4><p>适合有新加坡雇主、薪资与COMPASS基础较好的客户。</p></div>';
+  h+='<div class="choice-card" data-solution="C" onclick="selectSolution(\'C\')"><h4>方案C：GIP全球投资者计划</h4><p>适合企业营业额和投资预算达到GIP门槛的客户。</p></div>';
+  h+='</div>';
+  h+='<div id="projects-A" class="project-list"><div class="stage-hint">请选择项目：</div><div class="project-opt" onclick="selectProject(this,\'sg-fo-13o\')">新加坡家族办公室13O · AUM S$2,000万起</div><div class="project-opt" onclick="selectProject(this,\'sg-fo-13u\')">新加坡家族办公室13U · AUM S$5,000万起</div></div>';
+  h+='<div id="projects-B" class="project-list"><div class="stage-hint">请选择项目：</div><div class="project-opt" onclick="selectProject(this,\'sg-ep-pr\')">EP就业准证 → 6个月后评估PR</div><div class="project-opt" onclick="selectProject(this,\'sg-techpass-pr\')">Tech.Pass → PR规划</div></div>';
+  h+='<div id="projects-C" class="project-list"><div class="stage-hint">请选择项目：</div><div class="project-opt" onclick="selectProject(this,\'sg-gip-a\')">GIP方案A · 投资企业S$1,000万</div><div class="project-opt" onclick="selectProject(this,\'sg-gip-b\')">GIP方案B · 投资基金S$2,500万</div><div class="project-opt" onclick="selectProject(this,\'sg-gip-c\')">GIP方案C · 家办AUM S$2亿</div></div>';
+ }
+ h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button><button class="flow-primary" onclick="goExecPlan()">下一阶段</button></div>';
+ h+='</div>';
+
+ D.getElementById('results').innerHTML=h;
+}
+})();
+</script>
+</body>
+</html>

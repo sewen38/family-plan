@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>格鲁吉亚投资居留资格评估</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6;-webkit-text-size-adjust:100%}
+.container{max-width:720px;margin:0 auto;padding:0 0 40px}
+.header{background:linear-gradient(135deg,#922b21,#c0392b);color:#fff;padding:32px 20px 28px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:22px;margin-bottom:4px}
+.header p{opacity:.85;font-size:13px}
+.card{background:#fff;border-radius:14px;padding:24px 18px;margin:16px 12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-size:17px;color:#c0392b;margin-bottom:16px;padding-bottom:10px;border-bottom:1.5px solid #eef1f5;display:flex;align-items:center;gap:8px}
+.card h2 .num{background:#c0392b;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.fg{margin-bottom:16px}
+.fg label.q{display:block;font-weight:600;font-size:14px;margin-bottom:5px;color:#333}
+.fg .hint{font-size:12px;color:#999;margin-bottom:4px;font-weight:400}
+.fg select,.fg input[type=text]{width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:15px;transition:border .2s;background:#fafafa;-webkit-appearance:none}
+.fg select:focus,.fg input:focus{outline:none;border-color:#e74c3c;background:#fff}
+.detail-input{margin-top:8px;display:none}
+.detail-input.show{display:block}
+.detail-input input{width:100%;padding:10px 12px;border:1.5px solid #f5c6c6;border-radius:8px;font-size:14px;background:#fef5f5}
+.detail-input input::placeholder{color:#999}
+.detail-input .label-sm{font-size:12px;color:#666;margin-bottom:4px;display:block}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-row .ropt{flex:1;min-width:80px;padding:10px 16px;border:1.5px solid #ddd;border-radius:8px;text-align:center;cursor:pointer;font-size:14px;background:#fafafa;transition:all .15s;user-select:none}
+.radio-row .ropt:active,.radio-row .ropt.sel{border-color:#e74c3c;background:#fef5f5;font-weight:600;color:#c0392b}
+.radio-row input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.btn{display:block;width:calc(100% - 24px);margin:20px auto;padding:14px;background:linear-gradient(135deg,#922b21,#c0392b);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer}
+.btn:active{transform:scale(.98)}
+
+.results-wrap{display:none;margin:0 12px}
+.results-wrap.show{display:block}
+.rs-card{background:#fff;border-radius:14px;padding:20px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.rs-card h3{font-size:18px;margin-bottom:6px;color:#c0392b}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;margin:3px}
+.tg{background:#dcfce7;color:#166534}
+.ty{background:#fef3c7;color:#92400e}
+.tr{background:#fee2e2;color:#991b1b}
+.prog{background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:10px}
+.prog.el{border-left:4px solid #22c55e}
+.prog.mb{border-left:4px solid #f59e0b}
+.prog.no{border-left:4px solid #e0e0e0;opacity:.85}
+.prog h4{font-size:15px;margin-bottom:6px;color:#c0392b}
+.prog .st{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:6px}
+.st-q{background:#dcfce7;color:#166534}.st-m{background:#fef3c7;color:#92400e}.st-n{background:#fee2e2;color:#991b1b}
+.prog .d{font-size:13px;color:#555;line-height:1.7}
+.g{color:#166534;font-weight:600}.o{color:#c2410c;font-weight:600}
+table.cm{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+table.cm th,table.cm td{border:1px solid #e2e8f0;padding:7px;text-align:center}
+table.cm th{background:#f1f5f9;font-weight:600;font-size:11px}
+table.cm td:first-child{text-align:left;font-weight:500}
+.hb{background:#fef5f5;border:1px solid #f5c6c6;border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.hb.g{background:#f0fdf4;border-color:#bbf7d0}
+.hb.w{background:#fff7ed;border-color:#fed7aa}
+.btn-sm{display:inline-block;padding:10px 20px;margin:4px 0;background:#eef1f5;color:#555;border:none;border-radius:8px;font-size:13px;cursor:pointer}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #ddd;border-top-color:#e74c3c;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.path-cards{display:flex;flex-direction:column;gap:10px}
+.path-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;background:#fafafa}
+.path-card:hover{border-color:#e74c3c}
+.path-card.sel{border-color:#e74c3c;background:#fef5f5}
+.path-card .path-t{font-weight:700;font-size:14px;color:#333;margin-bottom:3px}
+.path-card .path-p{font-size:12px;color:#666}
+.path-card .path-badge{float:right;font-size:10px;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:10px;font-weight:600}
+
+@media(max-width:400px){.radio-row .ropt{min-width:60px;padding:8px 12px;font-size:13px}.card{padding:18px 14px;margin:10px 8px}.header h1{font-size:19px}}
+
+.flow-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.flow-actions button{flex:1;min-width:120px;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer}.flow-primary{background:linear-gradient(135deg,#922b21,#c0392b);color:#fff}.flow-secondary{background:#eef1f5;color:#555}.choice-grid{display:grid;gap:10px}.choice-card{border:2px solid #e5e7eb;border-radius:12px;padding:13px;background:#fafafa;cursor:pointer}.choice-card.sel{border-color:#e74c3c;background:#fef5f5}.choice-card h4{font-size:15px;color:#c0392b;margin-bottom:4px}.choice-card p{font-size:12px;color:#666}.project-list{display:none;margin-top:12px}.project-list.show{display:block}.project-opt{border:1.5px solid #e5e7eb;border-radius:10px;padding:11px;margin-bottom:8px;background:#fff;cursor:pointer}.project-opt.sel{border-color:#22c55e;background:#f0fdf4}.stage-hint{font-size:12px;color:#888;margin-top:6px}
+.project-check-grid{display:flex;flex-direction:column;gap:8px;margin:10px 0}.project-check{display:flex;align-items:flex-start;gap:8px;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;background:#fafafa;cursor:pointer;font-size:13px;line-height:1.5;transition:all .15s}.project-check:has(input:checked){border-color:#22c55e;background:#f0fdf4}.project-check input[type=checkbox]{margin-top:2px;accent-color:#22c55e;width:16px;height:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🇬🇪 格鲁吉亚投资居留资格评估</h1><p>Georgia Investment Residence · 2026.3新政 · 约3分钟</p></div>
+
+<form id="qform">
+
+<div class="card"><h2><span class="num">1</span> 基本信息</h2>
+<div class="fg"><label class="q">年龄</label><select id="age"><option value="">请选择</option><option value="18-30">18-30岁</option><option value="31-40">31-40岁</option><option value="41-50">41-50岁</option><option value="51-60">51-60岁</option><option value="60+">60岁及以上</option></select></div>
+<div class="fg"><label class="q">当前国籍<span class="hint">（格鲁吉亚居留对所有国籍开放）</span></label><select id="nationality"><option value="">请选择</option><option value="cn">中国内地</option><option value="cn-hkmo">中国香港/澳门</option><option value="cn-tw">中国台湾</option><option value="ru">俄罗斯</option><option value="ir">伊朗</option><option value="other-asia">其他亚洲国家</option><option value="eu">欧洲国家</option><option value="me">中东/北非</option><option value="other">其他</option></select></div>
+<div class="fg"><label class="q">是否有无犯罪记录<span class="hint">（选择"是"表示无犯罪记录；格鲁吉亚居留要求无犯罪记录）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="nocrim" value="yes"> 是</label><label class="ropt"><input type="radio" name="nocrim" value="no"> 否</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">2</span> 投资能力评估</h2>
+<div class="fg"><label class="q">可投资金额范围<span class="hint">（美元，用于购房或企业投资）</span></label><select id="invest"><option value="">请选择</option><option value="lt150k">低于$15万（约¥109万）</option><option value="150k-300k">$15万-$30万（约¥109万-¥219万）</option><option value="300k-plus">$30万及以上（约¥219万+）</option></select></div>
+<div class="fg"><label class="q">投资资金来源是否可合法解释？</label><div class="radio-row"><label class="ropt"><input type="radio" name="fundsource" value="yes"> 是，可提供</label><label class="ropt"><input type="radio" name="fundsource" value="partial"> 部分可提供</label><label class="ropt"><input type="radio" name="fundsource" value="no"> 难以提供</label></div></div>
+<div class="fg"><label class="q">是否有意愿在格鲁吉亚长期居住？<span class="hint">（居留转永居需实际居住，入籍需10年连续居住）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="longterm" value="yes"> 有，愿意长期居住</label><label class="ropt"><input type="radio" name="longterm" value="maybe"> 视情况，短期停留</label><label class="ropt"><input type="radio" name="longterm" value="no"> 仅需居留身份，不善居住</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">3</span> 偏好路径</h2>
+<div class="fg"><label class="q">请选择您偏好的居留路径<span class="hint">（单选）</span></label>
+<div class="path-cards" id="path-cards">
+  <div class="path-card" data-path="temp">
+    <span class="path-badge">🆕 2026.3起$15万</span>
+    <div class="path-t">🏠 短期居留 — $150,000起</div>
+    <div class="path-p">购买非农业房产≥$15万→1年可续居留→6年转永居→10年入籍</div>
+  </div>
+  <div class="path-card" data-path="invest">
+    <span class="path-badge">⭐ 永居路径</span>
+    <div class="path-t">🏗️ 投资居留 — $300,000起</div>
+    <div class="path-p">房产或企业投资$30万→5年居留→5年后永居→10年入籍</div>
+  </div>
+  <div class="path-card" data-path="ie">
+    <div class="path-t">💻 数字游民/个体企业家(IE)</div>
+    <div class="path-p">注册IE→1%所得税（年营业额≤GEL 30,000）→无需购房投资（2026.3起需工作许可）</div>
+  </div>
+  <div class="path-card" data-path="unsure">
+    <div class="path-t">❓ 不确定，需顾问评估</div>
+    <div class="path-p">根据我的情况推荐最佳路径</div>
+  </div>
+</div>
+</div>
+<div class="fg"><label class="q">当前从事的工作类型<span class="hint">（用于判断数字游民IE路径适合度）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="worktype" value="remote"> 远程/自由职业</label><label class="ropt"><input type="radio" name="worktype" value="business"> 企业经营</label><label class="ropt"><input type="radio" name="worktype" value="employed"> 受雇</label><label class="ropt"><input type="radio" name="worktype" value="retired"> 退休/无业</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">4</span> 家庭情况</h2>
+<div class="fg"><label class="q">婚姻状况</label><select id="marital"><option value="">请选择</option><option value="single">单身</option><option value="married">已婚</option><option value="divorced">离异</option></select></div>
+<div class="fg"><label class="q">是否有未成年子女需要同行？<span class="hint">（配偶及未成年子女可同行）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="haschild" value="yes"> 是</label><label class="ropt"><input type="radio" name="haschild" value="no"> 否</label></div>
+<div id="dt-child" class="detail-input"><span class="label-sm">未成年子女人数及年龄：</span><input type="text" id="child-info" placeholder="例如：2个，8岁和5岁"></div></div>
+</div>
+
+<div class="card"><h2><span class="num">5</span> 核心目的<span class="hint" style="font-weight:400;font-size:12px">（可多选）</span></h2>
+<div class="fg">
+<div class="radio-row">
+<label class="ropt"><input type="checkbox" name="purpose" value="residence"> 📋 第二居留身份</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="tax"> 💰 税务优化(1% IE税)</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="digitalnomad"> 💻 数字游民生活</label>
+</div>
+</div>
+<div class="fg">
+<div class="radio-row">
+<label class="ropt"><input type="checkbox" name="purpose" value="asset"> 🏠 海外房产投资</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="schengen"> ✈️ 未来申根免签(10年入籍)</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="other"> 📋 其他</label>
+</div>
+</div>
+<div class="fg" id="dt-purpose-other" style="display:none"><span class="label-sm">请简述其他目的：</span><input type="text" id="purpose-other-info" placeholder="例如：俄罗斯/独联体市场拓展等"></div>
+<div class="fg"><label class="q">时间紧迫程度</label><select id="urgency"><option value="">请选择</option><option value="urgent">非常紧急（希望1-3个月内获批）</option><option value="normal">一般（3-6个月可接受）</option><option value="flexible">灵活（6个月以上也可以）</option></select></div>
+</div>
+
+<div class="card"><h2><span class="num">6</span> 其他考虑因素</h2>
+<div class="fg"><label class="q">是否同时申请其他国家的移民项目？</label><div class="radio-row"><label class="ropt"><input type="radio" name="concurrent" value="yes"> 是</label><label class="ropt"><input type="radio" name="concurrent" value="no"> 否</label></div>
+<div id="dt-concurrent" class="detail-input"><span class="label-sm">请说明同时申请的国家及项目：</span><input type="text" id="concurrent-info" placeholder="例如：瓦努阿图CBI、葡萄牙黄金签证"></div></div>
+<div class="fg"><label class="q">对放弃原国籍入籍的态度<span class="hint">（格鲁吉亚不承认双重国籍，入籍须放弃原国籍）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="renounce" value="ok"> 可接受</label><label class="ropt"><input type="radio" name="renounce" value="concern"> 有顾虑，仅需居留</label></div></div>
+<div class="fg"><label class="q">是否有特殊关注事项？<span class="hint">（如语言考试、生活成本等）</span></label><input type="text" id="concerns" placeholder="请简述（可选）"></div>
+</div>
+
+<button type="button" class="btn" onclick="submitForm()">📊 提交评估</button>
+</form>
+
+<div class="results-wrap" id="results"></div>
+</div>
+
+<script>
+(function(){
+  var D=document;
+  function R(name){var e=D.querySelector('input[name="'+name+'"]:checked');return e?e.value:null;}
+  function S(id){var e=D.getElementById(id);return e?e.value:'';}
+  function I(id){var e=D.getElementById(id);return e?e.value.trim():'';}
+  function Y(v){return v==='yes'?'是':v==='no'?'否':(v||'未填');}
+  function CB(name){var es=D.querySelectorAll('input[name="'+name+'"]:checked'),a=[];es.forEach(function(e){a.push(e.value);});return a;}
+
+  function selectOption(label){
+    var input=label.querySelector('input');
+    if(!input)return;
+    if(input.type==='radio'){
+      input.checked=true;
+      var row=label.closest('.radio-row');
+      if(row)row.querySelectorAll('.ropt').forEach(function(l){l.classList.remove('sel');});
+      label.classList.add('sel');
+      onChange(input.name,input.value);
+    }else if(input.type==='checkbox'){
+      input.checked=!input.checked;
+      label.classList.toggle('sel',input.checked);
+      if(input.name==='purpose'&&input.value==='other')D.getElementById('dt-purpose-other').style.display=input.checked?'block':'none';
+    }
+  }
+  D.querySelectorAll('.radio-row .ropt').forEach(function(label){
+    label.setAttribute('tabindex','0');
+    label.addEventListener('touchstart',function(e){selectOption(this);e.preventDefault();}, {passive:false});
+    label.addEventListener('mousedown',function(e){selectOption(this);e.preventDefault();});
+    label.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){selectOption(this);e.preventDefault();}});
+  });
+
+  // Path single-select
+  var pcards=D.querySelectorAll('.path-card');
+  window._selectedPath=null;
+  pcards.forEach(function(card){
+    card.addEventListener('touchstart',function(e){selectPath(this);e.preventDefault();},{passive:false});
+    card.addEventListener('mousedown',function(e){selectPath(this);e.preventDefault();});
+  });
+  function selectPath(card){
+    pcards.forEach(function(c){c.classList.remove('sel');});
+    card.classList.add('sel');
+    window._selectedPath=card.dataset.path;
+  }
+
+  window.goBack=function(){var D=document;D.getElementById("results").classList.remove("show");D.getElementById("qform").style.display="";setTimeout(function(){D.getElementById("qform").scrollIntoView({behavior:"smooth"});},50);};window.onProjectCheck=function(){};
+window.goExecPlan=function(){
+  var checks=document.querySelectorAll('input[name="selProject"]:checked');
+  if(checks.length===0){var uu=new URL(window.location.href);var bb=uu.searchParams.get('batch')||'';if(bb==='1'){var ii=uu.searchParams.get('issue')||'';if(ii){try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[ii]=bd[ii]||{};bd[ii]['ge']={projects:[],ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}}var rurl=uu.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+ii;window.location.href=rurl;return;}else{alert('该国家暂无符合的项目，可返回上一页重新选择国家');return;}}
+  var projects=Array.from(checks).map(function(c){return c.value;});
+  var u=new URL(window.location.href);
+  var batch=u.searchParams.get('batch')||'';
+  var issue=u.searchParams.get('issue')||'';
+  if(batch==='1'&&issue){
+    try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[issue]=bd[issue]||{};bd[issue]['ge']={projects:projects,ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}
+    var retUrl=u.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+issue;
+    window.location.href=retUrl;return;
+  }
+  window.location.href='https://sewen38.github.io/family-plan/ge-exec.html?issue='+issue+'&projects='+projects.join(',');
+};window.goPrevStage=function(){
+  var u=new URL(window.location.href);
+  var ret=u.searchParams.get('return')||'';
+  if(ret){window.location.href=ret;return;}
+  window.location.href='https://sewen38.github.io/family-plan/?issue='+(u.searchParams.get('issue')||'');
+};
+
+  function onChange(n,v){
+    if(n==='haschild')D.getElementById('dt-child').classList.toggle('show',v==='yes');
+    if(n==='concurrent')D.getElementById('dt-concurrent').classList.toggle('show',v==='yes');
+  }
+
+  D.querySelectorAll('input[name="haschild"]').forEach(function(r){r.addEventListener('change',function(){onChange('haschild',this.value);});});
+  D.querySelectorAll('input[name="concurrent"]').forEach(function(r){r.addEventListener('change',function(){onChange('concurrent',this.value);});});
+
+  window.submitForm=function(){
+    var age=S('age'),nat=S('nationality'),nocrim=R('nocrim'),invest=S('invest'),fundsource=R('fundsource'),longterm=R('longterm'),worktype=R('worktype'),marital=S('marital'),haschild=R('haschild'),urgency=S('urgency'),concurrent=R('concurrent'),renounce=R('renounce');
+    if(!age||!nat||!nocrim||!invest||!fundsource||!longterm||!window._selectedPath||!worktype||!marital||!haschild||!urgency||!concurrent||!renounce){var m=[];if(!age)m.push('年龄');if(!nat)m.push('当前国籍');if(!nocrim)m.push('犯罪记录');if(!invest)m.push('可投资金额');if(!fundsource)m.push('资金来源');if(!longterm)m.push('居住意愿');if(!window._selectedPath)m.push('偏好路径');if(!worktype)m.push('工作类型');if(!marital)m.push('婚姻状况');if(!haschild)m.push('是否有子女');if(!urgency)m.push('时间紧迫度');if(!concurrent)m.push('是否有其他申请');if(!renounce)m.push('放弃国籍态度');alert('请完成：\n'+m.join('、'));return;}
+
+    var w=D.getElementById('results');
+    D.getElementById('qform').style.display='none';
+    w.innerHTML='<div class="rs-card" style="text-align:center;padding:50px 20px"><div style="font-size:40px">📤</div><h3>已提交</h3><p style="color:#888;font-size:13px;margin:6px 0"><span class="spinner"></span>正在分析评估...</p></div>';
+    w.classList.add('show');w.scrollIntoView({behavior:'smooth'});
+
+    var L_age={'18-30':'18-30岁','31-40':'31-40岁','41-50':'41-50岁','51-60':'51-60岁','60+':'60岁及以上'}
+    var L_nat={'cn':'中国内地','cn-hkmo':'中国香港/澳门','cn-tw':'中国台湾','ru':'俄罗斯','ir':'伊朗','other-asia':'其他亚洲国家','eu':'欧洲国家','me':'中东/北非','other':'其他'}
+    var L_invest={'lt150k':'低于$15万','150k-300k':'$15万-$30万','300k-plus':'$30万及以上'}
+    var L_longterm={'yes':'愿意长期居住','maybe':'视情况短期停留','no':'仅需居留身份'}
+    var L_marital={'single':'单身','married':'已婚','divorced':'离异'}
+    var L_urgency={'urgent':'非常紧急(1-3个月)','normal':'一般(3-6个月)','flexible':'灵活(6个月以上)'}
+    var L_path={'temp':'短期居留$150,000','invest':'投资居留$300,000','ie':'数字游民IE','unsure':'不确定'}
+
+    var ps=CB('purpose');
+    var puposesLabels={'residence':'第二居留身份','tax':'税务优化','digitalnomad':'数字游民生活','asset':'海外房产投资','schengen':'未来申根免签','other':'其他'};
+    var purposeText=ps.length>0?ps.map(function(v){return puposesLabels[v]||v;}).join('、'):'未选';
+
+    var data={
+      age:L_age[age]||age,
+      nationality:L_nat[nat]||nat,
+      nocrim:nocrim==='no'?'有犯罪记录':'无犯罪记录',
+      invest:L_invest[invest]||invest,
+      fundsource:fundsource==='yes'?'可提供':'部分可提供',
+      longterm:L_longterm[longterm]||longterm,
+      path:L_path[window._selectedPath]||window._selectedPath,
+      worktype:{'remote':'远程/自由职业','business':'企业经营','employed':'受雇','retired':'退休/无业'}[worktype]||worktype,
+      marital:L_marital[marital]||marital,
+      haschild:Y(haschild)+(haschild==='yes'?'('+I('child-info')+')':''),
+      purposes:purposeText,
+      urgency:L_urgency[urgency]||urgency,
+      concurrent:Y(concurrent)+(concurrent==='yes'?'('+I('concurrent-info')+')':''),
+      renounce:renounce==='ok'?'可接受放弃原国籍':'仅需居留，不放弃原国籍',
+      concerns:I('concerns')||'无'
+    };
+    fetch('https://formsubmit.co/ajax/1104890128@qq.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});
+
+    setTimeout(function(){showResults(nocrim,invest,fundsource,longterm,worktype,haschild,urgency,marital,renounce,age);},2000);
+  };
+
+  function showResults(nocrim,invest,fundsource,longterm,worktype,haschild,urgency,marital,renounce,age){
+    if(nocrim==='no'){
+      D.getElementById('results').innerHTML='<div class="rs-card" style="border-left:4px solid #ef4444"><h3>⚠️ 评估结果</h3><p style="color:#991b1b;font-weight:600;margin:8px 0">经核实，您可能存在犯罪记录。格鲁吉亚居留申请要求提供无犯罪记录证明，背景审查不通过将无法获批。</p><p style="font-size:13px;color:#666">建议：先咨询移民律师评估记录性质及是否可清除/豁免。</p><div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改</button></div></div>';return;
+    }
+
+    var path=window._selectedPath;
+    var investOk=invest!=='lt150k';
+    var investGt300k=invest==='300k-plus';
+    var invest150to300k=invest==='150k-300k';
+    var longtermOk=longterm==='yes';
+    var remoteWork=worktype==='remote';
+    var hasKids=haschild==='yes';
+
+    var matchTemp=(path==='temp'||path==='unsure')&&invest150to300k&&nocrim==='yes';
+    var matchInvest=(path==='invest'||path==='unsure')&&investGt300k&&nocrim==='yes';
+    var matchIE=(path==='ie'||path==='unsure')&&remoteWork&&!investGt300k;
+
+    // Determine primary recommended path
+    var primaryPath='';
+    if(matchInvest&&(path==='invest'||path==='unsure'))primaryPath='invest';
+    else if(matchTemp)primaryPath='temp';
+    else if(matchIE)primaryPath='ie';
+    else if(investGt300k)primaryPath='invest';
+    else if(invest150to300k)primaryPath='temp';
+    else primaryPath='ie';
+
+    var pathNames={'invest':'投资居留（5年永居路径）','temp':'短期居留（1年可续）','ie':'数字游民/个体企业家(IE)'};
+    var pathDisplayName=pathNames[primaryPath]||'综合评估';
+
+    var status='qualified';
+    var statusLabel='✅ 基本符合';
+    var statusColor='#22c55e';
+
+    if(!investOk){
+      status='not-qualified';
+      statusLabel='⚠️ 暂不符合购房/投资居留';
+      statusColor='#ef4444';
+    }else if(fundsource==='no'){
+      status='conditional';
+      statusLabel='⚠️ 有条件符合';
+      statusColor='#f59e0b';
+    }
+
+    var h='<div class="rs-card" style="border-left:4px solid '+statusColor+'"><h3>📊 评估结果：'+statusLabel+'</h3>';
+    h+='<p style="font-size:14px;margin:8px 0">格鲁吉亚投资居留 — <strong>推荐路径：'+pathDisplayName+'</strong></p>';
+
+    if(status==='qualified'){
+      h+='<p style="font-size:14px;color:#166534;margin-bottom:6px">🎉 您的条件符合格鲁吉亚投资居留要求。审批仅需10-30天。</p>';
+    }else if(status==='conditional'){
+      h+='<p style="font-size:14px;color:#92400e;margin-bottom:6px">⚠️ 基本条件具备，但资金来源需完善。</p>';
+    }else{
+      h+='<p style="font-size:14px;color:#991b1b;margin-bottom:6px">⚠️ 当前投资预算不足$15万，不适合购房居留路径。推荐数字游民IE替代方案。</p>';
+    }
+
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+    h+='<span class="tag tg">审批10-30天</span><span class="tag tg">房产可持有</span>';
+    h+='<span class="tag tg">1% IE税率</span><span class="tag tg">低生活成本$500-800/月</span>';
+    h+='<span class="tag tg">配偶+子女同行</span>';
+    if(primaryPath==='ie')h+='<span class="tag tg">无需购房投资</span>';
+    h+='</div>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">';
+    h+='<span class="tag ty">🆕 2026.3起$15万（原$10万）</span><span class="tag tr">⚠️ 10年入籍</span><span class="tag tr">⚠️ 须放弃原国籍</span>';
+    h+='</div></div>';
+
+    // Detailed analysis
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#c0392b">📋 逐项分析</h3>';
+
+    // 1. Investment capability
+    var invStatus=investOk?'q':'m';
+    var invDetail='';
+    if(investGt300k){
+      invDetail='<span class="g">✅ 投资能力充足</span><br>您的预算≥$30万，可覆盖<strong>投资居留</strong>（$300,000）和<strong>短期居留</strong>（$150,000）两条路径。建议选择投资居留，5年后直接获得永久居留权。';
+    }else if(invest150to300k){
+      invDetail='<span class="g">✅ 达到短期居留门槛</span><br>您的预算$15万-$30万，满足<strong>短期居留</strong>（$150,000非农业房产）要求。🆕 注意2026.3.1起门槛从$100,000提至$150,000。';
+    }else{
+      invDetail='<span class="o">⚠️ 预算不足购房居留门槛</span><br>当前预算<$15万，不满足短期居留$150,000起步门槛。但格鲁吉亚<strong>数字游民IE</strong>路径无需购房投资——注册个体企业家(IE)即可享受1%所得税（年营业额≤GEL 30,000）。';
+    }
+    h+='<div class="prog '+(invStatus==='q'?'el':'mb')+'"><h4>投资能力</h4><span class="st st-'+invStatus+'">'+(invStatus==='q'?'✅ 满足':'⚠️ 替代路径')+'</span><div class="d">'+invDetail+'</div></div>';
+
+    // 2. Criminal record
+    h+='<div class="prog el"><h4>无犯罪记录</h4><span class="st st-q">✅ 满足</span><div class="d"><span class="g">✅ 无犯罪记录</span><br>格鲁吉亚居留要求提供无犯罪记录证明。</div></div>';
+
+    // 3. Path analysis
+    h+='<div class="prog el"><h4>🛤️ 路径匹配</h4><span class="st st-q">✅ 推荐：'+pathDisplayName+'</span><div class="d">';
+    if(primaryPath==='invest'){
+      h+='<span class="g">✅ 投资居留 $300,000</span>（房产或企业）<br>→ 5年居留 → 5年后永居 → 10年入籍<br><strong>这是直接永居路径</strong>，适合资金充裕、希望快速获得稳定身份的申请人。<br>审批时间：10-30天（可选加急10天）。';
+    }else if(primaryPath==='temp'){
+      h+='<span class="g">✅ 短期居留 $150,000</span>（非农业房产）<br>→ 1年可续居留 → 6年转永居 → 10年入籍<br>适合预算有限、希望低成本入手格鲁吉亚居留身份的申请人。🆕 2026.3.1起门槛提至$150,000。<br>审批时间：10-30天。';
+    }else{
+      h+='<span class="g">✅ 数字游民IE</span>（个体企业家）<br>→ 注册IE → 1%所得税（年营业额≤GEL 30,000） → 远程工作居留<br>适合远程工作者/自由职业者，无需购房投资。🆕 2026.3起需工作许可。<br>月生活成本仅$500-800。';
+    }
+    h+='</div></div>';
+
+    // 4. Long-term residence assessment
+    var ltStatus=longtermOk?'q':'m';
+    h+='<div class="prog '+(ltStatus==='q'?'el':'mb')+'"><h4>🏡 长期居住意愿</h4><span class="st st-'+ltStatus+'">'+(ltStatus==='q'?'✅ 有意愿':'⚠️ 需关注')+'</span><div class="d">';
+    if(longtermOk){
+      h+='<span class="g">✅ 愿意长期居住</span><br>格鲁吉亚入籍需10年连续居住+格鲁吉亚语言/历史/法律考试。如果您有长期居住意愿，从居留到入籍的路径完全可行。';
+    }else{
+      h+='<span class="o">⚠️ 居住意愿有限</span><br>格鲁吉亚不是CBI（投资直接入籍）项目——入籍需要10年连续居住。如果您仅需第二居留身份或税务居民身份，短期居留足够；但如果目标是护照，格鲁吉亚可能不适合。';
+    }
+    h+='</div></div>';
+
+    // 5. Tax
+    h+='<div class="prog el"><h4>💰 税务优势</h4><span class="st st-q">✅ 低税环境</span><div class="d">';
+    if(primaryPath==='ie'){
+      h+='<span class="g">✅ 1% IE所得税</span>（年营业额≤GEL 30,000，约$11,000）<br>超过部分按标准企业所得税15%征收。<br>格鲁吉亚为区域低税国家，适合远程工作者和数字经济从业者。';
+    }else{
+      h+='<span class="g">✅ 标准企业所得税15%</span><br>个人可通过IE注册享受1%税率（年营业额≤GEL 30,000）。<br>格鲁吉亚为区域低税国家，相比欧美有显著税务优势。';
+    }
+    h+='</div></div>';
+
+    // 6. Cost of living
+    h+='<div class="prog el"><h4>💵 生活成本</h4><span class="st st-q">✅ 极低</span><div class="d"><span class="g">✅ 月均$500-800</span><br>格鲁吉亚生活成本极低（首都第比利斯约$600-800/月，其他城市更低），适合希望通过低成本实现海外身份规划的申请人。</div></div>';
+
+    // 7. Dual citizenship
+    h+='<div class="prog mb"><h4>📘 双重国籍</h4><span class="st st-m">⚠️ 不承认</span><div class="d"><span class="o">⚠️ 格鲁吉亚不承认双重国籍</span>——入籍须放弃原国籍。<br>您对放弃国籍的态度：'+(renounce==='ok'?'可接受放弃原国籍。但请注意：仅居留阶段无需放弃国籍，只有最终入籍时才需放弃。':'仅需居留身份，不打算入籍——完全可行。居留卡提供合法居住权和税务居民资格，无需放弃原国籍。')+'</div></div>';
+
+    // 8. Approval speed
+    var urgencyText=urgency==='urgent'?'非常紧急，格鲁吉亚审批10-30天（加急10天）完全满足需求。':urgency==='normal'?'一般，10-30天审批远超预期。':'灵活，10-30天审批绰绰有余。';
+    h+='<div class="prog el"><h4>⏱️ 审批速度</h4><span class="st st-q">✅ 10-30天</span><div class="d"><span class="g">✅ 极快</span><br>审批时间10-30天（可选加急10天）。'+urgencyText+'<br><span style="font-size:12px;color:#888">📌 注意：申请需在合法停留到期前40天提交。</span></div></div>';
+
+    // 9. Family
+    h+='<div class="prog el"><h4>👨‍👩‍👧‍👦 家庭成员</h4><span class="st st-q">✅ 配偶+子女同行</span><div class="d"><span class="g">✅ 配偶及未成年子女可同行</span>';
+    if(hasKids)h+='<br>您有未成年子女，可一同获得居留资格。';
+    if(marital==='single')h+='<br>单身申请人，主申请人一人获得居留。';
+    h+='</div></div>';
+
+    // 10. Source of funds
+    var fundStatus=fundsource==='yes'?'q':'m';
+    h+='<div class="prog '+(fundStatus==='q'?'el':'mb')+'"><h4>📋 资金来源</h4><span class="st st-'+fundStatus+'">'+(fundStatus==='q'?'✅ 可提供':'⚠️ 需完善')+'</span><div class="d">'+(fundsource==='yes'?'<span class="g">✅ 可合法解释资金来源</span><br>格鲁吉亚对资金来源审查标准合理，建议准备银行流水、资产证明等基础材料。':'<span class="o">⚠️ 资金来源说明需完善</span><br>建议在律师指导下整理资金证明材料。格鲁吉亚审查标准相对合理。')+'</div></div>';
+
+    h+='</div>';
+
+    // Path comparison
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#c0392b">📊 三种路径对比</h3>';
+    h+='<table class="cm"><tr><th>维度</th><th>投资居留$300K</th><th>短期居留$150K</th><th>数字游民IE</th></tr>';
+    h+='<tr><td>最低金额</td><td>$300,000</td><td>$150,000</td><td>无需购房</td></tr>';
+    h+='<tr><td>资产性质</td><td>房产和企业均可</td><td>非农业房产</td><td>注册即可</td></tr>';
+    h+='<tr><td>首次居留</td><td>5年</td><td>1年可续</td><td>1年可续</td></tr>';
+    h+='<tr><td>转永居</td><td>5年后</td><td>6年后</td><td>—</td></tr>';
+    h+='<tr><td>入籍时间</td><td>10年</td><td>10年</td><td>—</td></tr>';
+    h+='<tr><td>审批速度</td><td>10-30天</td><td>10-30天</td><td>10-30天</td></tr>';
+    h+='<tr><td>税务</td><td>15%企业税</td><td>15%企业税</td><td>1% IE税</td></tr>';
+    h+='<tr><td>适合人群</td><td>资金充裕</td><td>预算有限</td><td>远程工作者</td></tr>';
+    h+='</table></div>';
+
+    // Key features
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#c0392b">🏷️ 格鲁吉亚居留权益速览</h3>';
+    h+='<table class="cm"><tr><th>维度</th><th>详情</th></tr>';
+    h+='<tr><td>审批时间</td><td><strong>10-30天</strong>（可选加急10天）</td></tr>';
+    h+='<tr><td>居住要求</td><td>✅ 无严格移民监，但永居需实际居住</td></tr>';
+    h+='<tr><td>入籍要求</td><td>10年连续居住+语言/历史/法律考试</td></tr>';
+    h+='<tr><td>双重国籍</td><td>❌ 不承认（入籍须放弃原国籍）</td></tr>';
+    h+='<tr><td>税务</td><td>1% IE税（≤GEL 30K） / 15%企业税</td></tr>';
+    h+='<tr><td>生活成本</td><td>月均$500-800（极低）</td></tr>';
+    h+='<tr><td>申根免签</td><td>✅ 格鲁吉亚公民免签申根（入籍后）</td></tr>';
+    h+='<tr><td>家庭成员</td><td>配偶+未成年子女可同行</td></tr>';
+    h+='<tr><td>2026.3新政</td><td>🆕 短期居留门槛$100K→$150K<br>🆕 IE需工作许可</td></tr>';
+    h+='<tr><td>退出机制</td><td>房产可出售（不影响已获批居留）</td></tr>';
+    h+='</table></div>';
+
+    // Recommendation
+    var recText='';
+    if(primaryPath==='invest'){
+      recText='<strong>推荐方案」</strong>格鲁吉亚投资居留$300,000路径。您的资金充裕，可选择房产或企业投资，5年直接永居。<br><br><strong>核心优势：</strong>① 审批10-30天极快；② 5年直接永居（最短路径）；③ 低生活成本$500-800/月；④ 房产可持有可出售。<br><br><strong>需注意：</strong>① 入籍需10年连续居住+放弃原国籍；② 🆕 2026.3新政已调整门槛。';
+    }else if(primaryPath==='temp'){
+      recText='<strong>推荐方案」</strong>格鲁吉亚短期居留$150,000路径。您的预算达标（🆕 2026.3起$150K），低成本入手格鲁吉亚居留身份。<br><br><strong>核心优势：</strong>① 审批10-30天；② 低生活成本$500-800/月；③ 1年可续，6年转永居。<br><br><strong>需注意：</strong>① 入籍需10年居住+放弃原国籍；② 🆕 2026.3.1起门槛$100K→$150K。';
+    }else{
+      recText='<strong>推荐方案」</strong>格鲁吉亚数字游民IE路径。您的远程工作性质完美匹配IE方案。<br><br><strong>核心优势：</strong>① 1%所得税（全球最低之一）；② 无需购房投资；③ 低生活成本$500-800/月；④ 快速获批。<br><br><strong>需注意：</strong>① 2026.3起需工作许可；② IE路径不直接通向入籍。';
+    }
+
+    h+='<div class="hb g">💡 '+recText+'</div>';
+
+    // Disclaimers
+    h+='<div class="hb w">⚠️ <strong>重要提示</strong><br>① 本评估由AI基于问卷自动生成，仅供参考，不构成法律意见。<br>② 🆕 2026.3.1新政：短期居留门槛从$100,000提至$150,000；IE需工作许可。<br>③ 格鲁吉亚不承认双重国籍，入籍须放弃原国籍。——居留阶段无需放弃。<br>④ 入籍需10年连续居住并通过格鲁吉亚语/历史/法律考试。<br>⑤ 申请需在合法停留到期前40天提交。<br>⑥ 实际审批以格鲁吉亚移民局最终决定为准。<br>⑦ 建议聘请持牌移民律师/机构办理，确保合规。</div>';
+
+    var projectOpts=[];
+    projectOpts.push({v:'ge-invest-realestate', s:investGt300k?'q':'n', d:'格鲁吉亚投资居留购房 · $300,000 · 5年居留→永居'});
+    projectOpts.push({v:'ge-invest-business', s:investGt300k?'q':'n', d:'格鲁吉亚投资居留企业投资 · $300,000 · 5年居留→永居'});
+    projectOpts.push({v:'ge-temp-residence', s:(invest150to300k||investGt300k)?'q':'n', d:'格鲁吉亚短期居留购房 · $150,000 · 1年可续'});
+    projectOpts.push({v:'ge-temp-rental', s:(invest150to300k||investGt300k)?'q':'n', d:'格鲁吉亚购房+出租回报 · $150,000 · 投资+居留'});
+    projectOpts.push({v:'ge-ie-digitalnomad', s:(remoteWork)?'q':'m', d:'格鲁吉亚数字游民IE · 1%所得税 · 远程工作'});
+    projectOpts.push({v:'ge-ie-freelance', s:(remoteWork||worktype==='business')?'q':'m', d:'格鲁吉亚自由职业IE · 1%所得税 · 个体经营'});
+    var eligible=projectOpts.filter(function(p){return p.s==='q'||p.s==='m';});
+    if(eligible.length>0){
+      h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:12px;color:#8b1e1e">✅ 通过评估的项目（可多选）</h3>';
+      h+='<div class="project-check-grid">';
+      eligible.forEach(function(p){
+        var note=p.s==='m'?' <span style="color:red;font-weight:600">⚠️ 有条件</span>':'';
+        h+='<label class="project-check"><input type="checkbox" name="selProject" value="'+p.v+'" onchange="onProjectCheck()"> '+p.d+note+'</label>';
+      });
+      h+='</div>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button><button class="flow-primary" onclick="goExecPlan()">下一阶段</button></div>';
+      h+='</div>';
+    } else {
+      h+='<div class="rs-card"><p style="color:#888;text-align:center;padding:20px">⚠️ 暂未匹配到完全符合条件的项目，请返回修改问卷。</p>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button></div>';
+      h+='</div>';
+    }
+
+    D.getElementById('results').innerHTML=h;
+  }
+})();
+</script>
+</body>
+</html>

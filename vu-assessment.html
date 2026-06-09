@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>瓦努阿图发展支持计划(VDSP)资格评估</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6;-webkit-text-size-adjust:100%}
+.container{max-width:720px;margin:0 auto;padding:0 0 40px}
+.header{background:linear-gradient(135deg,#004d40,#00695c);color:#fff;padding:32px 20px 28px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:22px;margin-bottom:4px}
+.header p{opacity:.85;font-size:13px}
+.card{background:#fff;border-radius:14px;padding:24px 18px;margin:16px 12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-size:17px;color:#00695c;margin-bottom:16px;padding-bottom:10px;border-bottom:1.5px solid #eef1f5;display:flex;align-items:center;gap:8px}
+.card h2 .num{background:#00695c;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.fg{margin-bottom:16px}
+.fg label.q{display:block;font-weight:600;font-size:14px;margin-bottom:5px;color:#333}
+.fg .hint{font-size:12px;color:#999;margin-bottom:4px;font-weight:400}
+.fg select,.fg input[type=text]{width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:15px;transition:border .2s;background:#fafafa;-webkit-appearance:none}
+.fg select:focus,.fg input:focus{outline:none;border-color:#26a69a;background:#fff}
+.detail-input{margin-top:8px;display:none}
+.detail-input.show{display:block}
+.detail-input input{width:100%;padding:10px 12px;border:1.5px solid #b2dfdb;border-radius:8px;font-size:14px;background:#f0fdfa}
+.detail-input input::placeholder{color:#999}
+.detail-input .label-sm{font-size:12px;color:#666;margin-bottom:4px;display:block}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-row .ropt{flex:1;min-width:80px;padding:10px 16px;border:1.5px solid #ddd;border-radius:8px;text-align:center;cursor:pointer;font-size:14px;background:#fafafa;transition:all .15s;user-select:none}
+.radio-row .ropt:active,.radio-row .ropt.sel{border-color:#26a69a;background:#f0fdfa;font-weight:600;color:#00695c}
+.radio-row input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.btn{display:block;width:calc(100% - 24px);margin:20px auto;padding:14px;background:linear-gradient(135deg,#004d40,#00695c);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer}
+.btn:active{transform:scale(.98)}
+
+.results-wrap{display:none;margin:0 12px}
+.results-wrap.show{display:block}
+.rs-card{background:#fff;border-radius:14px;padding:20px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.rs-card h3{font-size:18px;margin-bottom:6px;color:#00695c}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;margin:3px}
+.tg{background:#dcfce7;color:#166534}
+.ty{background:#fef3c7;color:#92400e}
+.tr{background:#fee2e2;color:#991b1b}
+.prog{background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:10px}
+.prog.el{border-left:4px solid #22c55e}
+.prog.mb{border-left:4px solid #f59e0b}
+.prog.no{border-left:4px solid #e0e0e0;opacity:.85}
+.prog h4{font-size:15px;margin-bottom:6px;color:#00695c}
+.prog .st{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:6px}
+.st-q{background:#dcfce7;color:#166534}.st-m{background:#fef3c7;color:#92400e}.st-n{background:#fee2e2;color:#991b1b}
+.prog .d{font-size:13px;color:#555;line-height:1.7}
+.g{color:#166534;font-weight:600}.o{color:#c2410c;font-weight:600}
+table.cm{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+table.cm th,table.cm td{border:1px solid #e2e8f0;padding:7px;text-align:center}
+table.cm th{background:#f1f5f9;font-weight:600;font-size:11px}
+table.cm td:first-child{text-align:left;font-weight:500}
+.hb{background:#fef5f5;border:1px solid #f5c6c6;border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.hb.g{background:#f0fdf4;border-color:#bbf7d0}
+.hb.w{background:#fff7ed;border-color:#fed7aa}
+.btn-sm{display:inline-block;padding:10px 20px;margin:4px 0;background:#eef1f5;color:#555;border:none;border-radius:8px;font-size:13px;cursor:pointer}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #ddd;border-top-color:#26a69a;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Investment path cards */
+.path-cards{display:flex;flex-direction:column;gap:10px}
+.path-card{border:2px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;background:#fafafa}
+.path-card:hover{border-color:#26a69a}
+.path-card.sel{border-color:#26a69a;background:#f0fdfa}
+.path-card .path-t{font-weight:700;font-size:14px;color:#333;margin-bottom:3px}
+.path-card .path-p{font-size:12px;color:#666}
+.path-card .path-badge{float:right;font-size:10px;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:10px;font-weight:600}
+
+@media(max-width:400px){.radio-row .ropt{min-width:60px;padding:8px 12px;font-size:13px}.card{padding:18px 14px;margin:10px 8px}.header h1{font-size:19px}}
+
+.flow-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.flow-actions button{flex:1;min-width:120px;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer}.flow-primary{background:linear-gradient(135deg,#004d40,#00695c);color:#fff}.flow-secondary{background:#eef1f5;color:#555}.choice-grid{display:grid;gap:10px}.choice-card{border:2px solid #e5e7eb;border-radius:12px;padding:13px;background:#fafafa;cursor:pointer}.choice-card.sel{border-color:#26a69a;background:#f0fdfa}.choice-card h4{font-size:15px;color:#00695c;margin-bottom:4px}.choice-card p{font-size:12px;color:#666}.project-list{display:none;margin-top:12px}.project-list.show{display:block}.project-opt{border:1.5px solid #e5e7eb;border-radius:10px;padding:11px;margin-bottom:8px;background:#fff;cursor:pointer}.project-opt.sel{border-color:#22c55e;background:#f0fdf4}.stage-hint{font-size:12px;color:#888;margin-top:6px}
+.project-check-grid{display:flex;flex-direction:column;gap:8px;margin:10px 0}.project-check{display:flex;align-items:flex-start;gap:8px;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;background:#fafafa;cursor:pointer;font-size:13px;line-height:1.5;transition:all .15s}.project-check:has(input:checked){border-color:#22c55e;background:#f0fdf4}.project-check input[type=checkbox]{margin-top:2px;accent-color:#22c55e;width:16px;height:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🇻🇺 瓦努阿图发展支持计划(VDSP)资格评估</h1><p>Vanuatu DSP · 2026政策 · 全球最快护照 · 约3分钟</p></div>
+
+<form id="qform">
+
+<div class="card"><h2><span class="num">1</span> 基本信息</h2>
+<div class="fg"><label class="q">年龄</label><select id="age"><option value="">请选择</option><option value="18-30">18-30岁</option><option value="31-40">31-40岁</option><option value="41-50">41-50岁</option><option value="51-60">51-60岁</option><option value="60+">60岁及以上</option></select></div>
+<div class="fg"><label class="q">当前国籍<span class="hint">（VDSP对所有国籍开放，无限制）</span></label><select id="nationality"><option value="">请选择</option><option value="cn">中国内地</option><option value="cn-hkmo">中国香港/澳门</option><option value="cn-tw">中国台湾</option><option value="ru">俄罗斯</option><option value="ir">伊朗</option><option value="other-asia">其他亚洲国家</option><option value="eu">欧洲国家</option><option value="me">中东/北非</option><option value="other">其他</option></select></div>
+<div class="fg"><label class="q">是否有无犯罪记录<span class="hint">（选择"是"表示无犯罪记录；VDSP要求提供无犯罪记录证明）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="nocrim" value="yes"> 是</label><label class="ropt"><input type="radio" name="nocrim" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">健康状况<span class="hint">（需提供基础健康证明，无重大传染病）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="health" value="good"> 良好</label><label class="ropt"><input type="radio" name="health" value="issue"> 有需要说明的情况</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">2</span> 资产与资金能力</h2>
+<div class="fg"><label class="q">个人/家庭可投资净资产<span class="hint">（美元，含现金、房产、股票等）</span></label><select id="networth"><option value="">请选择</option><option value="lt130k">低于$13万（约¥95万）</option><option value="130k-300k">$13万-$30万（约¥95万-¥219万）</option><option value="300k-1m">$30万-$100万（约¥219万-¥730万）</option><option value="gte1m">$100万及以上（约¥730万+）</option></select></div>
+<div class="fg"><label class="q">投资金额预算<span class="hint">（VDSP为一次性捐款制，不可退还）</span></label><select id="budget"><option value="">请选择</option><option value="single">单人$130,000（ALL-IN $135,500）</option><option value="couple">夫妻$150,000（ALL-IN约$156,000）</option><option value="family4">四口家庭$180,000（ALL-IN约$187,000）</option><option value="family-big">大家庭（含父母随行）$180,000+</option><option value="unsure">不确定，需顾问评估</option></select></div>
+<div class="fg"><label class="q">投资资金来源是否可合法解释？<span class="hint">（VDSP对资金来源审查相对宽松，但建议可说明）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="fundsource" value="yes"> 是，可提供</label><label class="ropt"><input type="radio" name="fundsource" value="partial"> 部分可提供</label><label class="ropt"><input type="radio" name="fundsource" value="no"> 难以提供</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">3</span> 家庭情况</h2>
+<div class="fg"><label class="q">婚姻状况</label><select id="marital"><option value="">请选择</option><option value="single">单身</option><option value="married">已婚</option><option value="divorced">离异</option></select></div>
+<div class="fg"><label class="q">是否有18岁以下子女？<span class="hint">（配偶及18岁以下子女可随行一同获得护照）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="haschild" value="yes"> 是</label><label class="ropt"><input type="radio" name="haschild" value="no"> 否</label></div>
+<div id="dt-child" class="detail-input"><span class="label-sm">18岁以下子女人数及年龄：</span><input type="text" id="child-info" placeholder="例如：2个，8岁和5岁"></div></div>
+<div class="fg"><label class="q">是否有18岁以上子女需要安排？</label><div class="radio-row"><label class="ropt"><input type="radio" name="adultchild" value="yes"> 是</label><label class="ropt"><input type="radio" name="adultchild" value="no"> 否</label></div>
+<div id="dt-adultchild" class="detail-input"><span class="label-sm">成年子女年龄及情况：</span><input type="text" id="adultchild-info" placeholder="例如：22岁在读大学（18+子女一般不可随行）"></div></div>
+<div class="fg"><label class="q">是否有60岁以上父母需要随行？<span class="hint">（VDSP允许60岁以上父母随行，需额外捐款$15,000/人）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="hasparent" value="yes"> 是</label><label class="ropt"><input type="radio" name="hasparent" value="no"> 否</label></div>
+<div id="dt-parent" class="detail-input"><span class="label-sm">父母年龄及人数：</span><input type="text" id="parent-info" placeholder="例如：母亲65岁，父亲68岁"></div></div>
+</div>
+
+<div class="card"><h2><span class="num">4</span> 核心目的<span class="hint" style="font-weight:400;font-size:12px">（可多选）</span></h2>
+<div class="fg">
+<div class="radio-row">
+<label class="ropt"><input type="checkbox" name="purpose" value="passport"> 📘 第二护照</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="asset"> 🏦 资产保护</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="e2"> 🇺🇸 E-2赴美跳板</label>
+</div>
+</div>
+<div class="fg">
+<div class="radio-row">
+<label class="ropt"><input type="checkbox" name="purpose" value="tax"> 💰 税务规划</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="travel"> ✈️ 全球免签出行</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="other"> 📋 其他</label>
+</div>
+</div>
+<div class="fg" id="dt-purpose-other" style="display:none"><span class="label-sm">请简述其他目的：</span><input type="text" id="purpose-other-info" placeholder="例如：子女海外教育、离岸架构等"></div>
+<div class="fg"><label class="q">时间紧迫程度</label><select id="urgency"><option value="">请选择</option><option value="urgent">非常紧急（希望3个月内完成）</option><option value="normal">一般（3-6个月可接受）</option><option value="flexible">灵活（6个月以上也可以）</option></select></div>
+</div>
+
+<div class="card"><h2><span class="num">5</span> 其他考虑因素</h2>
+<div class="fg"><label class="q">是否同时申请其他国家的移民项目？</label><div class="radio-row"><label class="ropt"><input type="radio" name="concurrent" value="yes"> 是</label><label class="ropt"><input type="radio" name="concurrent" value="no"> 否</label></div>
+<div id="dt-concurrent" class="detail-input"><span class="label-sm">请说明同时申请的国家及项目：</span><input type="text" id="concurrent-info" placeholder="例如：土耳其CBI、格林纳达CBI"></div></div>
+<div class="fg"><label class="q">对双重国籍的态度</label><div class="radio-row"><label class="ropt"><input type="radio" name="dualcitizen" value="ok"> 可接受不主动申报</label><label class="ropt"><input type="radio" name="dualcitizen" value="concern"> 有顾虑，需评估</label></div></div>
+<div class="fg"><label class="q">是否有特殊关注事项？<span class="hint">（如税务规划、离岸银行开户、CRS等）</span></label><input type="text" id="concerns" placeholder="请简述（可选）"></div>
+</div>
+
+<button type="button" class="btn" onclick="submitForm()">📊 提交评估</button>
+</form>
+
+<div class="results-wrap" id="results"></div>
+</div>
+
+<script>
+(function(){
+  var D=document;
+  function R(name){var e=D.querySelector('input[name="'+name+'"]:checked');return e?e.value:null;}
+  function S(id){var e=D.getElementById(id);return e?e.value:'';}
+  function I(id){var e=D.getElementById(id);return e?e.value.trim():'';}
+  function Y(v){return v==='yes'?'是':v==='no'?'否':(v||'未填');}
+  function CB(name){var es=D.querySelectorAll('input[name="'+name+'"]:checked'),a=[];es.forEach(function(e){a.push(e.value);});return a;}
+
+  // Radio selection
+  function selectOption(label){
+    var input=label.querySelector('input');
+    if(!input)return;
+    if(input.type==='radio'){
+      input.checked=true;
+      var row=label.closest('.radio-row');
+      if(row)row.querySelectorAll('.ropt').forEach(function(l){l.classList.remove('sel');});
+      label.classList.add('sel');
+      onChange(input.name,input.value);
+    }else if(input.type==='checkbox'){
+      input.checked=!input.checked;
+      label.classList.toggle('sel',input.checked);
+      if(input.name==='purpose'&&input.value==='other')D.getElementById('dt-purpose-other').style.display=input.checked?'block':'none';
+    }
+  }
+  D.querySelectorAll('.radio-row .ropt').forEach(function(label){
+    label.setAttribute('tabindex','0');
+    label.addEventListener('touchstart',function(e){selectOption(this);e.preventDefault();}, {passive:false});
+    label.addEventListener('mousedown',function(e){selectOption(this);e.preventDefault();});
+    label.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){selectOption(this);e.preventDefault();}});
+  });
+
+  window.goBack=function(){var D=document;D.getElementById("results").classList.remove("show");D.getElementById("qform").style.display="";setTimeout(function(){D.getElementById("qform").scrollIntoView({behavior:"smooth"});},50);};window.onProjectCheck=function(){};
+window.goExecPlan=function(){
+  var checks=document.querySelectorAll('input[name="selProject"]:checked');
+  if(checks.length===0){var uu=new URL(window.location.href);var bb=uu.searchParams.get('batch')||'';if(bb==='1'){var ii=uu.searchParams.get('issue')||'';if(ii){try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[ii]=bd[ii]||{};bd[ii]['vu']={projects:[],ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}}var rurl=uu.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+ii;window.location.href=rurl;return;}else{alert('该国家暂无符合的项目，可返回上一页重新选择国家');return;}}
+  var projects=Array.from(checks).map(function(c){return c.value;});
+  var u=new URL(window.location.href);
+  var batch=u.searchParams.get('batch')||'';
+  var issue=u.searchParams.get('issue')||'';
+  if(batch==='1'&&issue){
+    try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[issue]=bd[issue]||{};bd[issue]['vu']={projects:projects,ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}
+    var retUrl=u.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+issue;
+    window.location.href=retUrl;return;
+  }
+  window.location.href='https://sewen38.github.io/family-plan/vu-exec.html?issue='+issue+'&projects='+projects.join(',');
+};window.goPrevStage=function(){
+  var u=new URL(window.location.href);
+  var ret=u.searchParams.get('return')||'';
+  if(ret){window.location.href=ret;return;}
+  window.location.href='https://sewen38.github.io/family-plan/?issue='+(u.searchParams.get('issue')||'');
+};
+
+  function onChange(n,v){
+    if(n==='haschild')D.getElementById('dt-child').classList.toggle('show',v==='yes');
+    if(n==='adultchild')D.getElementById('dt-adultchild').classList.toggle('show',v==='yes');
+    if(n==='hasparent')D.getElementById('dt-parent').classList.toggle('show',v==='yes');
+    if(n==='concurrent')D.getElementById('dt-concurrent').classList.toggle('show',v==='yes');
+  }
+
+  D.querySelectorAll('input[name="haschild"]').forEach(function(r){r.addEventListener('change',function(){onChange('haschild',this.value);});});
+  D.querySelectorAll('input[name="adultchild"]').forEach(function(r){r.addEventListener('change',function(){onChange('adultchild',this.value);});});
+  D.querySelectorAll('input[name="hasparent"]').forEach(function(r){r.addEventListener('change',function(){onChange('hasparent',this.value);});});
+  D.querySelectorAll('input[name="concurrent"]').forEach(function(r){r.addEventListener('change',function(){onChange('concurrent',this.value);});});
+
+  window.submitForm=function(){
+    var age=S('age'),nat=S('nationality'),nocrim=R('nocrim'),health=R('health'),networth=S('networth'),budget=S('budget'),fundsource=R('fundsource'),marital=S('marital'),haschild=R('haschild'),adultchild=R('adultchild'),hasparent=R('hasparent'),urgency=S('urgency'),concurrent=R('concurrent'),dualcitizen=R('dualcitizen');
+    if(!age||!nat||!nocrim||!health||!networth||!budget||!fundsource||!marital||!haschild||!adultchild||!hasparent||!urgency||!concurrent||!dualcitizen){var m=[];if(!age)m.push('年龄');if(!nat)m.push('当前国籍');if(!nocrim)m.push('犯罪记录');if(!health)m.push('健康状况');if(!networth)m.push('净资产');if(!budget)m.push('投资预算');if(!fundsource)m.push('资金来源');if(!marital)m.push('婚姻状况');if(!haschild)m.push('是否有子女');if(!adultchild)m.push('成年子女');if(!hasparent)m.push('父母随行');if(!urgency)m.push('时间紧迫度');if(!concurrent)m.push('是否有其他申请');if(!dualcitizen)m.push('双重国籍态度');alert('请完成：\n'+m.join('、'));return;}
+
+    var w=D.getElementById('results');
+    D.getElementById('qform').style.display='none';
+    w.innerHTML='<div class="rs-card" style="text-align:center;padding:50px 20px"><div style="font-size:40px">📤</div><h3>已提交</h3><p style="color:#888;font-size:13px;margin:6px 0"><span class="spinner"></span>正在分析评估...</p></div>';
+    w.classList.add('show');w.scrollIntoView({behavior:'smooth'});
+
+    var L_age={'18-30':'18-30岁','31-40':'31-40岁','41-50':'41-50岁','51-60':'51-60岁','60+':'60岁及以上'}
+    var L_nat={'cn':'中国内地','cn-hkmo':'中国香港/澳门','cn-tw':'中国台湾','ru':'俄罗斯','ir':'伊朗','other-asia':'其他亚洲国家','eu':'欧洲国家','me':'中东/北非','other':'其他'}
+    var L_networth={'lt130k':'低于$13万','130k-300k':'$13万-$30万','300k-1m':'$30万-$100万','gte1m':'$100万及以上'}
+    var L_budget={'single':'单人$130,000','couple':'夫妻$150,000','family4':'四口家庭$180,000','family-big':'大家庭$180,000+','unsure':'不确定'}
+    var L_marital={'single':'单身','married':'已婚','divorced':'离异'}
+    var L_urgency={'urgent':'非常紧急(3个月内)','normal':'一般(3-6个月)','flexible':'灵活(6个月以上)'}
+
+    var ps=CB('purpose');
+    var puposesLabels={'passport':'第二护照','asset':'资产保护','e2':'E-2赴美跳板','tax':'税务规划','travel':'全球免签出行','other':'其他'};
+    var purposeText=ps.length>0?ps.map(function(v){return puposesLabels[v]||v;}).join('、'):'未选';
+
+    var data={
+      age:L_age[age]||age,
+      nationality:L_nat[nat]||nat,
+      nocrim:nocrim==='no'?'有犯罪记录':'无犯罪记录',
+      health:health==='good'?'良好':'有需要说明的情况',
+      networth:L_networth[networth]||networth,
+      budget:L_budget[budget]||budget,
+      fundsource:fundsource==='yes'?'可提供':'部分可提供',
+      marital:L_marital[marital]||marital,
+      haschild:Y(haschild)+(haschild==='yes'?'('+I('child-info')+')':''),
+      adultchild:Y(adultchild)+(adultchild==='yes'?'('+I('adultchild-info')+')':''),
+      hasparent:Y(hasparent)+(hasparent==='yes'?'('+I('parent-info')+')':''),
+      purposes:purposeText,
+      urgency:L_urgency[urgency]||urgency,
+      concurrent:Y(concurrent)+(concurrent==='yes'?'('+I('concurrent-info')+')':''),
+      dualcitizen:dualcitizen==='ok'?'可接受不主动申报':'有顾虑',
+      concerns:I('concerns')||'无'
+    };
+    fetch('https://formsubmit.co/ajax/1104890128@qq.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});
+
+    setTimeout(function(){showResults(nocrim,health,networth,budget,fundsource,haschild,adultchild,hasparent,urgency,marital,dualcitizen,age);},2000);
+  };
+
+  function showResults(nocrim,health,networth,budget,fundsource,haschild,adultchild,hasparent,urgency,marital,dualcitizen,age){
+    // Criminal record is a hard blocker
+    if(nocrim==='no'){
+      D.getElementById('results').innerHTML='<div class="rs-card" style="border-left:4px solid #ef4444"><h3>⚠️ 评估结果</h3><p style="color:#991b1b;font-weight:600;margin:8px 0">经核实，您可能存在犯罪记录。VDSP要求申请人提供无犯罪记录证明，背景审查不通过将无法获批。</p><p style="font-size:13px;color:#666">建议：先咨询移民律师评估记录性质及是否可清除/豁免。</p><div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改</button></div></div>';return;
+    }
+
+    var nwOk=networth!=='lt130k';
+    var nwGt300k=networth==='300k-1m'||networth==='gte1m';
+    var budgetKnown=budget!=='unsure';
+    var nwGt1m=networth==='gte1m';
+    var hasKids=haschild==='yes';
+    var hasParents=hasparent==='yes';
+
+    // Overall assessment
+    var status='qualified';
+    var statusLabel='✅ 基本符合';
+    var statusColor='#22c55e';
+
+    if(!nwOk){
+      status='not-qualified';
+      statusLabel='❌ 暂不符合';
+      statusColor='#ef4444';
+    }else if(fundsource==='no'){
+      status='conditional';
+      statusLabel='⚠️ 有条件符合';
+      statusColor='#f59e0b';
+    }
+
+    var budgetText=L_budget[budget]||budget;
+
+    // Build results
+    var h='<div class="rs-card" style="border-left:4px solid '+statusColor+'"><h3>📊 评估结果：'+statusLabel+'</h3>';
+    h+='<p style="font-size:14px;margin:8px 0">瓦努阿图发展支持计划（VDSP）— <strong>一次性捐款制 · '+budgetText+'</strong></p>';
+
+    if(status==='qualified'){
+      h+='<p style="font-size:14px;color:#166534;margin-bottom:6px">🎉 您的基本条件符合VDSP要求，全球审批最快30-60天。</p>';
+    }else if(status==='conditional'){
+      h+='<p style="font-size:14px;color:#92400e;margin-bottom:6px">⚠️ 基本条件具备，但资金来源需要进一步确认。</p>';
+    }else{
+      h+='<p style="font-size:14px;color:#991b1b;margin-bottom:6px">❌ 当前净资产不足以覆盖VDSP捐款门槛。</p>';
+    }
+
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+    h+='<span class="tag tg">全球最快30-60天</span><span class="tag tg">无面试</span><span class="tag tg">无居住要求</span>';
+    h+='<span class="tag tg">0%个税</span><span class="tag tg">非CRS成员国</span>';
+    h+='<span class="tag tg">无语言/学历要求</span>';
+    if(hasKids)h+='<span class="tag tg">子女随行</span>';
+    if(hasParents)h+='<span class="tag tg">父母可随行</span>';
+    h+='</div>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">';
+    h+='<span class="tag tr">⚠️ 捐款不可退</span><span class="tag tr">⚠️ 申根免签已暂停(2025)</span>';
+    h+='</div></div>';
+
+    // Detailed analysis
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#00695c">📋 逐项分析</h3>';
+
+    // 1. Investment capability
+    var invStatus=nwOk?'q':'n';
+    var invDetail=nwOk?'<span class="g">✅ 净资产满足捐款门槛</span><br>您选择'+budgetText+'，净资产水平充足。VDSP为一次性捐款制，无需后续追加投资。':'<span class="o">❌ 净资产不足</span><br>VDSP最低捐款$130,000（单人），但您当前净资产不足。建议考虑更低成本的替代方案，或提升资金准备。';
+    h+='<div class="prog '+(invStatus==='q'?'el':'no')+'"><h4>投资能力</h4><span class="st st-'+invStatus+'">'+(invStatus==='q'?'✅ 满足':'❌ 不满足')+'</span><div class="d">'+invDetail+'</div></div>';
+
+    // 2. Criminal record
+    h+='<div class="prog el"><h4>无犯罪记录</h4><span class="st st-q">✅ 满足</span><div class="d"><span class="g">✅ 无犯罪记录</span><br>VDSP要求提供无犯罪记录证明，通常需公证翻译（海牙认证）。</div></div>';
+
+    // 3. Speed
+    h+='<div class="prog el"><h4>⏱️ 审批速度</h4><span class="st st-q">✅ 全球最快</span><div class="d"><span class="g">✅ 30-60天获批</span><br>全球投资入籍计划中最快。无面试、无需登陆、无居住承诺。全程可远程办理。<br><span style="font-size:12px;color:#888">您的紧迫程度：'+(urgency==='urgent'?'紧急，VDSP 30天获批完全满足需求。':urgency==='normal'?'一般，VDSP 30-60天远超预期。':'灵活，VDSP速度绰绰有余。')+'</span></div></div>';
+
+    // 4. Tax advantage
+    h+='<div class="prog el"><h4>💰 税务优势</h4><span class="st st-q">✅ 零税天堂</span><div class="d"><span class="g">✅ 0%个人所得税 · 0%资本利得税 · 0%遗产税</span><br>瓦努阿图为全球知名零税国家。更关键的是<strong>非CRS成员国</strong>，金融信息不自动交换至他国税务机关。<br><span style="font-size:12px;color:#888">💡 适合高净值人士进行资产配置与税务规划。</span></div></div>';
+
+    // 5. Visa-free travel
+    h+='<div class="prog mb"><h4>✈️ 免签出行</h4><span class="st st-m">⚠️ 约98国</span><div class="d"><span class="g">✅ 免签/落地签约98国</span>，包括英国、新加坡、香港、韩国、马来西亚等。<br><span class="o">⚠️ 2025年欧盟暂停瓦努阿图免签协议</span>——申根区免签已被取消。目前瓦努阿图护照无法免签进入欧盟/申根国家。<br><span style="font-size:12px;color:#888">如申根免签为核心需求，建议同时评估格鲁吉亚居留方案（6年转永居，10年入籍可获申根免签）。</span></div></div>';
+
+    // 6. E-2 to US
+    h+='<div class="prog mb"><h4>🇺🇸 美国E-2签证</h4><span class="st st-m">⚠️ 有条件</span><div class="d"><span class="o">⚠️ 瓦努阿图是美国E-2条约国</span><br>但目前实际操作中，E-2领事官员对瓦努阿图护照审查趋严。通常要求持有瓦努阿图护照并在瓦国居住满3年（作为"实际联系"证明）后方可申请。<br><span style="font-size:12px;color:#888">💡 如E-2是核心需求，建议评估土耳其/Grenada替代方案。</span></div></div>';
+
+    // 7. Dual citizenship
+    h+='<div class="prog mb"><h4>📘 双重国籍</h4><span class="st st-m">⚠️ 需注意</span><div class="d"><span class="o">⚠️ 瓦努阿图法律不承认双重国籍</span>，但实际执行中一般不主动核查或强制放弃原国籍。<br>中国籍申请人：中国不承认双重国籍，建议不主动申报瓦国护照。<br><span style="font-size:12px;color:#888">您对双重国籍的态度：'+(dualcitizen==='ok'?'可接受不主动申报，风险可控。':'有顾虑，建议进一步咨询移民律师。')+'</span></div></div>';
+
+    // 8. Family
+    h+='<div class="prog el"><h4>👨‍👩‍👧‍👦 家庭成员</h4><span class="st st-q">✅ 配偶+子女+父母可随行</span><div class="d"><span class="g">✅ 配偶及18岁以下子女自动随行</span>';
+    if(hasKids)h+='<br>您有18岁以下子女，可一同获得瓦努阿图护照。';
+    if(hasParents)h+='<br>✅ 60岁以上父母可随行（额外$15,000/人）。';
+    if(adultchild==='yes')h+='<br><span class="o">⚠️ 18岁以上子女一般不可随行，需单独申请。</span>';
+    if(marital==='single')h+='<br>单身申请人，主申请人一人获得护照。';
+    h+='<br><span style="font-size:12px;color:#888">费用明细：单人ALL-IN $135,500；夫妻$156,000；四口家庭$187,000；额外申请人$15,000/人。</span></div></div>';
+
+    // 9. Source of funds
+    var fundStatus=fundsource==='yes'?'q':'m';
+    h+='<div class="prog '+(fundStatus==='q'?'el':'mb')+'"><h4>📋 资金来源</h4><span class="st st-'+fundStatus+'">'+(fundStatus==='q'?'✅ 可提供':'⚠️ 需完善')+'</span><div class="d">'+(fundsource==='yes'?'<span class="g">✅ 可合法解释资金来源</span><br>VDSP对资金来源审查相对宽松，但建议在律师指导下准备基础证明材料（银行流水、资产证明等）。':'<span class="o">⚠️ 资金来源说明需完善</span><br>虽然VDSP审查相对宽松，仍建议整理基础资金流水材料。')+'</div></div>';
+
+    // 10. Non-refundable risk
+    h+='<div class="prog mb"><h4>⚠️ 捐款制风险</h4><span class="st st-m">⚠️ 不可退</span><div class="d"><span class="o">⚠️ VDSP为一次性捐款制，不可退还。</span><br>与土耳其/格鲁吉亚的购房投资不同，DSP捐款一旦支付不可回收。建议在完全确认需求后再推进。<br><span style="font-size:12px;color:#888">💡 如希望可回收投资本金，建议评估土耳其$40万购房入籍方案。</span></div></div>';
+
+    h+='</div>';
+
+    // Comparison table
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#00695c">📊 VDSP费用明细</h3>';
+    h+='<table class="cm"><tr><th>申请类型</th><th>捐款金额</th><th>ALL-IN费用(含服务费)</th><th>包含申请人</th></tr>';
+    h+='<tr'+(budget==='single'?' style="background:#f0fdf4"':'')+'><td>👤 单人</td><td><strong>$130,000</strong></td><td>约$135,500</td><td>主申请人</td></tr>';
+    h+='<tr'+(budget==='couple'?' style="background:#f0fdf4"':'')+'><td>👫 夫妻</td><td><strong>$150,000</strong></td><td>约$156,000</td><td>主申请人+配偶</td></tr>';
+    h+='<tr'+(budget==='family4'?' style="background:#f0fdf4"':'')+'><td>👨‍👩‍👧‍👦 四口之家</td><td><strong>$180,000</strong></td><td>约$187,000</td><td>主申请人+配偶+2子女</td></tr>';
+    h+='<tr><td>➕ 额外申请人</td><td colspan="2"><strong>$15,000/人</strong></td><td>18+子女/60+父母</td></tr>';
+    h+='</table></div>';
+
+    // Key program features
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#00695c">🏷️ 瓦努阿图护照权益速览</h3>';
+    h+='<table class="cm"><tr><th>维度</th><th>详情</th></tr>';
+    h+='<tr><td>审批时间</td><td><strong>30-60天</strong>（全球最快）</td></tr>';
+    h+='<tr><td>免签国家</td><td>约98国（英国、新加坡、香港、韩国等）<br><span style="color:#c2410c">⚠️ 申根免签已暂停（2025欧盟决议）</span></td></tr>';
+    h+='<tr><td>美国E-2</td><td>⚠️ 条约国但实际审查趋严，需3年实际居住</td></tr>';
+    h+='<tr><td>居住要求</td><td>❌ 无移民监，全程无需居住</td></tr>';
+    h+='<tr><td>语言/学历</td><td>❌ 无任何要求</td></tr>';
+    h+='<tr><td>面试</td><td>❌ 无需面试</td></tr>';
+    h+='<tr><td>税务</td><td>✅ 0%个税 · 0%资本利得税 · 0%遗产税</td></tr>';
+    h+='<tr><td>CRS</td><td>✅ <strong>非CRS成员国</strong>（金融信息不自动交换）</td></tr>';
+    h+='<tr><td>双重国籍</td><td>⚠️ 法律不承认但实际一般无问题</td></tr>';
+    h+='<tr><td>退出机制</td><td>❌ 捐款制不可退</td></tr>';
+    h+='<tr><td>文件要求</td><td>护照公证+无犯罪记录+健康证明+资金来源声明</td></tr>';
+    h+='</table></div>';
+
+    // Recommendation
+    var recText='';
+    if(status==='qualified'){
+      recText='<strong>推荐方案」</strong>瓦努阿图VDSP '+budgetText+'。全球最快审批，无居住要求，零税天堂+非CRS。<br><br><strong>核心优势：</strong>① 30-60天全球最快；② 0%个税+0%资本利得税+非CRS；③ 无语言/学历/经商经验要求；④ 配偶+子女+父母可随行。<br><br><strong>核心风险：</strong>① 捐款制不可退；② 申根免签已暂停（2025）；③ E-2通道实际审查趋严。';
+    }else if(status==='conditional'){
+      recText='<strong>有条件推荐」</strong>您的基本投资能力满足，但建议：'+(fundsource==='no'?'提前准备资金来源证明材料（VDSP审查相对宽松）。':'')+'<br>另请关注DSP为捐款制不可退的风险。';
+    }else{
+      recText='<strong>替代建议」</strong>当前预算不足VDSP最低$130,000门槛：<br>· 格鲁吉亚短期居留：$150,000购房→1年居留（非护照）<br>· 格鲁吉亚数字游民IE：1%所得税+远程工作<br>· 土耳其CBI：$40万购房→6-8个月护照（可退出）';
+    }
+
+    h+='<div class="hb g">💡 '+recText+'</div>';
+
+    // Disclaimers
+    h+='<div class="hb w">⚠️ <strong>重要提示</strong><br>① 本评估由AI基于问卷自动生成，仅供参考，不构成法律意见。<br>② VDSP政策可能随时调整，建议尽快锁定当前费率。<br>③ 2025年欧盟已暂停瓦努阿图免签协议，申根免签暂时不可用。<br>④ 中国籍申请人需注意中国不承认双重国籍的法律风险。<br>⑤ VDSP捐款为一次性支付，不可退还。<br>⑥ 实际审批以瓦努阿图公民委员会最终决定为准。<br>⑦ 建议聘请持牌移民律师/机构办理，确保合规。</div>';
+
+    var projectOpts=[];
+    projectOpts.push({v:'vu-dsp-single', s:nwOk?'q':'n', d:'瓦努阿图DSP单人护照 · $130,000 · ALL-IN $135,500'});
+    projectOpts.push({v:'vu-dsp-single-fast', s:nwOk?'q':'n', d:'瓦努阿图DSP单人加急 · 30天获批 · ALL-IN $138,000'});
+    projectOpts.push({v:'vu-dsp-couple', s:(nwOk&&marital==='married')?'q':'n', d:'瓦努阿图DSP夫妻护照 · $150,000 · ALL-IN $156,000'});
+    projectOpts.push({v:'vu-dsp-family4', s:(nwOk&&hasKids)?'q':'n', d:'瓦努阿图DSP四口之家 · $180,000 · ALL-IN $187,000'});
+    projectOpts.push({v:'vu-dsp-family-big', s:(nwOk&&hasParents)?'q':'n', d:'瓦努阿图DSP大家庭(含父母) · $180,000+ · 额外$15K/人'});
+    projectOpts.push({v:'vu-tax-single', s:nwOk?'q':'n', d:'瓦努阿图护照+离岸架构 · 0%税+非CRS综合规划'});
+    projectOpts.push({v:'vu-tax-family', s:(nwOk&&(marital==='married'||hasKids))?'q':'n', d:'瓦努阿图家庭护照+全球税务规划 · 家庭整体方案'});
+    var eligible=projectOpts.filter(function(p){return p.s==='q'||p.s==='m';});
+    if(eligible.length>0){
+      h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:12px;color:#8b1e1e">✅ 通过评估的项目（可多选）</h3>';
+      h+='<div class="project-check-grid">';
+      eligible.forEach(function(p){
+        var note=p.s==='m'?' <span style="color:red;font-weight:600">⚠️ 有条件</span>':'';
+        h+='<label class="project-check"><input type="checkbox" name="selProject" value="'+p.v+'" onchange="onProjectCheck()"> '+p.d+note+'</label>';
+      });
+      h+='</div>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button><button class="flow-primary" onclick="goExecPlan()">下一阶段</button></div>';
+      h+='</div>';
+    } else {
+      h+='<div class="rs-card"><p style="color:#888;text-align:center;padding:20px">⚠️ 暂未匹配到完全符合条件的项目，请返回修改问卷。</p>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button></div>';
+      h+='</div>';
+    }
+
+    D.getElementById('results').innerHTML=h;
+  }
+})();
+</script>
+</body>
+</html>

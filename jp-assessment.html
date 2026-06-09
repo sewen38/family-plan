@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>日本高度人才签证资格评估</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6;-webkit-text-size-adjust:100%}
+.container{max-width:720px;margin:0 auto;padding:0 0 40px}
+.header{background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;padding:32px 20px 28px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:22px;margin-bottom:4px}
+.header p{opacity:.85;font-size:13px}
+.card{background:#fff;border-radius:14px;padding:24px 18px;margin:16px 12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-size:17px;color:#b71c1c;margin-bottom:16px;padding-bottom:10px;border-bottom:1.5px solid #fce4e4;display:flex;align-items:center;gap:8px}
+.card h2 .num{background:#b71c1c;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.fg{margin-bottom:16px}
+.fg label.q{display:block;font-weight:600;font-size:14px;margin-bottom:5px;color:#333}
+.fg .hint{font-size:12px;color:#999;margin-bottom:4px;font-weight:400}
+.fg select,.fg input[type=text]{width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:15px;transition:border .2s;background:#fafafa;-webkit-appearance:none}
+.fg select:focus,.fg input:focus{outline:none;border-color:#e53935;background:#fff}
+.detail-input{margin-top:8px;display:none}
+.detail-input.show{display:block}
+.detail-input input{width:100%;padding:10px 12px;border:1.5px solid #f5c6c6;border-radius:8px;font-size:14px;background:#fef5f5}
+.detail-input input::placeholder{color:#999}
+.detail-input .label-sm{font-size:12px;color:#666;margin-bottom:4px;display:block}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-row .ropt{flex:1;min-width:80px;padding:10px 16px;border:1.5px solid #ddd;border-radius:8px;text-align:center;cursor:pointer;font-size:14px;background:#fafafa;transition:all .15s;user-select:none}
+.radio-row .ropt:active,.radio-row .ropt.sel{border-color:#e53935;background:#fef0f0;font-weight:600;color:#b71c1c}
+.radio-row input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.btn{display:block;width:calc(100% - 24px);margin:20px auto;padding:14px;background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer}
+.btn:active{transform:scale(.98)}
+
+.results-wrap{display:none;margin:0 12px}
+.results-wrap.show{display:block}
+.rs-card{background:#fff;border-radius:14px;padding:20px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.rs-card h3{font-size:18px;margin-bottom:6px;color:#b71c1c}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;margin:3px}
+.tg{background:#dcfce7;color:#166534}
+.ty{background:#fef3c7;color:#92400e}
+.tr{background:#fee2e2;color:#991b1b}
+.prog{background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:10px}
+.prog.el{border-left:4px solid #22c55e}
+.prog.mb{border-left:4px solid #f59e0b}
+.prog.no{border-left:4px solid #e0e0e0;opacity:.85}
+.prog h4{font-size:15px;margin-bottom:6px;color:#b71c1c}
+.prog .st{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:6px}
+.st-q{background:#dcfce7;color:#166534}.st-m{background:#fef3c7;color:#92400e}.st-n{background:#fee2e2;color:#991b1b}
+.prog .d{font-size:13px;color:#555;line-height:1.7}
+.g{color:#166534;font-weight:600}.o{color:#c2410c;font-weight:600}
+table.cm{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+table.cm th,table.cm td{border:1px solid #e2e8f0;padding:7px;text-align:center}
+table.cm th{background:#f1f5f9;font-weight:600;font-size:11px}
+table.cm td:first-child{text-align:left;font-weight:500}
+.hb{background:#fef0f0;border:1px solid #f5c6c6;border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+.hb.g{background:#f0fdf4;border-color:#bbf7d0}
+.hb.w{background:#fff7ed;border-color:#fed7aa}
+.btn-sm{display:inline-block;padding:10px 20px;margin:4px 0;background:#fce4e4;color:#666;border:none;border-radius:8px;font-size:13px;cursor:pointer}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #ddd;border-top-color:#e53935;border-radius:50%;animation:spin .8s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.flow-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.flow-actions button{flex:1;min-width:120px;border:0;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer}.flow-primary{background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff}.flow-secondary{background:#fce4e4;color:#b71c1c}
+.choice-grid{display:grid;gap:10px}.choice-card{border:2px solid #e5e7eb;border-radius:12px;padding:13px;background:#fafafa;cursor:pointer}.choice-card.sel{border-color:#e53935;background:#fef0f0}.choice-card h4{font-size:15px;color:#b71c1c;margin-bottom:4px}.choice-card p{font-size:12px;color:#666}
+.project-list{display:none;margin-top:12px}.project-list.show{display:block}.project-opt{border:1.5px solid #e5e7eb;border-radius:10px;padding:11px;margin-bottom:8px;background:#fff;cursor:pointer}.project-opt.sel{border-color:#22c55e;background:#f0fdf4}.stage-hint{font-size:12px;color:#888;margin-top:6px}
+
+.score-box{background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;border-radius:14px;padding:20px;text-align:center;margin-bottom:14px}
+.score-box .big{font-size:48px;font-weight:900;line-height:1}
+.score-box .lbl{font-size:14px;opacity:.85;margin-top:4px}
+.score-detail{font-size:12px;color:#666;margin-top:8px;line-height:1.8}
+.score-detail span{display:inline-block;margin-right:6px}
+@media(max-width:400px){.radio-row .ropt{min-width:60px;padding:8px 12px;font-size:13px}.card{padding:18px 14px;margin:10px 8px}.header h1{font-size:19px}.score-box .big{font-size:36px}}
+.project-check-grid{display:flex;flex-direction:column;gap:8px;margin:10px 0}.project-check{display:flex;align-items:flex-start;gap:8px;padding:12px;border:1.5px solid #e5e7eb;border-radius:10px;background:#fafafa;cursor:pointer;font-size:13px;line-height:1.5;transition:all .15s}.project-check:has(input:checked){border-color:#22c55e;background:#f0fdf4}.project-check input[type=checkbox]{margin-top:2px;accent-color:#22c55e;width:16px;height:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🇯🇵 日本高度人才签证资格评估</h1><p>高度专门职1号(ハ) · 经营管理领域 · 2026政策 · 约3分钟</p></div>
+
+<form id="qform">
+
+<div class="card"><h2><span class="num">1</span> 基本信息</h2>
+<div class="fg"><label class="q">年龄</label><select id="age"><option value="">请选择</option><option value="18-30">18-30岁</option><option value="31-40">31-40岁</option><option value="41-50">41-50岁</option><option value="51-60">51-60岁</option><option value="60+">60岁及以上</option></select></div>
+<div class="fg"><label class="q">当前国籍<span class="hint">（日本永住/归化无国籍限制，所有国家均可申请）</span></label><select id="nationality"><option value="">请选择</option><option value="cn">中国内地</option><option value="cn-hkmo">中国香港/澳门</option><option value="cn-tw">中国台湾</option><option value="kr">韩国</option><option value="us">美国</option><option value="sg">新加坡</option><option value="other-asia">其他亚洲国家</option><option value="eu">欧洲国家</option><option value="other">其他</option></select></div>
+<div class="fg"><label class="q">是否有无犯罪记录<span class="hint">（日本所有签证类型均要求无犯罪记录证明）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="nocrim" value="yes"> 是</label><label class="ropt"><input type="radio" name="nocrim" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">健康状况<span class="hint">（需提供基础健康证明，无重大传染病）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="health" value="good"> 良好</label><label class="ropt"><input type="radio" name="health" value="issue"> 有需要说明的情况</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">2</span> 学历与语言</h2>
+<div class="fg"><label class="q">最终学历<span class="hint">（高度人才打分核心项：博士30分/硕士20分/学士10分）</span></label><select id="education"><option value="">请选择</option><option value="doctor">博士</option><option value="master">硕士</option><option value="bachelor">学士（本科）</option><option value="associate">大专/短期大学</option><option value="highschool">高中及以下</option></select></div>
+<div class="fg"><label class="q">毕业院校是否位列世界TOP100大学？<span class="hint">（QS/泰晤士/THE世界大学排名前100）+10分</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="top100" value="yes"> 是</label><label class="ropt"><input type="radio" name="top100" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否拥有多学位？<span class="hint">（双学位/双硕士/MBA/MOT可额外+5分）</span></label><select id="multidegree"><option value="">请选择</option><option value="mba-mot">是，MBA/MOT学位（+5分）</option><option value="dual">是，其他双学位（+5分）</option><option value="no">否，单学位</option></select></div>
+<div class="fg"><label class="q">日语能力<span class="hint">（N1 +15分 / N2 +10分 / N3及以下不计分）</span></label><select id="japanese"><option value="">请选择</option><option value="n1">N1（+15分）</option><option value="n2">N2（+10分）</option><option value="n3">N3</option><option value="none">不会日语</option></select></div>
+</div>
+
+<div class="card"><h2><span class="num">3</span> 工作与收入</h2>
+<div class="fg"><label class="q">管理/经营经验年限<span class="hint">（作为社长/董事/高管从业年数：10年+25分/7年+20分/5年+15分/3年+10分）</span></label><select id="exp_years"><option value="">请选择</option><option value="gte10">10年及以上（+25分）</option><option value="7-9">7-9年（+20分）</option><option value="5-6">5-6年（+15分）</option><option value="3-4">3-4年（+10分）</option><option value="lt3">不足3年</option></select></div>
+<div class="fg"><label class="q">在日预期年收入（日元）<span class="hint">（高度人才打分核心项：3000万+50分/2500万+40分/2000万+30分）</span></label><select id="income"><option value="">请选择</option><option value="gte3000">3,000万日元及以上（+50分）</option><option value="2500-2999">2,500万-2,999万日元（+40分）</option><option value="2000-2499">2,000万-2,499万日元（+30分）</option><option value="1500-1999">1,500万-1,999万日元（+20分）</option><option value="1000-1499">1,000万-1,499万日元（+10分）</option><option value="lt1000">低于1,000万日元</option></select></div>
+<div class="fg"><label class="q">是否有日本独立办公场所？<span class="hint">（经营管理签证必须项；高度人才非必须但建议）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="office" value="yes"> 是，有独立办公室</label><label class="ropt"><input type="radio" name="office" value="plan"> 计划安排</label><label class="ropt"><input type="radio" name="office" value="no"> 暂无计划</label></div></div>
+<div class="fg"><label class="q">是否担任日本公司代表取缔役/董事？<span class="hint">（代表取缔役+10分/董事+5分）</span></label><select id="position"><option value="">请选择</option><option value="rep">是，代表取缔役（+10分）</option><option value="director">是，董事（+5分）</option><option value="no">否</option></select></div>
+</div>
+
+<div class="card"><h2><span class="num">4</span> 加分项<span class="hint" style="font-weight:400;font-size:12px">（每项独立加分，可多选）</span></h2>
+<div class="fg"><label class="q">是否拥有专利发明？<span class="hint">（学术研究领域加分 +15分。注意：经营管理领域通常不适用此加分）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="patent" value="yes"> 是</label><label class="ropt"><input type="radio" name="patent" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否获得过公共研究资助？<span class="hint">（如JSPS科研费、NEDO项目等）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="grant" value="yes"> 是</label><label class="ropt"><input type="radio" name="grant" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否发表过学术论文？<span class="hint">（3篇以上同行评审论文）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="paper" value="yes"> 是</label><label class="ropt"><input type="radio" name="paper" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否持有日本高等教育学历？<span class="hint">（日本国内大学/大学院毕业 +10分）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="jpedu" value="yes"> 是，日本大学毕业</label><label class="ropt"><input type="radio" name="jpedu" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否从事AI/半导体等成长领域？<span class="hint">（法务省指定成长分野：AI、半导体、生物科技、新能源等 +10分）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="growth" value="yes"> 是，成长领域</label><label class="ropt"><input type="radio" name="growth" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否计划投资1亿日元以上？<span class="hint">（资本金/投资额1亿日元以上 +5分）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="invest1e" value="yes"> 是，1亿日元以上</label><label class="ropt"><input type="radio" name="invest1e" value="no"> 否</label></div></div>
+<div class="fg"><label class="q">是否属于中小型企业？<span class="hint">（适用创新支援措施的中小企业 +10分。资本金3亿以下或员工300人以下）</span></label><div class="radio-row"><label class="ropt"><input type="radio" name="sme" value="yes"> 是，中小企业</label><label class="ropt"><input type="radio" name="sme" value="no"> 否/大型企业</label></div></div>
+</div>
+
+<div class="card"><h2><span class="num">5</span> 移民目的与时间<span class="hint" style="font-weight:400;font-size:12px">（可多选）</span></h2>
+<div class="fg">
+<div class="radio-row">
+<label class="ropt"><input type="checkbox" name="purpose" value="kids"> 🎓 子女教育</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="pr"> 📋 永住快速通道</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="asset"> 💼 资产配置</label>
+</div>
+</div>
+<div class="fg">
+<div class="radio-row">
+<label class="ropt"><input type="checkbox" name="purpose" value="biz"> 🏢 企业经营</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="family"> 👨‍👩‍👧 家庭移居</label>
+<label class="ropt"><input type="checkbox" name="purpose" value="other"> 📋 其他</label>
+</div>
+</div>
+<div class="fg" id="dt-purpose-other" style="display:none"><span class="label-sm">请简述其他目的：</span><input type="text" id="purpose-other-info" placeholder="例如：日本上市计划、医疗养老等"></div>
+<div class="fg"><label class="q">时间紧迫程度</label><select id="urgency"><option value="">请选择</option><option value="urgent">非常紧急（希望6个月内启动）</option><option value="normal">一般（6-12个月可接受）</option><option value="flexible">灵活（1年以上也可以）</option></select></div>
+<div class="fg"><label class="q">是否有特殊关注事项？<span class="hint">（如税务规划、子女教育细节、配偶签证等）</span></label><input type="text" id="concerns" placeholder="请简述（可选）"></div>
+</div>
+
+<button type="button" class="btn" onclick="submitForm()">📊 提交评估</button>
+</form>
+
+<div class="results-wrap" id="results"></div>
+</div>
+
+<script>
+(function(){
+  var D=document;
+  function R(name){var e=D.querySelector('input[name="'+name+'"]:checked');return e?e.value:null;}
+  function S(id){var e=D.getElementById(id);return e?e.value:'';}
+  function I(id){var e=D.getElementById(id);return e?e.value.trim():'';}
+  function Y(v){return v==='yes'?'是':v==='no'?'否':(v||'未填');}
+  function CB(name){var es=D.querySelectorAll('input[name="'+name+'"]:checked'),a=[];es.forEach(function(e){a.push(e.value);});return a;}
+
+  // Mobile-safe option buttons
+  function selectOption(label){
+    var input=label.querySelector('input');
+    if(!input)return;
+    if(input.type==='radio'){
+      input.checked=true;
+      var row=label.closest('.radio-row');
+      if(row)row.querySelectorAll('.ropt').forEach(function(l){l.classList.remove('sel');});
+      label.classList.add('sel');
+    }else if(input.type==='checkbox'){
+      input.checked=!input.checked;
+      label.classList.toggle('sel',input.checked);
+      if(input.name==='purpose'&&input.value==='other')D.getElementById('dt-purpose-other').style.display=input.checked?'block':'none';
+    }
+  }
+  D.querySelectorAll('.radio-row .ropt').forEach(function(label){
+    label.setAttribute('tabindex','0');
+    label.addEventListener('touchstart',function(e){selectOption(this);e.preventDefault();}, {passive:false});
+    label.addEventListener('mousedown',function(e){selectOption(this);e.preventDefault();});
+    label.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){selectOption(this);e.preventDefault();}});
+  });
+
+  window.goBack=function(){var D=document;D.getElementById("results").classList.remove("show");D.getElementById("qform").style.display="";setTimeout(function(){D.getElementById("qform").scrollIntoView({behavior:"smooth"});},50);};window.onProjectCheck=function(){};
+window.goExecPlan=function(){
+  var checks=document.querySelectorAll('input[name="selProject"]:checked');
+  if(checks.length===0){var uu=new URL(window.location.href);var bb=uu.searchParams.get('batch')||'';if(bb==='1'){var ii=uu.searchParams.get('issue')||'';if(ii){try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[ii]=bd[ii]||{};bd[ii]['jp']={projects:[],ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}}var rurl=uu.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+ii;window.location.href=rurl;return;}else{alert('该国家暂无符合的项目，可返回上一页重新选择国家');return;}}
+  var projects=Array.from(checks).map(function(c){return c.value;});
+  var u=new URL(window.location.href);
+  var batch=u.searchParams.get('batch')||'';
+  var issue=u.searchParams.get('issue')||'';
+  if(batch==='1'&&issue){
+    try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[issue]=bd[issue]||{};bd[issue]['jp']={projects:projects,ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}
+    var retUrl=u.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+issue;
+    window.location.href=retUrl;return;
+  }
+  window.location.href='https://sewen38.github.io/family-plan/jp-exec.html?issue='+issue+'&projects='+projects.join(',');
+};window.goPrevStage=function(){
+  var u=new URL(window.location.href);
+  var ret=u.searchParams.get('return')||'';
+  if(ret){window.location.href=ret;return;}
+  window.location.href='https://sewen38.github.io/family-plan/?issue='+(u.searchParams.get('issue')||'');
+};
+
+  window.submitForm=function(){
+    var age=S('age'),nat=S('nationality'),nocrim=R('nocrim'),health=R('health'),
+        edu=S('education'),top100=R('top100'),multidegree=S('multidegree'),jp=S('japanese'),
+        exp=S('exp_years'),income=S('income'),office=R('office'),position=S('position'),
+        patent=R('patent'),grant=R('grant'),paper=R('paper'),jpedu=R('jpedu'),
+        growth=R('growth'),invest1e=R('invest1e'),sme=R('sme'),
+        urgency=S('urgency');
+
+    if(!age||!nat||!nocrim||!health||!edu||!top100||!multidegree||!jp||
+       !exp||!income||!office||!position||
+       !patent||!grant||!paper||!jpedu||!growth||!invest1e||!sme||
+       !urgency){
+      var m=[];
+      if(!age)m.push('年龄');if(!nat)m.push('当前国籍');if(!nocrim)m.push('无犯罪记录');if(!health)m.push('健康状况');
+      if(!edu)m.push('最终学历');if(!top100)m.push('TOP100大学');if(!multidegree)m.push('多学位');if(!jp)m.push('日语能力');
+      if(!exp)m.push('管理经验');if(!income)m.push('预期年收');if(!office)m.push('办公场所');if(!position)m.push('代表取缔役/董事');
+      if(!patent)m.push('专利发明');if(!grant)m.push('研究资助');if(!paper)m.push('学术论文');if(!jpedu)m.push('日本学历');if(!growth)m.push('成长领域');if(!invest1e)m.push('投资1亿');if(!sme)m.push('中小企业');
+      if(!urgency)m.push('时间紧迫度');
+      alert('请完成：\n'+m.join('、'));return;
+    }
+
+    var w=D.getElementById('results');
+    D.getElementById('qform').style.display='none';
+    w.innerHTML='<div class="rs-card" style="text-align:center;padding:50px 20px"><div style="font-size:40px">📤</div><h3>已提交</h3><p style="color:#888;font-size:13px;margin:6px 0"><span class="spinner"></span>正在分析高度人才打分...</p></div>';
+    w.classList.add('show');w.scrollIntoView({behavior:'smooth'});
+
+    fetch('https://formsubmit.co/ajax/1104890128@qq.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      age:age,nationality:nat,nocrim:nocrim,health:health,education:edu,top100:top100,multidegree:multidegree,japanese:jp,
+      exp:exp,income:income,office:office,position:position,
+      patent:patent,grant:grant,paper:paper,jpedu:jpedu,growth:growth,invest1e:invest1e,sme:sme,
+      purposes:CB('purpose').join(','),urgency:urgency,concerns:I('concerns')
+    })}).catch(function(){});
+
+    setTimeout(function(){showResults(edu,top100,multidegree,jp,exp,income,position,patent,jpedu,growth,invest1e,sme,nocrim,health,office,urgency);},2000);
+  };
+
+  function showResults(edu,top100,multidegree,jp,exp,income,position,patent,jpedu,growth,invest1e,sme,nocrim,health,office,urgency){
+    // Criminal record is a hard blocker
+    if(nocrim==='no'){
+      D.getElementById('results').innerHTML='<div class="rs-card" style="border-left:4px solid #ef4444"><h3>⚠️ 评估结果</h3><p style="color:#991b1b;font-weight:600;margin:8px 0">经核实，您可能存在犯罪记录。日本所有签证类型均要求提供无犯罪记录证明，背景审查不通过将无法获批。</p><p style="font-size:13px;color:#666">建议：先咨询移民律师评估记录性质及是否可清除/豁免。</p><div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改</button></div></div>';return;
+    }
+
+    // === SCORING CALCULATION ===
+    var score=0;
+    var detail=[]; // {item, points, max}
+
+    // Education
+    var eduLabel='';
+    if(edu==='doctor'){score+=30;detail.push({item:'学历（博士）',points:30,max:30});eduLabel='博士';}
+    else if(edu==='master'){score+=20;detail.push({item:'学历（硕士）',points:20,max:30});eduLabel='硕士';}
+    else if(edu==='bachelor'){score+=10;detail.push({item:'学历（学士）',points:10,max:30});eduLabel='学士';}
+    else if(edu==='associate'){detail.push({item:'学历（大专）',points:0,max:30});eduLabel='大专';}
+    else{detail.push({item:'学历',points:0,max:30});eduLabel='高中及以下';}
+
+    // MBA/MOT bonus (included in multi-degree)
+    if(multidegree==='mba-mot'){score+=5;detail.push({item:'MBA/MOT学位加分',points:5,max:5});}
+    else if(multidegree==='dual'){score+=5;detail.push({item:'双学位加分',points:5,max:5});}
+
+    // Top 100
+    if(top100==='yes'){score+=10;detail.push({item:'世界TOP100大学',points:10,max:10});}
+    else{detail.push({item:'世界TOP100大学（否）',points:0,max:10});}
+
+    // Experience
+    var expYearsLabel='';
+    if(exp==='gte10'){score+=25;detail.push({item:'管理经验（10年+）',points:25,max:25});expYearsLabel='10年+';}
+    else if(exp==='7-9'){score+=20;detail.push({item:'管理经验（7-9年）',points:20,max:25});expYearsLabel='7-9年';}
+    else if(exp==='5-6'){score+=15;detail.push({item:'管理经验（5-6年）',points:15,max:25});expYearsLabel='5-6年';}
+    else if(exp==='3-4'){score+=10;detail.push({item:'管理经验（3-4年）',points:10,max:25});expYearsLabel='3-4年';}
+    else{detail.push({item:'管理经验（不足3年）',points:0,max:25});expYearsLabel='不足3年';}
+
+    // Income
+    var incomeLabel='';
+    if(income==='gte3000'){score+=50;detail.push({item:'年收（3000万+）',points:50,max:50});incomeLabel='3000万+';}
+    else if(income==='2500-2999'){score+=40;detail.push({item:'年收（2500-2999万）',points:40,max:50});incomeLabel='2500-2999万';}
+    else if(income==='2000-2499'){score+=30;detail.push({item:'年收（2000-2499万）',points:30,max:50});incomeLabel='2000-2499万';}
+    else if(income==='1500-1999'){score+=20;detail.push({item:'年收（1500-1999万）',points:20,max:50});incomeLabel='1500-1999万';}
+    else if(income==='1000-1499'){score+=10;detail.push({item:'年收（1000-1499万）',points:10,max:50});incomeLabel='1000-1499万';}
+    else{detail.push({item:'年收（低于1000万）',points:0,max:50});incomeLabel='低于1000万';}
+
+    // Age — no points for business management category
+    detail.push({item:'年龄（经营管理领域无加分）',points:0,max:0});
+
+    // Position
+    if(position==='rep'){score+=10;detail.push({item:'代表取缔役',points:10,max:10});}
+    else if(position==='director'){score+=5;detail.push({item:'董事',points:5,max:10});}
+    else{detail.push({item:'职务（非董事）',points:0,max:10});}
+
+    // Japanese
+    if(jp==='n1'){score+=15;detail.push({item:'日语N1',points:15,max:15});}
+    else if(jp==='n2'){score+=10;detail.push({item:'日语N2',points:10,max:15});}
+    else{detail.push({item:'日语（N3/未达到N2）',points:0,max:15});}
+
+    // Japan degree
+    if(jpedu==='yes'){score+=10;detail.push({item:'日本高等教育学历',points:10,max:10});}
+    else{detail.push({item:'日本学历（无）',points:0,max:10});}
+
+    // Growth field
+    if(growth==='yes'){score+=10;detail.push({item:'成长领域（AI/半导体等）',points:10,max:10});}
+    else{detail.push({item:'成长领域（否）',points:0,max:10});}
+
+    // Investment 1e+
+    if(invest1e==='yes'){score+=5;detail.push({item:'投资1亿日元以上',points:5,max:5});}
+    else{detail.push({item:'投资1亿日元（否）',points:0,max:5});}
+
+    // SME
+    if(sme==='yes'){score+=10;detail.push({item:'中小企业（创新支援措施）',points:10,max:10});}
+    else{detail.push({item:'中小企业（否）',points:0,max:10});}
+
+    // Patent (academic — informational only for business mgmt)
+    if(patent==='yes'){detail.push({item:'专利发明（参考，经营管理领域通常不适用）',points:'参考',max:15});}
+
+    // Determine level
+    var level='',levelColor='',levelDetail='';
+    if(score>=80){
+      level='特别高度人才（J-Skip）';
+      levelColor='#22c55e';
+      levelDetail='达到80分以上！可申请「特别高度人才」签证，最快1年即可申请永住。<br>满足年薪2000万日元+经营经验5年以上还可走J-Skip免打分特快通道。';
+    }else if(score>=70){
+      level='高度人才合格';
+      levelColor='#22c55e';
+      levelDetail='达到70分合格线！可申请「高度专门职1号(ハ)」签证，3年后可申请永住。';
+    }else{
+      level='暂未达标';
+      levelColor='#f59e0b';
+      levelDetail='当前得分未达到70分合格线。但仍可通过以下途径获得日本长期签证：（见下方方案C）';
+    }
+
+    // J-Skip eligibility check
+    var jskipEligible=(income==='gte3000'||income==='2500-2999'||income==='2000-2499')&&(exp==='gte10'||exp==='7-9'||exp==='5-6');
+
+    // Build results
+    var h='';
+
+    // Score box
+    h+='<div class="score-box"><div class="lbl">🏆 高度人才评分</div><div class="big">'+score+'<span style="font-size:24px"> 分</span></div><div class="lbl" style="font-size:16px;font-weight:700;margin-top:6px">'+level+'</div></div>';
+
+    // Level detail
+    h+='<div class="rs-card" style="border-left:4px solid '+levelColor+'"><h3>📊 评估结果：'+level+'</h3>';
+    h+='<p style="font-size:14px;margin:8px 0">'+levelDetail+'</p>';
+
+    // Tags
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+    if(score>=80)h+='<span class="tag tg">1年永住</span>';
+    if(score>=70)h+='<span class="tag tg">3年永住</span>';
+    if(jskipEligible)h+='<span class="tag tg">J-Skip免打分</span>';
+    if(jp==='n1'||jp==='n2')h+='<span class="tag tg">N2+日语</span>';
+    if(office==='yes')h+='<span class="tag tg">独立办公室</span>';
+    h+='<span class="tag tg">配偶子女随行</span>';
+    h+='<span class="tag tg">可转永住</span>';
+    if(score<70)h+='<span class="tag ty">可走普通经营签</span>';
+    h+='</div></div>';
+
+    // Score breakdown
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#b71c1c">📋 得分明细</h3>';
+    h+='<table class="cm"><tr><th>评分项</th><th>得分</th><th>上限</th></tr>';
+    detail.forEach(function(d){
+      var cls=d.points>0?'g':(d.points==='参考'?'o':'');
+      var display=d.points===0?'0':(d.points==='参考'?'参考':('+'+d.points));
+      h+='<tr><td>'+d.item+'</td><td class="'+cls+'">'+display+'</td><td>'+d.max+'</td></tr>';
+    });
+    h+='<tr style="background:#fef0f0;font-weight:700"><td>总分</td><td style="color:#b71c1c;font-size:15px"><b>'+score+'</b></td><td>合格线70</td></tr>';
+    h+='</table></div>';
+
+    // Detailed analysis per category
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#b71c1c">📋 逐项分析</h3>';
+
+    // 1. Education
+    var eduStatus=(edu==='doctor')?'q':(edu==='master'?'m':'n');
+    var eduStatusLabel=(edu==='doctor')?'✅ 博士30分':(edu==='master'?'⚠️ 硕士20分':'❌ 学士或以下');
+    var eduStatusColor=(eduStatus==='q'?'el':(eduStatus==='m'?'mb':'no'));
+    h+='<div class="prog '+eduStatusColor+'"><h4>学历</h4><span class="st st-'+eduStatus+'">'+eduStatusLabel+'</span><div class="d">'+eduLabel+(multidegree!=='no'?' + 多学位+5分':'')+(top100==='yes'?' + TOP100+10分':'')+'<br>博士30分/硕士20分/学士10分 | 多学位+5分 | 世界TOP100+10分</div></div>';
+
+    // 2. Experience
+    var expStatus=(exp==='gte10'||exp==='7-9')?'q':(exp==='5-6'||exp==='3-4'?'m':'n');
+    var expLabel=(expStatus==='q'?'✅ 经验充足':(expStatus==='m'?'⚠️ 经验一般':'❌ 经验不足'));
+    h+='<div class="prog '+(expStatus==='q'?'el':(expStatus==='m'?'mb':'no'))+'"><h4>管理经验</h4><span class="st st-'+expStatus+'">'+expLabel+'</span><div class="d">'+expYearsLabel+'<br>10年+25分 / 7年+20分 / 5年+15分 / 3年+10分</div></div>';
+
+    // 3. Income
+    var incStatus=(income==='gte3000'||income==='2500-2999'||income==='2000-2499')?'q':(income==='1500-1999'||income==='1000-1499'?'m':'n');
+    var incLabel=(incStatus==='q'?'✅ 高收入':(incStatus==='m'?'⚠️ 收入中等':'❌ 收入较低'));
+    h+='<div class="prog '+(incStatus==='q'?'el':(incStatus==='m'?'mb':'no'))+'"><h4>年收入</h4><span class="st st-'+incStatus+'">'+incLabel+'</span><div class="d">预期年收：'+incomeLabel+'<br>3000万+50分 / 2500万+40分 / 2000万+30分 / 1500万+20分 / 1000万+10分</div></div>';
+
+    // 4. Japanese
+    var jpStatus=(jp==='n1')?'q':(jp==='n2'?'m':'n');
+    var jpLabel=(jp==='n1')?'✅ N1 15分':(jp==='n2'?'⚠️ N2 10分':'❌ N3/不会');
+    h+='<div class="prog '+(jpStatus==='q'?'el':(jpStatus==='m'?'mb':'no'))+'"><h4>日语能力</h4><span class="st st-'+jpStatus+'">'+jpLabel+'</span><div class="d">N1 +15分 / N2 +10分 / N3及以下不计分</div></div>';
+
+    // 5. Office
+    var offStatus=office==='yes'?'q':(office==='plan'?'m':'n');
+    var offLabel=office==='yes'?'✅ 有独立办公室':(office==='plan'?'⚠️ 计划安排':'❌ 暂无计划');
+    h+='<div class="prog '+(offStatus==='q'?'el':(offStatus==='m'?'mb':'no'))+'"><h4>办公场所</h4><span class="st st-'+offStatus+'">'+offLabel+'</span><div class="d">经营管理签证必须独立办公室。高度人才非必须但建议。<br>2025.10起：经营管理签证要求独立办公场所+N2日语+3000万资本金。</div></div>';
+
+    // 6. Position
+    var posStatus=position==='rep'?'q':(position==='director'?'m':'n');
+    var posLabel=position==='rep'?'✅ 代表取缔役 +10分':(position==='director'?'⚠️ 董事 +5分':'❌ 非董事');
+    h+='<div class="prog '+(posStatus==='q'?'el':(posStatus==='m'?'mb':'no'))+'"><h4>公司职务</h4><span class="st st-'+posStatus+'">'+posLabel+'</span><div class="d">代表取缔役+10分 / 董事+5分</div></div>';
+
+    // 7. Growth field
+    var growStatus=growth==='yes'?'q':'n';
+    h+='<div class="prog '+(growStatus==='q'?'el':'no')+'"><h4>成长领域</h4><span class="st st-'+growStatus+'">'+(growth==='yes'?'✅ AI/半导体 +10分':'❌ 非成长领域')+'</span><div class="d">法务省指定成长分野：AI、半导体、生物科技、新能源等 +10分</div></div>';
+
+    // 8. Japan degree
+    var jedStatus=jpedu==='yes'?'q':'n';
+    h+='<div class="prog '+(jedStatus==='q'?'el':'no')+'"><h4>日本学历</h4><span class="st st-'+jedStatus+'">'+(jpedu==='yes'?'✅ 日本大学毕业 +10分':'❌ 非日本学历')+'</span><div class="d">日本国内大学/大学院毕业 +10分</div></div>';
+
+    h+='</div>';
+
+    // 3-path comparison
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#b71c1c">📊 三大路径对比</h3>';
+    h+='<table class="cm"><tr><th>维度</th><th>高度人才(ハ)</th><th>J-Skip</th><th>经营管理签证</th></tr>';
+    h+='<tr><td>打分要求</td><td>70分+</td><td>80分+<br><span style="font-size:10px">或2000万+5年经验免打分</span></td><td>无打分</td></tr>';
+    h+='<tr><td>永住年限</td><td>3年</td><td><strong>1年</strong></td><td>10年</td></tr>';
+    h+='<tr><td>资本金</td><td>500万日元</td><td>500万日元</td><td><strong>3,000万日元</strong><br><span style="font-size:10px">2025.10.16起</span></td></tr>';
+    h+='<tr><td>日语要求</td><td>N1/N2可加分</td><td>N1/N2可加分</td><td><strong>N2</strong></td></tr>';
+    h+='<tr><td>独立办公室</td><td>非必须</td><td>非必须</td><td><strong>必须</strong></td></tr>';
+    h+='<tr><td>雇佣员工</td><td>非必须</td><td>非必须</td><td><strong>1名全职</strong></td></tr>';
+    h+='<tr><td>父母随行</td><td>可（育儿/介护）</td><td>可（育儿/介护）</td><td>不可</td></tr>';
+    h+='<tr><td>配偶工作</td><td>自由</td><td>自由</td><td>限制（28h/周）</td></tr>';
+    h+='</table></div>';
+
+    // Recommendations
+    h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:14px;color:#b71c1c">💡 综合建议</h3>';
+
+    if(score>=80){
+      h+='<div class="hb g"><strong>🎉 强烈推荐：特别高度人才 J-Skip</strong><br>您的评分达到 '+score+' 分（80分+），满足特别高度人才条件。仅需1年即可申请永住——全日本最快路径。配偶可自由工作，父母可随行（育儿/介护）。';
+      if(jskipEligible)h+='同时满足年薪2000万日元+经营经验5年以上的J-Skip免打分条件，可直接走特快通道。';
+      h+='</div>';
+    }else if(score>=70){
+      h+='<div class="hb g"><strong>✅ 推荐：高度经营管理签证（高度专门职1号ハ）</strong><br>您的评分达到 '+score+' 分，满足70分合格线。3年后可申请永住。建议通过日语N1或提升年收入冲击80分以缩短至1年。</div>';
+    }else{
+      h+='<div class="hb w"><strong>⚡ 当前未达70分合格线（'+score+'分）</strong><br>建议通过以下方式提升：① 日语考取N2/N1（+10~15分）② 提升年收入 ③ 安排代表取缔役职务（+10分）④ 选择成长领域事业（+10分）。同时可考虑方案C（普通经营管理签证）作为替代路径。</div>';
+    }
+
+    // 2025.10 note
+    h+='<div class="hb w" style="margin-top:10px"><strong>📢 2025年10月新政提示</strong><br>经营管理签证门槛大幅提高：资本金500万→<strong>3,000万日元</strong> + N2日语 + 独立办公室 + 事业计划书认证。建议优先冲击高度人才（70分），门槛相对宽松。</div>';
+
+    h+='</div>';
+
+    // Solution selection
+    var projectOpts=[];
+    projectOpts.push({v:'jp-hsp-70', s:score>=70?'q':'n', d:'高度经营管理签证 · 70分→3年永住 · 资本金500万日元'});
+    projectOpts.push({v:'jp-hsp-80', s:score>=80?'q':(score>=65?'m':'n'), d:'高度经营管理签证 · 冲击80分→1年永住 · 资本金500万日元'});
+    projectOpts.push({v:'jp-super-hsp', s:score>=80?'q':'n', d:'特别高度人才 J-Skip · 80分+→1年永住 · 父母配偶子女随行'});
+    projectOpts.push({v:'jp-jskip-income', s:jskipEligible?'q':'n', d:'J-Skip免打分通道 · 年薪2000万+5年经验 · 1年永住'});
+    projectOpts.push({v:'jp-biz-2025', s:'q', d:'经营管理签证 · 2025.10新政 · 3,000万日元资本金 · N2日语'});
+    projectOpts.push({v:'jp-biz-startup', s:'q', d:'经营管理签证 · 创业Startup · 事业计划书认证 · 独立办公室'});
+    var eligible=projectOpts.filter(function(p){return p.s==='q'||p.s==='m';});
+    if(eligible.length>0){
+      h+='<div class="rs-card"><h3 style="font-size:16px;margin-bottom:12px;color:#8b1e1e">✅ 通过评估的项目（可多选）</h3>';
+      h+='<div class="project-check-grid">';
+      eligible.forEach(function(p){
+        var note=p.s==='m'?' <span style="color:red;font-weight:600">⚠️ 有条件</span>':'';
+        h+='<label class="project-check"><input type="checkbox" name="selProject" value="'+p.v+'" onchange="onProjectCheck()"> '+p.d+note+'</label>';
+      });
+      h+='</div>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button><button class="flow-primary" onclick="goExecPlan()">下一阶段</button></div>';
+      h+='</div>';
+    } else {
+      h+='<div class="rs-card"><p style="color:#888;text-align:center;padding:20px">⚠️ 暂未匹配到完全符合条件的项目，请返回修改问卷。</p>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button></div>';
+      h+='</div>';
+    }
+
+    // Disclaimers
+    h+='<div class="hb w">⚠️ <strong>重要提示</strong><br>① 本评估由AI基于问卷自动生成，仅供参考，不构成法律意见。<br>② 日本入管法及高度人才打分制度可能随时调整，请以最新法务省告示为准。<br>③ 中国籍申请人归化须放弃原国籍（中国不承认双重国籍）；永住则无需放弃。<br>④ 实际审批以日本出入国在留管理厅为准。<br>⑤ 建议聘请日本行政书士/移民律师办理，确保合规。<br>⑥ 2025年10月16日起经营管理签证资本金从500万日元提高至3,000万日元。</div>';
+
+    D.getElementById('results').innerHTML=h;
+  }
+})();
+</script>
+</body>
+</html>
