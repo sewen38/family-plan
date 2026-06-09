@@ -609,6 +609,8 @@ function showCountryPicker(issue,preSelectedCodes){
 
 // 批量依次评估：选中国家的队列，一个接一个
 var BATCH_KEY='batch_assessment';
+var BATCH_DATA_KEY='batch_assessment_data';
+var ASSESSMENT_VERSION='20260609-v10';
 function startBatchAssessment(issue){
   var cbs=document.querySelectorAll('input[name="pickCountry"]:checked');
   if(cbs.length===0){T('请至少选择一个国家');return;}
@@ -616,7 +618,12 @@ function startBatchAssessment(issue){
   for(var i=0;i<cbs.length;i++){
     queue.push({country:cbs[i].value,url:cbs[i].dataset.url});
   }
-  try{localStorage.setItem(BATCH_KEY,JSON.stringify({issue:issue,queue:queue,returnUrl:window.location.href}));}catch(e){}
+  try{
+    var bd=JSON.parse(localStorage.getItem(BATCH_DATA_KEY)||'{}');
+    bd[String(issue)]={};
+    localStorage.setItem(BATCH_DATA_KEY,JSON.stringify(bd));
+    localStorage.setItem(BATCH_KEY,JSON.stringify({issue:issue,queue:queue,returnUrl:window.location.href}));
+  }catch(e){}
   // 关闭选择器
   document.getElementById('countryPicker').style.display='none';
   // 启动第一个
@@ -640,7 +647,8 @@ function goToNextInBatch(){
   var nextUrl=item.url||'';
   if(!nextUrl&&COUNTRY_URLS[item.country]) nextUrl=COUNTRY_URLS[item.country];
   if(!nextUrl){alert('跳转失败：找不到国家评估页 '+item.country);return;}
-  window.location.href=nextUrl+'?issue='+data.issue+'&country='+encodeURIComponent(item.country)+'&return='+encodeURIComponent(retUrl)+'&batch=1';
+  var sep=nextUrl.indexOf('?')>=0?'&':'?';
+  window.location.href=nextUrl+sep+'issue='+data.issue+'&country='+encodeURIComponent(item.country)+'&return='+encodeURIComponent(retUrl)+'&batch=1&v='+ASSESSMENT_VERSION;
 }
 function getIssueFromUrl(){
   try{

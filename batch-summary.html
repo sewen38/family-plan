@@ -220,11 +220,11 @@ function loadResults() {
   });
 
   if (!hasAnySelection) {
-    html = '<div class="card"><div class="empty"><div class="icon">📭</div>暂无评估结果</div></div>';
+    html = '<div class="card"><div class="empty"><div class="icon">📭</div>当前所选国家均暂无符合项目。仍可进入下一阶段，生成“暂无推荐项目”的执行策划案。</div></div>';
   }
 
   document.getElementById('results').innerHTML = html;
-  document.getElementById('actions').style.display = hasAnySelection ? 'flex' : 'none';
+  document.getElementById('actions').style.display = 'flex';
 }
 
 // ========== 跳转执行策划案 ==========
@@ -249,7 +249,9 @@ function goToExecPlan() {
     }
   });
 
-  if (countriesArr.length === 0) { toast('请至少完成一个国家的评估'); return; }
+  if (countriesArr.length === 0) {
+    Object.keys(data).forEach(function(c){ countriesArr.push(c); });
+  }
 
   // 跳转到执行策划案页面
   var target = 'exec.html?issue=' + encodeURIComponent(issue) +
