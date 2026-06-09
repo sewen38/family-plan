@@ -31,6 +31,18 @@ for page in pages:
     add(f'{page}只保存勾选项目', 'input[name="selProject"]:checked' in s and 'seenProjects' in s)
     add(f'{page}空结果有下一阶段', '下一阶段（跳过该国）' in s)
 
+
+# JavaScript syntax smoke test for main pages. Prevents broken inline strings from disabling submit.
+import re
+import subprocess
+for html_file in ['index.html', 'start.html']:
+    html = (ROOT / html_file).read_text(encoding='utf-8')
+    scripts = '\n'.join(re.findall(r'<script>(.*?)</script>', html, flags=re.S))
+    tmp = Path('/tmp/family-plan-' + html_file + '.js')
+    tmp.write_text(scripts, encoding='utf-8')
+    result = subprocess.run(['node', '--check', str(tmp)], capture_output=True, text=True)
+    add(html_file + ' JS语法有效', result.returncode == 0)
+
 failed = [name for name, ok in checks if not ok]
 for name, ok in checks:
     print(('✅' if ok else '❌'), name)

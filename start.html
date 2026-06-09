@@ -353,7 +353,7 @@ input[type=text]:focus,input[type=number]:focus{border-color:#4a90d9}
 
 <div class="btns">
   <button type="button" class="btn-reset" onclick="document.getElementById('f').reset();hideAllAssets();T('已清空')">清空</button>
-  <button type="submit" class="btn-submit" onclick="setTimeout(function(){if(!document.body.classList.contains('diagnosis-mode')){try{document.getElementById('f').requestSubmit();}catch(e){}}},80)">📤 提交</button>
+  <button type="submit" class="btn-submit">📤 提交</button>
 </div>
 </form>
 
@@ -479,7 +479,7 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。不同设备/网络如无法自动生成，请复制问卷文本发给当前智能体，智能体会直接在聊天框生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback('复制问卷文本','发给当前智能体后，将直接生成诊断草案。')">复制问卷给智能体</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。不同设备/网络如无法自动生成，请复制问卷文本发给当前智能体，智能体会直接在聊天框生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
