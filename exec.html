@@ -122,6 +122,13 @@ function renderPlan(){
     'ge-invest':[{item:'投资金额',amount:'US$300,000',note:'格鲁吉亚发展方向基金'},{item:'政府费用',amount:'US$5,000-8,000',note:'居留许可+申请'},{item:'服务费',amount:'US$8,000-15,000',note:'律师+文案'}],
   };
   
+  // Normalize assessment project codes to feeData keys
+  var projectAliases={"ge-invest-realestate":"ge-invest","ge-invest-business":"ge-invest","ge-temp-residence":"ge-invest","ge-temp-rental":"ge-invest","ge-ie-digitalnomad":"ge-invest","ge-ie-freelance":"ge-invest","jp-hsp-70":"jp-hsp","jp-hsp-80":"jp-hsp","jp-super-hsp":"jp-hsp","jp-jskip-income":"jp-biz","jp-biz-2025":"jp-biz","jp-biz-startup":"jp-biz","vu-dsp-single":"vu-dsp","vu-dsp-single-fast":"vu-dsp","vu-dsp-couple":"vu-dsp","vu-dsp-family4":"vu-dsp","vu-dsp-family-big":"vu-dsp","vu-tax-single":"vu-dsp","vu-tax-family":"vu-dsp"};
+  projectsParsed.forEach(function(p){
+    if(projectAliases[p.project]) p._originalProject=p.project, p.project=projectAliases[p.project];
+  });
+
+
   var hasFees = false;
   projectsParsed.forEach(function(p){
     var fees = feeData[p.project];
