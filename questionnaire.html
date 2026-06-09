@@ -50,7 +50,7 @@ button:active{transform:scale(0.97)}
 <label>企业所在地 & 行业</label><input type="text" id="biz" placeholder="如：深圳 / 跨境电商">
 <label>企业年营收（人民币）</label>
 <div class="chip-wrap" id="revenue-chips">
-<span class="chip" data-v="<500万"><500万</span><span class="chip" data-v="500-2000万">500-2000万</span><span class="chip" data-v="2000-5000万">2000-5000万</span><span class="chip" data-v="5000万-1亿">5000万-1亿</span><span class="chip" data-v="1-5亿">1-5亿</span><span class="chip" data-v=">5亿">>5亿</span>
+<span class="chip" data-v="<500万">&lt;500万</span><span class="chip" data-v="500-2000万">500-2000万</span><span class="chip" data-v="2000-5000万">2000-5000万</span><span class="chip" data-v="5000万-1亿">5000万-1亿</span><span class="chip" data-v="1-5亿">1-5亿</span><span class="chip" data-v=">5亿">>5亿</span>
 </div>
 <input type="hidden" id="revenue">
 <label>收入主要来源</label>
@@ -63,7 +63,7 @@ button:active{transform:scale(0.97)}
 <div class="q-card"><h2><span class="num">4</span> 资产概况</h2>
 <label>可投资资产规模</label>
 <div class="chip-wrap" id="asset-chips">
-<span class="chip" data-v="<500万"><500万</span><span class="chip" data-v="500-1500万">500-1500万</span><span class="chip" data-v="1500-3000万">1500-3000万</span><span class="chip" data-v="3000-5000万">3000-5000万</span><span class="chip" data-v="5000万-1亿">5000万-1亿</span><span class="chip" data-v=">1亿">>1亿</span>
+<span class="chip" data-v="<500万">&lt;500万</span><span class="chip" data-v="500-1500万">500-1500万</span><span class="chip" data-v="1500-3000万">1500-3000万</span><span class="chip" data-v="3000-5000万">3000-5000万</span><span class="chip" data-v="5000万-1亿">5000万-1亿</span><span class="chip" data-v=">1亿">>1亿</span>
 </div>
 <input type="hidden" id="assets">
 <label>主要资产构成</label>
@@ -86,7 +86,7 @@ button:active{transform:scale(0.97)}
 <input type="hidden" id="needs">
 <label>预算意向</label>
 <div class="chip-wrap" id="budget-chips">
-<span class="chip" data-v="<50万"><50万</span><span class="chip" data-v="50-200万">50-200万</span><span class="chip" data-v="200-500万">200-500万</span><span class="chip" data-v="500-1500万">500-1500万</span><span class="chip" data-v=">1500万">>1500万</span><span class="chip" data-v="无上限">无上限</span>
+<span class="chip" data-v="<50万">&lt;50万</span><span class="chip" data-v="50-200万">50-200万</span><span class="chip" data-v="200-500万">200-500万</span><span class="chip" data-v="500-1500万">500-1500万</span><span class="chip" data-v=">1500万">>1500万</span><span class="chip" data-v="无上限">无上限</span>
 </div>
 <input type="hidden" id="budget">
 <label>时间紧迫度</label>
@@ -157,17 +157,6 @@ chipGroups.forEach(function(g){
     }
   });
 });
-
-// Country chips
-(function(){
-  var w=document.getElementById('country-chips');
-  w.addEventListener('click',function(e){
-    var c=e.target.closest('.chip');if(!c) return;
-    c.classList.toggle('on');
-    var vals=[];w.querySelectorAll('.chip.on').forEach(function(x){vals.push(x.dataset.v);});
-    document.getElementById('countries').value=vals.join('、');
-  });
-})();
 
 function submitForm(){
   var lines=[];
