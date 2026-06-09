@@ -31,24 +31,42 @@ var rawProjects=[];
 (q('projects')||'').split('|').forEach(function(item){if(!item)return;var parts=item.split(':');if(parts.length<2)return;var country=parts[0];var raw=decodeSafe(parts.slice(1).join(':'));var key=/^eu-/.test(raw)?'eu-generic':(projectAliases[raw]||raw);rawProjects.push({country:country,raw:raw,key:key,name:projectNames[key]||raw});});
 var seen={};rawProjects=rawProjects.filter(function(p){var id=p.country+':'+p.raw;if(seen[id])return false;seen[id]=1;return true;});
 if(!countries.length){countries=rawProjects.map(function(p){return p.country}).filter(function(c,i,a){return c&&a.indexOf(c)===i});}
+var projectsByCountry={};
+rawProjects.forEach(function(p){projectsByCountry[p.country]=projectsByCountry[p.country]||[];projectsByCountry[p.country].push(p);});
+function countryProjectList(c){return projectsByCountry[c]||[];}
 function countryLabel(c){return (COUNTRY_EMOJI[c]||'')+' '+(COUNTRY_NAMES[c]||c)}
+function countryBlock(c, renderer){
+  var ps=countryProjectList(c);
+  var body=renderer(c,ps);
+  return '<h3>'+esc(countryLabel(c))+'</h3>'+body;
+}
+function byCountry(renderer){
+  var cs=countries.length?countries:Object.keys(projectsByCountry);
+  if(!cs.length)return '<p class="muted">暂无选中国家/项目。</p>';
+  return cs.map(function(c){return countryBlock(c,renderer);}).join('');
+}
+function projectListHtml(ps){
+  if(!ps.length)return '<p class="muted">该国家本轮评估无用户勾选项目。</p>';
+  return '<div class="grid">'+ps.map(function(p){return '<div class="mini"><b>'+esc(p.name)+'</b><span class="muted">项目代码：'+esc(p.raw)+'</span></div>'}).join('')+'</div>';
+}
 function section(n,title,body){return '<div class="card"><h2>'+n+' · '+title+'</h2>'+body+'</div>'}
 function projectCards(){if(!rawProjects.length)return '<p class="muted">当前未选择任何项目，请返回评估汇总页选择项目。</p>';return rawProjects.map(function(p){return '<div class="mini"><b>'+esc(countryLabel(p.country))+'｜'+esc(p.name)+'</b><span class="muted">项目代码：'+esc(p.raw)+'</span></div>'}).join('')}
 function feeRows(){var h='';rawProjects.forEach(function(p){h+='<tr><td>'+esc(countryLabel(p.country))+'</td><td>'+esc(p.name)+'</td><td>'+esc(feeData[p.key]||'需按个案报价')+'</td><td>'+esc(cycleData[p.key]||'需按个案确认')+'</td></tr>'});return h||'<tr><td colspan="4">暂无选中项目</td></tr>'}
-function render(){var h='';h+=section('01','客户家庭基本信息','<div class="grid"><div class="mini"><b>方案编号</b><span>'+esc(issue||'N/A')+'</span></div><div class="mini"><b>生成时间</b><span>'+new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})+'</span></div><div class="mini"><b>覆盖国家</b><span>'+countries.map(countryLabel).map(esc).join('、')+'</span></div><div class="mini"><b>选中项目数</b><span>'+rawProjects.length+' 个</span></div></div>');
-h+=section('02','核心策略（全部选中路径分析）','<p>本执行策划案仅基于用户在评估页手动勾选的项目生成。未勾选项目不进入费用、时间轴、佣金和执行安排。</p><div class="grid">'+projectCards()+'</div>');
-h+=section('03','合规清理','<p>正式申请前先完成身份、税务、资金来源、无犯罪、婚姻/亲属关系、企业收入与资产证明的底稿核验。若涉及未申报海外收入、地下换汇或历史绿卡/税务居民身份，须先由律师和会计师做风险切割。</p>');
-h+=section('04','资金归集','<p>资金归集遵循“来源可解释、路径可追踪、用途可对应”的原则。建议按项目建立资金包：投资本金、政府费用、律师费用、生活安顿金、税务预留金。</p>');
-h+=section('05','投资使用建议','<p>投资类项目优先选择监管清晰、退出机制明确、与身份要求直接匹配的资产。非投资类项目优先准备雇主、学历、收入、商业计划和家庭随行材料。</p>');
-h+=section('06','财富架构','<p>建议采用“三层分离”：事业国保留真实经营，居住国承接家庭生活与教育，福利国按教育/医疗/养老/通行等维度配置。高净值家庭可叠加香港/新加坡账户、BVI/Delaware/UAE/Labuan主体、信托或基金会。</p>');
-h+=section('07','税务分析','<p>身份规划必须和税务居民身份同步设计。重点核查：每年居住天数、全球征税国家、CRS/FATCA交换、企业利润分配、股息/资本利得、赠与和遗产税风险。</p>');
-h+=section('08','资金跨境合规','<p>中国税务居民与境内企业资金出境应关注个人购汇额度、ODI、37号文登记、FDI回流、贸易真实性、服务费合同和银行KYB。不得用第三国护照处理中国出入境身份冲突。</p>');
-h+=section('09','身份路径规划（只显示选中项目）','<div class="table-wrap"><table><tr><th>国家</th><th>选中项目</th><th>预算口径</th><th>周期</th></tr>'+feeRows()+'</table></div>');
-h+=section('10','教育规划','<p>若目标含子女教育，优先判断香港DSE/华侨生联考、新加坡双语教育、澳新本地升学、欧洲长期居住与美国身份路径的适配度。教育路径不宜只看身份取得速度，还要看居住、监护、语言和升学连续性。</p>');
-h+=section('11','福利规划','<p>福利规划按维度拆分：教育、医疗、养老、生育、税务和通行。福利国不等于日常居住国，应根据实际居住天数和家庭使用频率配置。</p>');
-h+=section('12','预算明细（按选中项目）','<div class="table-wrap"><table><tr><th>国家</th><th>项目</th><th>预算说明</th></tr>'+rawProjects.map(function(p){return '<tr><td>'+esc(countryLabel(p.country))+'</td><td>'+esc(p.name)+'</td><td>'+esc(feeData[p.key]||'需按个案报价')+'</td></tr>'}).join('')+'</table></div>');
-h+=section('13','执行时间轴','<div class="timeline">'+(rawProjects.length?rawProjects.map(function(p,i){return '<div class="node"><b>阶段 '+(i+1)+'：'+esc(countryLabel(p.country))+'｜'+esc(p.name)+'</b><br><span class="muted">预计周期：'+esc(cycleData[p.key]||'需按个案确认')+'。执行顺序：资格复核 → 文件准备 → 递交申请 → 审批/补件 → 获批与后续维护。</span></div>'}).join(''):'<div class="node">暂无选中项目</div>')+'</div>');
-h+=section('14','风险声明 + 法律附件','<div class="warn">本策划案为AI辅助生成的客户交付框架，不构成法律、税务或移民建议。所有政策、费用、审批周期以各国主管机关、持牌律师、会计师和正式合同为准。</div><p>关键风险：政策变动、税务居民误判、资金来源解释不足、银行KYB不通过、第三国护照与中国国籍冲突、投资项目退出不确定。</p>');
+function render(){var h='';
+h+=section('01','客户家庭基本信息','<div class="grid"><div class="mini"><b>方案编号</b><span>'+esc(issue||'N/A')+'</span></div><div class="mini"><b>生成时间</b><span>'+new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})+'</span></div><div class="mini"><b>覆盖国家</b><span>'+countries.map(countryLabel).map(esc).join('、')+'</span></div><div class="mini"><b>用户勾选项目数</b><span>'+rawProjects.length+' 个</span></div></div><p class="muted">本页只使用评估结果页用户手动勾选后保存的项目；未勾选项目不进入任何章节。</p>');
+h+=section('02','核心策略（国家内减法 + 多国家加法）',byCountry(function(c,ps){return '<p>本国家只展示用户勾选项目；其他可做/有条件项目已从本执行案中剔除。</p>'+projectListHtml(ps)}));
+h+=section('03','合规清理',byCountry(function(c,ps){return '<p>针对'+esc(countryLabel(c))+'，先完成身份材料、资金来源、税务居民、无犯罪、亲属关系和企业收入底稿核验。</p>'+(ps.length?'<ul>'+ps.map(function(p){return '<li>'+esc(p.name)+'：重点核查项目资格、资金来源解释、文件一致性与审批口径。</li>'}).join('')+'</ul>':'<p class="muted">无选中项目，仅保留待观察状态。</p>')}));
+h+=section('04','资金归集',byCountry(function(c,ps){return ps.length?'<ul>'+ps.map(function(p){return '<li><b>'+esc(p.name)+'</b>：按“投资本金/政府费/律师费/服务费/安顿金”分账户归集，付款路径留痕。</li>'}).join('')+'</ul>':'<p class="muted">本国无选中项目，暂不做资金归集安排。</p>'}));
+h+=section('05','投资使用建议',byCountry(function(c,ps){return ps.length?'<ul>'+ps.map(function(p){return '<li>'+esc(p.name)+'：'+esc(feeData[p.key]||'需按个案报价')+'。优先选择退出机制、监管主体和身份要求清晰的方案。</li>'}).join('')+'</ul>':'<p class="muted">本国无选中项目，暂不配置投资使用方案。</p>'}));
+h+=section('06','财富架构',byCountry(function(c,ps){return '<p>'+esc(countryLabel(c))+'纳入三层分离架构：事业国保留真实经营，居住国承接家庭生活，福利国按教育/医疗/养老/通行配置。</p>'+(ps.length?'<p class="muted">本国选中项目将作为身份/福利/通行模块嵌入整体财富架构。</p>':'<p class="muted">本国无选中项目，不进入财富架构主链路。</p>')}));
+h+=section('07','税务分析',byCountry(function(c,ps){return '<p>重点判断'+esc(countryLabel(c))+'是否触发税务居民、全球征税、CRS/FATCA交换、资本利得或遗产/赠与税风险。</p>'+(ps.length?'<ul>'+ps.map(function(p){return '<li>'+esc(p.name)+'：身份收益必须和居住天数、收入来源、企业分红、境外账户申报同步设计。</li>'}).join('')+'</ul>':'')}));
+h+=section('08','资金跨境合规',byCountry(function(c,ps){return ps.length?'<ul>'+ps.map(function(p){return '<li>'+esc(p.name)+'：资金出境需匹配个人购汇、ODI/37号文、FDI回流、贸易真实性、服务费合同和银行KYB。</li>'}).join('')+'</ul>':'<p class="muted">无选中项目，暂不启动跨境付款。</p>'}));
+h+=section('09','身份路径规划（按国家分类）','<div class="table-wrap"><table><tr><th>国家</th><th>用户勾选项目</th><th>预算口径</th><th>周期</th></tr>'+rawProjects.map(function(p){return '<tr><td>'+esc(countryLabel(p.country))+'</td><td>'+esc(p.name)+'</td><td>'+esc(feeData[p.key]||'需按个案报价')+'</td><td>'+esc(cycleData[p.key]||'需按个案确认')+'</td></tr>'}).join('')+(rawProjects.length?'':'<tr><td colspan="4">暂无选中项目</td></tr>')+'</table></div>');
+h+=section('10','教育规划',byCountry(function(c,ps){return '<p>'+esc(countryLabel(c))+'教育适配从语言体系、升学路径、陪读/监护、居住连续性和身份稳定性判断。</p>'+(ps.length?'<p class="muted">仅对选中项目评估教育价值，不自动纳入未选路径。</p>':'<p class="muted">无选中项目，教育规划不纳入本国。</p>')}));
+h+=section('11','福利规划',byCountry(function(c,ps){return '<p>'+esc(countryLabel(c))+'福利按教育、医疗、养老、生育、通行和税务分维度判断。</p>'+(ps.length?'<p class="muted">本国选中项目进入福利组合；未选项目不参与排序。</p>':'<p class="muted">本国无选中项目，暂不作为福利国配置。</p>')}));
+h+=section('12','预算明细（只含选中项目）','<div class="table-wrap"><table><tr><th>国家</th><th>项目</th><th>预算说明</th></tr>'+rawProjects.map(function(p){return '<tr><td>'+esc(countryLabel(p.country))+'</td><td>'+esc(p.name)+'</td><td>'+esc(feeData[p.key]||'需按个案报价')+'</td></tr>'}).join('')+(rawProjects.length?'':'<tr><td colspan="3">暂无选中项目</td></tr>')+'</table></div>');
+h+=section('13','执行时间轴',byCountry(function(c,ps){if(!ps.length)return '<p class="muted">本国无选中项目，无执行节点。</p>';return '<div class="timeline">'+ps.map(function(p,i){return '<div class="node"><b>'+esc(p.name)+'</b><br><span class="muted">预计周期：'+esc(cycleData[p.key]||'需按个案确认')+'。执行顺序：资格复核 → 文件准备 → 递交申请 → 审批/补件 → 获批与后续维护。</span></div>'}).join('')+'</div>'}));
+h+=section('14','风险声明 + 法律附件','<div class="warn">本策划案为AI辅助生成的客户交付框架，不构成法律、税务或移民建议。所有政策、费用、审批周期以各国主管机关、持牌律师、会计师和正式合同为准。</div>'+byCountry(function(c,ps){return '<p><b>'+esc(countryLabel(c))+'</b>：关注政策变动、税务居民误判、资金来源解释不足、银行KYB不通过、身份使用边界和投资退出不确定。</p>'}));
 h+='<div class="card pwd"><h2>佣金明细</h2><p class="muted">输入授权密码后查看内部佣金信息。</p><div class="pwd-row"><input id="pw" type="password" placeholder="请输入密码"><button onclick="showCommission()">确认</button></div><div id="commission" class="hidden"></div></div>';
 document.getElementById('app').innerHTML=h;}
 function showCommission(){if(document.getElementById('pw').value!==DEFAULT_PASSWORD){alert('密码错误');return;}var h='<div class="table-wrap"><table><tr><th>国家</th><th>项目</th><th>佣金参考</th><th>结佣周期/批次</th></tr>';rawProjects.forEach(function(p){h+='<tr><td>'+esc(countryLabel(p.country))+'</td><td>'+esc(p.name)+'</td><td>'+esc(commissionMap[p.key]||'待确认')+'</td><td>根据实际情况</td></tr>'});h+='</table></div>';var c=document.getElementById('commission');c.innerHTML=h;c.classList.remove('hidden');}
