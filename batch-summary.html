@@ -197,17 +197,7 @@ function loadResults() {
     var flag = COUNTRY_EMOJI[country] || '🌍';
     var name = COUNTRY_NAMES[country] || country.toUpperCase();
 
-    var projects = [];
-    if (info && info.projects && Array.isArray(info.projects)) {
-      projects = info.projects;
-    } else if (info && info.selectedProject) {
-      projects = [info.selectedProject];
-    } else if (info && info.solutions) {
-      // 兼容旧格式：从 solutions 中提取
-      Object.keys(info.solutions).forEach(function (sol) {
-        if (info.solutions[sol]) projects.push(info.solutions[sol]);
-      });
-    }
+    var projects = extractProjects(info);
 
     if (projects.length === 0) return;
     hasAnySelection = true;
@@ -250,7 +240,7 @@ function goToExecPlan() {
   var projectsArr = [];
   Object.keys(data).forEach(function (c) {
     var info = data[c];
-    var projs = (info && info.projects && Array.isArray(info.projects)) ? info.projects : [];
+    var projs = extractProjects(info);
     if (projs.length > 0) {
       countriesArr.push(c);
       projs.forEach(function (p) { projectsArr.push(c + ':' + encodeURIComponent(p)); });
@@ -270,6 +260,20 @@ function goToExecPlan() {
 }
 
 // ========== 工具函数 ==========
+function extractProjects(info) {
+  var projects = [];
+  if (info && info.projects && Array.isArray(info.projects)) {
+    projects = info.projects;
+  } else if (info && info.selectedProject) {
+    projects = [info.selectedProject];
+  } else if (info && info.solutions) {
+    Object.keys(info.solutions).forEach(function (sol) {
+      if (info.solutions[sol]) projects.push(info.solutions[sol]);
+    });
+  }
+  return projects;
+}
+
 function escapeHtml(str) {
   var div = document.createElement('div');
   div.textContent = str;
