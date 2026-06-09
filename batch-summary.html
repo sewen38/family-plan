@@ -263,17 +263,14 @@ function goToExecPlan() {
 
 // ========== 工具函数 ==========
 function extractProjects(info) {
-  var projects = [];
-  if (info && info.projects && Array.isArray(info.projects)) {
-    projects = info.projects;
-  } else if (info && info.selectedProject) {
-    projects = [info.selectedProject];
-  } else if (info && info.solutions) {
-    Object.keys(info.solutions).forEach(function (sol) {
-      if (info.solutions[sol]) projects.push(info.solutions[sol]);
-    });
-  }
-  return projects;
+  if (!info || !Array.isArray(info.projects)) return [];
+  var seen = {};
+  return info.projects.filter(function (p) {
+    p = String(p || '').trim();
+    if (!p || seen[p]) return false;
+    seen[p] = true;
+    return true;
+  });
 }
 
 function escapeHtml(str) {

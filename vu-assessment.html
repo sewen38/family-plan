@@ -171,7 +171,7 @@ table.cm td:first-child{text-align:left;font-weight:500}
 window.goExecPlan=function(){
   var checks=document.querySelectorAll('input[name="selProject"]:checked');
   if(checks.length===0){var uu=new URL(window.location.href);var bb=uu.searchParams.get('batch')||'';if(bb==='1'){var ii=uu.searchParams.get('issue')||'';if(ii){try{var bd=JSON.parse(localStorage.getItem('***')||'{}');bd[ii]=bd[ii]||{};bd[ii]['vu']={projects:[],ts:Date.now()};localStorage.setItem('***',JSON.stringify(bd));}catch(e){}}var rurl=uu.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+ii;window.location.href=rurl;return;}else{window.location.href='https://sewen38.github.io/family-plan/?issue='+(ii||'');return;}}
-  var projects=Array.from(checks).map(function(c){return c.value;});
+  var seenProjects={};var projects=Array.from(checks).map(function(c){return String(c.value||'').trim();}).filter(function(v){if(!v||seenProjects[v])return false;seenProjects[v]=1;return true;});
   var u=new URL(window.location.href);
   var batch=u.searchParams.get('batch')||'';
   var issue=u.searchParams.get('issue')||'';
