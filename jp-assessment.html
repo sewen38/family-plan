@@ -179,7 +179,7 @@ window.goExecPlan=function(){
     var retUrl=u.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+issue;
     window.location.href=retUrl;return;
   }
-  window.location.href='https://sewen38.github.io/family-plan/jp-exec.html?issue='+issue+'&projects='+projects.join(',');
+  window.location.href='https://sewen38.github.io/family-plan/exec.html?issue='+issue+'&countries=jp&projects='+projects.map(function(p){return 'jp:'+encodeURIComponent(p)}).join('|');
 };window.goPrevStage=function(){
   var u=new URL(window.location.href);
   var ret=u.searchParams.get('return')||'';

@@ -180,7 +180,7 @@ window.goExecPlan=function(){
     var retUrl=u.searchParams.get('return')||'https://sewen38.github.io/family-plan/?batch=1&issue='+issue;
     window.location.href=retUrl;return;
   }
-  window.location.href='https://sewen38.github.io/family-plan/vu-exec.html?issue='+issue+'&projects='+projects.join(',');
+  window.location.href='https://sewen38.github.io/family-plan/exec.html?issue='+issue+'&countries=vu&projects='+projects.map(function(p){return 'vu:'+encodeURIComponent(p)}).join('|');
 };window.goPrevStage=function(){
   var u=new URL(window.location.href);
   var ret=u.searchParams.get('return')||'';
