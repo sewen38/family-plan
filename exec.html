@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>执行策划案 · 家庭全球规划</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1f2937;line-height:1.68}
+.hero{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;text-align:center;padding:28px 18px}
+.hero h1{font-size:20px;margin:0 0 4px}
+.hero p{font-size:13px;opacity:.85}
+.wrap{max-width:860px;margin:0 auto;padding:12px}
+.card{background:#fff;border-radius:14px;margin:10px 0 14px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+.card h2{font-size:17px;color:#1a237e;margin-bottom:12px;border-left:4px solid #283593;padding-left:10px}
+.card h3{font-size:15px;color:#1a237e;margin:14px 0 8px}
+.pill{display:inline-block;background:#e8eaf6;color:#1a237e;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;margin:3px}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e5e7eb;border-radius:10px;margin:10px 0}
+table{border-collapse:collapse;min-width:600px;width:100%;font-size:13px}
+th,td{border-bottom:1px solid #e5e7eb;padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#f1f5f9;color:#475569;font-weight:700;font-size:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;font-size:14px}
+.btn-primary{background:#1a237e;color:#fff}
+.btn-secondary{background:#e8eaf6;color:#1a237e}
+.muted{color:#667085;font-size:13px}
+.timeline{border-left:3px solid #c7d2fe;padding-left:16px;margin:10px 0}
+.timeline .node{margin:6px 0;font-size:13px;position:relative}
+.timeline .node::before{content:'';position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:#283593}
+.section-divider{border:none;border-top:2px solid #e8eaf6;margin:16px 0}
+.pwd-card{background:#fff;border-radius:14px;margin:10px 0 14px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,.05);border:2px solid #e8eaf6}
+.pwd-card h2{font-size:17px;color:#1a237e;margin-bottom:6px;border-left:4px solid #283593;padding-left:10px}
+.pwd-row{display:flex;gap:8px;margin-top:10px}
+.pwd-row input{flex:1;border:1.5px solid #ddd;border-radius:10px;padding:12px;font-size:15px}
+.pwd-row button{border:0;border-radius:10px;background:#1a237e;color:#fff;font-weight:700;padding:0 20px;cursor:pointer;white-space:nowrap}
+.pwd-msg{margin-top:8px;font-size:13px}
+.commission-wrap{display:none;margin-top:12px}
+.commission-wrap.show{display:block}
+.commission-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.commission-item{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+.commission-item b{display:block;color:#1a237e;font-size:15px}
+.commission-item span{font-size:12px;color:#667085}
+.commission-table{margin-top:12px}
+@media(max-width:520px){
+  table{min-width:520px}
+  .hero h1{font-size:18px}
+  .commission-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>📋 执行策划案</h1>
+  <p>家庭全球规划 · 客户交付版</p>
+</div>
+<div class="wrap" id="app"></div>
+<script>
+var DEFAULT_PASSWORD = '888888';
+var COUNTRY_EMOJI = {tr:'🇹🇷',sg:'🇸🇬',au:'🇦🇺',nz:'🇳🇿',us:'🇺🇸',eu:'🇪🇺',hk:'🇭🇰',dm:'🇩🇲',jp:'🇯🇵',vu:'🇻🇺',ge:'🇬🇪'};
+var COUNTRY_NAMES = {tr:'土耳其',sg:'新加坡',au:'澳大利亚',nz:'新西兰',us:'美国',eu:'欧洲',hk:'香港',dm:'多米尼克',jp:'日本',vu:'瓦努阿图',ge:'格鲁吉亚'};
+
+function q(k){return new URL(location.href).searchParams.get(k)||''}
+
+var issue = q('issue');
+var countriesRaw = q('countries');
+var projectsRaw = q('projects');
+var countries = countriesRaw ? countriesRaw.split(',') : [];
+var projectsParsed = [];
+if(projectsRaw){
+  projectsRaw.split('|').forEach(function(p){
+    var parts = p.split(':');
+    if(parts.length >= 2) projectsParsed.push({country:parts[0], project:parts[1]});
+  });
+}
+
+function renderPlan(){
+  var h = '';
+  
+  // ===== 概览卡片 =====
+  h += '<div class="card">';
+  h += '<p class="muted">📅 生成时间：' + new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'}) + '　|　方案编号：' + (issue||'N/A') + '</p>';
+  h += '<p class="muted">📍 覆盖国家：' + countries.map(function(c){return (COUNTRY_EMOJI[c]||'')+(COUNTRY_NAMES[c]||c);}).join('、') + '</p>';
+  h += '<p class="muted">📌 选中项目：<br>';
+  projectsParsed.forEach(function(p){h += '<span class="pill">'+(COUNTRY_EMOJI[p.country]||'')+' '+p.project+'</span> ';});
+  h += '</p>';
+  h += '<div class="actions"><button class="btn btn-secondary" onclick="history.back()">← 返回汇总页</button><button class="btn btn-primary" onclick="window.print()">🖨️ 保存 / 打印 PDF</button></div>';
+  h += '</div>';
+  
+  // ===== 费用清单 =====
+  h += '<div class="card"><h2>💰 费用清单</h2>';
+  h += '<div class="table-wrap"><table>';
+  h += '<tr><th>国家</th><th>项目</th><th>费用项目</th><th>预估金额</th><th>备注</th></tr>';
+  
+  var feeData = {
+    'hk-ttps-a':[{item:'政府申请费',amount:'HK$1,000',note:'入境处收费'},{item:'签证费',amount:'HK$230',note:'获批后支付'},{item:'服务费',amount:'HK$30,000-50,000',note:'中介服务费（市场参考价）'}],
+    'hk-ttps-b':[{item:'政府申请费',amount:'HK$1,000',note:'入境处收费'},{item:'签证费',amount:'HK$230',note:'获批后支付'},{item:'服务费',amount:'HK$30,000-50,000',note:'中介服务费（市场参考价）'}],
+    'hk-ncies':[{item:'投资金额',amount:'HK$3,000万',note:'合格金融资产'},{item:'政府申请费',amount:'HK$4,750',note:'入境处收费'},{item:'服务费',amount:'HK$100,000-200,000',note:'中介+律师服务费'}],
+    'hk-gqp':[{item:'政府申请费',amount:'HK$4,750',note:'入境处收费'},{item:'服务费',amount:'HK$50,000-80,000',note:'材料准备+文案+律师'}],
+    'hk-asmtp':[{item:'政府申请费',amount:'HK$4,750',note:'入境处收费'},{item:'服务费',amount:'HK$50,000-80,000',note:'雇主担保+文案'}],
+    'tr-fund-cbi':[{item:'基金投资',amount:'US$500,000',note:'房地产投资基金，锁定3年'},{item:'政府费用',amount:'US$10,000-15,000',note:'护照+身份证+公证等'},{item:'律师费',amount:'US$15,000-25,000',note:'含尽职调查'},{item:'服务费',amount:'US$10,000-20,000',note:'中介服务费'}],
+    'tr-realestate-cbi':[{item:'购房投资',amount:'US$400,000',note:'持有3年可出售'},{item:'税费',amount:'约4-6%房价',note:'契税+增值税等'},{item:'政府费用',amount:'US$8,000-12,000',note:'护照+身份证等'},{item:'律师费',amount:'US$10,000-20,000',note:'含房产尽职调查'},{item:'服务费',amount:'US$10,000-20,000',note:'中介服务费'}],
+    'tr-fund-e2':[{item:'基金投资',amount:'US$500,000',note:'房地产投资基金，锁定3年'},{item:'E-2签证申请',amount:'US$2,000-5,000',note:'美领馆费用'},{item:'律师费',amount:'US$20,000-30,000',note:'土耳其+美国双方律师'}],
+    'tr-deposit-cbi':[{item:'银行存款',amount:'US$500,000',note:'锁定3年，里拉计价'},{item:'政府费用',amount:'US$10,000-15,000',note:'护照+身份证等'},{item:'律师费',amount:'US$10,000-15,000',note:'申请+文件'}],
+    'tr-bonds-cbi':[{item:'债券投资',amount:'US$500,000',note:'政府债券，持有3年'},{item:'政府费用',amount:'US$10,000-15,000',note:'护照+身份证等'},{item:'律师费',amount:'US$10,000-15,000',note:'申请+文件'}],
+    'sg-fo-13o':[{item:'AUM要求',amount:'S$2,000万',note:'资产管理规模'},{item:'本地投资',amount:'S$1,000万或AUM的10%',note:'取较低值'},{item:'年度运营支出',amount:'S$20万起',note:'含本地雇员+办公+合规'},{item:'设立费用',amount:'S$50,000-100,000',note:'法律+税务+公司设立'}],
+    'sg-fo-13u':[{item:'AUM要求',amount:'S$5,000万',note:'资产管理规模'},{item:'设立费用',amount:'S$100,000-200,000',note:'法律+税务+公司设立'}],
+    'sg-ep-pr':[{item:'EP申请费',amount:'S$105',note:'MOM收费'},{item:'EP签发费',amount:'S$225',note:'获批后'},{item:'PR申请费',amount:'S$100',note:'ICA收费'},{item:'服务费',amount:'S$5,000-15,000',note:'EP+PR全套'}],
+    'sg-techpass-pr':[{item:'Tech.Pass申请费',amount:'S$105',note:'MOM收费'},{item:'服务费',amount:'S$8,000-20,000',note:'Tech.Pass+PR规划'}],
+    'sg-gip-a':[{item:'投资金额',amount:'S$1,000万',note:'新设或扩展现有企业'},{item:'申请费',amount:'S$7,000',note:'EDB收费'},{item:'服务费',amount:'S$50,000-100,000',note:'商业计划+律师'}],
+    'sg-gip-b':[{item:'投资金额',amount:'S$2,500万',note:'GIP基金'},{item:'申请费',amount:'S$7,000',note:'EDB收费'},{item:'服务费',amount:'S$50,000-100,000',note:'基金管理+律师'}],
+    'sg-gip-c':[{item:'AUM要求',amount:'S$2亿',note:'家办AUM'},{item:'新加坡部署',amount:'S$5,000万',note:'本地投资部署'}],
+    'pt-ari-fund':[{item:'基金投资',amount:'€500,000',note:'葡萄牙合规基金'},{item:'政府费用',amount:'€5,000-8,000',note:'ARI申请+居留卡'},{item:'律师费',amount:'€8,000-15,000',note:'含尽职调查'},{item:'服务费',amount:'€10,000-20,000',note:'中介服务费'}],
+    'pt-ari-cultural':[{item:'文化捐赠',amount:'€250,000',note:'文化遗产/艺术项目'},{item:'政府费用',amount:'€3,000-5,000',note:'ARI申请+居留卡'},{item:'律师费',amount:'€8,000-12,000',note:'含项目审核'}],
+    'gr-gv-800k':[{item:'购房金额',amount:'€800,000',note:'核心区域（雅典/塞萨洛尼基/岛屿）'},{item:'税费',amount:'约3-4%',note:'房产交易税'},{item:'政府费用',amount:'€2,000-4,000',note:'居留卡+申请'},{item:'律师费',amount:'€5,000-10,000',note:'房产尽职调查'}],
+    'gr-gv-400k':[{item:'购房金额',amount:'€400,000',note:'非核心区域'},{item:'税费',amount:'约3-4%',note:'房产交易税'},{item:'政府费用',amount:'€2,000-4,000',note:'居留卡+申请'}],
+    'gr-gv-250k':[{item:'购房金额',amount:'€250,000',note:'商改住/保护建筑'},{item:'税费',amount:'约3-4%',note:'房产交易税'},{item:'政府费用',amount:'€2,000-4,000',note:'居留卡+申请'}],
+    'mt-mprp':[{item:'政府捐款',amount:'€28,000-58,000',note:'购房/租房不同金额'},{item:'购房/租房',amount:'€300,000 / €10,000/年',note:'购房或租房'},{item:'慈善捐款',amount:'€2,000',note:'马耳他注册慈善机构'},{item:'律师费',amount:'€8,000-12,000',note:'含尽职调查'}],
+    'dm-realestate':[{item:'政府捐款',amount:'US$100,000',note:'经济多元化基金(EDF)'},{item:'购房投资',amount:'US$200,000',note:'持有3-5年'},{item:'尽职调查费',amount:'US$7,500-10,000',note:'主申+配偶+16+子女'},{item:'律师费',amount:'US$5,000-8,000',note:'申请+文件'}],
+    'jp-hsp':[{item:'签证申请费',amount:'JP¥4,000-8,000',note:'入管局收费'},{item:'收入要求',amount:'JP¥3,000万/年',note:'高才打分70分+'},{item:'服务费',amount:'JP¥500,000-1,000,000',note:'行政书士+法务'}],
+    'jp-biz':[{item:'注册资本',amount:'JP¥500万',note:'经营·管理签证'},{item:'办公室租金',amount:'JP¥300,000-600,000/月',note:'实体办公空间'},{item:'服务费',amount:'JP¥800,000-1,500,000',note:'行政书士+公司设立'}],
+    'vu-dsp':[{item:'政府捐款',amount:'US$130,000',note:'单人申请'},{item:'政府捐款(夫妻)',amount:'US$150,000',note:'主申+配偶'},{item:'政府捐款(家庭)',amount:'US$180,000',note:'主申+配偶+2子女'},{item:'尽职调查费',amount:'US$5,000',note:'每名申请人'},{item:'服务费',amount:'US$8,000-15,000',note:'代理+文件'}],
+    'ge-invest':[{item:'投资金额',amount:'US$300,000',note:'格鲁吉亚发展方向基金'},{item:'政府费用',amount:'US$5,000-8,000',note:'居留许可+申请'},{item:'服务费',amount:'US$8,000-15,000',note:'律师+文案'}],
+  };
+  
+  var hasFees = false;
+  projectsParsed.forEach(function(p){
+    var fees = feeData[p.project];
+    if(fees){hasFees=true;fees.forEach(function(f){
+      h += '<tr><td>'+(COUNTRY_EMOJI[p.country]||'')+' '+(COUNTRY_NAMES[p.country]||p.country)+'</td><td>'+p.project+'</td><td>'+f.item+'</td><td style="font-weight:700">'+f.amount+'</td><td style="font-size:12px;color:#888">'+(f.note||'')+'</td></tr>';
+    });}
+  });
+  if(!hasFees) h += '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">暂无费用数据，请联系顾问获取详细报价</td></tr>';
+  h += '</table></div></div>';
+  
+  // ===== 三方费用清单 =====
+  h += '<div class="card"><h2>🏛️ 三方费用清单（政府/律师/第三方）</h2>';
+  h += '<div class="table-wrap"><table>';
+  h += '<tr><th>国家</th><th>项目</th><th>费用类别</th><th>收款方</th><th>预估金额</th></tr>';
+  var thirdPartyFees = {
+    'hk-ttps-a':[{type:'政府',payee:'香港入境处',amount:'HK$1,230'},{type:'公证',payee:'公证处/律师',amount:'HK$2,000-5,000'}],
+    'hk-ttps-b':[{type:'政府',payee:'香港入境处',amount:'HK$1,230'},{type:'公证',payee:'公证处/律师',amount:'HK$2,000-5,000'}],
+    'hk-ncies':[{type:'政府',payee:'香港入境处',amount:'HK$4,750'},{type:'投资',payee:'金融机构',amount:'HK$3,000万'},{type:'审计',payee:'CPA',amount:'HK$20,000-50,000'}],
+    'tr-fund-cbi':[{type:'政府',payee:'土耳其内政部/移民局',amount:'US$10,000-15,000'},{type:'投资',payee:'基金公司',amount:'US$500,000'},{type:'律师',payee:'土耳其持牌律师',amount:'US$15,000-25,000'}],
+    'tr-realestate-cbi':[{type:'政府',payee:'土耳其地契局/移民局',amount:'US$8,000-12,000'},{type:'投资',payee:'开发商/卖方',amount:'US$400,000'},{type:'税费',payee:'土耳其税务局',amount:'4-6%房价'}],
+    'pt-ari-fund':[{type:'政府',payee:'SEF/葡萄牙移民局',amount:'€5,000-8,000'},{type:'投资',payee:'葡萄牙合规基金',amount:'€500,000'},{type:'律师',payee:'葡萄牙持牌律师',amount:'€8,000-15,000'}],
+    'gr-gv-800k':[{type:'政府',payee:'希腊移民局',amount:'€2,000-4,000'},{type:'投资',payee:'开发商/卖方',amount:'€800,000'},{type:'税费',payee:'希腊税务局',amount:'约3-4%'}],
+    'mt-mprp':[{type:'政府',payee:'马耳他移民局',amount:'€28,000-58,000'},{type:'慈善',payee:'慈善机构',amount:'€2,000'},{type:'投资',payee:'开发商/房东',amount:'€300,000 / €10,000/年'}],
+    'dm-realestate':[{type:'政府',payee:'多米尼克CBI Unit',amount:'US$100,000'},{type:'投资',payee:'开发商',amount:'US$200,000'},{type:'尽职',payee:'第三方尽调公司',amount:'US$7,500-10,000'}],
+    'jp-hsp':[{type:'政府',payee:'入国管理局',amount:'JP¥4,000-8,000'},{type:'年收',payee:'在日企业',amount:'JP¥3,000万/年(要求)'}],
+    'vu-dsp':[{type:'政府',payee:'瓦努阿图移民局',amount:'US$130,000-180,000'},{type:'尽职',payee:'第三方尽调公司',amount:'US$5,000/人'}],
+    'ge-invest':[{type:'政府',payee:'格鲁吉亚移民局',amount:'US$5,000-8,000'},{type:'投资',payee:'格鲁吉亚基金',amount:'US$300,000'}],
+  };
+  var has3rd=false;
+  projectsParsed.forEach(function(p){
+    var fees=thirdPartyFees[p.project];
+    if(fees){has3rd=true;fees.forEach(function(f){
+      h+='<tr><td>'+(COUNTRY_EMOJI[p.country]||'')+' '+COUNTRY_NAMES[p.country]+'</td><td>'+p.project+'</td><td>'+f.type+'</td><td>'+f.payee+'</td><td style="font-weight:700">'+f.amount+'</td></tr>';
+    });}
+  });
+  if(!has3rd) h+='<tr><td colspan="5" style="text-align:center;color:#888;padding:20px">暂无三方费用数据</td></tr>';
+  h+='</table></div></div>';
+  
+  // ===== 流程周期 =====
+  h+='<div class="card"><h2>⏱️ 流程周期</h2>';
+  var timelineData={
+    'hk-ttps-a':[{step:'准备材料(学历/工作证明/完税证明)',time:'1-2周'},{step:'在线提交TTPS-A申请',time:'1天'},{step:'入境处审批',time:'约4周'},{step:'获批+缴费',time:'1周'},{step:'赴港激活签证+办身份证',time:'1-2天'}],
+    'hk-ttps-b':[{step:'准备材料(学位证/工作证明)',time:'1-2周'},{step:'在线提交TTPS-B申请',time:'1天'},{step:'入境处审批',time:'约4周'},{step:'获批+缴费',time:'1周'},{step:'赴港激活签证+办身份证',time:'1-2天'}],
+    'hk-ncies':[{step:'净资产证明准备(CPA审计)',time:'2-4周'},{step:'提交净资产审查',time:'1天'},{step:'入境处净资产审批',time:'约4周'},{step:'原则性批准+180天内完成投资',time:'3-6个月'},{step:'提交投资证明+正式批准',time:'约4周'}],
+    'tr-fund-cbi':[{step:'选择基金+尽职调查',time:'2-4周'},{step:'开设土耳其银行账户+汇款',time:'1-2周'},{step:'投资款到位+基金认购',time:'1-2周'},{step:'提交入籍申请+生物识别',time:'2-4周'},{step:'获批→领取护照/身份证',time:'3-6个月'}],
+    'tr-realestate-cbi':[{step:'房产筛选+看房(可授权POA)',time:'2-4周'},{step:'开设土耳其银行账户+税号',time:'1-2周'},{step:'签约+付款+过户',time:'2-4周'},{step:'提交入籍申请+生物识别',time:'2-4周'},{step:'获批→领取护照/身份证',time:'3-6个月'}],
+    'pt-ari-fund':[{step:'NIF税号+银行开户',time:'1-2周'},{step:'基金认购+汇款€50万',time:'2-4周'},{step:'提交ARI申请+预约SEF',time:'1-2周'},{step:'SEF审核+生物识别',time:'4-8个月'},{step:'获批→首期居留卡(2年)',time:'1-2个月'}],
+    'gr-gv-800k':[{step:'选房+POA律师授权',time:'2-4周'},{step:'签约+付款',time:'2-4周'},{step:'提交居留申请+生物识别',time:'1-2周'},{step:'获批→5年永居卡',time:'2-4个月'}],
+    'mt-mprp':[{step:'材料准备+公证翻译',time:'2-4周'},{step:'提交申请+付费',time:'1天'},{step:'Residence Malta Agency审核',time:'4-6个月'},{step:'原则性批准→完成投资/租房',time:'2-4周'},{step:'获批→领取永居卡',time:'1-2个月'}],
+    'dm-realestate':[{step:'选择房产项目+签约',time:'1-2周'},{step:'提交CBI申请+尽调',time:'1-2周'},{step:'政府审核+面试(2025后)',time:'3-4个月'},{step:'原则性批准→完成投资',time:'2-4周'},{step:'获批→领取护照',time:'1-2个月'}],
+    'jp-hsp':[{step:'准备HSP打分材料+行政书士',time:'2-4周'},{step:'提交在留资格认定申请',time:'1天'},{step:'入管局审批',time:'1-3个月'},{step:'获批→领取在留资格',time:'1-2周'},{step:'换签+赴日',time:'1-2周'}],
+    'vu-dsp':[{step:'材料准备+翻译公证',time:'1-2周'},{step:'提交申请+尽调费',time:'1天'},{step:'内政部审核',time:'1-2个月'},{step:'原则性批准→捐款',time:'1周'},{step:'宣誓→领取护照',time:'1-2周'}],
+    'ge-invest':[{step:'选择投资项目+签约',time:'1-2周'},{step:'汇款+投资确认',time:'1-2周'},{step:'提交居留申请',time:'1天'},{step:'移民局审批',time:'1-3个月'},{step:'获批→领取居留卡',time:'1-2周'}],
+    'sg-fo-13o':[{step:'架构设计+法律顾问',time:'2-4周'},{step:'公司设立+银行开户',time:'2-4周'},{step:'MAS申请13O税收优惠',time:'1-2周'},{step:'MAS审批',time:'2-4个月'},{step:'获批→AUM到位→运营',time:'3-6个月'}],
+    'sg-ep-pr':[{step:'雇主提交EP申请',time:'1天'},{step:'MOM审批',time:'3-8周'},{step:'获批→领取EP卡',time:'1-2周'},{step:'工作6个月→申请PR',time:'6个月'},{step:'ICA审核',time:'6-12个月'}],
+    'sg-gip-a':[{step:'商业计划+材料准备',time:'4-8周'},{step:'提交GIP申请',time:'1天'},{step:'EDB面试+审批',time:'6-12个月'},{step:'原则性批准→完成投资',time:'6个月'},{step:'正式PR批准',time:'1-2个月'}],
+  };
+  var totalCycles={
+    'hk-ttps-a':'1-2个月','hk-ttps-b':'1-2个月','hk-ncies':'6-12个月',
+    'tr-fund-cbi':'6-8个月','tr-realestate-cbi':'6-8个月',
+    'pt-ari-fund':'8-12个月','gr-gv-800k':'4-6个月','mt-mprp':'8-12个月',
+    'dm-realestate':'5-7个月','jp-hsp':'3-6个月','vu-dsp':'2-4个月',
+    'ge-invest':'3-6个月','sg-fo-13o':'6-10个月','sg-ep-pr':'12-18个月','sg-gip-a':'12-18个月',
+  };
+  projectsParsed.forEach(function(p){
+    var tl=timelineData[p.project];
+    if(tl){h+='<h3>'+(COUNTRY_EMOJI[p.country]||'')+' '+COUNTRY_NAMES[p.country]+' · '+p.project+'</h3><div class="timeline">';
+      tl.forEach(function(t,i){h+='<div class="node"><strong>第'+(i+1)+'步：</strong>'+t.step+'<br><span class="muted">⏱ '+t.time+'</span></div>';});
+      h+='</div><p class="muted">📌 总周期预估：约'+(totalCycles[p.project]||'3-6个月')+'</p><hr class="section-divider">';}
+  });
+  h+='</div>';
+  
+  // ===== 已解决问题 ====
+  h+='<div class="card"><h2>✅ 已解决问题分析</h2>';h+='<p class="muted">以下根据用户选中项目，分析当前方案能覆盖哪些核心诉求：</p>';h+='<div class="table-wrap"><table>';h+='<tr><th>核心诉求</th><th>覆盖情况</th><th>说明</th></tr>';var problemsSolved={'子女教育':false,'资产配置安全':false,'身份规划':false,'税务优化':false,'生活品质':false,'财富传承':false,'快速出境/第三国':false,'国际贸易/经营':false};projectsParsed.forEach(function(p){var pr=p.project||'';if(/-cbi$/.test(pr)||/cbi/.test(pr)||/realestate/.test(pr)||/hsp/.test(pr)||/pr$/.test(pr)||/biz/.test(pr)||/dsp/.test(pr)||/mprp/.test(pr)||/invest/.test(pr)||/gv-/.test(pr)||/ari/.test(pr)||/ttps/.test(pr)||/nc/.test(pr)||/gqp/.test(pr)||/asmtp/.test(pr)||/gip/.test(pr)||/techpass/.test(pr))problemsSolved['身份规划']=true;if(/hk/.test(pr)||/sg/.test(pr)||/jp/.test(pr))problemsSolved['资产配置安全']=true;if(/hk/.test(pr)||/sg/.test(pr)||/tr/.test(pr)||/pt/.test(pr)||/mt/.test(pr)||/gr/.test(pr)||/dm/.test(pr)||/vu/.test(pr)||/ge/.test(pr))problemsSolved['税务优化']=true;if(/jp/.test(pr)||/sg/.test(pr)||/au/.test(pr)||/nz/.test(pr)||/hk/.test(pr)||/pt/.test(pr))problemsSolved['子女教育']=true;if(/hk/.test(pr)||/sg/.test(pr)||/jp/.test(pr)||/pt/.test(pr)||/mt/.test(pr)||/gr/.test(pr))problemsSolved['生活品质']=true;if(/hk/.test(pr)||/sg/.test(pr)||/tr/.test(pr))problemsSolved['财富传承']=true;if(/tr/.test(pr)||/dm/.test(pr)||/vu/.test(pr)||/ge/.test(pr))problemsSolved['快速出境/第三国']=true;if(/hk/.test(pr)||/sg/.test(pr)||/jp/.test(pr)||/ge/.test(pr)||/tr/.test(pr))problemsSolved['国际贸易/经营']=true;});var labels={'子女教育':'子女教育','资产配置安全':'资产配置安全','身份规划':'身份备选/第二身份','税务优化':'税务优化/低税','生活品质':'生活品质提升','财富传承':'财富传承与隔离','快速出境/第三国':'快速取得第三国护照','国际贸易/经营':'国际贸易/跨境经营'};for(var k in labels){var solved=problemsSolved[k];h+='<tr><td>'+labels[k]+'</td><td style="color:'+(solved?'#166534':'#d97706')+'">'+(solved?'✅ 已覆盖':'⚠️ 未明确覆盖')+'</td><td>'+(solved?'当前选中国家/项目可直接或间接满足此诉求':'建议补充针对性国家/项目')+'</td></tr>';}h+='</table></div></div>';
+  // ===== 待解决问题与替代方案 ====
+  h+='<div class="card"><h2>🔄 待解决问题与替代方案</h2>';h+='<p class="muted">以下列出当前方案尚未明确覆盖的核心诉求，以及可替换/补充的国家和项目：</p>';h+='<div class="table-wrap"><table>';h+='<tr><th>待解决问题</th><th>推荐替换国家</th><th>推荐替换项目</th><th>替换理由</th></tr>';var gaps=[];if(!problemsSolved['子女教育']&&countries.indexOf('hk')<0&&countries.indexOf('sg')<0){gaps.push({prob:'子女教育',country:'🇭🇰 香港或🇸🇬 新加坡',project:'高才通/优才 或 EP/PR',reason:'香港DSE+华侨生联考双路径；新加坡双语教育全球顶尖'});}if(!problemsSolved['资产配置安全']&&countries.indexOf('hk')<0&&countries.indexOf('sg')<0){gaps.push({prob:'资产配置安全',country:'🇭🇰 香港或🇸🇬 新加坡',project:'家办/私人银行/CIES',reason:'无外汇管制、成熟金融中心、多资产配置'});}if(!problemsSolved['税务优化']){gaps.push({prob:'税务优化',country:'🇦🇪 阿联酋(UAE)',project:'自由区公司(金融/贸易特区)+居民身份',reason:'QFZP合格收入0%企业税、无个人所得税'});}if(!problemsSolved['财富传承']){gaps.push({prob:'财富传承',country:'🇭🇰 香港或🇸🇬 新加坡',project:'家族信托/家办/基金会',reason:'法律成熟、信托制度完善、税务宽免'});}if(!problemsSolved['快速出境/第三国']&&countries.indexOf('tr')<0){gaps.push({prob:'快速护照/免签',country:'🇹🇷 土耳其或🇻🇺 瓦努阿图',project:'购房/基金入籍 或 DSP护照',reason:'3-8个月拿第二护照、免签多国'});}if(!problemsSolved['生活品质']){gaps.push({prob:'生活品质',country:'🇵🇹 葡萄牙或🇬🇷 希腊',project:'黄金签证基金€50万 或 购房€25万起',reason:'申根自由、地中海气候、生活成本低于西欧'});}gaps.forEach(function(g){h+='<tr><td style="font-weight:600;color:#ef4444">'+g.prob+'</td><td>'+g.country+'</td><td>'+g.project+'</td><td style="font-size:12px;color:#666">'+g.reason+'</td></tr>';});if(gaps.length===0){h+='<tr><td colspan="4" style="text-align:center;color:#166534;padding:16px">✅ 当前方案已基本覆盖主要诉求。如需进一步优化，可联系顾问做深度定制。</td></tr>';}h+='</table></div></div>';
+  // ===== 重要声明 =====
+  h+='<div class="card" style="border:2px solid #ef4444"><h2 style="color:#ef4444">⚠️ 重要声明</h2><p style="color:#991b1b;font-size:13px">';
+  h+='1. 本执行策划案由AI辅助生成，作为初步参考框架，不构成法律、税务或移民建议。<br><br>';
+  h+='2. 所有费用为市场参考价，实际费用因个案、汇率、政策变化而异。最终费用以签约时报价为准。<br><br>';
+  h+='3. 移民政策具有时效性，各项目申请条件和审批标准可能调整。申请前请以各国移民局最新公告为准。<br><br>';
+  h+='4. 建议在正式申请前咨询持牌移民律师/注册会计师，获取针对个人情况的法律和税务意见。<br><br>';
+  h+='5. 本文件包含商业敏感信息，仅供客户本人使用，未经授权不得转发。';
+  h+='</p></div>';
+  
+  // ===== 打印/返回按钮 =====
+  h+='<div class="actions" style="justify-content:center"><button class="btn btn-secondary" onclick="history.back()">← 返回汇总页</button><button class="btn btn-primary" onclick="window.print()">🖨️ 保存/打印PDF</button></div>';
+  
+  // ===== 底部密码输入框 =====
+  h+='<div class="pwd-card"><h2>🔐 佣金明细</h2><p class="muted">请输入授权密码后查看佣金金额、结佣周期、批次和对接人信息。</p>';
+  h+='<div class="pwd-row"><input id="pwInput" type="password" placeholder="请输入密码" inputmode="numeric" autocomplete="off"><button onclick="checkCommissionPwd()">确认</button></div>';
+  h+='<p id="pwMsg" class="muted pwd-msg"></p>';
+  h+='<div class="commission-wrap" id="commissionBox"></div>';
+  h+='</div>';
+  
+  document.getElementById('app').innerHTML = h;
+  
+  // 密码回车支持
+  document.getElementById('pwInput').addEventListener('keydown',function(e){if(e.key==='Enter')checkCommissionPwd();});
+  document.getElementById('pwInput').focus();
+}
+
+function checkCommissionPwd(){
+  var pw=document.getElementById('pwInput').value.trim();
+  if(pw===DEFAULT_PASSWORD){
+    document.getElementById('pwMsg').innerHTML='<span style="color:#22c55e">✅ 验证通过</span>';
+    showCommission();
+  }else{
+    document.getElementById('pwMsg').innerHTML='<span style="color:#ef4444">❌ 密码错误，请重试</span>';
+    document.getElementById('pwInput').value='';
+  }
+}
+
+function showCommission(){
+  var h='';
+  // 根据项目构建佣金数据
+  var commissionMap={
+    'tr-fund-cbi':{amount:'US$40,000-80,000',cycle:'1-2个月',batches:'2次',batch1:'US$20,000-40,000',batch2:'US$20,000-40,000',contact:'待确认',phone:'待确认'},
+    'tr-realestate-cbi':{amount:'US$20,000-50,000',cycle:'1-2个月',batches:'2次',batch1:'US$10,000-25,000',batch2:'US$10,000-25,000',contact:'待确认',phone:'待确认'},
+    'tr-fund-e2':{amount:'US$50,000-100,000',cycle:'2-3个月',batches:'2次',batch1:'US$25,000-50,000',batch2:'US$25,000-50,000',contact:'待确认',phone:'待确认'},
+    'sg-fo-13o':{amount:'US$100,000-200,000',cycle:'3-6个月',batches:'3次',batch1:'US$50,000',batch2:'US$50,000',contact:'待确认',phone:'待确认'},
+    'sg-ep-pr':{amount:'US$5,000-15,000',cycle:'1个月',batches:'1次',batch1:'US$5,000-15,000',batch2:'-',contact:'待确认',phone:'待确认'},
+    'sg-gip-a':{amount:'US$80,000-150,000',cycle:'3-6个月',batches:'2次',batch1:'US$40,000-75,000',batch2:'US$40,000-75,000',contact:'待确认',phone:'待确认'},
+    'pt-ari-fund':{amount:'€20,000-40,000',cycle:'2-3个月',batches:'2次',batch1:'€10,000-20,000',batch2:'€10,000-20,000',contact:'待确认',phone:'待确认'},
+    'gr-gv-800k':{amount:'€15,000-30,000',cycle:'1-2个月',batches:'2次',batch1:'€7,500-15,000',batch2:'€7,500-15,000',contact:'待确认',phone:'待确认'},
+    'mt-mprp':{amount:'€10,000-25,000',cycle:'2-4个月',batches:'2次',batch1:'€5,000-12,500',batch2:'€5,000-12,500',contact:'待确认',phone:'待确认'},
+    'hk-ttps-a':{amount:'HK$10,000-30,000',cycle:'1个月',batches:'1次',batch1:'HK$10,000-30,000',batch2:'-',contact:'待确认',phone:'待确认'},
+    'hk-ttps-b':{amount:'HK$10,000-30,000',cycle:'1个月',batches:'1次',batch1:'HK$10,000-30,000',batch2:'-',contact:'待确认',phone:'待确认'},
+    'hk-ncies':{amount:'HK$50,000-150,000',cycle:'3-6个月',batches:'3次',batch1:'HK$20,000-50,000',batch2:'HK$30,000-100,000',contact:'待确认',phone:'待确认'},
+    'dm-realestate':{amount:'US$15,000-30,000',cycle:'1-2个月',batches:'2次',batch1:'US$7,500-15,000',batch2:'US$7,500-15,000',contact:'待确认',phone:'待确认'},
+    'vu-dsp':{amount:'US$10,000-20,000',cycle:'1个月',batches:'1次',batch1:'US$10,000-20,000',batch2:'-',contact:'待确认',phone:'待确认'},
+    'jp-hsp':{amount:'JP¥500,000-1,500,000',cycle:'1-3个月',batches:'2次',batch1:'JP¥250,000-750,000',batch2:'JP¥250,000-750,000',contact:'待确认',phone:'待确认'},
+    'ge-invest':{amount:'US$8,000-15,000',cycle:'1-2个月',batches:'2次',batch1:'US$4,000-7,500',batch2:'US$4,000-7,500',contact:'待确认',phone:'待确认'},
+  };
+  
+  h+='<div class="commission-grid" style="margin-top:12px">';
+  projectsParsed.forEach(function(p){
+    var cm=commissionMap[p.project];
+    if(cm){
+      h+='<div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px;grid-column:1/-1">';
+      h+='<h3 style="margin:0 0 8px;color:#1a237e">'+COUNTRY_EMOJI[p.country]+' '+p.project+'</h3>';
+      h+='<div class="commission-grid">';
+      h+='<div class="commission-item"><b>'+cm.amount+'</b><span>佣金金额</span></div>';
+      h+='<div class="commission-item"><b>'+cm.cycle+'</b><span>结佣周期</span></div>';
+      h+='<div class="commission-item"><b>'+cm.batches+'</b><span>结佣批次</span></div>';
+      h+='<div class="commission-item"><b>'+cm.batch1+'</b><span>第一批次金额</span></div>';
+      h+='<div class="commission-item"><b>'+cm.batch2+'</b><span>第二批次金额</span></div>';
+      h+='<div class="commission-item"><b>'+cm.contact+'</b><span>对接人</span></div>';
+      h+='</div></div>';
+    }
+  });
+  h+='</div><p class="muted" style="margin-top:8px">📌 具体佣金以签约合同为准，汇率按结算当日计算。</p>';
+  
+  document.getElementById('commissionBox').innerHTML=h;
+  document.getElementById('commissionBox').classList.add('show');
+}
+
+// 直接渲染
+renderPlan();
+</script>
+</body>
+</html>

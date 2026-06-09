@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>批量评估结果汇总</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6;padding:0;padding-bottom:80px}
+
+/* 顶部 */
+.header{background:linear-gradient(135deg,#1565c0,#2196f3);color:#fff;padding:28px 20px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:20px;margin-bottom:4px}
+.header p{opacity:.85;font-size:13px}
+
+/* 卡片 */
+.card{background:#fff;border-radius:14px;padding:20px 16px;margin:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-size:17px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+
+/* 国家区块 */
+.country-section{margin-bottom:4px}
+.project-item{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.project-item:last-child{border-bottom:none}
+.project-item .check{color:#22c55e;font-size:16px;flex-shrink:0;margin-top:1px}
+.project-item .info{flex:1}
+.project-item .name{font-weight:600;color:#1a1a1a}
+.project-item .detail{font-size:12px;color:#888;margin-top:2px}
+
+/* 空状态 */
+.empty{text-align:center;padding:40px 20px;color:#999;font-size:14px}
+.empty .icon{font-size:48px;margin-bottom:12px;opacity:.5}
+
+/* 底部按钮 */
+.actions{display:flex;gap:10px;margin:12px;flex-wrap:wrap}
+.actions button{flex:1;min-width:120px;padding:14px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#1565c0,#2196f3);color:#fff}
+.btn-secondary{background:#e8f0fe;color:#1565c0}
+.actions button:active{opacity:.85}
+
+/* 密码弹窗遮罩 */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+.modal h3{font-size:18px;margin-bottom:6px}
+.modal p{font-size:13px;color:#888;margin-bottom:16px}
+.modal input{width:100%;padding:12px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;text-align:center;outline:none;margin-bottom:6px;letter-spacing:4px}
+.modal input:focus{border-color:#2196f3}
+.modal .hint{font-size:11px;color:#aaa;margin-bottom:16px}
+.modal .btn-row{display:flex;gap:10px}
+.modal .btn-row button{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
+.modal .btn-confirm{background:linear-gradient(135deg,#1565c0,#2196f3);color:#fff}
+.modal .btn-cancel{background:#f0f0f0;color:#666}
+.modal .btn-row button:active{opacity:.85}
+
+/* Toast */
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="header"><h1>📊 评估结果汇总</h1><p id="issueInfo">正在加载...</p></div>
+
+<div id="results">
+  <div class="card"><div class="empty"><div class="icon">⏳</div>正在收集评估结果...</div></div>
+</div>
+
+<div class="actions" id="actions" style="display:none">
+  <button class="btn-secondary" onclick="history.back()">← 返回修改</button>
+  <button class="btn-primary" onclick="showPasswordModal()">📋 下一阶段 · 生成执行策划案</button>
+</div>
+
+<!-- 密码弹窗 -->
+<div class="overlay" id="pwdOverlay">
+  <div class="modal">
+    <h3>🔐 身份验证</h3>
+    <p>请输入顾问密码以继续</p>
+    <input type="password" id="pwdInput" placeholder="请输入密码" maxlength="20">
+    <div class="hint" id="pwdHint"></div>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closePasswordModal()">取消</button>
+      <button class="btn-confirm" onclick="verifyPassword()">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="tt"></div>
+
+<script>
+// ========== 配置 ==========
+var BATCH_DATA_KEY = '***';
+var DEFAULT_PASSWORD = '888888';
+
+// 国家emoji映射
+var COUNTRY_EMOJI = {
+  'tr':'🇹🇷','sg':'🇸🇬','au':'🇦🇺','nz':'🇳🇿',
+  'us':'🇺🇸','eu':'🇪🇺','hk':'🇭🇰','dm':'🇩🇲',
+  'jp':'🇯🇵','vu':'🇻🇺','ge':'🇬🇪','ca':'🇨🇦',
+  'uk':'🇬🇧','gr':'🇬🇷','pt':'🇵🇹','es':'🇪🇸',
+  'mt':'🇲🇹','cy':'🇨🇾','ae':'🇦🇪','th':'🇹🇭',
+  'my':'🇲🇾','kn':'🇰🇳','lc':'🇱🇨','gd':'🇬🇩',
+  'ag':'🇦🇬','pt':'🇵🇹','it':'🇮🇹','fr':'🇫🇷',
+  'de':'🇩🇪','ch':'🇨🇭','ie':'🇮🇪'
+};
+
+// 国家中文名映射
+var COUNTRY_NAMES = {
+  'tr':'土耳其','sg':'新加坡','au':'澳大利亚','nz':'新西兰',
+  'us':'美国','eu':'欧洲','hk':'香港','dm':'多米尼克',
+  'jp':'日本','vu':'瓦努阿图','ge':'格鲁吉亚','ca':'加拿大',
+  'uk':'英国','gr':'希腊','pt':'葡萄牙','es':'西班牙',
+  'mt':'马耳他','cy':'塞浦路斯','ae':'阿联酋','th':'泰国',
+  'my':'马来西亚','kn':'圣基茨','lc':'圣卢西亚','gd':'格林纳达',
+  'ag':'安提瓜','it':'意大利','fr':'法国','de':'德国',
+  'ch':'瑞士','ie':'爱尔兰'
+};
+
+// ========== 数据读取 ==========
+function getBatchData(issue) {
+  try {
+    var raw = localStorage.getItem(BATCH_DATA_KEY);
+    if (!raw) return null;
+    var all = JSON.parse(raw);
+    return all[issue] || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// ========== Toast ==========
+function toast(msg) {
+  var t = document.getElementById('tt');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function () { t.classList.remove('show'); }, 2000);
+}
+
+// ========== 密码弹窗 ==========
+function showPasswordModal() {
+  document.getElementById('pwdOverlay').classList.add('show');
+  document.getElementById('pwdInput').value = '';
+  document.getElementById('pwdHint').textContent = '';
+  setTimeout(function () {
+    document.getElementById('pwdInput').focus();
+  }, 100);
+}
+
+function closePasswordModal() {
+  document.getElementById('pwdOverlay').classList.remove('show');
+}
+
+function verifyPassword() {
+  var input = document.getElementById('pwdInput').value;
+  if (input === DEFAULT_PASSWORD) {
+    closePasswordModal();
+    goToExecPlan();
+  } else {
+    document.getElementById('pwdHint').textContent = '密码错误，请重试';
+    document.getElementById('pwdHint').style.color = '#e53935';
+    document.getElementById('pwdInput').value = '';
+    document.getElementById('pwdInput').focus();
+  }
+}
+
+// 回车键提交
+document.addEventListener('keydown', function (e) {
+  var overlay = document.getElementById('pwdOverlay');
+  if (overlay.classList.contains('show') && e.key === 'Enter') {
+    verifyPassword();
+  }
+});
+
+// 点击遮罩关闭
+document.getElementById('pwdOverlay').addEventListener('click', function (e) {
+  if (e.target === this) closePasswordModal();
+});
+
+// ========== 渲染汇总 ==========
+function loadResults() {
+  var u = new URL(window.location.href);
+  var issue = u.searchParams.get('issue') || '';
+
+  document.getElementById('issueInfo').textContent = 'Issue #' + issue;
+
+  var data = getBatchData(issue);
+
+  if (!data || Object.keys(data).length === 0) {
+    document.getElementById('results').innerHTML =
+      '<div class="card"><div class="empty"><div class="icon">📭</div>暂无评估结果</div></div>';
+    return;
+  }
+
+  var html = '';
+  var hasAnySelection = false;
+
+  Object.keys(data).forEach(function (country) {
+    var info = data[country];
+    var flag = COUNTRY_EMOJI[country] || '🌍';
+    var name = COUNTRY_NAMES[country] || country.toUpperCase();
+
+    var projects = [];
+    if (info && info.projects && Array.isArray(info.projects)) {
+      projects = info.projects;
+    } else if (info && info.selectedProject) {
+      projects = [info.selectedProject];
+    } else if (info && info.solutions) {
+      // 兼容旧格式：从 solutions 中提取
+      Object.keys(info.solutions).forEach(function (sol) {
+        if (info.solutions[sol]) projects.push(info.solutions[sol]);
+      });
+    }
+
+    if (projects.length === 0) return;
+    hasAnySelection = true;
+
+    html += '<div class="card">';
+    html += '<h2>' + flag + ' ' + name + '</h2>';
+
+    projects.forEach(function (p) {
+      html += '<div class="project-item">';
+      html += '<span class="check">✅</span>';
+      html += '<div class="info">';
+      html += '<div class="name">' + escapeHtml(p) + '</div>';
+      html += '</div>';
+      html += '</div>';
+    });
+
+    html += '</div>';
+  });
+
+  if (!hasAnySelection) {
+    html = '<div class="card"><div class="empty"><div class="icon">📭</div>暂无评估结果</div></div>';
+  }
+
+  document.getElementById('results').innerHTML = html;
+  document.getElementById('actions').style.display = hasAnySelection ? 'flex' : 'none';
+}
+
+// ========== 跳转执行策划案 ==========
+function goToExecPlan() {
+  var u = new URL(window.location.href);
+  var issue = u.searchParams.get('issue') || '';
+
+  if (!issue) { toast('未找到Issue编号'); return; }
+
+  var data = getBatchData(issue);
+  if (!data) { toast('暂无评估数据'); return; }
+
+  // 收集所有国家和项目
+  var countriesArr = [];
+  var projectsArr = [];
+  Object.keys(data).forEach(function (c) {
+    var info = data[c];
+    var projs = (info && info.projects && Array.isArray(info.projects)) ? info.projects : [];
+    if (projs.length > 0) {
+      countriesArr.push(c);
+      projs.forEach(function (p) { projectsArr.push(c + ':' + encodeURIComponent(p)); });
+    }
+  });
+
+  if (countriesArr.length === 0) { toast('请至少完成一个国家的评估'); return; }
+
+  // 跳转到执行策划案页面
+  var target = 'exec.html?issue=' + encodeURIComponent(issue) +
+    '&countries=' + encodeURIComponent(countriesArr.join(',')) +
+    '&projects=' + encodeURIComponent(projectsArr.join('|'));
+  toast('正在进入执行策划案...');
+  setTimeout(function () {
+    window.location.href = target;
+  }, 800);
+}
+
+// ========== 工具函数 ==========
+function escapeHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ========== 启动 ==========
+window.addEventListener('load', loadResults);
+</script>
+</body>
+</html>
