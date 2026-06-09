@@ -399,9 +399,10 @@ window.goExecPlan=function(){
       h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button><button class="flow-primary" onclick="goExecPlan()">下一阶段</button></div>';
       h+='</div>';
     } else {
-      h+='<div class="rs-card"><p style="color:#888;text-align:center;padding:20px">⚠️ 暂未匹配到完全符合条件的项目，请返回修改问卷。</p>';
-      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button></div>';
-      h+='</div>';
+      h+='<div class="rs-card"><p style="color:#888;text-align:center;padding:20px">⚠️ 暂未匹配到完全符合条件的项目。</p>';
+      h+='<div class="flow-actions"><button class="flow-secondary" onclick="goPrevStage()">返回上一阶段</button><button class="flow-secondary" onclick="goBack()">返回修改问卷</button>';
+      var bu=new URL(window.location.href); if(bu.searchParams.get('batch')==='1') h+='<button class="flow-primary" style="background:#d97706" onclick="goExecPlan()">下一阶段（跳过该国）</button>';
+      h+='</div></div>';
     }
 
     D.getElementById('results').innerHTML=h;
