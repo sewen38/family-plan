@@ -6,7 +6,8 @@
 <title>执行策划案 · 家庭全球规划</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1f2937;line-height:1.68}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#f5f6f8;color:#1f2937;line-height:1.68;word-break:break-word;-webkit-text-size-adjust:100%}
 .hero{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;text-align:center;padding:28px 18px}
 .hero h1{font-size:20px;margin:0 0 4px}
 .hero p{font-size:13px;opacity:.85}
@@ -15,7 +16,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue'
 .card h2{font-size:17px;color:#1a237e;margin-bottom:12px;border-left:4px solid #283593;padding-left:10px}
 .card h3{font-size:15px;color:#1a237e;margin:14px 0 8px}
 .pill{display:inline-block;background:#e8eaf6;color:#1a237e;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;margin:3px}
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e5e7eb;border-radius:10px;margin:10px 0}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e5e7eb;border-radius:10px;margin:10px 0;max-width:100%}
 table{border-collapse:collapse;min-width:600px;width:100%;font-size:13px}
 th,td{border-bottom:1px solid #e5e7eb;padding:9px 10px;text-align:left;vertical-align:top}
 th{background:#f1f5f9;color:#475569;font-weight:700;font-size:12px}
@@ -42,7 +43,14 @@ th{background:#f1f5f9;color:#475569;font-weight:700;font-size:12px}
 .commission-item span{font-size:12px;color:#667085}
 .commission-table{margin-top:12px}
 @media(max-width:520px){
-  table{min-width:520px}
+  .wrap{padding:10px}
+  .card,.pwd-card{padding:14px 12px;border-radius:12px}
+  .card h2,.pwd-card h2{font-size:16px}
+  .table-wrap{border-radius:12px;box-shadow:inset -10px 0 12px -12px rgba(15,23,42,.35)}
+  table{min-width:0;width:100%;font-size:12.5px;table-layout:fixed}
+  th,td{padding:8px 7px;word-break:break-word;overflow-wrap:anywhere}
+  .actions,.pwd-row{flex-direction:column}
+  .btn,.pwd-row button{width:100%;padding:13px 14px}
   .hero h1{font-size:18px}
   .commission-grid{grid-template-columns:1fr}
 }

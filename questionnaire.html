@@ -6,7 +6,8 @@
 <title>⚡ 快速版问卷 · 家庭全球规划</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;background:#f5f5f5;color:#1a1a1a;padding:12px;max-width:600px;margin:0 auto}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+body{font-family:-apple-system,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;background:#f5f5f5;color:#1a1a1a;padding:12px;max-width:600px;margin:0 auto;word-break:break-word;-webkit-text-size-adjust:100%}
 h1{font-size:20px;margin:8px 0 4px;text-align:center}
 .sub{text-align:center;color:#888;font-size:13px;margin-bottom:16px}
 .q-card{background:#fff;border-radius:12px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
@@ -18,7 +19,7 @@ label{display:block;margin-bottom:5px;font-size:14px;color:#555}
 input[type=text],textarea{width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;margin-bottom:8px;outline:none;transition:border .2s}
 input:focus,textarea:focus{border-color:#1a73e8}
 .chip-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.chip{display:inline-flex;align-items:center;padding:6px 12px;border:1.5px solid #d0d0d0;border-radius:20px;font-size:13px;cursor:pointer;user-select:none;transition:all .15s;background:#fff}
+.chip{display:inline-flex;align-items:center;padding:8px 12px;border:1.5px solid #d0d0d0;border-radius:20px;font-size:13px;cursor:pointer;user-select:none;transition:all .15s;background:#fff;min-height:36px;max-width:100%;line-height:1.35}
 .chip.on{border-color:#1a73e8;background:#e8f0fe;color:#1a73e8;font-weight:600}
 .chip.red.on{border-color:#c62828;background:#ffebee;color:#c62828}
 .flag{font-size:16px;margin-right:2px}
@@ -26,9 +27,11 @@ textarea{resize:vertical;min-height:60px}
 .btn-wrap{text-align:center;margin:20px 0 40px}
 button{background:#1a73e8;color:#fff;border:none;padding:14px 48px;border-radius:24px;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(26,115,232,0.3)}
 button:active{transform:scale(0.97)}
-.result-box{display:none;background:#e8f5e9;border-radius:12px;padding:16px;margin-top:12px;font-size:13px;line-height:1.8}
+.result-box{display:none;background:#e8f5e9;border-radius:12px;padding:16px;margin-top:12px;font-size:13px;line-height:1.8;max-width:100%;overflow:hidden}
 .result-box.show{display:block}
 .copy-btn{background:#4caf50;color:#fff;border:none;padding:6px 16px;border-radius:16px;font-size:12px;cursor:pointer;margin-left:8px}
+pre{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;max-width:100%}
+@media(max-width:480px){body{padding:10px}.q-card{padding:14px 12px;border-radius:12px}.chip-wrap{gap:8px}.chip{font-size:13.5px;padding:9px 12px}button{width:100%;padding:14px 18px;border-radius:14px}.copy-btn{margin:10px 0 0;width:100%;display:block}}
 </style>
 </head>
 <body>
