@@ -159,8 +159,11 @@ document.querySelectorAll('.chip-wrap[id$="-chips"]').forEach(function(wrap){
   });
 });
 
-function submitForm(){
+function buildQuestionnaireText(){
   var lines=[];
+  lines.push('【财税方案快速问卷提交】');
+  lines.push('请直接进入 Step 2，生成《跨境家庭全球规划诊断草案》。不要再发送问卷链接。');
+  lines.push('');
   lines.push('【客户基本信息】');
   lines.push('姓名/代号：'+v('name'));
   lines.push('家庭成员：'+v('family'));
@@ -205,7 +208,11 @@ function submitForm(){
   lines.push('已有计划：'+v('existingPlan'));
   lines.push('其他限制：'+v('otherConstraint'));
 
-  var text=lines.join('\n');
+  return lines.join('\n');
+}
+
+function submitForm(){
+  var text=buildQuestionnaireText();
   var box=document.getElementById('result');
   box.innerHTML='<strong>✅ 已生成！长按复制以下内容，发给顾问：</strong><br><br><pre style="white-space:pre-wrap;background:#fff;padding:10px;border-radius:8px;margin:8px 0;font-size:13px;line-height:1.8;max-height:300px;overflow-y:auto">'+text.replace(/</g,'&lt;')+'</pre><button class="copy-btn" onclick="copyText()">📋 一键复制</button>';
   box.classList.add('show');
@@ -215,52 +222,7 @@ function submitForm(){
 function v(id){return (document.getElementById(id)||{}).value||'未填'}
 
 function copyText(){
-  var lines=[];
-  // Rebuild the text
-  lines.push('【客户基本信息】');
-  lines.push('姓名/代号：'+v('name'));
-  lines.push('家庭成员：'+v('family'));
-  lines.push('国籍/护照：'+v('nationality'));
-  lines.push('');
-  lines.push('【税务居住】');
-  lines.push('居住地：'+v('residence'));
-  lines.push('税务居民：'+v('taxResident'));
-  lines.push('');
-  lines.push('【企业收入】');
-  lines.push('企业：'+v('biz'));
-  lines.push('年营收：'+v('revenue'));
-  lines.push('收入来源：'+v('incomeSource'));
-  lines.push('');
-  lines.push('【资产概况】');
-  lines.push('资产规模：'+v('assets'));
-  lines.push('资产构成：'+v('assetType'));
-  lines.push('');
-  lines.push('【目标诉求】');
-  lines.push('意向国家：'+v('countries'));
-  lines.push('核心诉求：'+v('needs'));
-  lines.push('预算：'+v('budget'));
-  lines.push('紧迫度：'+v('urgency'));
-  lines.push('');
-  lines.push('【海外身份】');
-  lines.push('绿卡/护照：'+v('overseasId'));
-  lines.push('海外天数：'+v('overseasDays'));
-  lines.push('报税情况：'+v('taxHistory'));
-  lines.push('');
-  lines.push('【海外资产】');
-  lines.push('境外账户：'+v('overseasAcct'));
-  lines.push('境外房产：'+v('overseasProperty'));
-  lines.push('境外公司/信托/保险：'+v('overseasEntity'));
-  lines.push('');
-  lines.push('【资金跨境】');
-  lines.push('已转出境：'+v('fundOut'));
-  lines.push('计划转出：'+v('fundPlan'));
-  lines.push('');
-  lines.push('【关键约束】');
-  lines.push('保留国籍：'+v('keepCN'));
-  lines.push('兼顾经营：'+v('bizCN'));
-  lines.push('已有计划：'+v('existingPlan'));
-  lines.push('其他限制：'+v('otherConstraint'));
-  var text=lines.join('\n');
+  var text=buildQuestionnaireText();
   navigator.clipboard.writeText(text).then(function(){
     alert('已复制到剪贴板！发给顾问即可');
   }).catch(function(){
