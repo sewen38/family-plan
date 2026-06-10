@@ -205,7 +205,18 @@ document.getElementById('pwdOverlay').addEventListener('click', function (e) {
 function goToWaitingPage(){
   var issue = new URL(window.location.href).searchParams.get('issue') || '';
   if (!issue) { toast('未找到Issue编号'); return; }
-  window.location.href = 'waiting.html?issue=' + encodeURIComponent(issue);
+  var data = getBatchData(issue);
+  if (!data) { toast('暂未收集到评估数据'); return; }
+  var cs=[],ps=[];
+  getSelectedCountries(data).forEach(function(c){
+    var info=data[c]||{};var projs=extractProjects(info);
+    cs.push(c);projs.forEach(function(p){ps.push(c+':'+encodeURIComponent(p))});
+  });
+  if (!cs.length) cs = getSelectedCountries(data);
+  var url = 'waiting.html?issue='+encodeURIComponent(issue);
+  if (cs.length) url += '&countries='+encodeURIComponent(cs.join(','));
+  if (ps.length) url += '&projects='+encodeURIComponent(ps.join('|'));
+  window.location.href = url;
 }
 
 // ========== 渲染汇总 ==========

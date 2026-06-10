@@ -91,25 +91,28 @@ function goBack(){
 }
 function refreshPage(){location.reload()}
 function viewPlan(){
-  var issue=q('issue'),data=getBatchData(issue);
-  if(!data)return;
-  var cs=[],ps=[];
-  Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
-    cs.push(c);var projs=extractProjects(data[c]||{});projs.forEach(function(p){ps.push(c+':'+encodeURIComponent(p))});
-  });
-  if(!cs.length)return;
-  location.href='fusion.html?issue='+encodeURIComponent(issue)+'&countries='+encodeURIComponent(cs.join(','))+'&projects='+encodeURIComponent(ps.join('|'));
+  var issue=q('issue'),cs=q('countries'),ps=q('projects');
+  var url='fusion.html?issue='+encodeURIComponent(issue);
+  if(cs)url+='&countries='+encodeURIComponent(cs);
+  if(ps)url+='&projects='+encodeURIComponent(ps);
+  location.href=url;
 }
 
 function renderSummary(){
-  var issue=q('issue');document.getElementById('sub').textContent='Issue #'+issue;
+  var issue=q('issue'),cs=(q('countries')||'').split(',').filter(Boolean),psRaw=(q('projects')||'').split('|').filter(Boolean);
+  document.getElementById('sub').textContent='Issue #'+issue;
   if(!issue){document.getElementById('summary').innerHTML='<p>缺少 issue 编号</p>';return}
-  var data=getBatchData(issue);
-  if(!data){document.getElementById('summary').innerHTML='<p>评估数据未找到。请返回上一阶段重新评估。</p>';return}
+  if(!cs.length){document.getElementById('summary').innerHTML='<p>未找到选中国家和项目。请返回上一阶段重新评估。</p>';return}
+  // Parse projects from URL or localStorage
+  var projects={};psRaw.forEach(function(x){var p=x.split(':');if(p[1])projects[p[0]]=p[1].split(',')});
+  if(!Object.keys(projects).length){
+    var data=getBatchData(issue);
+    if(data)cs.forEach(function(c){var info=data[c]||{};var ps=extractProjects(info);if(ps.length)projects[c]=ps});
+  }
   var s='<table><thead><tr><th>国家</th><th>选中项目</th></tr></thead><tbody>';
-  Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
-    var cn=COUNTRY_NAMES[c]||c.toUpperCase(),emoji=COUNTRY_EMOJI[c]||'',info=data[c]||{},ps=extractProjects(info);
-    s+='<tr><td>'+emoji+' '+cn+'</td><td>'+(ps.length?ps.map(esc).join('、'):'<i>暂无用户勾选项目</i>')+'</td></tr>';
+  cs.forEach(function(c){
+    var cn=COUNTRY_NAMES[c]||c.toUpperCase(),emoji=COUNTRY_EMOJI[c]||'',ps=projects[c]||[];
+    s+='<tr><td>'+emoji+' '+cn+'</td><td>'+(ps.length?ps.map(esc).join('、'):'<i>保留国家上下文</i>')+'</td></tr>';
   });
   s+='</tbody></table>';
   document.getElementById('summary').innerHTML=s;

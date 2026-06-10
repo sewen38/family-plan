@@ -8,6 +8,25 @@
 </style>
 </head>
 <body>
+<script>
+var _issue = new URL(location.href).searchParams.get('issue')||'';
+if (_issue) {
+  try {
+    var _raw = localStorage.getItem('batchData_' + _issue);
+    if (_raw) {
+      var _bd = JSON.parse(_raw);
+      var _keys = Object.keys(_bd).filter(function(k){return k.indexOf('__')!==0});
+      if (_keys.length > 0) {
+        // Assessment data exists, offer quick jump to waiting page
+        var _bar = document.createElement('div');
+        _bar.style.cssText = 'background:#e8f2fb;border-bottom:2px solid #1769aa;padding:10px 16px;text-align:center;font-size:14px';
+        _bar.innerHTML = '📋 检测到已完成评估 · <a href="waiting.html?issue='+encodeURIComponent(_issue)+'" style="color:#1769aa;font-weight:800">点击进入执行策划案</a>';
+        document.body.insertBefore(_bar, document.body.firstChild);
+      }
+    }
+  } catch(e) {}
+}
+</script>
 <div class="hero"><h1>家庭全球规划 · 诊断草案</h1><p id="sub">正在载入文档...</p></div>
 <div class="wrap"><div class="toolbar"><button class="btn secondary" onclick="history.back()">返回上一页</button><button class="btn primary" onclick="window.print()">保存 / 打印 PDF</button></div><div class="doc" id="doc"><div class="loading">正在读取诊断草案...</div></div></div>
 <script>
