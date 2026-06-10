@@ -114,7 +114,7 @@ function renderSummary(){
   }
   var s='<table><thead><tr><th>国家</th><th>选中项目</th></tr></thead><tbody>';
   cs.forEach(function(c){
-    var cn=COUNTRY_NAMES[c]||c.toUpperCase(),emoji=COUNTRY_EMOJI[c]||'',ps=projects[c]||[];
+    var cn=COUNTRY_NAMES[c]||c.toUpperCase(),emoji=COUNTRY_EMOJI[c]||'',ps=(projects[c]||[]).map(function(p){try{return decodeURIComponent(p)}catch(e){return p}});
     s+='<tr><td>'+emoji+' '+cn+'</td><td>'+(ps.length?ps.map(esc).join('、'):'<i>保留国家上下文</i>')+'</td></tr>';
   });
   s+='</tbody></table>';
