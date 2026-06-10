@@ -312,11 +312,18 @@ function showDiagnosisStyleResult() {
   html += '</div>';
   html += '</div>';
 
-  // Hide original summary, show diagnosis result
-  document.getElementById('summaryContainer').style.display = 'none';
+  // Replace summary content with diagnosis result
+  var resultsDiv = document.getElementById('results');
   document.getElementById('actions').style.display = 'none';
-  document.getElementById('pwdBtn').style.display = 'none';
+  // Create or reuse diagnosis result container
   var dr = document.getElementById('diagnosisResult');
+  if (!dr) {
+    dr = document.createElement('div');
+    dr.id = 'diagnosisResult';
+    dr.style.cssText = 'background:#fff;border-radius:16px;padding:22px;margin:0;box-shadow:0 1px 4px rgba(0,0,0,.06)';
+    resultsDiv.parentNode.insertBefore(dr, resultsDiv);
+  }
+  resultsDiv.style.display = 'none';
   dr.innerHTML = html;
   dr.style.display = 'block';
   dr.scrollIntoView({behavior:'smooth'});
