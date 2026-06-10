@@ -59,6 +59,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 @media(max-width:480px){.header{padding:22px 14px}.card{margin:10px;padding:16px 12px}.actions{position:fixed;left:0;right:0;bottom:env(safe-area-inset-bottom,0px);z-index:50;background:#f5f6f8;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));margin:0;box-shadow:0 -4px 18px rgba(15,23,42,.12);border-top:1px solid #e5e7eb}.actions button{width:100%;min-width:0;padding:12px 8px;font-size:14px;line-height:1.25}.modal{width:calc(100% - 24px);padding:22px 16px}.project-item{font-size:13.5px}}
 
 .diagnosis-result{font-size:15px;line-height:1.8;color:#374151}.diagnosis-result h2{font-size:22px}.diagnosis-result h3{font-size:16px;margin-top:20px;color:#0b2a5b}.diagnosis-result blockquote{background:#f0f7ff;border-left:4px solid #2563eb;padding:14px 16px;border-radius:8px;margin:12px 0}.diagnosis-result table{font-size:14px}
+
+.hero{background:linear-gradient(135deg,#1769aa,#2b8fd8);color:white;padding:28px 18px;text-align:center}.hero h1{font-size:22px;margin:0 0 6px}.hero p{font-size:13px;opacity:.9;margin:0}.wrap{max-width:860px;margin:0 auto;padding:12px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;text-decoration:none;cursor:pointer}.primary{background:#1769aa;color:#fff}.secondary{background:#e8f2fb;color:#1769aa}.loading{padding:30px;text-align:center;color:#667085}.warn{background:#fff7ed;border-left:4px solid #f97316;border-radius:10px;padding:12px;margin:10px 0}.danger{background:#fff1f2;border-left:4px solid #e11d48;border-radius:10px;padding:12px;margin:10px 0}.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #e5e7eb;border-radius:12px;margin:12px 0;max-width:100%}@media(max-width:520px){.wrap{padding:10px}.hero h1{font-size:20px}.toolbar{flex-direction:column}.btn{width:100%;text-align:center}.table-wrap{box-shadow:inset -10px 0 12px -12px rgba(15,23,42,.35)}}
+.diagnosis-result{font-size:15px;line-height:1.8;color:#374151}.diagnosis-result h2{font-size:20px;margin-top:24px}.diagnosis-result h3{font-size:16px;margin-top:18px;color:#0f4c81}.diagnosis-result blockquote{background:#f0f7ff;border-left:4px solid #2563eb;padding:14px 16px;border-radius:8px;margin:12px 0;font-size:14px}.diagnosis-result table{font-size:14px;width:100%}.diagnosis-result table th,.diagnosis-result table td{padding:10px 12px;text-align:left}.diagnosis-result table th{background:#f8fafc;color:#475569;font-weight:700;font-size:13px}.diagnosis-result hr{border:0;border-top:1px solid #e5e7eb;margin:16px 0}
 </style>
 </head>
 <body>
@@ -328,10 +331,14 @@ function showDiagnosisStyleResult(skipSave) {
 
   // Buttons: view exec plan + return to diagnosis draft
   var diagUrl = 'document.html?issue=' + encodeURIComponent(issue);
-  html += '<div style=text-align:center;margin:32px 0>';
-  html += '<button onclick=goToExecPlan() style=font-size:18px;padding:14px 36px;background:#0f3b82;margin:0 8px>📋 查看执行策划案</button>';
-  html += '<button onclick="location.href=\'' + diagUrl + '\'" style=font-size:16px;padding:12px 28px;background:#6b7280;margin:8px>← 返回上一阶段</button>';
-  html += '<p style=color:#888;font-size:12px;margin-top:12px>查看执行策划案将跳转到完整融合方案 | 返回上一阶段回到诊断草案</p>';
+  html += '<div class="toolbar">';
+  html += '<button class="btn primary" onclick="goToExecPlan()">📋 查看执行策划案</button>';
+  html += '<button class="btn secondary" onclick="location.href=\'' + diagUrl + '\'">← 返回上一阶段</button>';
+  html += '</div>';
+  html += '<div class="toolbar">';
+  html += '<button class="btn secondary" onclick="location.reload()">🔄 刷新执行策划案</button>';
+  html += '</div>';
+  html += '<p style="text-align:center;color:#888;font-size:12px;margin-top:8px">执行策划案生成约需30分钟，可关闭页面稍后重新打开本链接查看。</p>';
   html += '</div>';
   html += '</div>';
 
@@ -343,11 +350,12 @@ function showDiagnosisStyleResult(skipSave) {
   if (!dr) {
     dr = document.createElement('div');
     dr.id = 'diagnosisResult';
-    dr.style.cssText = 'background:#fff;border-radius:16px;padding:22px;margin:0;box-shadow:0 1px 4px rgba(0,0,0,.06)';
+    dr.className = 'wrap';
     resultsDiv.parentNode.insertBefore(dr, resultsDiv);
   }
   resultsDiv.style.display = 'none';
-  dr.innerHTML = html;
+  var heroHtml = '<div class="hero"><h1>家庭全球规划 · 执行策划案</h1><p id="sub">Issue #' + escHtml(issue) + '</p></div>';
+  dr.innerHTML = heroHtml + '<div class="doc">' + html + '</div>';
   dr.style.display = 'block';
   dr.scrollIntoView({behavior:'smooth'});
 }
