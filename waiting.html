@@ -4,12 +4,13 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>执行策划案 · 等待中</title>
 <style>
-*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:#f6f7fb;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',Arial,sans-serif;line-height:1.72;word-break:break-word;-webkit-text-size-adjust:100%}.hero{background:linear-gradient(135deg,#1769aa,#2b8fd8);color:white;padding:28px 18px;text-align:center}.hero h1{font-size:22px;margin:0 0 6px}.hero p{font-size:13px;opacity:.9;margin:0}.wrap{max-width:860px;margin:0 auto;padding:12px}.doc{background:#fff;border-radius:16px;padding:20px;margin:10px 0 18px;box-shadow:0 2px 10px rgba(15,23,42,.06);max-width:100%;overflow:hidden}h3{font-size:16px;color:#0f4c81;margin-top:18px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;font-size:15px}.primary{background:#1769aa;color:#fff}.secondary{background:#e8f2fb;color:#1769aa}.warn{background:#fff7ed;border-left:4px solid #f97316;border-radius:10px;padding:12px;margin:10px 0;font-size:14px}.danger{background:#fff1f2;border-left:4px solid #e11d48;border-radius:10px;padding:12px;margin:10px 0;font-size:14px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid #e5e7eb;padding:9px;text-align:left}th{background:#f8fafc;color:#475569}.loading{padding:30px;text-align:center;color:#667085}@media(max-width:520px){.wrap{padding:10px}.doc{padding:14px;border-radius:14px}.hero h1{font-size:20px}.toolbar{flex-direction:column}.btn{width:100%;text-align:center}}
+*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:#f6f7fb;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',Arial,sans-serif;line-height:1.72;word-break:break-word;-webkit-text-size-adjust:100%}.hero{background:linear-gradient(135deg,#1769aa,#2b8fd8);color:white;padding:28px 18px;text-align:center}.hero h1{font-size:22px;margin:0 0 6px}.hero p{font-size:13px;opacity:.9;margin:0}.wrap{max-width:860px;margin:0 auto;padding:12px}.doc{background:#fff;border-radius:16px;padding:20px;margin:10px 0 18px;box-shadow:0 2px 10px rgba(15,23,42,.06);max-width:100%;overflow:hidden}h3{font-size:16px;color:#0f4c81;margin-top:18px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;font-size:15px}.primary{background:#1769aa;color:#fff}.secondary{background:#e8f2fb;color:#1769aa}.warn{background:#fff7ed;border-left:4px solid #f97316;border-radius:10px;padding:12px;margin:10px 0;font-size:14px}.danger{background:#fff1f2;border-left:4px solid #e11d48;border-radius:10px;padding:12px;margin:10px 0;font-size:14px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid #e5e7eb;padding:9px;text-align:left}th{background:#f8fafc;color:#475569}.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;z-index:100}.modal{background:#fff;border-radius:16px;padding:28px;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2)}.modal h3{font-size:18px;margin:0 0 8px;color:#0f4c81}.modal p{font-size:14px;color:#666;margin:0 0 16px}.modal input{width:100%;padding:12px;border:2px solid #d1d5db;border-radius:10px;font-size:16px;text-align:center;margin-bottom:12px}.modal .hint{font-size:13px;color:#e53935;min-height:20px;margin-bottom:8px}.modal .btn-row{display:flex;gap:10px}.modal .btn-row button{flex:1}@media(max-width:520px){.wrap{padding:10px}.doc{padding:14px}.hero h1{font-size:20px}.toolbar{flex-direction:column}.btn{width:100%;text-align:center}}
 </style>
 </head>
 <body>
 <div class="hero"><h1>家庭全球规划 · 执行策划案</h1><p id="sub">正在准备...</p></div>
-<div class="wrap">
+
+<div class="wrap" id="mainWrap" style="display:none">
   <div class="toolbar">
     <button class="btn primary" id="btnView" onclick="viewPlan()">📋 查看执行策划案</button>
     <button class="btn secondary" onclick="goBack()">← 返回上一阶段</button>
@@ -17,7 +18,7 @@
   <div class="toolbar">
     <button class="btn secondary" onclick="refreshPage()">🔄 刷新执行策划案</button>
   </div>
-  <p style="text-align:center;color:#888;font-size:12px;margin-top:10px">执行策划案生成约需30分钟，可关闭页面稍后重新打开本链接查看。</p>
+  <p style="text-align:center;color:#888;font-size:12px;margin-top:10px">执行策划案生成约需30分钟，可关闭页面稍后重新打开本链接继续查看。</p>
   <div class="doc">
     <h3 style="text-align:center;color:#0f4c81">📋 评估结果汇总</h3>
     <div id="summary"></div>
@@ -36,29 +37,75 @@
     <div class="warn"><b>政策时效性：</b>各国移民政策持续变动，执行前须完成最新核验。</div>
   </div>
 </div>
+
+<!-- 密码弹窗 -->
+<div class="overlay" id="pwdOverlay">
+  <div class="modal">
+    <h3>🔐 身份验证</h3>
+    <p>请输入顾问密码以查看执行策划案</p>
+    <input type="password" id="pwdInput" placeholder="请输入密码" maxlength="20">
+    <div class="hint" id="pwdHint"></div>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="goBackNoVerify()">取消</button>
+      <button class="btn primary" onclick="verifyAndShow()">确认</button>
+    </div>
+  </div>
+</div>
+
 <script>
+var PWD = '888888';
 var COUNTRY_EMOJI = {hk:'🇭🇰',sg:'🇸🇬',tr:'🇹🇷',us:'🇺🇸',au:'🇦🇺',nz:'🇳🇿',jp:'🇯🇵',eu:'🇪🇺',dm:'🇩🇲',vu:'🇻🇺',ge:'🇬🇪'};
 var COUNTRY_NAMES = {hk:'香港',sg:'新加坡',tr:'土耳其',us:'美国',au:'澳大利亚',nz:'新西兰',jp:'日本',eu:'欧洲',dm:'多米尼克',vu:'瓦努阿图',ge:'格鲁吉亚'};
-var BATCH_DATA_KEY = '***';
 
 function q(k){return new URL(location.href).searchParams.get(k)||''}
 function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function toast(m){var e=document.getElementById('tt');if(!e){e=document.createElement('div');e.id='tt';e.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 20px;border-radius:10px;z-index:999;font-size:14px;opacity:0;transition:opacity .3s';document.body.appendChild(e)}e.textContent=m;e.style.opacity=1;setTimeout(function(){e.style.opacity=0},2000)}
 
 function getBatchData(issue){
   try{var raw=localStorage.getItem('batchData_'+issue);return raw?JSON.parse(raw):null}catch(e){return null}
 }
-
 function extractProjects(info){
   if(!info||!Array.isArray(info.projects))return[];
   var seen={};return info.projects.filter(function(p){p=String(p||'').trim();if(!p||seen[p])return false;seen[p]=true;return true})
 }
 
+function verifyAndShow(){
+  var v=document.getElementById('pwdInput').value.trim();
+  if(v===PWD){
+    document.getElementById('pwdOverlay').style.display='none';
+    document.getElementById('mainWrap').style.display='block';
+    renderSummary();
+  }else{
+    document.getElementById('pwdHint').textContent='密码错误，请重试';
+    document.getElementById('pwdInput').value='';
+    document.getElementById('pwdInput').focus();
+  }
+}
+
+function goBackNoVerify(){
+  var issue=q('issue');
+  location.href='batch-summary.html?issue='+encodeURIComponent(issue);
+}
+function goBack(){
+  var issue=q('issue');
+  location.href='document.html?issue='+encodeURIComponent(issue);
+}
+function refreshPage(){location.reload()}
+function viewPlan(){
+  var issue=q('issue'),data=getBatchData(issue);
+  if(!data)return;
+  var cs=[],ps=[];
+  Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
+    cs.push(c);var projs=extractProjects(data[c]||{});projs.forEach(function(p){ps.push(c+':'+encodeURIComponent(p))});
+  });
+  if(!cs.length)return;
+  location.href='fusion.html?issue='+encodeURIComponent(issue)+'&countries='+encodeURIComponent(cs.join(','))+'&projects='+encodeURIComponent(ps.join('|'));
+}
+
 function renderSummary(){
   var issue=q('issue');document.getElementById('sub').textContent='Issue #'+issue;
-  if(!issue){document.getElementById('summary').innerHTML='<p class=loading>缺少 issue 编号</p>';return}
+  if(!issue){document.getElementById('summary').innerHTML='<p>缺少 issue 编号</p>';return}
   var data=getBatchData(issue);
-  if(!data){document.getElementById('summary').innerHTML='<p class=loading>评估数据未找到。请返回上一阶段重新评估。</p>';return}
+  if(!data){document.getElementById('summary').innerHTML='<p>评估数据未找到。请返回上一阶段重新评估。</p>';return}
   var s='<table><thead><tr><th>国家</th><th>选中项目</th></tr></thead><tbody>';
   Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
     var cn=COUNTRY_NAMES[c]||c.toUpperCase(),emoji=COUNTRY_EMOJI[c]||'',info=data[c]||{},ps=extractProjects(info);
@@ -66,21 +113,14 @@ function renderSummary(){
   });
   s+='</tbody></table>';
   document.getElementById('summary').innerHTML=s;
-
-  // Build fusion URL
-  var cs=[],ps=[];
-  Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
-    cs.push(c);var projs=extractProjects(data[c]||{});projs.forEach(function(p){ps.push(c+':'+encodeURIComponent(p))});
-  });
-  document.getElementById('btnView').onclick=function(){
-    location.href='fusion.html?issue='+encodeURIComponent(issue)+'&countries='+encodeURIComponent(cs.join(','))+'&projects='+encodeURIComponent(ps.join('|'));
-  };
 }
 
-function viewPlan(){var btn=document.getElementById('btnView');if(btn.onclick)btn.onclick();else toast('正在准备...')}
-function goBack(){var issue=q('issue');location.href='document.html?issue='+encodeURIComponent(issue)}
-function refreshPage(){location.reload()}
-renderSummary();
+// On load: always show password overlay
+document.getElementById('pwdOverlay').style.display='flex';
+document.getElementById('pwdInput').focus();
+
+// Enter key submits
+document.getElementById('pwdInput').addEventListener('keydown',function(e){if(e.key==='Enter')verifyAndShow()});
 </script>
 </body>
 </html>

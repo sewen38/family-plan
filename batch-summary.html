@@ -73,7 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 
 <div class="actions" id="actions" style="display:none">
   <button class="btn-secondary" onclick="history.back()">← 返回修改</button>
-  <button class="btn-primary" onclick="showPasswordModal()">📋 下一阶段 · 生成执行策划案</button>
+  <button class="btn-primary" onclick="goToWaitingPage()">📋 下一阶段 · 生成执行策划案</button>
 </div>
 
 <!-- 密码弹窗 -->
@@ -162,7 +162,7 @@ function toast(msg) {
 }
 
 // ========== 密码弹窗 ==========
-function showPasswordModal() {
+function goToWaitingPage() {
   document.getElementById('pwdOverlay').classList.add('show');
   document.getElementById('pwdInput').value = '';
   document.getElementById('pwdHint').textContent = '';
@@ -201,6 +201,12 @@ document.addEventListener('keydown', function (e) {
 document.getElementById('pwdOverlay').addEventListener('click', function (e) {
   if (e.target === this) closePasswordModal();
 });
+
+function goToWaitingPage(){
+  var issue = new URL(window.location.href).searchParams.get('issue') || '';
+  if (!issue) { toast('未找到Issue编号'); return; }
+  window.location.href = 'waiting.html?issue=' + encodeURIComponent(issue);
+}
 
 // ========== 渲染汇总 ==========
 function loadResults() {
