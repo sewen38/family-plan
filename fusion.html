@@ -1,0 +1,229 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>融合执行策划案 v19</title><script src=fusion-templates-data.js></script><style>
+*{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;background:#f5f6f8;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;line-height:1.65}header{background:linear-gradient(135deg,#071a3d,#0f3b82);color:#fff;padding:28px 18px;text-align:center}main{max-width:980px;margin:0 auto;padding:14px}section,.sec{background:#fff;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}h1{margin:0;font-size:28px}h2{color:#0b2a5b;border-bottom:2px solid #fee2e2;padding-bottom:8px;margin-top:24px}h3{color:#123b73;margin-top:22px}h4{color:#0f3b82;font-size:16px;margin:18px 0 8px;font-weight:800}h5{color:#1e3a8a;font-size:15px;margin:14px 0 6px;font-weight:700}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;display:block;overflow-x:auto}td,th{border:1px solid #e5e7eb;padding:8px;vertical-align:top}th{background:#e8f1ff;color:#0b2a5b}blockquote{background:#fff7ed;border-left:4px solid #f97316;padding:10px 12px;border-radius:8px}button{border:0;background:#0f3b82;color:#fff;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer}input,textarea,select{display:block;width:100%;padding:10px;margin:6px 0 14px;border:1px solid #d1d5db;border-radius:8px}.calc-zone{border:3px solid #2563eb;background:#eff6ff}.calc{border:2px dashed #f59e0b;background:#fffbeb;margin:12px 0;padding:14px;border-radius:12px}.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.calc-grid label{display:block;font-weight:700}.commission{background:#111827;color:#fff}.commission h2{color:#fff;border-color:#374151}.commission-item{background:#1f2937;border:1px solid #374151;border-radius:12px;padding:14px;margin:10px 0}.commission-item h3{color:#fff;margin-top:0}.figure{margin:16px 0;text-align:center;overflow:hidden}.figure img,.figure svg,.inline-svg{max-width:100%!important;width:100%!important;height:auto!important;border:1px solid #e5e7eb;border-radius:12px;background:#fff}.figure figcaption{font-size:12px;color:#666;margin-top:6px}.sync-slot{background:#ecfdf5;border:1px solid #10b981;border-radius:10px;padding:12px;margin:10px 0}.flow-card-wrap{display:flex;flex-direction:column;gap:6px;margin:14px 0}.flow-card-wrap h4{color:#0f3b82;margin:0 0 8px}.flow-card{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(135deg,#fff7ed,#fffbeb);border:1px solid #f59e0b;border-radius:12px;padding:12px}.flow-num{width:26px;height:26px;border-radius:50%;background:#0f3b82;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}.flow-content{flex:1;font-weight:600;color:#374151}.flow-arrow{text-align:center;color:#0f3b82;font-weight:900;font-size:18px;line-height:1}.density-ok{background:#10b981;color:#fff;padding:8px 16px;border-radius:12px;margin:12px 0;font-size:12px}.density-low{background:#dc2626;color:#fff;padding:16px;border-radius:12px;margin:16px 0}@media(max-width:640px){header{padding:20px 12px}h1{font-size:21px}main{padding:8px}section,.sec{padding:14px;margin:10px 0;border-radius:12px}h2{font-size:18px}h3{font-size:16px}td,th{font-size:12px;padding:6px}button{width:100%;margin:6px 0}.calc-grid{grid-template-columns:1fr!important}}@media print{.commission input,.commission button{display:none}body{background:#fff}section,.sec{box-shadow:none}}
+</style></head><body>
+<header><h1 id=pageTitle>融合执行策划案</h1><p>V19 前端融合引擎 · 加载中...</p></header>
+<main id=mainContent><section><p>正在加载模板数据...</p></section></main>
+<script>
+// ===== COUNTRY/PROJECT CONFIG =====
+var C = {
+  hk:{n:'香港',f:'香港/exec',p:['高才通A','高才通B','高才通C','QMAS','ASMTP-雇主','ASMTP-自雇','IANG'],c:[]},
+  sg:{n:'新加坡',f:'新加坡/exec',p:['EP就业准证','PIC自雇','家办13O','家办13U','GIP-A','GIP-B','GIP-C','Tech.Pass'],c:['COMPASS']},
+  tr:{n:'土耳其',f:'土耳其/exec-realestate-购房',p:['购房入籍','基金入籍','存款入籍'],c:['realestate-budget']},
+  us:{n:'美国',f:'美国/exec',p:['EB-1A','EB-2 NIW','EB-5','E-2','L-1A','O-1A'],c:[]},
+  au:{n:'澳大利亚',f:'澳大利亚/exec',p:['NIV858','189','190','491','482','186DE','186TRT'],c:['EOI']},
+  nz:{n:'新西兰',f:'新西兰/exec',p:['SMC','雇主认证','投资/企业'],c:['SMC']},
+  jp:{n:'日本',f:'日本/exec',p:['高度人才','经营管理','技术人文'],c:['高度人才积分']},
+  eu:{n:'欧洲',f:'欧洲/exec',p:['葡萄牙','希腊','马耳他','爱尔兰','西班牙'],c:[]},
+  dm:{n:'多米尼克',f:'多米尼克/exec',p:['捐款入籍','房产入籍'],c:[]},
+  vu:{n:'瓦努阿图',f:'瓦努阿图/exec',p:['DSP捐款','荣誉公民'],c:[]},
+  ge:{n:'格鲁吉亚',f:'格鲁吉亚/exec',p:['投资居留','数字游民','HNWI税收'],c:[]}
+};
+var TAX_KEY = '财税执行策划案框架模版/exec';
+var CH15 = ['一、客户家庭基本信息','二、核心策略','三、合规清理详细方案','四、境外资金归集与投资架构','五、投资使用建议','六、财富架构搭建方案','七、税务分析','八、资金跨境合规方案','九、身份路径规划','十、教育规划','十一、福利居住国规划','十二、预算明细汇总','十三、执行时间轴'];
+
+// ===== HELPERS =====
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function md2html(md){
+  var lines=md.split('\n'),out=[],inTable=false,inCode=false,codeLines=[];
+  function closeTable(){if(inTable){out.push('</tbody></table>');inTable=false}}
+  function closeCode(){if(inCode){var t=codeLines.join('\n').trim();if(t){var cards=flowToCards(t);if(cards)out.push(cards);else out.push('<pre>'+esc(t)+'</pre>')}inCode=false;codeLines=[]}
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i].trimEnd();
+    if(/^```/.test(line.trim())){closeTable();if(inCode)closeCode();else{inCode=true;codeLines=[]}continue}
+    if(inCode){codeLines.push(line);continue}
+    if(!line){closeTable();continue}
+    if(/^\|.*\|$/.test(line)){var cells=line.replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim()});if(cells.every(function(c){return /^-{3,}:?$/.test(c.replace(/\s/g,''))}))continue;if(!inTable){out.push('<table><tbody>');inTable=true}var tag=out.length&&out[out.length-1]==='<tbody>'?'th':'td';out.push('<tr>'+cells.map(function(c){return '<'+tag+'>'+esc(c)+'</'+tag+'>'}).join('')+'</tr>');continue}
+    var m=/^!\[([^\]]*)\]\((.+)\)$/.exec(line);if(m){closeTable();var alt=m[1],src=m[2];if(src.indexOf('data:image/svg+xml;base64,')===0){try{var svg=atob(src.split(',')[1]);svg=svg.replace(/<\?xml[^>]*>/,'').trim();out.push('<figure class=figure>'+svg+'<figcaption>'+esc(alt)+'</figcaption></figure>')}catch(e){out.push('<figure class=figure><img src='+esc(src)+' alt='+esc(alt)+'><figcaption>'+esc(alt)+'</figcaption></figure>')}}else{out.push('<figure class=figure><img src='+esc(src)+' alt='+esc(alt)+'><figcaption>'+esc(alt)+'</figcaption></figure>')}continue}
+    if(line.indexOf('##### ')==0){closeTable();out.push('<h5>'+esc(line.slice(6))+'</h5>')}
+    else if(line.indexOf('#### ')==0){closeTable();out.push('<h4>'+esc(line.slice(5))+'</h4>')}
+    else if(line.indexOf('### ')==0){closeTable();out.push('<h3>'+esc(line.slice(4))+'</h3>')}
+    else if(line.indexOf('## ')==0){closeTable();out.push('<h2>'+esc(line.slice(3))+'</h2>')}
+    else if(line.indexOf('# ')==0){closeTable();out.push('<h1>'+esc(line.slice(2))+'</h1>')}
+    else if(line.indexOf('> ')==0){closeTable();out.push('<blockquote>'+esc(line.slice(2))+'</blockquote>')}
+    else if(line.indexOf('- ')==0){closeTable();out.push('<p>'+esc(line.slice(2))+'</p>')}
+    else if(line==='---'){closeTable();out.push('<hr>')}
+    else{closeTable();out.push('<p>'+esc(line)+'</p>')}
+  }
+  closeCode();closeTable();return out.join('\n')
+}
+
+function flowToCards(text){
+  var steps=text.split('\n').map(function(l){return l.trim()}).filter(function(l){return l&&!/^[↓→\-·]+$/.test(l.replace(/\s/g,''))}).map(function(l){return l.replace(/^[┌└│├┤─]+|[┐┘│├┤─]+$/g,'').trim()}).filter(Boolean);
+  if(steps.length<2)return null;
+  var parts=['<div class=flow-card-wrap><h4>办理流程</h4>'];
+  steps.forEach(function(s,i){parts.push('<div class=flow-card><div class=flow-num>'+(i+1)+'</div><div class=flow-content>'+esc(s)+'</div></div>');if(i<steps.length-1)parts.push('<div class=flow-arrow>↓</div>')});
+  parts.push('</div>');return parts.join('')
+}
+
+// ===== TEMPLATE LOADING =====
+function getTemplate(countryCode, selectedProjects){
+  var cc=C[countryCode]; if(!cc)return null;
+  var key=cc.f; var t=FUSION_TEMPLATES[key];
+  if(!t||!t.sections){return null}
+  return t.sections;
+}
+
+function getSection(sections, canonical){
+  var aliases={
+    '一、客户家庭基本信息':['一、客户家庭基本信息','一、客户家庭基本信息（待补充版）'],
+    '二、核心策略':['二、核心策略'],
+    '三、合规清理详细方案':['三、合规清理详细方案'],
+    '四、境外资金归集与投资架构':['四、境外资金归集与投资架构'],
+    '五、投资使用建议':['五、投资使用建议','五、核心路径详解','五、选房指南','五、贡献与资格使用建议'],
+    '六、财富架构搭建方案':['六、财富架构搭建方案'],
+    '七、税务分析':['七、税务分析'],
+    '八、资金跨境合规方案':['八、资金跨境合规方案'],
+    '九、身份路径规划':['九、身份路径规划'],
+    '十、教育规划':['十、教育规划'],
+    '十一、福利居住国规划':['十一、福利居住国规划','十一、福利规划'],
+    '十二、预算明细汇总':['十二、预算明细汇总'],
+    '十三、执行时间轴':['十三、执行时间轴']
+  };
+  var names=aliases[canonical]||[canonical];
+  var secKeys=Object.keys(sections);
+  // Find matching section by checking if any alias is contained in any section key
+  for(var a=0;a<names.length;a++){
+    for(var s=0;s<secKeys.length;s++){
+      if(secKeys[s].indexOf(names[a].replace('（待补充版）',''))===0)return sections[secKeys[s]];
+    }
+  }
+  return null;
+}
+
+function getSVG(countryCode, filename){
+  var key=countryCode+'/svg/'+filename;
+  var t=FUSION_TEMPLATES[key];
+  return t&&t.svg?t.svg:null;
+}
+
+// ===== BUILD ENGINE =====
+function build(){
+  // Parse URL params
+  var params=new URLSearchParams(location.search);
+  var cs=(params.get('countries')||'').split(',').filter(Boolean);
+  var psRaw=(params.get('projects')||'').split('|').filter(Boolean);
+  var projects={};
+  psRaw.forEach(function(p){var parts=p.split(':');if(parts[1]){projects[parts[0]]=parts[1].split(',')}});
+  if(!cs.length)cs=(params.get('issue')||'').split(',').filter(Boolean);
+  
+  // Also support batch-summary style: issue param + localStorage
+  if(!cs.length){
+    var issue=params.get('issue');
+    if(issue)try{
+      var bd=JSON.parse(localStorage.getItem('batchData_'+issue)||'{}');
+      cs=Object.keys(bd).filter(function(k){return k.indexOf('__')!==0});
+      projects={};
+      cs.forEach(function(c){
+        var info=bd[c]||{};var ps=info.projects||info.selectedProjects||[];
+        if(ps.length)projects[c]=ps;
+      });
+    }catch(e){}
+  }
+  
+  if(!cs.length){document.getElementById('mainContent').innerHTML='<section><h2>无参数</h2><p>请通过 ?countries=us,hk,tr&projects=us:EB-1A|hk:TTPS-A|tr:fund 访问</p></section>';return}
+  
+  var doc=[],names=[],taxMd='';
+  var loaded={};
+  cs.forEach(function(c){
+    var cc=C[c]; if(!cc)return;
+    names.push(cc.n);
+    var secs=getTemplate(c);
+    if(secs)loaded[c]=secs;
+  });
+  
+  // Tax template
+  var taxT=FUSION_TEMPLATES[TAX_KEY];
+  if(taxT&&taxT.sections)taxMd=Object.values(taxT.sections).join('\n\n');
+  
+  // Build document
+  doc.push('# '+names.join(' + ')+' 融合执行策划案');
+  doc.push('> V19前端融合引擎 | 合并同类项 保留差异项 | 财税全文永久保留');
+  
+  // Ch1
+  doc.push('## 一、客户家庭基本信息');
+  var selSummary=cs.map(function(c){return C[c].n+'：'+(projects[c]||C[c].p.slice(0,1)).join('、')}).join('；');
+  doc.push('| 项目 | 当前信息 | 状态 |\n|---|---|---|\n| 客户身份 | 中国籍家庭/企业主/高净值客户 | ⚠️ 待确认 |\n| 选中国家 | '+names.join('、')+' | ✅ |\n| 选中项目 | '+selSummary+' | ✅ |');
+  doc.push('### 1.2 待解决问题分级\n| 编号 | 问题 | 严重度 |\n|---|---|---|\n| Q1 | 资金来源与出境合规 | P0 |\n| Q2 | 国家项目组合优先级 | P1 |\n| Q3 | 税务居民与国籍边界 | P1 |');
+  doc.push('### 1.3 根本判断\n本融合方案的根本问题是在多个国家身份工具、资金路径、税务边界和家庭目标之间建立可执行、可解释、可回退的组合方案。');
+  
+  // Ch2
+  doc.push('## 二、核心策略');
+  doc.push('### 2.1 三分离定位\n| 维度 | 定位 | 判断 |\n|---|---|---|\n| 事业国 | 以客户实际经营地为准 | 独立评估 |\n| 居住国 | '+names.join('、')+'分层配置 | 组合判断 |\n| 福利国 | 教育/医疗/养老分别评估 | 不默认单一 |\n| 身份工具 | '+selSummary+' | 按项目执行 |');
+  doc.push('### 2.2 选中项目矩阵\n| 国家 | 选中项目 | 是否有计算器 |\n|---|---|---|');
+  cs.forEach(function(c){doc.push('| '+C[c].n+' | '+(projects[c]||C[c].p.slice(0,1)).join('、')+' | '+(C[c].c.length?C[c].c.join(','):'无')+' |')});
+  
+  // Ch3-Ch13
+  CH15.slice(2).forEach(function(canonical){
+    doc.push('## '+canonical);
+    if(canonical.indexOf('三、')===0){
+      doc.push('### 3.1.1 企业KYB审查\n| 审查维度 | 需要材料 | 风险点 |\n|---|---|---|\n| 企业真实性 | 营业执照、审计报告 | 空壳/流水不匹配 |\n| 资金来源 | 完税凭证、分红决议 | 未完税 |\n| 交易对手 | 合同闭环 | AML疑点 |');
+    }
+    cs.forEach(function(c){
+      var secs=loaded[c];
+      var body=getSection(secs,canonical);
+      if(!body)body='> '+C[c].n+' 模板节未识别到 '+canonical;
+      // Strip leading heading from body
+      body=body.replace(/^##\s+[^\n]+\n+/,'').trim();
+      doc.push('### '+C[c].n+' · '+canonical.split('、')[1]);
+      doc.push(body);
+      
+      // Inject architecture SVGs for countries referencing relative paths in markdown
+      // SVG injection is handled by converting relative paths in the body
+      var svgDir=C[c].n;
+      var bodyForSVG=body;
+      // Replace ![alt](flow-xxx.svg) with data URIs
+      bodyForSVG=bodyForSVG.replace(/!\[([^\]]*)\]\(([^)]+\.svg)\)/g,function(m,alt,ref){
+        var code=c;var svgData=getSVG(code,ref);
+        if(!svgData&&code==='sg')svgData=getSVG('sg',ref);
+        if(!svgData&&code==='hk')svgData=getSVG('hk',ref);
+        if(!svgData&&code==='us')svgData=getSVG('us',ref);
+        if(!svgData&&code==='au')svgData=getSVG('au',ref);
+        if(svgData)return '!['+alt+'](data:image/svg+xml;base64,'+svgData+')';
+        return m;
+      });
+    });
+  });
+  
+  // Ch14 tax
+  doc.push('## 十四、财税执行策划案全文');
+  doc.push('本章完整保留财税执行策划案框架模板全文。前文仅为各国税务摘要。');
+  doc.push(taxMd||'财税模板加载中...');
+  
+  // Ch15 risk
+  doc.push('## 十五、重要风险声明与附件');
+  cs.forEach(function(c){
+    var secs=loaded[c];var risk='';
+    Object.keys(secs).forEach(function(k){if(k.indexOf('风险')>=0||k.indexOf('附件')>=0)risk+=secs[k]+'\n\n'});
+    doc.push('### '+C[c].n+' · 风险与附件');
+    doc.push(risk||'以原模板风险声明和法规附件为准。');
+  });
+  doc.push('### 15.1 去重共性风险\n- 中国不承认双重国籍\n- 资金来源必须可解释可追踪\n- 本方案不构成法律/税务/移民建议');
+  
+  // Render
+  var bodyHtml=doc.join('\n\n');
+  bodyHtml=md2html(bodyHtml);
+  
+  // Density check
+  var bts=bodyHtml.length;var svgs=(bodyHtml.match(/inline-svg/g)||[]).length;var cards=(bodyHtml.match(/flow-card/g)||[]).length;var tbls=(bodyHtml.match(/<table>/g)||[]).length;
+  var num=cs.length;var expSvg=Math.max(1,Math.floor(7*num/2*0.6));var expCard=Math.max(2,Math.floor(31*num/2*0.5));
+  var expByte=num*45000;var issues=[];
+  if(bts<expByte)issues.push('size:'+bts+'<'+expByte);
+  if(svgs<expSvg)issues.push('svg:'+svgs+'<'+expSvg);
+  if(cards<expCard)issues.push('cards:'+cards+'<'+expCard);
+  var dBanner=issues.length?'<div class=density-low><b>V19 DENSITY LOW:</b> '+issues.join(' | ')+'</div>':'<div class=density-ok>V19 OK: '+svgs+'svg '+cards+'cards '+tbls+'tbl '+bts+'B</div>';
+  
+  // Commission
+  var commItems=[];
+  cs.forEach(function(c){
+    (projects[c]||C[c].p.slice(0,1)).forEach(function(p){commItems.push('<div class=commission-item><h3>'+C[c].n+' · '+esc(p)+'</h3><p><b>佣金/成本:</b>按项目清单执行</p><p><b>结佣周期:</b>根据实际情况</p></div>')});
+  });
+  
+  document.title=names.join(' + ')+' 融合执行策划案';
+  document.getElementById('pageTitle').textContent=names.join(' + ')+' 融合执行策划案';
+  document.querySelector('header p').textContent='V19 前端融合引擎';
+  document.getElementById('mainContent').innerHTML='<div id=calcZone></div>'+dBanner+'<div class=sec>'+bodyHtml+'</div><section class=commission><h2>佣金/成本明细</h2><input id=pwd placeholder=输入密码><button onclick="document.getElementById(\'cb\').style.display=document.getElementById(\'pwd\').value==\'888888\'?\'block\':\'none\'">查看</button><div id=cb style=display:none>'+commItems.join('')+'</div></section>';
+}
+
+build();
+</script></body></html>
