@@ -22,10 +22,7 @@ if (_issue) {
       _keys.forEach(function(c){var info=_bd[c]||{};if(Array.isArray(info.projects))info.projects.forEach(function(p){_ps+=(_ps?'|':'')+c+':'+encodeURIComponent(p)})});
     }
   }catch(e){}
-  // Also check sessionStorage
-  try{
-    if(!_cs){var _s=sessionStorage.getItem('waitingUrl_'+_issue);if(_s){location.replace(_s)}};
-  }catch(e){}
+  // sessionStorage flag exists but NO auto-redirect - user can see diagnosis draft with banner
   // Always show persistent banner
   var _url='waiting.html?issue='+encodeURIComponent(_issue);
   if(_cs)_url+='&countries='+encodeURIComponent(_cs);
