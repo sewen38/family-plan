@@ -90,6 +90,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <div class="toast" id="tt"></div>
 
 <script>
+
+// ===== 恢复诊断结果状态 =====
+(function(){
+  var u = new URL(window.location.href);
+  var issue = u.searchParams.get('issue') || '';
+  if (!issue) return;
+  var shown = localStorage.getItem('fusionResultShown_' + issue);
+  if (shown === '1') {
+    // User has seen the result page before, show it directly
+    document.addEventListener('DOMContentLoaded', function(){
+      setTimeout(function(){
+        var data = getBatchData(issue);
+        if (data) {
+          showDiagnosisStyleResult(true);  // skip flag: already stored
+        }
+      }, 300);
+    });
+  }
+})();
+
 // ========== 配置 ==========
 var BATCH_DATA_KEY = '***';
 var DEFAULT_PASSWORD = '888888';
@@ -250,10 +270,11 @@ function goToExecPlan() {
   setTimeout(function(){location.href=target;}, 600);
 }
 
-function showDiagnosisStyleResult() {
+function showDiagnosisStyleResult(skipSave) {
   var u = new URL(window.location.href);
   var issue = u.searchParams.get('issue') || '';
   if (!issue) return;
+  if (!skipSave) localStorage.setItem('fusionResultShown_' + issue, '1');
   var data = getBatchData(issue);
   if (!data) return;
 
@@ -267,7 +288,7 @@ function showDiagnosisStyleResult() {
   });
 
   var html = '<div class=diagnosis-result>';
-  html += '<h2 style=color:#0b2a5b;border-bottom:3px solid #2563eb;text-align:center;padding-bottom:12px>跨境家庭全球规划 · 评估结果汇总</h2>';
+  html += '<h2 style=color:#0b2a5b;border-bottom:3px solid #2563eb;text-align:center;padding-bottom:12px>家庭全球规划 · 诊断草案</h2>';
   html += '<p style=text-align:center;color:#666;font-size:14px>编号：'+escHtml(issue)+' | '+new Date().toLocaleString('zh-CN')+'</p>';
   html += '<hr style=margin:16px 0>';
 
@@ -305,10 +326,12 @@ function showDiagnosisStyleResult() {
   html += '<p>3. <b>政策时效性</b>：各国移民政策持续变动，执行前须完成最新核验。</p>';
   html += '</blockquote>';
 
-  // Button to fusion exec plan
+  // Buttons: view exec plan + return to diagnosis draft
+  var diagUrl = 'document.html?issue=' + encodeURIComponent(issue);
   html += '<div style=text-align:center;margin:32px 0>';
-  html += '<button onclick=goToExecPlan() style=font-size:18px;padding:14px 36px;background:#0f3b82>📋 生成融合执行策划案</button>';
-  html += '<p style=color:#888;font-size:12px;margin-top:8px>点击后在新窗口打开完整的15章融合执行策划案</p>';
+  html += '<button onclick=goToExecPlan() style=font-size:18px;padding:14px 36px;background:#0f3b82;margin:0 8px>📋 查看执行策划案</button>';
+  html += '<button onclick="location.href=\'' + diagUrl + '\'" style=font-size:16px;padding:12px 28px;background:#6b7280;margin:8px>← 返回上一阶段</button>';
+  html += '<p style=color:#888;font-size:12px;margin-top:12px>查看执行策划案将跳转到完整融合方案 | 返回上一阶段回到诊断草案</p>';
   html += '</div>';
   html += '</div>';
 
