@@ -57,6 +57,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none}
 .toast.show{opacity:1}
 @media(max-width:480px){.header{padding:22px 14px}.card{margin:10px;padding:16px 12px}.actions{position:fixed;left:0;right:0;bottom:env(safe-area-inset-bottom,0px);z-index:50;background:#f5f6f8;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));margin:0;box-shadow:0 -4px 18px rgba(15,23,42,.12);border-top:1px solid #e5e7eb}.actions button{width:100%;min-width:0;padding:12px 8px;font-size:14px;line-height:1.25}.modal{width:calc(100% - 24px);padding:22px 16px}.project-item{font-size:13.5px}}
+
+.diagnosis-result{font-size:15px;line-height:1.8;color:#374151}.diagnosis-result h2{font-size:22px}.diagnosis-result h3{font-size:16px;margin-top:20px;color:#0b2a5b}.diagnosis-result blockquote{background:#f0f7ff;border-left:4px solid #2563eb;padding:14px 16px;border-radius:8px;margin:12px 0}.diagnosis-result table{font-size:14px}
 </style>
 </head>
 <body>
@@ -154,7 +156,7 @@ function verifyPassword() {
   var input = document.getElementById('pwdInput').value;
   if (input === DEFAULT_PASSWORD) {
     closePasswordModal();
-    goToExecPlan();
+    showDiagnosisStyleResult();
   } else {
     document.getElementById('pwdHint').textContent = '密码错误，请重试';
     document.getElementById('pwdHint').style.color = '#e53935';
@@ -229,38 +231,94 @@ function loadResults() {
 
 // ========== 跳转执行策划案 ==========
 function goToExecPlan() {
+  // Build the fusion URL and redirect immediately
   var u = new URL(window.location.href);
   var issue = u.searchParams.get('issue') || '';
-
-  if (!issue) { toast('未找到Issue编号'); return; }
-
+  if (!issue) return;
   var data = getBatchData(issue);
-  if (!data) { toast('暂无评估数据'); return; }
-
-  // 收集所有国家和项目
+  if (!data) return;
   var countriesArr = [];
   var projectsArr = [];
   Object.keys(data).forEach(function (c) {
     var info = data[c];
     var projs = extractProjects(info);
-    if (projs.length > 0) {
-      countriesArr.push(c);
-      projs.forEach(function (p) { projectsArr.push(c + ':' + encodeURIComponent(p)); });
-    }
+    if (projs.length) { countriesArr.push(c); projs.forEach(function(p){projectsArr.push(c+':'+encodeURIComponent(p))}); }
+  });
+  if (!countriesArr.length) { Object.keys(data).forEach(function(c){countriesArr.push(c)}); }
+  var target = 'fusion.html?issue='+encodeURIComponent(issue)+'&countries='+encodeURIComponent(countriesArr.join(','))+'&projects='+encodeURIComponent(projectsArr.join('|'));
+  window.open(target, '_blank');
+}
+
+function showDiagnosisStyleResult() {
+  var u = new URL(window.location.href);
+  var issue = u.searchParams.get('issue') || '';
+  if (!issue) return;
+  var data = getBatchData(issue);
+  if (!data) return;
+
+  // Build diagnosis-style summary
+  var countriesArr = []; var projectsArr = [];
+  getSelectedCountries(data).forEach(function(c){
+    var info = data[c] || {};
+    var ps = extractProjects(info);
+    countriesArr.push(c);
+    ps.forEach(function(p){projectsArr.push(c+':'+encodeURIComponent(p))});
   });
 
-  if (countriesArr.length === 0) {
-    Object.keys(data).forEach(function(c){ countriesArr.push(c); });
-  }
+  var html = '<div class=diagnosis-result>';
+  html += '<h2 style=color:#0b2a5b;border-bottom:3px solid #2563eb;text-align:center;padding-bottom:12px>跨境家庭全球规划 · 评估结果汇总</h2>';
+  html += '<p style=text-align:center;color:#666;font-size:14px>编号：'+escHtml(issue)+' | '+new Date().toLocaleString('zh-CN')+'</p>';
+  html += '<hr style=margin:16px 0>';
 
-  // 跳转到执行策划案页面
-  var target = 'fusion.html?issue=' + encodeURIComponent(issue) +
-    '&countries=' + encodeURIComponent(countriesArr.join(',')) +
-    '&projects=' + encodeURIComponent(projectsArr.join('|'));
-  toast('正在进入执行策划案...');
-  setTimeout(function () {
-    window.location.href = target;
-  }, 800);
+  // Section: selected countries and projects
+  html += '<h3>已选国家与项目</h3>';
+  html += '<table><thead><tr><th style=width:80px>国家</th><th>选中项目</th></tr></thead><tbody>';
+  countriesArr.forEach(function(c){
+    var cn = COUNTRY_NAMES[c] || c.toUpperCase();
+    var emoji = COUNTRY_EMOJI[c] || '';
+    var info = data[c] || {};
+    var ps = extractProjects(info);
+    html += '<tr><td>'+emoji+' '+cn+'</td><td>'+(ps.length?ps.map(escHtml).join('、'):'<i>暂无用户勾选项目，保留国家上下文</i>')+'</td></tr>';
+  });
+  html += '</tbody></table>';
+
+  // Section: key findings
+  html += '<h3 style=margin-top:24px>根本判断</h3>';
+  html += '<blockquote>本次融合方案涉及 <b>'+countriesArr.length+'</b> 个国家/地区、<b>'+projectsArr.length+'</b> 个身份项目。核心策略：将身份工具（各国项目）、资金路径、税务边界和家庭目标组合成可执行、可解释、可回退的融合方案。</blockquote>';
+
+  // Section: next steps
+  html += '<h3 style=margin-top:24px>立即行动清单</h3>';
+  html += '<table><thead><tr><th style=width:40px>#</th><th>动作</th><th style=width:80px>时间</th></tr></thead><tbody>';
+  html += '<tr><td>1</td><td>确认客户资金来源与资金出境路径</td><td>本周</td></tr>';
+  html += '<tr><td>2</td><td>确认家庭成员年龄结构与随行需求</td><td>本周</td></tr>';
+  html += '<tr><td>3</td><td>联系各国持牌律师获取最新政策报价</td><td>1-3月</td></tr>';
+  html += '<tr><td>4</td><td>启动合规清理（银行KYB/资金来源/完税证明）</td><td>1-3月</td></tr>';
+  html += '<tr><td>5</td><td>按下方「融合执行策划案」制定分步执行计划</td><td>6-12月</td></tr>';
+  html += '</tbody></table>';
+
+  // Risk reminder
+  html += '<h3 style=margin-top:24px>⚠️ 重要提醒</h3>';
+  html += '<blockquote style=background:#fff3cd;border-left-color:#f59e0b>';
+  html += '<p>1. <b>第三国护照边界</b>：仅限金融税务规划用途，严禁用于中国出入境。</p>';
+  html += '<p>2. <b>本结果不构成法律建议</b>：最终方案须经目标国持牌专业人士确认。</p>';
+  html += '<p>3. <b>政策时效性</b>：各国移民政策持续变动，执行前须完成最新核验。</p>';
+  html += '</blockquote>';
+
+  // Button to fusion exec plan
+  html += '<div style=text-align:center;margin:32px 0>';
+  html += '<button onclick=goToExecPlan() style=font-size:18px;padding:14px 36px;background:#0f3b82>📋 生成融合执行策划案</button>';
+  html += '<p style=color:#888;font-size:12px;margin-top:8px>点击后在新窗口打开完整的15章融合执行策划案</p>';
+  html += '</div>';
+  html += '</div>';
+
+  // Hide original summary, show diagnosis result
+  document.getElementById('summaryContainer').style.display = 'none';
+  document.getElementById('actions').style.display = 'none';
+  document.getElementById('pwdBtn').style.display = 'none';
+  var dr = document.getElementById('diagnosisResult');
+  dr.innerHTML = html;
+  dr.style.display = 'block';
+  dr.scrollIntoView({behavior:'smooth'});
 }
 
 // ========== 工具函数 ==========
