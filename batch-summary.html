@@ -231,22 +231,23 @@ function loadResults() {
 
 // ========== 跳转执行策划案 ==========
 function goToExecPlan() {
-  // Build the fusion URL and redirect immediately
   var u = new URL(window.location.href);
   var issue = u.searchParams.get('issue') || '';
-  if (!issue) return;
+  if (!issue) { toast('未找到Issue编号'); return; }
   var data = getBatchData(issue);
-  if (!data) return;
+  if (!data) { toast('暂无评估数据'); return; }
   var countriesArr = [];
   var projectsArr = [];
-  Object.keys(data).forEach(function (c) {
-    var info = data[c];
+  getSelectedCountries(data).forEach(function (c) {
+    var info = data[c] || {};
     var projs = extractProjects(info);
-    if (projs.length) { countriesArr.push(c); projs.forEach(function(p){projectsArr.push(c+':'+encodeURIComponent(p))}); }
+    countriesArr.push(c);
+    projs.forEach(function(p){projectsArr.push(c+':'+encodeURIComponent(p))});
   });
-  if (!countriesArr.length) { Object.keys(data).forEach(function(c){countriesArr.push(c)}); }
+  if (!countriesArr.length) { Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){countriesArr.push(c)}); }
   var target = 'fusion.html?issue='+encodeURIComponent(issue)+'&countries='+encodeURIComponent(countriesArr.join(','))+'&projects='+encodeURIComponent(projectsArr.join('|'));
-  window.open(target, '_blank');
+  toast('正在生成融合执行策划案...');
+  setTimeout(function(){location.href=target;}, 600);
 }
 
 function showDiagnosisStyleResult() {
@@ -321,6 +322,12 @@ function showDiagnosisStyleResult() {
   dr.scrollIntoView({behavior:'smooth'});
 }
 
+function escHtml(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function getSelectedCountries(data){
+  if(!data)return[];
+  if(Array.isArray(data.__selectedCountries))return data.__selectedCountries.slice();
+  return Object.keys(data).filter(function(k){return k.indexOf('__')!==0});
+}
 // ========== 工具函数 ==========
 function extractProjects(info) {
   if (!info || !Array.isArray(info.projects)) return [];
