@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>执行策划案 · 等待中</title>
+<style>
+*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:#f6f7fb;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',Arial,sans-serif;line-height:1.72;word-break:break-word;-webkit-text-size-adjust:100%}.hero{background:linear-gradient(135deg,#1769aa,#2b8fd8);color:white;padding:28px 18px;text-align:center}.hero h1{font-size:22px;margin:0 0 6px}.hero p{font-size:13px;opacity:.9;margin:0}.wrap{max-width:860px;margin:0 auto;padding:12px}.doc{background:#fff;border-radius:16px;padding:20px;margin:10px 0 18px;box-shadow:0 2px 10px rgba(15,23,42,.06);max-width:100%;overflow:hidden}h3{font-size:16px;color:#0f4c81;margin-top:18px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;font-size:15px}.primary{background:#1769aa;color:#fff}.secondary{background:#e8f2fb;color:#1769aa}.warn{background:#fff7ed;border-left:4px solid #f97316;border-radius:10px;padding:12px;margin:10px 0;font-size:14px}.danger{background:#fff1f2;border-left:4px solid #e11d48;border-radius:10px;padding:12px;margin:10px 0;font-size:14px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid #e5e7eb;padding:9px;text-align:left}th{background:#f8fafc;color:#475569}.loading{padding:30px;text-align:center;color:#667085}@media(max-width:520px){.wrap{padding:10px}.doc{padding:14px;border-radius:14px}.hero h1{font-size:20px}.toolbar{flex-direction:column}.btn{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<div class="hero"><h1>家庭全球规划 · 执行策划案</h1><p id="sub">正在准备...</p></div>
+<div class="wrap">
+  <div class="toolbar">
+    <button class="btn primary" id="btnView" onclick="viewPlan()">📋 查看执行策划案</button>
+    <button class="btn secondary" onclick="goBack()">← 返回上一阶段</button>
+  </div>
+  <div class="toolbar">
+    <button class="btn secondary" onclick="refreshPage()">🔄 刷新执行策划案</button>
+  </div>
+  <p style="text-align:center;color:#888;font-size:12px;margin-top:10px">执行策划案生成约需30分钟，可关闭页面稍后重新打开本链接查看。</p>
+  <div class="doc">
+    <h3 style="text-align:center;color:#0f4c81">📋 评估结果汇总</h3>
+    <div id="summary"></div>
+    <hr style="border:0;border-top:1px solid #e5e7eb;margin:16px 0">
+    <h3>立即行动清单</h3>
+    <table><thead><tr><th>#</th><th>动作</th><th>时间</th></tr></thead><tbody>
+      <tr><td>1</td><td>确认客户资金来源与资金出境路径</td><td>本周</td></tr>
+      <tr><td>2</td><td>确认家庭成员年龄结构与随行需求</td><td>本周</td></tr>
+      <tr><td>3</td><td>联系各国持牌律师获取最新政策报价</td><td>1-3月</td></tr>
+      <tr><td>4</td><td>启动合规清理（银行KYB/资金来源/完税证明）</td><td>1-3月</td></tr>
+      <tr><td>5</td><td>按融合执行策划案制定分步执行计划</td><td>6-12月</td></tr>
+    </tbody></table>
+    <h3>⚠️ 重要提醒</h3>
+    <div class="warn"><b>第三国护照边界：</b>仅限金融税务规划用途，严禁用于中国出入境。</div>
+    <div class="danger"><b>本结果不构成法律建议：</b>最终方案须经目标国持牌专业人士确认。</div>
+    <div class="warn"><b>政策时效性：</b>各国移民政策持续变动，执行前须完成最新核验。</div>
+  </div>
+</div>
+<script>
+var COUNTRY_EMOJI = {hk:'🇭🇰',sg:'🇸🇬',tr:'🇹🇷',us:'🇺🇸',au:'🇦🇺',nz:'🇳🇿',jp:'🇯🇵',eu:'🇪🇺',dm:'🇩🇲',vu:'🇻🇺',ge:'🇬🇪'};
+var COUNTRY_NAMES = {hk:'香港',sg:'新加坡',tr:'土耳其',us:'美国',au:'澳大利亚',nz:'新西兰',jp:'日本',eu:'欧洲',dm:'多米尼克',vu:'瓦努阿图',ge:'格鲁吉亚'};
+var BATCH_DATA_KEY = '***';
+
+function q(k){return new URL(location.href).searchParams.get(k)||''}
+function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function toast(m){var e=document.getElementById('tt');if(!e){e=document.createElement('div');e.id='tt';e.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 20px;border-radius:10px;z-index:999;font-size:14px;opacity:0;transition:opacity .3s';document.body.appendChild(e)}e.textContent=m;e.style.opacity=1;setTimeout(function(){e.style.opacity=0},2000)}
+
+function getBatchData(issue){
+  try{var raw=localStorage.getItem('batchData_'+issue);return raw?JSON.parse(raw):null}catch(e){return null}
+}
+
+function extractProjects(info){
+  if(!info||!Array.isArray(info.projects))return[];
+  var seen={};return info.projects.filter(function(p){p=String(p||'').trim();if(!p||seen[p])return false;seen[p]=true;return true})
+}
+
+function renderSummary(){
+  var issue=q('issue');document.getElementById('sub').textContent='Issue #'+issue;
+  if(!issue){document.getElementById('summary').innerHTML='<p class=loading>缺少 issue 编号</p>';return}
+  var data=getBatchData(issue);
+  if(!data){document.getElementById('summary').innerHTML='<p class=loading>评估数据未找到。请返回上一阶段重新评估。</p>';return}
+  var s='<table><thead><tr><th>国家</th><th>选中项目</th></tr></thead><tbody>';
+  Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
+    var cn=COUNTRY_NAMES[c]||c.toUpperCase(),emoji=COUNTRY_EMOJI[c]||'',info=data[c]||{},ps=extractProjects(info);
+    s+='<tr><td>'+emoji+' '+cn+'</td><td>'+(ps.length?ps.map(esc).join('、'):'<i>暂无用户勾选项目</i>')+'</td></tr>';
+  });
+  s+='</tbody></table>';
+  document.getElementById('summary').innerHTML=s;
+
+  // Build fusion URL
+  var cs=[],ps=[];
+  Object.keys(data).filter(function(k){return k.indexOf('__')!==0}).forEach(function(c){
+    cs.push(c);var projs=extractProjects(data[c]||{});projs.forEach(function(p){ps.push(c+':'+encodeURIComponent(p))});
+  });
+  document.getElementById('btnView').onclick=function(){
+    location.href='fusion.html?issue='+encodeURIComponent(issue)+'&countries='+encodeURIComponent(cs.join(','))+'&projects='+encodeURIComponent(ps.join('|'));
+  };
+}
+
+function viewPlan(){var btn=document.getElementById('btnView');if(btn.onclick)btn.onclick();else toast('正在准备...')}
+function goBack(){var issue=q('issue');location.href='document.html?issue='+encodeURIComponent(issue)}
+function refreshPage(){location.reload()}
+renderSummary();
+</script>
+</body>
+</html>

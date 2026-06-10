@@ -179,7 +179,8 @@ function verifyPassword() {
   var input = document.getElementById('pwdInput').value;
   if (input === DEFAULT_PASSWORD) {
     closePasswordModal();
-    showDiagnosisStyleResult();
+    var issue = new URL(window.location.href).searchParams.get('issue') || '';
+    window.location.href = 'waiting.html?issue=' + encodeURIComponent(issue);
   } else {
     document.getElementById('pwdHint').textContent = '密码错误，请重试';
     document.getElementById('pwdHint').style.color = '#e53935';
