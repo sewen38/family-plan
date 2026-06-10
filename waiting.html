@@ -73,6 +73,9 @@ function verifyAndShow(){
   if(v===PWD){
     document.getElementById('pwdOverlay').style.display='none';
     document.getElementById('mainWrap').style.display='block';
+    var _issue=q('issue');if(_issue)try{sessionStorage.setItem('waitingUrl_'+_issue,window.location.href)}catch(e){}
+    // Also save to localStorage as backup
+    var _issue2=q('issue');if(_issue2)try{localStorage.setItem('lastWaitingIssue',_issue2)}catch(e){}
     renderSummary();
   }else{
     document.getElementById('pwdHint').textContent='密码错误，请重试';
