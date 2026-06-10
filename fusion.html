@@ -63,15 +63,39 @@
     '十三、执行时间轴':['十三、执行时间轴']
   };
 
+  // Canonical chapter order for boundary detection
+  var CH_ORDER=['一、客户家庭基本信息','二、核心策略','三、合规清理详细方案','四、境外资金归集与投资架构','五、投资使用建议','六、财富架构搭建方案','七、税务分析','八、资金跨境合规方案','九、身份路径规划','十、教育规划','十一、福利居住国规划','十二、预算明细汇总','十三、执行时间轴'];
   function getSec(sections,canonical){
     var names=ALIAS[canonical]||[canonical];
-    var keys=Object.keys(sections);
+    var allKeys=Object.keys(sections);
+    // Find start position of this canonical chapter
+    var startIdx=-1;
     for(var a=0;a<names.length;a++){
-      for(var s=0;s<keys.length;s++){
-        if(keys[s].indexOf(names[a].replace('（待补充版）',''))===0)return sections[keys[s]];
+      var clean=names[a].replace('（待补充版）','');
+      for(var i=0;i<allKeys.length;i++){
+        if(allKeys[i].indexOf(clean)===0){startIdx=i;break}
+      }
+      if(startIdx>=0)break;
+    }
+    if(startIdx<0)return null;
+    // Find next canonical chapter position
+    var endIdx=allKeys.length;
+    for(var j=0;j<CH_ORDER.length;j++){
+      if(CH_ORDER[j]===canonical&&j+1<CH_ORDER.length){
+        var next=CH_ORDER[j+1];var nextNames=ALIAS[next]||[next];
+        for(var k=startIdx+1;k<allKeys.length;k++){
+          for(var n=0;n<nextNames.length;n++){
+            if(allKeys[k].indexOf(nextNames[n].replace('（待补充版）',''))===0){endIdx=k;break}
+          }
+          if(endIdx<allKeys.length)break;
+        }
+        break;
       }
     }
-    return null;
+    // Aggregate all sections from startIdx to endIdx-1
+    var parts=[];
+    for(var p=startIdx;p<endIdx;p++){if(sections[allKeys[p]])parts.push(sections[allKeys[p]])}
+    return parts.join('\n\n');
   }
 
   function getRisk(sections){
