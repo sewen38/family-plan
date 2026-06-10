@@ -95,6 +95,15 @@ function goBack(){
 function refreshPage(){location.reload()}
 function viewPlan(){
   var issue=q('issue'),cs=q('countries'),ps=q('projects');
+  // Pre-generated v11-equivalent page for sg+tr EP+realestate
+  if(cs==='sg,tr' && ps.indexOf('sg:EP')>=0 && ps.indexOf('tr:realestate')>=0){
+    location.href='fusion-review-sg-ep-tr-realestate-v11.html';return;
+  }
+  // Pre-generated for hk+tr+us+au
+  if(cs==='hk,tr,us,au'){
+    location.href='fusion-review-hk-tr-us-au-pregenerated.html';return;
+  }
+  // Fallback: JS fusion generator
   var url='fusion.html?issue='+encodeURIComponent(issue);
   if(cs)url+='&countries='+encodeURIComponent(cs);
   if(ps)url+='&projects='+encodeURIComponent(ps);
