@@ -27,6 +27,7 @@
 @media(max-width:520px){.calc-input input{font-size:20px;padding:12px 40px 12px 10px}}
 .next-btn-wrap{text-align:center;margin:14px 12px}
 .next-btn-wrap .btn{font-size:17px;padding:14px 44px;border-radius:12px;box-shadow:0 2px 8px rgba(139,30,30,.25)}
+.flow-img-wrap svg text{dominant-baseline:auto}@media(max-width:520px){.flow-img-wrap svg{min-width:560px}}
 </style>
 </head>
 <body>
@@ -89,7 +90,59 @@ var projectMap={'tr-fund-cbi':'土耳其房地产投资基金入籍','tr-fund-e2
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function inlineMd(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`(.+?)`/g,'<code>$1</code>')}
-function mdToHtml(md){var lines=String(md||'').replace(/\r\n/g,'\n').split('\n'),html='',inList=false,inTable=false,table=[];function closeList(){if(inList){html+='</ul>';inList=false}}function closeTable(){if(!inTable)return;html+='<div class="table-wrap"><table>';for(var i=0;i<table.length;i++){var cells=table[i].split('|').slice(1,-1).map(function(c){return c.trim()});if(i===1&&cells.every(function(c){return /^:?-{3,}:?$/.test(c)}))continue;html+='<tr>'+(i===0?cells.map(function(c){return '<th>'+inlineMd(c)+'</th>'}).join(''):cells.map(function(c){return '<td>'+inlineMd(c)+'</td>'}).join(''))+'</tr>'}html+='</table></div>';inTable=false;table=[]}for(var i=0;i<lines.length;i++){var line=lines[i].trimEnd();if(!line){closeList();closeTable();continue}if(/^!\[.*\]\(.+\)$/.test(line)){var im=line.match(/^!\[(.*)\]\((.+)\)$/);if(im){html+='<p style="text-align:center;margin:16px 0"><img src="'+im[2]+'" alt="'+im[1]+'" style="width:100%;max-width:800px;border-radius:12px;border:1px solid #e5e7eb" onerror="this.src=decodeURIComponent(this.src).replace(/%25/g,\'%\');this.onerror=null"></p>';continue}}if(/^```/.test(line)){continue}if(/^\|.*\|$/.test(line)){closeList();inTable=true;table.push(line);continue}closeTable();if(/^#{1,6}\s+/.test(line)){closeList();var lv=line.match(/^#{1,6}/)[0].length;html+='<h'+lv+'>'+inlineMd(line.replace(/^#{1,6}\s+/,''))+'</h'+lv+'>';continue}if(/^[-*]\s+/.test(line)){if(!inList){html+='<ul>';inList=true}html+='<li>'+inlineMd(line.replace(/^[-*]\s+/,''))+'</li>';continue}closeList();html+='<p>'+inlineMd(line)+'</p>'}closeList();closeTable();return html}
+function flowSvgFromText(txt){
+  var raw=String(txt||'').replace(/\r\n/g,'\n').split('\n');
+  var steps=[];
+  for(var i=0;i<raw.length;i++){
+    var t=raw[i].trim();
+    if(!t||/^[-↓→]+$/.test(t)||/^```/.test(t)) continue;
+    t=t.replace(/^[-·→↓\s]+/,'').trim();
+    if(t) steps.push(t);
+  }
+  if(steps.length<2) return '';
+  var W=760, boxW=620, boxH=54, gap=30, top=46;
+  var H=top+steps.length*boxH+(steps.length-1)*gap+36;
+  var out=[];
+  out.push('<div class="flow-img-wrap" style="margin:16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch">');
+  out.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" style="width:100%;max-width:800px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;display:block;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',Arial,sans-serif">');
+  out.push('<defs><linearGradient id="fundFlow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b1e1e"/><stop offset="1" stop-color="#c9302c"/></linearGradient><filter id="flowShadow"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.13"/></filter></defs>');
+  out.push('<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="16" fill="#fffaf7"/>');
+  out.push('<text x="'+(W/2)+'" y="26" text-anchor="middle" font-size="16" font-weight="800" fill="#8b1e1e">基金入籍办理流程图</text>');
+  for(var j=0;j<steps.length;j++){
+    var y=top+j*(boxH+gap), x=(W-boxW)/2;
+    out.push('<rect x="'+x+'" y="'+y+'" width="'+boxW+'" height="'+boxH+'" rx="14" fill="#ffffff" stroke="#f0caca" stroke-width="1.5" filter="url(#flowShadow)"/>');
+    out.push('<circle cx="'+(x+28)+'" cy="'+(y+boxH/2)+'" r="15" fill="url(#fundFlow)"/>');
+    out.push('<text x="'+(x+28)+'" y="'+(y+boxH/2+5)+'" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">'+(j+1)+'</text>');
+    var text=esc(steps[j]);
+    out.push('<text x="'+(x+56)+'" y="'+(y+boxH/2+5)+'" font-size="15" font-weight="700" fill="#1f2937">'+text+'</text>');
+    if(j<steps.length-1){
+      var ax=W/2, y1=y+boxH+5, y2=y+boxH+gap-5;
+      out.push('<line x1="'+ax+'" y1="'+y1+'" x2="'+ax+'" y2="'+y2+'" stroke="#c9302c" stroke-width="2" stroke-linecap="round"/>');
+      out.push('<path d="M '+(ax-6)+' '+(y2-6)+' L '+ax+' '+y2+' L '+(ax+6)+' '+(y2-6)+'" fill="none" stroke="#c9302c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>');
+    }
+  }
+  out.push('</svg></div>');
+  return out.join('');
+}
+function mdToHtml(md){
+  var lines=String(md||'').replace(/\r\n/g,'\n').split('\n'),html='',inList=false,inTable=false,table=[],inCode=false,code=[];
+  function closeList(){if(inList){html+='</ul>';inList=false}}
+  function closeTable(){if(!inTable)return;html+='<div class="table-wrap"><table>';for(var i=0;i<table.length;i++){var cells=table[i].split('|').slice(1,-1).map(function(c){return c.trim()});if(i===1&&cells.every(function(c){return /^:?-{3,}:?$/.test(c)}))continue;html+='<tr>'+(i===0?cells.map(function(c){return '<th>'+inlineMd(c)+'</th>'}).join(''):cells.map(function(c){return '<td>'+inlineMd(c)+'</td>'}).join(''))+'</tr>'}html+='</table></div>';inTable=false;table=[]}
+  function closeCode(){if(!inCode)return;var block=code.join('\n');var flow=flowSvgFromText(block);if(flow){html+=flow}else{html+='<pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:10px">'+esc(block)+'</pre>'}inCode=false;code=[]}
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i].trimEnd();
+    if(inCode){if(/^```/.test(line)){closeCode()}else{code.push(line)}continue}
+    if(!line){closeList();closeTable();continue}
+    if(/^```/.test(line)){closeList();closeTable();inCode=true;code=[];continue}
+    if(/^!\[.*\]\(.+\)$/.test(line)){var im=line.match(/^!\[(.*)\]\((.+)\)$/);if(im){closeList();closeTable();html+='<p style="text-align:center;margin:16px 0"><img src="'+im[2]+'" alt="'+im[1]+'" style="width:100%;max-width:800px;border-radius:12px;border:1px solid #e5e7eb" onerror="this.src=decodeURIComponent(this.src).replace(/%25/g,\'%\');this.onerror=null"></p>';continue}}
+    if(/^\|.*\|$/.test(line)){closeList();inTable=true;table.push(line);continue}
+    closeTable();
+    if(/^#{1,6}\s+/.test(line)){closeList();var lv=line.match(/^#{1,6}/)[0].length;html+='<h'+lv+'>'+inlineMd(line.replace(/^#{1,6}\s+/,''))+'</h'+lv+'>';continue}
+    if(/^[-*]\s+/.test(line)){if(!inList){html+='<ul>';inList=true}html+='<li>'+inlineMd(line.replace(/^[-*]\s+/,''))+'</li>';continue}
+    closeList();html+='<p>'+inlineMd(line)+'</p>'
+  }
+  closeCode();closeList();closeTable();return html
+}
 
 function calc(){
   var N=parseInt(document.getElementById('fm').value)||4;
