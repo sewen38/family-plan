@@ -23,6 +23,7 @@ add('汇总全空仍可下一阶段', '当前所选国家均暂无符合项目' 
 add('汇总跳正式融合执行策划案', ("var target = 'fusion.html?issue='" in summary or "var target = 'exec.html?issue='" in summary) and 'exec-v12.html' not in summary)
 fusion_html = (ROOT / 'fusion.html').read_text(encoding='utf-8')
 final_multi_html = (ROOT / 'fusion-sg-hk-tr-us-au-v1-final.html').read_text(encoding='utf-8') if (ROOT / 'fusion-sg-hk-tr-us-au-v1-final.html').exists() else ''
+final_us_eb1a_html = (ROOT / 'us-eb1a-v20plus-final.html').read_text(encoding='utf-8') if (ROOT / 'us-eb1a-v20plus-final.html').exists() else ''
 document_html = (ROOT / 'document.html').read_text(encoding='utf-8')
 
 add('诊断草案底部法案条款表', all(x in document_html for x in ['附录：本诊断草案涉及的相关法案条款','法案名称','第几条第几款','《中华人民共和国国籍法》','第3条','第9条']))
@@ -36,7 +37,7 @@ add('融合页按单项目V20Plus叠加', all(x in fusion_html for x in ['V20Plu
 add('融合页法案条款附件表', all(x in fusion_html for x in ['lawTableFromSections','法律法规与项目资源来源汇总','法案名称','第几条第几款','《中华人民共和国国籍法》','汇发〔2014〕37号']))
 add('融合页多项目不覆盖', 'projects[c]=(projects[c]||[]).concat(vals)' in fusion_html)
 add('融合页香港专才专项规则', all(x in fusion_html for x in ['isHkAsmtp','hkAsmtpSec','hkAsmtpRiskLaw','ASMTP雇主担保专才 + 自有公司/自雇专才']))
-add('融合页美国EB1A定稿标准专项规则', all(x in fusion_html for x in ['isUsEb1a','usEb1aSec','usEb1aRiskLaw','EB-1A Extraordinary Ability + O-1A桥接','未选EB-5投资款不得进入本案预算','INA) | §203(b)(1)(A)']))
+add('融合页美国EB1A单项目跳最新版定稿页', 'isFinalUsEb1aSingleStandard' in fusion_html and 'us-eb1a-v20plus-final.html' in fusion_html and final_us_eb1a_html and all(x in final_us_eb1a_html for x in ['美国EB-1A单项目融合执行策划案','EB-1A Extraordinary Ability','一、客户家庭基本信息','十四、财税','十五']))
 add('融合页多国家定稿组合跳最终页', 'isFinalMultiStandard' in fusion_html and 'fusion-sg-hk-tr-us-au-v1-final.html' in fusion_html)
 add('多国多项目最终页符合指定标准形态', final_multi_html and final_multi_html.find('完整单项目模块嵌入区') >= 0 and final_multi_html.find('完整单项目模块嵌入区') < final_multi_html.find('一、客户家庭基本信息') and '本案本质：不是五国摘要' not in final_multi_html[:final_multi_html.find('一、客户家庭基本信息')] and all(x in final_multi_html for x in ['新加坡EP / EP-PIC 完整模块','香港自雇专才 ASMTP 完整模块','美国 EB-1A / NIW / O-1 母版与EB1A模块','澳大利亚482 完整模块','12.13 国家层面生活费用预算框架']))
 add('融合页15章与财税全文', all(x in fusion_html for x in ['单国家单项目 V20Plus 模块','十四、财税执行策划案全文','十五、重要风险声明与附件']))
