@@ -22,12 +22,18 @@ add('汇总只读取projects数组', 'selectedProject' not in summary and 'solut
 add('汇总全空仍可下一阶段', '当前所选国家均暂无符合项目' in summary and "document.getElementById('actions').style.display = 'flex'" in summary)
 add('汇总跳正式融合执行策划案', ("var target = 'fusion.html?issue='" in summary or "var target = 'exec.html?issue='" in summary) and 'exec-v12.html' not in summary)
 fusion_html = (ROOT / 'fusion.html').read_text(encoding='utf-8')
+document_html = (ROOT / 'document.html').read_text(encoding='utf-8')
 
+add('诊断草案底部法案条款表', all(x in document_html for x in ['附录：本诊断草案涉及的相关法案条款','法案名称','第几条第几款','《中华人民共和国国籍法》','第3条','第9条']))
+add('诊断草案乱码清理', 'cleanText' in document_html and "replace(/[\\uFFFD]+/g,'')" in document_html and '�' not in document_html)
 add('执行案V20说明', 'V20 · 15章融合执行策划案' in exec_html and '14章客户交付版' not in exec_html)
 add('执行案国家内减法多国加法', '国家内减法 + 多国家加法' in exec_html and '未勾选项目不进入任何章节' in exec_html)
 add('执行案顶部计算器专区', all(x in exec_html for x in ['顶部计算器专区','新加坡 COMPASS','日本高才 HSP','新西兰 SMC','澳大利亚 EOI']))
 add('融合页V20引擎', 'V20 引擎' in fusion_html and 'V19 引擎' not in fusion_html)
 add('融合页先完整单项目模块再归并', fusion_html.find('完整单项目模块嵌入区（用于厚度校验）') >= 0 and fusion_html.find('完整单项目模块嵌入区（用于厚度校验）') < fusion_html.find('融合归并总览'))
+add('融合页按单项目V20Plus叠加', all(x in fusion_html for x in ['V20Plus 单项目厚度验收清单','relatedSubpaths','国家 × 项目','费用明细','三方费用明细','费用汇总','材料清单','三方材料清单']))
+add('融合页法案条款附件表', all(x in fusion_html for x in ['lawTableFromSections','法律法规与项目资源来源汇总','法案名称','第几条第几款','《中华人民共和国国籍法》','汇发〔2014〕37号']))
+add('融合页多项目不覆盖', 'projects[c]=(projects[c]||[]).concat(vals)' in fusion_html)
 add('融合页15章与财税全文', all(x in fusion_html for x in ['单国家单项目 V20Plus 模块','十四、财税执行策划案全文','十五、重要风险声明与附件']))
 
 pages = ['jp-assessment.html','vu-assessment.html','ge-assessment.html']

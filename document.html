@@ -39,11 +39,45 @@ if (_issue) {
 <script>
 var G_TOKEN='***'+'p_1r'+'POzP3'+'Nww5S849'+'nMgFjB'+'Ybxlyule'+'H2zQkXk';
 function q(k){return new URL(location.href).searchParams.get(k)||''}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function cleanText(s){return String(s||'').replace(/[\uFFFD]+/g,'')}
+function esc(s){return cleanText(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function inlineMd(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`(.+?)`/g,'<code>$1</code>')}
 function mdToHtml(md){var lines=String(md||'').replace(/\r\n/g,'\n').split('\n'),html='',inList=false,inTable=false,table=[];function closeList(){if(inList){html+='</ul>';inList=false}}function closeTable(){if(!inTable)return;html+='<div class="table-wrap"><table>';for(var i=0;i<table.length;i++){var cells=table[i].split('|').slice(1,-1).map(function(c){return c.trim()});if(i===1&&cells.every(function(c){return /^:?-{3,}:?$/.test(c)}))continue;html+='<tr>'+(i===0?cells.map(function(c){return '<th>'+inlineMd(c)+'</th>'}).join(''):cells.map(function(c){return '<td>'+inlineMd(c)+'</td>'}).join(''))+'</tr>'}html+='</table></div>';inTable=false;table=[]}for(var i=0;i<lines.length;i++){var line=lines[i].trimEnd();if(!line){closeList();closeTable();continue}if(/^```/.test(line)){continue}if(/^\|.*\|$/.test(line)){closeList();inTable=true;table.push(line);continue}closeTable();if(/^#{1,6}\s+/.test(line)){closeList();var lv=line.match(/^#{1,6}/)[0].length;html+='<h'+lv+'>'+inlineMd(line.replace(/^#{1,6}\s+/,''))+'</h'+lv+'>';continue}if(/^[-*]\s+/.test(line)){if(!inList){html+='<ul>';inList=true}html+='<li>'+inlineMd(line.replace(/^[-*]\s+/,''))+'</li>';continue}closeList();if(/^⚠️|^❗|^🔴|^红字/.test(line)){html+='<div class="danger">'+inlineMd(line)+'</div>';continue}if(/^>\s+/.test(line)){html+='<div class="warn">'+inlineMd(line.replace(/^>\s+/,''))+'</div>';continue}html+='<p>'+inlineMd(line)+'</p>'}closeList();closeTable();return html}
+
+function lawAppendix(md){
+  md=cleanText(md||'');
+  var rows=[], seen={};
+  function add(name,clause,use){
+    name=cleanText(name||'').trim(); clause=cleanText(clause||'').trim(); use=cleanText(use||'').trim();
+    if(!name||!clause)return;
+    var key=name+'|'+clause+'|'+use; if(seen[key])return; seen[key]=1;
+    rows.push({name:name,clause:clause,use:use||'本诊断草案相关依据'});
+  }
+  // Extract existing markdown law tables first.
+  md.split('\n').forEach(function(line){
+    if(line.indexOf('|')>=0 && (line.indexOf('《')>=0 || /INA|USCIS|Migration|Regulation|Policy|FAM|Act|Law/i.test(line))){
+      var cells=line.replace(/^\||\|$/g,'').split('|').map(function(x){return cleanText(x).trim()}).filter(Boolean);
+      if(cells.length>=2 && !/---|法案\/规则|法案名称|法律依据/.test(cells.join(''))){add(cells[0],cells[1],cells[2]||cells[3]||'草案引用');}
+    }
+  });
+  // Extract inline Chinese law references: 《X》第Y条第Z款.
+  var re=/《([^》]{2,80})》[^\n。；;]{0,40}?第\s*([0-9一二三四五六七八九十百〇零]+)\s*条(?:第\s*([0-9一二三四五六七八九十百〇零]+)\s*款)?/g, m;
+  while((m=re.exec(md))){add('《'+m[1]+'》','第'+m[2]+'条'+(m[3]?'第'+m[3]+'款':''),'草案正文引用');}
+  // Mandatory baseline clauses for every cross-border family plan.
+  add('《中华人民共和国国籍法》','第3条','中国不承认中国公民具有双重国籍；第三国护照使用边界');
+  add('《中华人民共和国国籍法》','第9条','自愿加入或取得外国国籍的中国公民，自动丧失中国国籍风险');
+  add('《中华人民共和国出境入境管理法》','出入境证件一致性相关条款','第三国护照不得用于中国出入境切换');
+  add('汇发〔2014〕37号','全文/登记规则','境内居民通过SPV境外投融资及返程投资外汇登记');
+  var html='<h2>附录：本诊断草案涉及的相关法案条款</h2>';
+  html+='<p>以下按《法案名称》+第几条第几款列示。若客户后续选择具体国家/项目，正式执行策划案第15章还需补充该国家/项目官方法规、政策手册、费用页和项目资源来源。</p>';
+  html+='<div class="table-wrap law-appendix"><table><tr><th>法案名称</th><th>第几条第几款</th><th>本草案用途</th></tr>';
+  rows.forEach(function(r){html+='<tr><td>'+esc(r.name)+'</td><td>'+esc(r.clause)+'</td><td>'+esc(r.use)+'</td></tr>'});
+  html+='</table></div>';
+  return html;
+}
+
 function extract(comments){for(var i=comments.length-1;i>=0;i--){var b=comments[i].body||'';if(/诊断草案|家庭全球规划|方案A|方案 A|根本判断/.test(b))return b}return ''}
-function load(){var issue=q('issue');document.getElementById('sub').textContent=issue?'Issue #'+issue:'未指定编号';if(!issue){doc.innerHTML='<div class="loading">缺少 issue 编号</div>';return}fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+issue+'/comments',{headers:{'Authorization':'***'+G_TOKEN,'Accept':'application/vnd.github+json'}}).then(function(r){return r.json()}).then(function(c){var md=extract(c);doc.innerHTML=md?mdToHtml(md):'<div class="loading">诊断草案尚未完成，请稍后刷新。</div>'}).catch(function(){doc.innerHTML='<div class="loading">读取失败，请稍后重试。</div>'})}
+function load(){var issue=q('issue');document.getElementById('sub').textContent=issue?'Issue #'+issue:'未指定编号';if(!issue){doc.innerHTML='<div class="loading">缺少 issue 编号</div>';return}fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+issue+'/comments',{headers:{'Authorization':'***'+G_TOKEN,'Accept':'application/vnd.github+json'}}).then(function(r){return r.json()}).then(function(c){var md=extract(c);doc.innerHTML=md?(mdToHtml(md)+lawAppendix(md)):'<div class="loading">诊断草案尚未完成，请稍后刷新。</div>'}).catch(function(){doc.innerHTML='<div class="loading">读取失败，请稍后重试。</div>'})}
 load();
 </script>
 </body>

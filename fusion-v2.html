@@ -13,18 +13,19 @@
   var CH15=['一、客户家庭基本信息','二、核心策略','三、合规清理详细方案','四、境外资金归集与投资架构','五、投资使用建议','六、财富架构搭建方案','七、税务分析','八、资金跨境合规方案','九、身份路径规划','十、教育规划','十一、福利居住国规划','十二、预算明细汇总','十三、执行时间轴'];
 
   function q(k){return new URL(location.href).searchParams.get(k)||''}
-  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  function cleanText(s){return String(s||'').replace(/[\uFFFD]+/g,'')}
+  function esc(s){return cleanText(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
   var cs=(q('countries')||'').split(',').filter(Boolean);
   var pr=(q('projects')||'').split('|').filter(Boolean);
-  var projects={};pr.forEach(function(x){var p=x.split(':');if(p[1])projects[p[0]]=p[1].split(',').map(function(v){try{return decodeURIComponent(v)}catch(e){return v}})});
+  var projects={};pr.forEach(function(x){var idx=x.indexOf(':');if(idx>0){var c=x.slice(0,idx);var raw=x.slice(idx+1);var vals=raw.split(',').filter(Boolean).map(function(v){try{return decodeURIComponent(v)}catch(e){return v}});projects[c]=(projects[c]||[]).concat(vals)}});
   if(!cs.length){document.getElementById('app').innerHTML='<h2>缺少参数</h2><p>请通过 ?countries=sg,tr&projects=sg:EP|tr:realestate 访问</p>';return}
 
   var names=cs.map(function(c){return C[c]?C[c].n:c});
 
   // ====== MARKDOWN RENDERER (full spec, matches Python version) ======
   function md2h(md){
-    if(!md)return'';var lines=md.split('\n'),out=[],inT=false,inC=false,cl=[];
+    if(!md)return'';md=cleanText(md);var lines=md.split('\n'),out=[],inT=false,inC=false,cl=[];
     function ct(){if(inT){out.push('</tbody></table>');inT=false}}
     function cc(){if(inC){var t=cl.join('\n').trim();if(t){var st=t.split('\n').map(function(l){var x=l.trim();if(!x||/^[↓→\-·]+$/.test(x.replace(/\s/g,'')))return null;return x.replace(/^[┌└│├┤─]+|[┐┘│├┤─]+$/g,'').trim()}).filter(Boolean);if(st.length>1){out.push('<div class=flow-card-wrap><h4>办理流程</h4>');st.forEach(function(s,i){out.push('<div class=flow-card><div class=flow-num>'+(i+1)+'</div><div class=flow-content>'+esc(s)+'</div></div>');if(i<st.length-1)out.push('<div class=flow-arrow>↓</div>')});out.push('</div>')}}inC=false;cl=[]}}
     for(var i=0;i<lines.length;i++){
@@ -104,6 +105,47 @@
     return parts.join('\n\n');
   }
 
+
+  function relatedSubpaths(c,p){
+    var x=(p||'').toLowerCase();
+    if(c==='sg'&&(x.indexOf('ep')>=0||x.indexOf('pic')>=0))return 'EP雇主担保 + EP-PIC自雇投资公司';
+    if(c==='au'&&(x.indexOf('482')>=0||x.indexOf('sid')>=0))return '482 SID + 186 TRT衔接（不加入非定稿EOI计算器）';
+    if(c==='tr'&&(x.indexOf('real')>=0||x.indexOf('购房')>=0))return '土耳其购房入籍 + 购房预算计算器';
+    if(c==='us'&&x.indexOf('eb-5')>=0)return 'EB-5预留/非预留 + I-526E/I-829资金来源链条';
+    if(c==='hk'&&x.indexOf('ttps')>=0)return '高才通A/B/C + 续签/永居衔接';
+    return '按该国家定稿母版识别强相关子路径';
+  }
+  function lawTableFromSections(sections,cname,pj){
+    var rows=[],seen={};
+    function add(a,b,c,d){a=cleanText(a||'').trim();b=cleanText(b||'').trim();c=cleanText(c||'').trim();d=cleanText(d||'').trim();if(!a||!b)return;var k=a+'|'+b+'|'+c;if(seen[k])return;seen[k]=1;rows.push([a,b,c||('适用于'+cname+' '+pj),d||'母版/官方资源']);}
+    Object.keys(sections||{}).forEach(function(k){var v=cleanText(sections[k]||'');
+      if(k.indexOf('法律')>=0||k.indexOf('法规')>=0||k.indexOf('法案')>=0||k.indexOf('附件')>=0||v.indexOf('法案/规则')>=0){
+        v.split('\n').forEach(function(line){
+          if(line.indexOf('|')>=0 && (line.indexOf('《')>=0 || /INA|USCIS|Migration|Regulation|Policy|FAM|Act|Law|MOM|ICA|MAS|EDB|Home Affairs/i.test(line))){
+            var cells=line.replace(/^\||\|$/g,'').split('|').map(function(x){return cleanText(x).trim()}).filter(Boolean);
+            if(cells.length>=2 && !/---|法案\/规则|法案名称|法律依据/.test(cells.join(''))){add(cells[0],cells[1],cells[2]||'',cells[3]||cells[4]||'');}
+          }
+        });
+      }
+    });
+    add('《中华人民共和国国籍法》','第3条','中国不承认中国公民具有双重国籍','强制保留');
+    add('《中华人民共和国国籍法》','第9条','自愿加入外国国籍自动丧失中国国籍风险','强制保留');
+    add('《中华人民共和国出境入境管理法》','出入境证件一致性相关条款','第三国护照不得用于中国出入境切换','强制保留');
+    add('汇发〔2014〕37号','全文/登记规则','境内居民个人境外SPV投融资及返程投资外汇登记','强制保留');
+    var h='<h4>法律法规与项目资源来源汇总</h4><table><tr><th>法案名称</th><th>第几条第几款</th><th>适用项目/用途</th><th>来源/备注</th></tr>';
+    rows.forEach(function(r){h+='<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td></tr>'});
+    return h+'</table>';
+  }
+  function moduleChecklist(c,p){
+    return '<h4>V20Plus 单项目厚度验收清单</h4><table><tr><th>检查项</th><th>本模块要求</th></tr>'+
+      '<tr><td>最小单元：国家 × 项目 × 强相关子路径</td><td>'+esc(C[c].n+' × '+p+' × '+relatedSubpaths(c,p))+'</td></tr>'+
+      '<tr><td>章节</td><td>15章完整：客户信息、核心策略、合规、资金、投资、架构、税务、跨境、身份、教育、福利、预算、时间轴、财税全文、风险附件</td></tr>'+
+      '<tr><td>国家层内容</td><td>教育、福利、生活费用、税务分析、跨境资金、国家架构图不得削薄</td></tr>'+
+      '<tr><td>第12章</td><td>费用明细、三方费用明细、费用汇总、材料清单、三方材料清单、投资款与生活费用全部表格化</td></tr>'+
+      '<tr><td>第14章</td><td>财税执行策划案全文保留，含财税架构图、资金双循环架构图、固定收费注释</td></tr>'+
+      '<tr><td>第15章</td><td>法案附件逐条列明《法案名称》第几条第几款</td></tr></table>';
+  }
+
   // ====== BUILD ======
   var html='';
 
@@ -117,7 +159,7 @@
     ps.forEach(function(pj){
       html+='<div class=sec style=border:2px solid #2563eb;box-shadow:none id=single-'+esc(c)+'-'+esc(pj).replace(/\s+/g,'-')+'>';
       html+='<h3>'+C[c].n+' · '+esc(pj)+' · 单国家单项目 V20Plus 模块</h3>';
-      html+='<table><tr><th>国家</th><th>选中项目</th><th>强相关子路径</th><th>验证口径</th></tr><tr><td>'+C[c].n+'</td><td>'+esc(pj)+'</td><td>按定稿母版保留强相关路径</td><td>15章、计算器、图表、财税全文、费用材料、法案附件</td></tr></table>';
+      html+='<table><tr><th>国家</th><th>选中项目</th><th>强相关子路径</th><th>验证口径</th></tr><tr><td>'+C[c].n+'</td><td>'+esc(pj)+'</td><td>'+esc(relatedSubpaths(c,pj))+'</td><td>15章、计算器、图表、财税全文、费用材料、法案附件</td></tr></table>'+moduleChecklist(c,pj);
       if(!t||!t.sections){html+='<p>模板未加载：'+esc(key)+'</p>'}
       else{
         html+='<h4>一、客户家庭基本信息</h4><p>客户基础信息来自快速问卷/诊断草案；未填项标记为待确认。</p>';
@@ -131,7 +173,7 @@
         }
         var taxT=FUSION_TEMPLATES[TAX_KEY];
         html+='<h4>十四、财税执行策划案全文</h4>'+(taxT&&taxT.sections?md2h(Object.values(taxT.sections).join('\n\n')):'<p>财税模板加载中。</p>');
-        html+='<h4>十五、重要风险声明与附件</h4>'+md2h(getRisk(t.sections)||'按国家母版逐条保留法规、政策、官方项目资源与风险声明。');
+        html+='<h4>十五、重要风险声明与附件</h4>'+md2h(getRisk(t.sections)||'按国家母版逐条保留法规、政策、官方项目资源与风险声明。')+lawTableFromSections(t.sections,C[c].n,pj);
       }
       html+='</div>';
     });
@@ -206,7 +248,7 @@
     var key=C[c].f;var t=FUSION_TEMPLATES[key];
     if(!t||!t.sections)return;
     var risk=getRisk(t.sections);
-    html+='<h3>'+C[c].n+' · 风险与附件</h3>'+md2h(risk||'以原模板为准');
+    html+='<h3>'+C[c].n+' · 风险与附件</h3>'+md2h(risk||'以原模板为准')+lawTableFromSections(t.sections,C[c].n,(projects[c]||['选中项目']).join('、'));
   });
   html+='<h3>15.1 去重共性风险</h3><blockquote>中国不承认双重国籍，第三国护照不得用于中国出入境。<br>所有资金来源必须可解释、可追踪、可留痕。<br>本方案不构成法律、税务、投资或移民建议。</blockquote></div>';
 
