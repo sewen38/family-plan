@@ -34,6 +34,7 @@ add('融合页先完整单项目模块再归并', fusion_html.find('完整单项
 add('融合页按单项目V20Plus叠加', all(x in fusion_html for x in ['V20Plus 单项目厚度验收清单','relatedSubpaths','国家 × 项目','费用明细','三方费用明细','费用汇总','材料清单','三方材料清单']))
 add('融合页法案条款附件表', all(x in fusion_html for x in ['lawTableFromSections','法律法规与项目资源来源汇总','法案名称','第几条第几款','《中华人民共和国国籍法》','汇发〔2014〕37号']))
 add('融合页多项目不覆盖', 'projects[c]=(projects[c]||[]).concat(vals)' in fusion_html)
+add('融合页香港专才专项规则', all(x in fusion_html for x in ['isHkAsmtp','hkAsmtpSec','hkAsmtpRiskLaw','ASMTP雇主担保专才 + 自有公司/自雇专才']))
 add('融合页15章与财税全文', all(x in fusion_html for x in ['单国家单项目 V20Plus 模块','十四、财税执行策划案全文','十五、重要风险声明与附件']))
 
 pages = ['jp-assessment.html','vu-assessment.html','ge-assessment.html']
