@@ -21,6 +21,13 @@
   var projects={};pr.forEach(function(x){var idx=x.indexOf(':');if(idx>0){var c=x.slice(0,idx);var raw=x.slice(idx+1);var vals=raw.split(',').filter(Boolean).map(function(v){try{return decodeURIComponent(v)}catch(e){return v}});projects[c]=(projects[c]||[]).concat(vals)}});
   if(!cs.length){document.getElementById('app').innerHTML='<h2>缺少参数</h2><p>请通过 ?countries=sg,tr&projects=sg:EP|tr:realestate 访问</p>';return}
 
+  function hasProj(c,re){return (projects[c]||[]).some(function(p){return re.test(String(p))})}
+  var isFinalMultiStandard = cs.includes('sg') && cs.includes('hk') && cs.includes('tr') && cs.includes('us') && cs.includes('au') && hasProj('sg',/ep/i) && hasProj('hk',/asmtp|专才/i) && hasProj('tr',/fund|基金/i) && hasProj('us',/eb-?1a/i) && hasProj('au',/482/i);
+  if(isFinalMultiStandard && !new URL(location.href).searchParams.get('dynamic')){
+    location.replace('fusion-sg-hk-tr-us-au-v1-final.html?from=family-plan&deploy=final-v20plus');
+    return;
+  }
+
   var names=cs.map(function(c){return C[c]?C[c].n:c});
 
   function projectName(p){if(/asmtp|专才/i.test(String(p||'')))return 'ASMTP 专才计划（雇主担保 + 自有公司/自雇）';if(/eb-?1a/i.test(String(p||'')))return 'EB-1A Extraordinary Ability';var m={
