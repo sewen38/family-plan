@@ -23,11 +23,13 @@
 
   var names=cs.map(function(c){return C[c]?C[c].n:c});
 
-  function projectName(p){if(/asmtp|专才/i.test(String(p||'')))return 'ASMTP 专才计划（雇主担保 + 自有公司/自雇）';var m={
+  function projectName(p){if(/asmtp|专才/i.test(String(p||'')))return 'ASMTP 专才计划（雇主担保 + 自有公司/自雇）';if(/eb-?1a/i.test(String(p||'')))return 'EB-1A Extraordinary Ability';var m={
     'hk-asmtp':'ASMTP 专才计划（雇主担保 + 自有公司/自雇）','hk-asmtp-self':'ASMTP 自有公司/自雇专才','hk-ttps-a':'高才通A类','hk-ttps-b':'高才通B类','hk-cies':'CIES资本投资者','hk-ncies':'CIES资本投资者','hk-qmas':'优才计划','hk-gqp':'优才计划',
     'sg-ep-pr':'EP→PR','sg-ep-pic':'EP-PIC自雇投资公司','tr-realestate-cbi':'购房入籍','tr-fund-cbi':'基金入籍'
   };return m[p]||p}
   function isHkAsmtp(c,p){return c==='hk' && /asmtp|专才/i.test(String(p||''))}
+  function isUsEb1a(c,p){return c==='us' && /eb-?1a/i.test(String(p||''))}
+  function countryHasUsEb1aOnly(c){var ps=projects[c]||[];return c==='us'&&ps.length&&ps.every(function(p){return isUsEb1a(c,p)})}
   function countryHasHkAsmtpOnly(c){var ps=projects[c]||[];return c==='hk'&&ps.length&&ps.every(function(p){return isHkAsmtp(c,p)})}
 
   // ====== MARKDOWN RENDERER (full spec, matches Python version) ======
@@ -118,6 +120,7 @@
     if(c==='sg'&&(x.indexOf('ep')>=0||x.indexOf('pic')>=0))return 'EP雇主担保 + EP-PIC自雇投资公司';
     if(c==='au'&&(x.indexOf('482')>=0||x.indexOf('sid')>=0))return '482 SID + 186 TRT衔接（不加入非定稿EOI计算器）';
     if(c==='tr'&&(x.indexOf('real')>=0||x.indexOf('购房')>=0))return '土耳其购房入籍 + 购房预算计算器';
+    if(c==='us'&&x.indexOf('eb-1a')>=0)return 'EB-1A Extraordinary Ability + O-1A桥接（可选说明）';
     if(c==='us'&&x.indexOf('eb-5')>=0)return 'EB-5预留/非预留 + I-526E/I-829资金来源链条';
     if(c==='hk'&&(x.indexOf('asmtp')>=0||x.indexOf('专才')>=0))return 'ASMTP雇主担保专才 + 自有公司/自雇专才';
     if(c==='hk'&&x.indexOf('ttps')>=0)return '高才通A/B/C + 续签/永居衔接';
@@ -154,6 +157,26 @@
       '<tr><td>第15章</td><td>法案附件逐条列明《法案名称》第几条第几款</td></tr></table>';
   }
 
+
+
+  function usEb1aSec(canon){
+    var map={};
+    map['一、客户家庭基本信息']='### 1.1 已知/默认信息\n\n| 维度 | 内容 | 执行含义 |\n|---|---|---|\n| 国家 | 美国 | 保留美国母版国家层内容 |\n| 项目 | EB-1A Extraordinary Ability | 聚焦EB-1A，不混入EB-5/NIW/L-1/E-2预算佣金 |\n| 强相关子路径 | O-1A桥接（可选） | 如需先登陆美国开展工作，可作为桥接说明，不进入主预算 |\n| 资料状态 | 待补充奖项、媒体、评审、论文/贡献、领导角色、高薪等证据 | 最终版需根据客户真实材料重构 |\n\n### 1.2 待解决问题分级\n\n| 等级 | 问题 | 动作 |\n|---|---|---|\n| P0 | 是否满足10项标准至少3项 | 做证据矩阵和缺口补强 |\n| P0 | 是否能证明持续国家/国际声誉 | 构建时间线、媒体、行业影响力 |\n| P1 | 排期和子女年龄监控 | Visa Bulletin与CSPA |\n| P1 | 美国税务居民和全球资产 | 绿卡前做税务体检 |\n\n### 1.3 根本判断\n\n表面问题：客户想走美国EB-1A。真实问题：客户需要把分散的专业成就重构为USCIS可理解的“持续声誉 + 领域贡献 + 未来美国利益”证据链。';
+    map['二、核心策略']='### 2.1 三分离定位\n\n| 维度 | 美国EB-1A定位 | 判断 |\n|---|---|---|\n| 事业国 | 中国/全球事业继续，美国作为专业影响力延展地 | 需证明赴美后继续从事同领域工作 |\n| 居住国 | 美国绿卡为长期居住和子女教育工具 | 需维护绿卡居住意图 |\n| 福利国 | 美国教育和就业市场，但医疗福利需商业保险 | 福利成本高，需预算 |\n\n### 2.2 选中项目矩阵\n\n| 国家 | 选中项目 | 强相关子路径 | 保留内容 | 剔除内容 | 计算器 | 财税耦合 |\n|---|---|---|---|---|---|---|\n| 美国 | EB-1A | O-1A桥接（可选） | EB-1A深度解析、费用、时间轴、美国国家层财富/税务/资金/教育/福利 | EB-5投资款、NIW、L-1A、E-2等未选项目预算和佣金 | 无定稿计算器，不临时添加 | 绿卡全球征税、FATCA/FBAR、遗产税、离岸架构 |';
+    map['三、合规清理详细方案']='### 3.1A 个人成就证据合规\n所有奖项、媒体、评审、论文、商业成功、领导角色和高薪证明必须真实、可验证、可追溯；禁止购买虚假媒体、伪造协会会员、伪造评审记录。\n\n### 3.1B 资金来源合规\nEB-1A无投资款要求，但家庭赴美生活、税务居民切换、美国账户和资产配置仍需资金来源解释。\n\n### 3.1.1 企业KYB审查\n\n| KYB项目 | 确认内容 | 证据 | 用途 |\n|---|---|---|---|\n| 企业主体 | 注册、股权、主营业务 | 营业执照、章程、审计 | 证明商业平台真实性 |\n| 申请人角色 | 创始人/高管/关键专家 | 任命文件、组织架构、合同 | 对应领导/关键角色标准 |\n| 商业成果 | 收入、客户、融资、市场份额 | 审计、媒体、合同、行业报告 | 对应商业成功/重大贡献 |';
+    map['四、境外资金归集与投资架构']='### 4.1 推荐资金路径（EB-1A：生活安顿+证据准备，不含投资款）\n\n| 路径 | 适用客户 | 优点 | 缺点 | 适合金额 |\n|---|---|---|---|---|\n| 境外已有资产 | 已有海外账户/离岸公司 | 效率高、资金来源可追溯 | 需解释历史来源 | $10万+ |\n| 个人合规购汇 | 家庭生活费、律师费 | 路径简单 | 额度有限 | $5万/人/年 |\n| 境外工资/分红 | 已有境外收入 | 来源清晰 | 需税务申报一致 | 视收入 |\n| 资产出售 | 房产/股权/证券变现 | 金额较大 | 需完税和交易文件 | $10万+ |\n| 地下钱庄 | — | 表面快 | P0红区，刑事与移民审查风险 | 禁止 |\n\n### 4.2 EB-1A生活安顿费与首年预算框架\n\n| 项目 | 年度预算(USD) | 说明 |\n|---|---:|---|\n| 房租（三房·好学区） | $36,000-72,000 | 中等城市到高成本城市差异大 |\n| 医疗保险（四口之家） | $15,000-30,000 | 无雇主医保时成本较高 |\n| 车辆与保险 | $12,000-20,000 | 通常需要1-2辆车 |\n| 子女教育补充 | $0-40,000+ | 公立免费，私立/国际学校另计 |\n| 年度合计 | $99,000-222,000+ | 按落地城市复核 |\n\n### 4.3 各地区居住成本对比\n\n| 项目 | 纽约/旧金山/洛杉矶 | 德州/佛州等中等成本城市 | 中西部/南部低成本城市 |\n|---|---:|---:|---:|\n| 三房月租 | $4,000-8,000 | $2,000-3,500 | $1,500-2,500 |\n| 住宅售价 | $80万-200万+ | $35万-65万 | $20万-40万 |\n| 家庭医保/月 | $1,500-3,000 | $1,000-2,000 | $800-1,500 |\n\n### 4.4 资金使用边界\nEB-1A无投资款，资金主要用于I-140/I-485、律师费、证据准备、翻译公证、税务咨询和家庭生活安顿。未选EB-5投资款不得进入本案预算。';
+    map['五、投资使用建议']='### 5.0 EB-1A重点执行建议\n先证据矩阵，后文书包装；先证明3-5个强项，再用 final merits 证明整体领域顶尖。\n\n### 5.1 EB-1A证据使用建议\n\n| 证据类型 | 使用方式 | 注意 |\n|---|---|---|\n| 奖项 | 证明领域认可 | 解释奖项层级和竞争范围 |\n| 媒体报道 | 证明社会影响力 | 优先第三方权威媒体 |\n| 评审 | 证明同行认可 | 保留邀请、评审记录、主办方信息 |\n| 原创贡献 | 证明重大影响 | 用引用、采用、收入、政策或行业影响支撑 |\n| 领导/关键角色 | 证明组织影响 | 组织规模、职位权责、业绩结果 |\n| 高薪 | 证明高于同行 | 需市场薪酬对比 |';
+    map['六、财富架构搭建方案']='### 6.1 美国 EB-1A 单项目身份架构图\n\n```text\n申请人成就证据链\n↓\nEB-1A I-140 自申请\n↓\n排期监控 / I-485或领馆程序\n↓\n绿卡获批\n↓\n美国居住、教育、税务、资产申报体系\n```\n\n必须保留美国国家层财富/身份架构，并在第14章完整保留财税架构图和资金双循环图。';
+    map['七、税务分析']='必须保留美国税务国家层内容：绿卡/税务居民全球征税、Substantial Presence Test、FATCA、FBAR、PFIC、CFC、遗产税、赠与税、州税差异、中美税收协定。';
+    map['八、资金跨境合规方案']='必须保留：资金来源证明、境外已有资产、合规购汇、ODI/37号文适用性、美国银行KYC、FATCA/FBAR申报、严禁地下钱庄/虚假贸易/第三方代付。';
+    map['九、身份路径规划']='### 9.1 EB-1A 主路径\n\n| 维度 | 内容 |\n|---|---|\n| 法律依据 | INA §203(b)(1)(A)，USCIS Policy Manual Vol.6 Part F |\n| 核心要求 | Extraordinary Ability，10项满足至少3项并通过 final merits |\n| 雇主要求 | 无需雇主、无需劳工证，可自申请 |\n| 后续程序 | I-140 → 排期 → I-485/领馆程序 → 绿卡 |\n| 强相关桥接 | O-1A可作为先登陆工作桥接，但不自动等于EB-1A |';
+    map['十、教育规划']='美国教育规划必须保留：K-12公立学校、私立学校、学区房、州内大学学费、子女CSPA年龄监控、绿卡身份对子女教育权益的影响。';
+    map['十一、福利居住国规划']='美国福利规划必须保留：商业医保、ACA、Medicare/Medicaid资格边界、401(k)/IRA、社会保障、居住成本、绿卡维护、入籍居住要求。';
+    map['十二、预算明细汇总']='### 12.1 EB-1A费用明细\n\n| 费用项目 | 金额(USD) | 责任方 | 节点 | 备注 |\n|---|---:|---|---|---|\n| I-140申请费 | $715 | 客户 | 递交 | USCIS费用，以官网为准 |\n| Premium Processing | $2,805 | 客户 | 可选加急 | 15个工作日口径以官方为准 |\n| I-485/领馆程序 | 待确认 | 客户 | 排期到达后 | 按家庭人数 |\n| 移民律师费 | 待确认 | 客户 | 签约/递交 | EB-1A全案 |\n| 证据准备/翻译公证 | 待确认 | 客户 | 申请前 | 奖项、媒体、评审、合同等 |\n| 税务咨询 | 待确认 | 客户 | 登陆前 | 绿卡税务体检 |\n| 首年生活安顿 | $99,000-222,000+ | 客户 | 登陆前后 | 按城市复核 |\n\n### 12.2 三方材料清单\n\n| 责任方 | 材料 | 用途 |\n|---|---|---|\n| 客户 | 护照、身份、家庭、简历、成就证据 | 身份和资格 |\n| 客户/企业 | 企业KYB、媒体、合同、财务、推荐信 | 证明贡献和关键角色 |\n| 律师/顾问 | 证据矩阵、I-140文书、补件策略 | 案件递交 |';
+    map['十三、执行时间轴']='```text\n资格初评\n↓\n证据矩阵与缺口补强\n↓\n推荐信/媒体/评审/贡献证据整理\n↓\nI-140 EB-1A递交\n↓\n加急/普通审理\n↓\n排期监控\n↓\nI-485或领馆程序\n↓\n绿卡获批\n↓\n税务居民、居住意图、教育和资产申报维护\n```\n\n必须同时列各方责任表、立即行动清单、Visa Bulletin/CSPA/绿卡维护时间表。';
+    return map[canon]||'';
+  }
+  function usEb1aRiskLaw(){return '### 15.1 美国 EB-1A 专项风险声明\n\n| 风险 | 说明 |\n|---|---|\n| 证据真实性风险 | 虚假媒体、伪造评审或协会材料会造成拒签和诚信问题 |\n| 证据强度风险 | 满足3项不等于一定通过 final merits |\n| 排期风险 | EB-1 中国排期可能前进、停滞或倒退 |\n| 子女超龄风险 | 需持续监控 CSPA |\n| 税务风险 | 绿卡/美国税务居民涉及全球收入、资产申报和遗产税 |\n| 居住意图风险 | 长期离境可能影响绿卡维护 |\n\n### 15.2 法律法规与项目资源来源汇总\n\n| 法案/规则 | 第几条第几款 | 用途 | 备注 |\n|---|---|---|---|\n| Immigration and Nationality Act (INA) | §203(b)(1)(A) | EB-1A Extraordinary Ability 法源 | 本项目直接依据 |\n| 8 CFR | §204.5(h) | EB-1A 具体标准和证据规则 | 10项标准 |\n| USCIS Policy Manual | Vol.6 Part F | EB-1A审理政策指南 | Final merits 分析 |\n| Matter of Kazarian | 596 F.3d 1115 | 两步分析/Final merits 司法来源 | 证据评估 |\n| Child Status Protection Act (CSPA) | INA §203(h) | 子女年龄保护 | 排期监控 |\n| Internal Revenue Code | §§1, 61, 911, 2001 | 全球征税、收入、海外收入、遗产税 | 财税分析 |\n| Bank Secrecy Act / FBAR | 31 U.S.C. §5314 | 海外账户申报 | FinCEN Form 114 |\n| FATCA | 26 U.S.C. §6038D | 海外金融资产申报 | Form 8938 |\n| 《中华人民共和国国籍法》 | 第3条、第9条 | 国籍风险提示 | 美国入籍阶段 |\n| 汇发〔2014〕37号 | 全文/登记规则 | 境内居民个人境外SPV投融资 | 跨境架构 |';}
 
   function hkAsmtpSec(canon){
     var map={};
@@ -198,7 +221,7 @@
         html+='<h4>一、客户家庭基本信息</h4><p>客户基础信息来自快速问卷/诊断草案；未填项标记为待确认。</p>';
         html+='<h4>二、核心策略</h4><p>按三分离定位：事业国、居住国、福利国分别判断；本模块仅围绕当前选中项目展开。</p>';
         for(var mi=2;mi<CH15.length;mi++){
-          var canon=CH15[mi];var body=isHkAsmtp(c,pj)?hkAsmtpSec(canon):(getSec(t.sections,canon)||'');
+          var canon=CH15[mi];var body=isUsEb1a(c,pj)?usEb1aSec(canon):(isHkAsmtp(c,pj)?hkAsmtpSec(canon):(getSec(t.sections,canon)||''));
           body=body.replace(/^##\s+[^\n]+\n+/,'').trim();
           var folder=key.substring(0,key.lastIndexOf('/'));
           body=body.replace(/!\[([^\]]*)\]\(([^)]+\.svg)\)/g,function(m,alt,ref){var svgKey=folder+'/svg/'+ref;var sv=FUSION_TEMPLATES[svgKey];if(sv&&sv.svg)return '!['+alt+'](data:image/svg+xml;base64,'+sv.svg+')';return m;});
@@ -206,7 +229,7 @@
         }
         var taxT=FUSION_TEMPLATES[TAX_KEY];
         html+='<h4>十四、财税执行策划案全文</h4>'+(taxT&&taxT.sections?md2h(Object.values(taxT.sections).join('\n\n')):'<p>财税模板加载中。</p>');
-        html+='<h4>十五、重要风险声明与附件</h4>'+(isHkAsmtp(c,pj)?md2h(hkAsmtpRiskLaw()):(md2h(getRisk(t.sections)||'按国家母版逐条保留法规、政策、官方项目资源与风险声明。')+lawTableFromSections(t.sections,C[c].n,pj)));
+        html+='<h4>十五、重要风险声明与附件</h4>'+(isUsEb1a(c,pj)?md2h(usEb1aRiskLaw()):(isHkAsmtp(c,pj)?md2h(hkAsmtpRiskLaw()):(md2h(getRisk(t.sections)||'按国家母版逐条保留法规、政策、官方项目资源与风险声明。')+lawTableFromSections(t.sections,C[c].n,pj))));
       }
       html+='</div>';
     });
@@ -239,8 +262,8 @@
       if(!t||!t.sections){html+='<p><b>'+C[c].n+'</b>: 模板未加载 ('+key+')</p>';return}
       var ps=projects[c]&&projects[c].length?projects[c]:['__country__'];
       ps.forEach(function(pj){
-        var body=isHkAsmtp(c,pj)?hkAsmtpSec(canon):getSec(t.sections,canon);
-        if(countryHasHkAsmtpOnly(c)&&!isHkAsmtp(c,pj))return;
+        var body=isUsEb1a(c,pj)?usEb1aSec(canon):(isHkAsmtp(c,pj)?hkAsmtpSec(canon):getSec(t.sections,canon));
+        if(countryHasHkAsmtpOnly(c)&&!isHkAsmtp(c,pj))return; if(countryHasUsEb1aOnly(c)&&!isUsEb1a(c,pj))return;
         if(!body){html+='<p><b>'+C[c].n+'</b>: 未找到 '+canon+' 章节</p>';return}
         body=body.replace(/^##\s+[^\n]+\n+/,'').trim();
         var folder=key.substring(0,key.lastIndexOf('/'));
@@ -267,6 +290,7 @@
     if(!t||!t.sections)return;
     var risk=getRisk(t.sections);
     if(countryHasHkAsmtpOnly(c)){html+='<h3>香港 · ASMTP 专才计划 · 风险与附件</h3>'+md2h(hkAsmtpRiskLaw());return}
+    if(countryHasUsEb1aOnly(c)){html+='<h3>美国 · EB-1A · 风险与附件</h3>'+md2h(usEb1aRiskLaw());return}
     html+='<h3>'+C[c].n+' · 风险与附件</h3>'+md2h(risk||'以原模板为准')+lawTableFromSections(t.sections,C[c].n,(projects[c]||['选中项目']).join('、'));
   });
   html+='<h3>15.1 去重共性风险</h3><blockquote>中国不承认双重国籍，第三国护照不得用于中国出入境。<br>所有资金来源必须可解释、可追踪、可留痕。<br>本方案不构成法律、税务、投资或移民建议。</blockquote></div>';

@@ -35,6 +35,7 @@ add('融合页按单项目V20Plus叠加', all(x in fusion_html for x in ['V20Plu
 add('融合页法案条款附件表', all(x in fusion_html for x in ['lawTableFromSections','法律法规与项目资源来源汇总','法案名称','第几条第几款','《中华人民共和国国籍法》','汇发〔2014〕37号']))
 add('融合页多项目不覆盖', 'projects[c]=(projects[c]||[]).concat(vals)' in fusion_html)
 add('融合页香港专才专项规则', all(x in fusion_html for x in ['isHkAsmtp','hkAsmtpSec','hkAsmtpRiskLaw','ASMTP雇主担保专才 + 自有公司/自雇专才']))
+add('融合页美国EB1A定稿标准专项规则', all(x in fusion_html for x in ['isUsEb1a','usEb1aSec','usEb1aRiskLaw','EB-1A Extraordinary Ability + O-1A桥接','未选EB-5投资款不得进入本案预算','INA) | §203(b)(1)(A)']))
 add('融合页15章与财税全文', all(x in fusion_html for x in ['单国家单项目 V20Plus 模块','十四、财税执行策划案全文','十五、重要风险声明与附件']))
 
 pages = ['jp-assessment.html','vu-assessment.html','ge-assessment.html']
