@@ -22,7 +22,7 @@
   if(!cs.length){document.getElementById('app').innerHTML='<h2>缺少参数</h2><p>请通过 ?countries=sg,tr&projects=sg:EP|tr:realestate 访问</p>';return}
 
   function hasProj(c,re){return (projects[c]||[]).some(function(p){return re.test(String(p))})}
-  var isFinalMultiStandard = cs.includes('sg') && cs.includes('hk') && cs.includes('tr') && cs.includes('us') && cs.includes('au') && hasProj('sg',/ep/i) && hasProj('hk',/asmtp|专才/i) && hasProj('tr',/fund|基金/i) && hasProj('us',/eb-?1a/i) && hasProj('au',/482/i);
+  var isFinalMultiStandard = cs.length===5 && cs.includes('sg') && cs.includes('hk') && cs.includes('tr') && cs.includes('us') && cs.includes('au') && hasProj('sg',/ep/i) && hasProj('hk',/asmtp|专才/i) && hasProj('tr',/fund|基金/i) && hasProj('us',/eb-?1a/i) && hasProj('au',/482/i);
   var isFinalUsEb1aSingleStandard = cs.length===1 && cs[0]==='us' && hasProj('us',/eb-?1a/i);
   if(isFinalUsEb1aSingleStandard && !new URL(location.href).searchParams.get('dynamic')){
     location.replace('us-eb1a-v20plus-final.html?from=family-plan&deploy=final-v20plus');
