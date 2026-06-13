@@ -13,17 +13,22 @@ exec_html = (ROOT / 'exec.html').read_text(encoding='utf-8')
 
 add('快速问卷为最终V3版本', '快速版问卷 <span style="font-size:12px;color:#888">V3</span>' in index)
 add('资产结构房产联动存在', "toggleAsset(this,'house')" in index and 'asset_house' in index and '房产数量' in index and "genValuation('house','房产','套','万元')" in index)
-add('提交后进入诊断草案页', "document.getElementById('f').onsubmit" in index and "renderDiagnosis('⏳ 已提交" in index)
+add('提交后进入V20诊断草案复制流程', "document.getElementById('f').onsubmit" in index and "renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体" in index)
 add('网络失败也进入诊断页兜底', '当前网络无法自动提交，请复制问卷给智能体生成诊断草案' in index)
 add('跨设备协议文本存在', '【财税方案快速问卷提交】' in index and 'buildProtocolText' in index and '复制问卷给智能体' in index)
 add('诊断未生成不能进下一阶段', '诊断草案尚未生成，不能进入下一阶段' in index)
 add('新批量清空旧评估数据', 'bd[String(issue)]={}' in index)
 add('汇总只读取projects数组', 'selectedProject' not in summary and 'solutions' not in summary and 'Array.isArray(info.projects)' in summary)
 add('汇总全空仍可下一阶段', '当前所选国家均暂无符合项目' in summary and "document.getElementById('actions').style.display = 'flex'" in summary)
-add('汇总跳正式exec', "var target = 'exec.html?issue='" in summary and 'exec-v12.html' not in summary)
-add('执行案14章框架', all(x in exec_html for x in ['01','02','03','04','05','06','07','08','09','10','11','12','13','14']))
+add('汇总跳正式融合执行策划案', ("var target = 'fusion.html?issue='" in summary or "var target = 'exec.html?issue='" in summary) and 'exec-v12.html' not in summary)
+fusion_html = (ROOT / 'fusion.html').read_text(encoding='utf-8')
+
+add('执行案V20说明', 'V20 · 15章融合执行策划案' in exec_html and '14章客户交付版' not in exec_html)
 add('执行案国家内减法多国加法', '国家内减法 + 多国家加法' in exec_html and '未勾选项目不进入任何章节' in exec_html)
 add('执行案顶部计算器专区', all(x in exec_html for x in ['顶部计算器专区','新加坡 COMPASS','日本高才 HSP','新西兰 SMC','澳大利亚 EOI']))
+add('融合页V20引擎', 'V20 引擎' in fusion_html and 'V19 引擎' not in fusion_html)
+add('融合页先完整单项目模块再归并', fusion_html.find('完整单项目模块嵌入区（用于厚度校验）') >= 0 and fusion_html.find('完整单项目模块嵌入区（用于厚度校验）') < fusion_html.find('融合归并总览'))
+add('融合页15章与财税全文', all(x in fusion_html for x in ['单国家单项目 V20Plus 模块','十四、财税执行策划案全文','十五、重要风险声明与附件']))
 
 pages = ['jp-assessment.html','vu-assessment.html','ge-assessment.html']
 for page in pages:

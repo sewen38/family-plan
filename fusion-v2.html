@@ -1,6 +1,6 @@
 <!doctype html><html lang=zh-CN><head>
 <meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>融合执行策划案 v19</title>
+<title>融合执行策划案 V20</title>
 <script src=fusion-templates-data.js></script>
 <style>
 *{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;background:#f5f6f8;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;line-height:1.65}header{background:linear-gradient(135deg,#071a3d,#0f3b82);color:#fff;padding:28px 18px;text-align:center}main{max-width:980px;margin:0 auto;padding:14px}.sec{background:#fff;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}h1{margin:0;font-size:28px}h2{color:#0b2a5b;border-bottom:2px solid #e5e7eb;padding-bottom:8px;margin-top:24px}h3{color:#123b73;margin-top:22px}h4{color:#0f3b82;font-size:16px;margin:18px 0 8px;font-weight:800}h5{color:#1e3a8a;font-size:15px;margin:14px 0 6px;font-weight:700}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;display:block;overflow-x:auto}td,th{border:1px solid #e5e7eb;padding:8px;vertical-align:top}th{background:#e8f1ff;color:#0b2a5b}blockquote{background:#fff7ed;border-left:4px solid #f97316;padding:10px 12px;border-radius:8px}button{border:0;background:#0f3b82;color:#fff;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer}.density-ok{background:#10b981;color:#fff;padding:8px 16px;border-radius:12px;margin:12px 0;font-size:12px}.density-low{background:#dc2626;color:#fff;padding:16px;border-radius:12px;margin:16px 0}.flow-card-wrap{display:flex;flex-direction:column;gap:6px;margin:14px 0}.flow-card-wrap h4{color:#0f3b82;margin:0 0 6px}.flow-card{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(135deg,#fff7ed,#fffbeb);border:1px solid #f59e0b;border-radius:12px;padding:12px}.flow-num{width:26px;height:26px;border-radius:50%;background:#0f3b82;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}.flow-content{flex:1;font-weight:600;color:#374151}.flow-arrow{text-align:center;color:#0f3b82;font-weight:900;font-size:18px;line-height:1}.figure{margin:16px 0;text-align:center;overflow:hidden}.figure svg,.inline-svg{max-width:100%!important;width:100%!important;height:auto!important;border:1px solid #e5e7eb;border-radius:12px;background:#fff}.figcaption{font-size:12px;color:#666;margin-top:6px}.calc-zone{border:3px solid #2563eb;background:#eff6ff;border-radius:16px;padding:20px}.calc{border:2px dashed #f59e0b;background:#fffbeb;margin:12px 0;padding:14px;border-radius:12px}.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.calc-grid label{display:block;font-weight:700}.commission{background:#111827;color:#fff;border-radius:16px;padding:22px;margin:16px 0}.commission h2{color:#fff;border-color:#374151}.commission-item{background:#1f2937;border:1px solid #374151;border-radius:12px;padding:14px;margin:10px 0}.commission-item h3{color:#fff;margin-top:0}@media(max-width:640px){header{padding:20px 12px}h1{font-size:21px}main{padding:8px}.sec{padding:14px;margin:10px 0;border-radius:12px}h2{font-size:18px}h3{font-size:16px}td,th{font-size:12px;padding:6px}button{width:100%;margin:6px 0}.calc-grid{grid-template-columns:1fr!important}}@media print{.commission input,.commission button{display:none}body{background:#fff}.sec{box-shadow:none}}
@@ -108,7 +108,37 @@
   var html='';
 
   // Header
-  html+='<header><h1>'+names.join(' + ')+' 融合执行策划案</h1><p>V19 引擎 · 完整模板正文融合</p></header><main>';
+  html+='<header><h1>'+names.join(' + ')+' 融合执行策划案</h1><p>V20 引擎 · 先验收完整单项目模块，再进行15章融合归并</p></header><main>';
+
+  // V20 hard order: complete single-project modules must appear before fusion overview / chapter 1.
+  html+='<div class=sec id=singleProjectModules><h2>完整单项目模块嵌入区（用于厚度校验）</h2><p>以下按用户勾选项目逐个展示完整单国家单项目 V20Plus 模块。先验收每个单项目厚度，再看下方融合后的15章归并内容。</p>';
+  cs.forEach(function(c){
+    var key=C[c].f;var t=FUSION_TEMPLATES[key];var ps=projects[c]||['待选项目'];
+    ps.forEach(function(pj){
+      html+='<div class=sec style=border:2px solid #2563eb;box-shadow:none id=single-'+esc(c)+'-'+esc(pj).replace(/\s+/g,'-')+'>';
+      html+='<h3>'+C[c].n+' · '+esc(pj)+' · 单国家单项目 V20Plus 模块</h3>';
+      html+='<table><tr><th>国家</th><th>选中项目</th><th>强相关子路径</th><th>验证口径</th></tr><tr><td>'+C[c].n+'</td><td>'+esc(pj)+'</td><td>按定稿母版保留强相关路径</td><td>15章、计算器、图表、财税全文、费用材料、法案附件</td></tr></table>';
+      if(!t||!t.sections){html+='<p>模板未加载：'+esc(key)+'</p>'}
+      else{
+        html+='<h4>一、客户家庭基本信息</h4><p>客户基础信息来自快速问卷/诊断草案；未填项标记为待确认。</p>';
+        html+='<h4>二、核心策略</h4><p>按三分离定位：事业国、居住国、福利国分别判断；本模块仅围绕当前选中项目展开。</p>';
+        for(var mi=2;mi<CH15.length;mi++){
+          var canon=CH15[mi];var body=getSec(t.sections,canon)||'';
+          body=body.replace(/^##\s+[^\n]+\n+/,'').trim();
+          var folder=key.substring(0,key.lastIndexOf('/'));
+          body=body.replace(/!\[([^\]]*)\]\(([^)]+\.svg)\)/g,function(m,alt,ref){var svgKey=folder+'/svg/'+ref;var sv=FUSION_TEMPLATES[svgKey];if(sv&&sv.svg)return '!['+alt+'](data:image/svg+xml;base64,'+sv.svg+')';return m;});
+          html+='<h4>'+canon+'</h4>'+md2h(body||('本章节按 '+C[c].n+' 定稿母版抽取，保留国家层内容。'));
+        }
+        var taxT=FUSION_TEMPLATES[TAX_KEY];
+        html+='<h4>十四、财税执行策划案全文</h4>'+(taxT&&taxT.sections?md2h(Object.values(taxT.sections).join('\n\n')):'<p>财税模板加载中。</p>');
+        html+='<h4>十五、重要风险声明与附件</h4>'+md2h(getRisk(t.sections)||'按国家母版逐条保留法规、政策、官方项目资源与风险声明。');
+      }
+      html+='</div>';
+    });
+  });
+  html+='</div>';
+
+  html+='<div class=sec id=fusionOverview><h2>融合归并总览（位于完整单项目模块之后）</h2><p>下方开始按15章横向归并：通用项去重，国家/项目差异完整保留。未选项目不得进入预算、材料、时间轴和佣金。</p></div>';
 
   // Ch1
   html+='<div class=sec><h2>一、客户家庭基本信息</h2>';
@@ -186,7 +216,7 @@
   var issues=[];
   if(svgs<expSvg)issues.push('SVG:'+svgs+'<'+expSvg);
   if(cards<expCard)issues.push('卡:'+cards+'<'+expCard);
-  var dBanner=issues.length?'<div class=density-low><b>V19 LOW:</b> '+issues.join(' | ')+'</div>':'<div class=density-ok>V19: '+svgs+'SVG '+cards+'卡 '+tbls+'表 '+bts+'B</div>';
+  var dBanner=issues.length?'<div class=density-low><b>V20 LOW:</b> '+issues.join(' | ')+'</div>':'<div class=density-ok>V20: '+svgs+'SVG '+cards+'卡 '+tbls+'表 '+bts+'B</div>';
 
   // Commission
   var comm='';

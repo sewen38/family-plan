@@ -479,7 +479,7 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已收到问卷。不同设备/网络如无法自动生成，请复制问卷文本发给当前智能体，智能体会直接在聊天框生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已生成标准问卷文本。请复制问卷文本发给当前智能体，智能体将按主 Skill V20 最新定稿逻辑直接生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
@@ -495,7 +495,7 @@ function refreshDiagnosis(){
     var body=extractDiagnosisComment(comments);
     if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
       saveDiagnosisIssue(rec.issue,rec.name,body);}
-    else{renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','Issue #'+rec.issue+' 已记录。通常几分钟内生成；复杂合规案例可能需要更久。');}
+    else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','Issue #'+rec.issue+' 已记录。当前最终流程以复制问卷文本交给智能体生成为准，不依赖任何网络回调。');}
   }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新。','Issue #'+rec.issue+' 已记录在本机浏览器。');});
 }
 // 国家名称 → 评估页URL 映射表
@@ -708,14 +708,14 @@ document.getElementById('f').onsubmit=function(e){
   }
   window._t=buildProtocolText(summary);
   document.getElementById('ov').classList.remove('on');
-  renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');
+  renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');
 
   // Automatic channels are best-effort only and run after the UI responds immediately.
   // Channel 1: try local server (same WiFi → instant processing)
   fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
   .then(function(r){return r.json()})
   .then(function(r){
-    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');}
+    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');}
   })
   .catch(function(){
     // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
@@ -730,7 +730,7 @@ document.getElementById('f').onsubmit=function(e){
       if(r.number){
         saveDiagnosisIssue(r.number,(m.name||[]).join(','));
         document.getElementById('ov').classList.remove('on');
-        renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');
+        renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');
         setTimeout(refreshDiagnosis,1200);
         // Also try to trigger local server for instant processing
         try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.number,name:(m.name||[]).join(',')})}) }catch(e){}
@@ -745,7 +745,7 @@ document.getElementById('f').onsubmit=function(e){
   function showResult(msg,ok,minutes){
     var s='<h3>✅ '+(msg||'问卷已填写')+'</h3>';
     if(ok){
-      var timeMsg=minutes>0?('⚡ '+minutes+'分钟内出诊断草案'):'总统已收到，自动生成诊断草案中';
+      var timeMsg=minutes>0?('⚡ '+minutes+'分钟内出诊断草案'):'总统已收到，请复制问卷文本发回聊天生成诊断草案';
       s+='<div class="tip" style="color:#4caf50">'+timeMsg+'</div>';
     } else {
       s+='<div class="tip" style="color:#e53935">📋 请复制下方文本发送给总统</div>';
