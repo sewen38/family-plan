@@ -206,10 +206,10 @@
   var html='';
 
   // Header
-  html+='<header><h1>'+names.join(' + ')+' 融合执行策划案</h1><p>V20 引擎 · 先验收完整单项目模块，再进行15章融合归并</p></header><main>';
+  html+='<header><h1>'+names.join(' + ')+' 融合执行策划案</h1><p>V20Plus 定稿版 · 多国家多项目融合执行策划案</p></header><main>';
 
   // V20 hard order: complete single-project modules must appear before fusion overview / chapter 1.
-  html+='<div class=sec id=singleProjectModules><h2>完整单项目模块嵌入区（用于厚度校验）</h2><p>以下按用户勾选项目逐个展示完整单国家单项目 V20Plus 模块。先验收每个单项目厚度，再看下方融合后的15章归并内容。</p>';
+  html+='<div class=sec id=singleProjectModules><h2>完整单项目模块嵌入区</h2>';
   cs.forEach(function(c){
     var key=C[c].f;var t=FUSION_TEMPLATES[key];var ps=projects[c]||['待选项目'];
     ps.forEach(function(pj){
