@@ -1,0 +1,13 @@
+{
+  "id": "malta-mprp",
+  "country": "马耳他",
+  "project": "MPRP 永居",
+  "title": "马耳他",
+  "file": "final-single/malta-mprp-v20plus-final.html",
+  "sha256": "d0c35c601e60342fd77b55d93ee547e41cf64094a463117a647be4b54139c5ea",
+  "status": "final-pass",
+  "size": 91408,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

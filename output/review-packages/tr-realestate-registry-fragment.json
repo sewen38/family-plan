@@ -1,0 +1,13 @@
+{
+  "id": "tr-realestate",
+  "country": "土耳其",
+  "project": "购房投资入籍",
+  "title": "土耳其购房",
+  "file": "final-single/tr-realestate-v20plus-final.html",
+  "sha256": "3822501a539e34592f5f9c66ee6f17cc8e6fac259c606c33fdb5d4e11ce0612a",
+  "status": "final-pass",
+  "size": 91634,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

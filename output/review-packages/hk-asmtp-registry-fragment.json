@@ -1,0 +1,13 @@
+{
+  "id": "hk-asmtp",
+  "country": "香港",
+  "project": "ASMTP 专才计划",
+  "title": "香港 ASMTP",
+  "file": "final-single/hk-asmtp-v20plus-final.html",
+  "sha256": "b2f6debd5986213d252dff7e29ef8f983c92ce018945e1d671be1f588e2c6908",
+  "status": "final-pass",
+  "size": 91580,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

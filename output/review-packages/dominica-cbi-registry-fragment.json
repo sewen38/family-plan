@@ -1,0 +1,13 @@
+{
+  "id": "dominica-cbi",
+  "country": "多米尼克",
+  "project": "CBI 公民身份",
+  "title": "多米尼克",
+  "file": "final-single/dominica-cbi-v20plus-final.html",
+  "sha256": "ccaf462ad032a53cac2767337f4663d26befe90c14a67ef27c257fb5ad8ef51f",
+  "status": "final-pass",
+  "size": 91591,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

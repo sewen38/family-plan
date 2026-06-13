@@ -1,0 +1,13 @@
+{
+  "id": "georgia-investment-residence",
+  "country": "格鲁吉亚",
+  "project": "投资居留/创业居留",
+  "title": "格鲁吉亚",
+  "file": "final-single/georgia-investment-residence-v20plus-final.html",
+  "sha256": "663207195d4d13e5c225d3eecf43fdca325aa5680930c22735904cc9e41f87d1",
+  "status": "final-pass",
+  "size": 91789,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

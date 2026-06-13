@@ -1,0 +1,13 @@
+{
+  "id": "nz-smc-aip",
+  "country": "新西兰",
+  "project": "SMC / Active Investor Plus",
+  "title": "新西兰 SMC/AIP",
+  "file": "final-single/nz-smc-aip-v20plus-final.html",
+  "sha256": "1a3faac0653102aa4fb43a9edf6002acaedb3e898c5f97f2c9452ab09fc8d3e7",
+  "status": "final-pass",
+  "size": 91828,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

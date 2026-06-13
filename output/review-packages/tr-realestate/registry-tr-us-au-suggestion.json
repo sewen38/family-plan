@@ -1,0 +1,71 @@
+{
+  "finalSingleSuggestions": [
+    {
+      "id": "tr-fund",
+      "country": "TR",
+      "countryName": "土耳其",
+      "project": "fund-cbi",
+      "projectName": "基金投资入籍 + E-2参考",
+      "title": "土耳其基金投资入籍 + 美国E-2跳板｜单项目V20Plus最终页",
+      "path": "family-plan-pages/final-single/tr-fund-v20plus-final.html",
+      "embedUrl": "final-single/tr-fund-v20plus-final.html",
+      "status": "final-v20plus",
+      "chapters": 15,
+      "features": ["fees-materials", "tax-fulltext", "laws", "commission", "mobile", "fusion-embeddable"]
+    },
+    {
+      "id": "tr-realestate",
+      "country": "TR",
+      "countryName": "土耳其",
+      "project": "realestate-cbi",
+      "projectName": "购房投资入籍",
+      "title": "土耳其购房投资入籍｜单项目V20Plus最终页",
+      "path": "family-plan-pages/final-single/tr-realestate-v20plus-final.html",
+      "embedUrl": "final-single/tr-realestate-v20plus-final.html",
+      "status": "final-v20plus",
+      "chapters": 15,
+      "features": ["fees-materials", "tax-fulltext", "laws", "commission", "mobile", "fusion-embeddable"]
+    },
+    {
+      "id": "us-eb1a",
+      "country": "US",
+      "countryName": "美国",
+      "project": "eb1a",
+      "projectName": "EB-1A杰出人才",
+      "title": "美国EB-1A｜单项目V20Plus最终页",
+      "path": "family-plan-pages/final-single/us-eb1a-v20plus-final.html",
+      "embedUrl": "final-single/us-eb1a-v20plus-final.html",
+      "sourceCopiedFrom": "family-plan-pages/us-eb1a-v20plus-final.html",
+      "status": "final-v20plus-confirmed",
+      "chapters": 15,
+      "features": ["fees-materials", "tax-fulltext", "laws", "commission", "mobile", "fusion-embeddable"]
+    },
+    {
+      "id": "us-niw-o1-reference",
+      "country": "US",
+      "countryName": "美国",
+      "project": "niw-o1-reference",
+      "projectName": "NIW / O-1参考页（EB-1A并行备选）",
+      "title": "美国NIW / O-1参考页｜单项目V20Plus最终页",
+      "path": "family-plan-pages/final-single/us-niw-o1-reference-v20plus-final.html",
+      "embedUrl": "final-single/us-niw-o1-reference-v20plus-final.html",
+      "status": "reference-final-v20plus",
+      "chapters": 15,
+      "features": ["fees-materials", "tax-fulltext", "laws", "commission", "mobile", "fusion-embeddable"]
+    },
+    {
+      "id": "au-482",
+      "country": "AU",
+      "countryName": "澳大利亚",
+      "project": "482-sid",
+      "projectName": "482 SID技能需求签证",
+      "title": "澳大利亚482 SID｜单项目V20Plus最终页",
+      "path": "family-plan-pages/final-single/au-482-v20plus-final.html",
+      "embedUrl": "final-single/au-482-v20plus-final.html",
+      "status": "final-v20plus",
+      "chapters": 15,
+      "features": ["fees-materials", "tax-fulltext", "laws", "commission", "mobile", "fusion-embeddable"],
+      "forbidChecked": ["EOI 打分预评估", "189/190/491/NIV/186DE预算佣金"]
+    }
+  ]
+}

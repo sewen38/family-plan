@@ -1,0 +1,13 @@
+{
+  "id": "europe-general",
+  "country": "欧洲",
+  "project": "欧洲通用居留/黄金签证组合",
+  "title": "欧洲通用",
+  "file": "final-single/europe-general-v20plus-final.html",
+  "sha256": "861b469823db3168473698041b0f8a93caa82115d473dc94bd0bc02523159f0d",
+  "status": "final-pass",
+  "size": 91893,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

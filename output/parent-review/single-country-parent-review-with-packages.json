@@ -1,0 +1,232 @@
+[
+  {
+    "country": "新加坡",
+    "slug": "sg-ep-pic",
+    "html": "family-plan-pages/final-single/sg-ep-pic-v20plus-final.html",
+    "code": "sg",
+    "project": "sg-ep-pic-v20plus",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/sg-ep-pic-v20plus-final.html\nsize: 16370\nimg tags: 0\nsvg tags: 4\ndata svg count: 0\nerrors: 57\nERROR: missing chapter: 一、客户家庭基本信息\nERROR: missing chapter: 二、核心策略\nERROR: missing chapter: 三、合规清理\nERROR: missing chapter: 四、境外资金归集\nERROR: missing chapter: 五、投资使用建议\nERROR: missing chapter: 六、财富架构\nERROR: missing chapter: 七、税务分析\nERROR: missing chapter: 八、资金跨境合规\nERROR: missing chapter: 九、身份路径规划\nERROR: missing chapter: 十、教育规划\nERROR: missing chapter: 十一、福利居住国规划\nERROR: missing chapter: 十二、预算明细\nERROR: missing chapter: 十三、执行时间轴\nERROR: missing chapter: 十四、财税执行策划案\nERROR: missing chapter: 十五、重要风险声明\nERROR: missing V20Plus term: 1.1 已知/默认信息\nERROR: missing V20Plus term: 1.2 待解决问题分级\nERROR: missing V20Plus term: 1.3 根本判断\nERROR: missing V20Plus term: 2.1 三分离定位\nERROR: missing V20Plus term: 2.2 选中项目矩阵\nERROR: missing V20Plus term: 3.1.1 企业KYB\nERROR: missing V20Plus term: 各地区居住成本对比\nERROR: missing V20Plus term: 重点执行建议\nERROR: missing V20Plus term: 财富管理架构要点\nERROR: missing V20Plus term: 税务居民关键提醒\nERROR: missing V20Plus term: 跨境架构建议\nERROR: missing V20Plus term: 费用明细\nERROR: missing V20Plus term: 三方费用明细\nERROR: missing V20Plus term: 费用合计\nERROR: missing V20Plus term: 投资款与生活费用\nERROR: missing V20Plus term: 国家层面生活费用预算框架\nERROR: missing V20Plus term: 生活费用\nERROR: missing V20Plus term: 分阶段办理流程\nERROR: missing V20Plus term: 各方责任表\nERROR: missing V20Plus term: 立即行动清单\nERROR: missing V20Plus term: 法律法规与项目资源来源汇总\nERROR: missing V20Plus term: 项目资料来源与内部资源\nERROR: education national content missing: 教育体系\nERROR: education national content missing: PR/公民子女教育\nERROR: education national content missing: 公立学校\nERROR: education national content missing: 身份时间窗\nERROR: education national content missing: 教育预算\nERROR: education national content missing: 教育风险\nERROR: welfare national content missing: Medicare\nERROR: welfare national content missing: 居住权稳定性\nERROR: welfare national content missing: 税务与公共福利\nERROR: tax full-plan content missing: 财税执行策划案框架模版\nERROR: tax final framework full text not expanded\nERROR: chapter 12 table-detail term missing: 费用明细\nERROR: chapter 12 table-detail term missing: 三方费用明细\nERROR: chapter 12 table-detail term missing: 费用合计\nERROR: chapter 12 table-detail term missing: 费用汇总\nERROR: 费用明细 is not followed by a detailed table\nERROR: 三方费用明细 is not followed by a detailed table\nERROR: 费用合计/费用汇总 is not followed by a detailed table\nERROR: chapter 15 attachment term missing: 法律法规与项目资源来源汇总\nERROR: chapter 15 attachment term missing: 项目资料来源与内部资源\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 22534
+  },
+  {
+    "country": "香港",
+    "slug": "hk-asmtp",
+    "html": "family-plan-pages/final-single/hk-asmtp-v20plus-final.html",
+    "code": "hk",
+    "project": "hk-asmtp-v20plus",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/hk-asmtp-v20plus-final.html\nsize: 15941\nimg tags: 0\nsvg tags: 4\ndata svg count: 0\nerrors: 57\nERROR: missing chapter: 一、客户家庭基本信息\nERROR: missing chapter: 二、核心策略\nERROR: missing chapter: 三、合规清理\nERROR: missing chapter: 四、境外资金归集\nERROR: missing chapter: 五、投资使用建议\nERROR: missing chapter: 六、财富架构\nERROR: missing chapter: 七、税务分析\nERROR: missing chapter: 八、资金跨境合规\nERROR: missing chapter: 九、身份路径规划\nERROR: missing chapter: 十、教育规划\nERROR: missing chapter: 十一、福利居住国规划\nERROR: missing chapter: 十二、预算明细\nERROR: missing chapter: 十三、执行时间轴\nERROR: missing chapter: 十四、财税执行策划案\nERROR: missing chapter: 十五、重要风险声明\nERROR: missing V20Plus term: 1.1 已知/默认信息\nERROR: missing V20Plus term: 1.2 待解决问题分级\nERROR: missing V20Plus term: 1.3 根本判断\nERROR: missing V20Plus term: 2.1 三分离定位\nERROR: missing V20Plus term: 2.2 选中项目矩阵\nERROR: missing V20Plus term: 3.1.1 企业KYB\nERROR: missing V20Plus term: 各地区居住成本对比\nERROR: missing V20Plus term: 重点执行建议\nERROR: missing V20Plus term: 财富管理架构要点\nERROR: missing V20Plus term: 税务居民关键提醒\nERROR: missing V20Plus term: 跨境架构建议\nERROR: missing V20Plus term: 费用明细\nERROR: missing V20Plus term: 三方费用明细\nERROR: missing V20Plus term: 费用合计\nERROR: missing V20Plus term: 投资款与生活费用\nERROR: missing V20Plus term: 国家层面生活费用预算框架\nERROR: missing V20Plus term: 生活费用\nERROR: missing V20Plus term: 分阶段办理流程\nERROR: missing V20Plus term: 各方责任表\nERROR: missing V20Plus term: 立即行动清单\nERROR: missing V20Plus term: 法律法规与项目资源来源汇总\nERROR: missing V20Plus term: 项目资料来源与内部资源\nERROR: education national content missing: 教育体系\nERROR: education national content missing: PR/公民子女教育\nERROR: education national content missing: 公立学校\nERROR: education national content missing: 身份时间窗\nERROR: education national content missing: 教育预算\nERROR: education national content missing: 教育风险\nERROR: welfare national content missing: Medicare\nERROR: welfare national content missing: 居住权稳定性\nERROR: welfare national content missing: 税务与公共福利\nERROR: tax full-plan content missing: 财税执行策划案框架模版\nERROR: tax final framework full text not expanded\nERROR: chapter 12 table-detail term missing: 费用明细\nERROR: chapter 12 table-detail term missing: 三方费用明细\nERROR: chapter 12 table-detail term missing: 费用合计\nERROR: chapter 12 table-detail term missing: 费用汇总\nERROR: 费用明细 is not followed by a detailed table\nERROR: 三方费用明细 is not followed by a detailed table\nERROR: 费用合计/费用汇总 is not followed by a detailed table\nERROR: chapter 15 attachment term missing: 法律法规与项目资源来源汇总\nERROR: chapter 15 attachment term missing: 项目资料来源与内部资源\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 22141
+  },
+  {
+    "country": "日本",
+    "slug": "jp-hsp-biz",
+    "html": "family-plan-pages/final-single/jp-hsp-biz-v20plus-final.html",
+    "code": "jp",
+    "project": "jp-hsp-biz-v20plus",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/jp-hsp-biz-v20plus-final.html\nsize: 16371\nimg tags: 0\nsvg tags: 4\ndata svg count: 0\nerrors: 57\nERROR: missing chapter: 一、客户家庭基本信息\nERROR: missing chapter: 二、核心策略\nERROR: missing chapter: 三、合规清理\nERROR: missing chapter: 四、境外资金归集\nERROR: missing chapter: 五、投资使用建议\nERROR: missing chapter: 六、财富架构\nERROR: missing chapter: 七、税务分析\nERROR: missing chapter: 八、资金跨境合规\nERROR: missing chapter: 九、身份路径规划\nERROR: missing chapter: 十、教育规划\nERROR: missing chapter: 十一、福利居住国规划\nERROR: missing chapter: 十二、预算明细\nERROR: missing chapter: 十三、执行时间轴\nERROR: missing chapter: 十四、财税执行策划案\nERROR: missing chapter: 十五、重要风险声明\nERROR: missing V20Plus term: 1.1 已知/默认信息\nERROR: missing V20Plus term: 1.2 待解决问题分级\nERROR: missing V20Plus term: 1.3 根本判断\nERROR: missing V20Plus term: 2.1 三分离定位\nERROR: missing V20Plus term: 2.2 选中项目矩阵\nERROR: missing V20Plus term: 3.1.1 企业KYB\nERROR: missing V20Plus term: 各地区居住成本对比\nERROR: missing V20Plus term: 重点执行建议\nERROR: missing V20Plus term: 财富管理架构要点\nERROR: missing V20Plus term: 税务居民关键提醒\nERROR: missing V20Plus term: 跨境架构建议\nERROR: missing V20Plus term: 费用明细\nERROR: missing V20Plus term: 三方费用明细\nERROR: missing V20Plus term: 费用合计\nERROR: missing V20Plus term: 投资款与生活费用\nERROR: missing V20Plus term: 国家层面生活费用预算框架\nERROR: missing V20Plus term: 生活费用\nERROR: missing V20Plus term: 分阶段办理流程\nERROR: missing V20Plus term: 各方责任表\nERROR: missing V20Plus term: 立即行动清单\nERROR: missing V20Plus term: 法律法规与项目资源来源汇总\nERROR: missing V20Plus term: 项目资料来源与内部资源\nERROR: education national content missing: 教育体系\nERROR: education national content missing: PR/公民子女教育\nERROR: education national content missing: 公立学校\nERROR: education national content missing: 身份时间窗\nERROR: education national content missing: 教育预算\nERROR: education national content missing: 教育风险\nERROR: welfare national content missing: Medicare\nERROR: welfare national content missing: 居住权稳定性\nERROR: welfare national content missing: 税务与公共福利\nERROR: tax full-plan content missing: 财税执行策划案框架模版\nERROR: tax final framework full text not expanded\nERROR: chapter 12 table-detail term missing: 费用明细\nERROR: chapter 12 table-detail term missing: 三方费用明细\nERROR: chapter 12 table-detail term missing: 费用合计\nERROR: chapter 12 table-detail term missing: 费用汇总\nERROR: 费用明细 is not followed by a detailed table\nERROR: 三方费用明细 is not followed by a detailed table\nERROR: 费用合计/费用汇总 is not followed by a detailed table\nERROR: chapter 15 attachment term missing: 法律法规与项目资源来源汇总\nERROR: chapter 15 attachment term missing: 项目资料来源与内部资源\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 22773
+  },
+  {
+    "country": "新西兰",
+    "slug": "nz-smc-aip",
+    "html": "family-plan-pages/final-single/nz-smc-aip-v20plus-final.html",
+    "code": "nz",
+    "project": "nz-smc-aip-v20plus",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/nz-smc-aip-v20plus-final.html\nsize: 16486\nimg tags: 0\nsvg tags: 4\ndata svg count: 0\nerrors: 57\nERROR: missing chapter: 一、客户家庭基本信息\nERROR: missing chapter: 二、核心策略\nERROR: missing chapter: 三、合规清理\nERROR: missing chapter: 四、境外资金归集\nERROR: missing chapter: 五、投资使用建议\nERROR: missing chapter: 六、财富架构\nERROR: missing chapter: 七、税务分析\nERROR: missing chapter: 八、资金跨境合规\nERROR: missing chapter: 九、身份路径规划\nERROR: missing chapter: 十、教育规划\nERROR: missing chapter: 十一、福利居住国规划\nERROR: missing chapter: 十二、预算明细\nERROR: missing chapter: 十三、执行时间轴\nERROR: missing chapter: 十四、财税执行策划案\nERROR: missing chapter: 十五、重要风险声明\nERROR: missing V20Plus term: 1.1 已知/默认信息\nERROR: missing V20Plus term: 1.2 待解决问题分级\nERROR: missing V20Plus term: 1.3 根本判断\nERROR: missing V20Plus term: 2.1 三分离定位\nERROR: missing V20Plus term: 2.2 选中项目矩阵\nERROR: missing V20Plus term: 3.1.1 企业KYB\nERROR: missing V20Plus term: 各地区居住成本对比\nERROR: missing V20Plus term: 重点执行建议\nERROR: missing V20Plus term: 财富管理架构要点\nERROR: missing V20Plus term: 税务居民关键提醒\nERROR: missing V20Plus term: 跨境架构建议\nERROR: missing V20Plus term: 费用明细\nERROR: missing V20Plus term: 三方费用明细\nERROR: missing V20Plus term: 费用合计\nERROR: missing V20Plus term: 投资款与生活费用\nERROR: missing V20Plus term: 国家层面生活费用预算框架\nERROR: missing V20Plus term: 生活费用\nERROR: missing V20Plus term: 分阶段办理流程\nERROR: missing V20Plus term: 各方责任表\nERROR: missing V20Plus term: 立即行动清单\nERROR: missing V20Plus term: 法律法规与项目资源来源汇总\nERROR: missing V20Plus term: 项目资料来源与内部资源\nERROR: education national content missing: 教育体系\nERROR: education national content missing: PR/公民子女教育\nERROR: education national content missing: 公立学校\nERROR: education national content missing: 身份时间窗\nERROR: education national content missing: 教育预算\nERROR: education national content missing: 教育风险\nERROR: welfare national content missing: Medicare\nERROR: welfare national content missing: 居住权稳定性\nERROR: welfare national content missing: 税务与公共福利\nERROR: tax full-plan content missing: 财税执行策划案框架模版\nERROR: tax final framework full text not expanded\nERROR: chapter 12 table-detail term missing: 费用明细\nERROR: chapter 12 table-detail term missing: 三方费用明细\nERROR: chapter 12 table-detail term missing: 费用合计\nERROR: chapter 12 table-detail term missing: 费用汇总\nERROR: 费用明细 is not followed by a detailed table\nERROR: 三方费用明细 is not followed by a detailed table\nERROR: 费用合计/费用汇总 is not followed by a detailed table\nERROR: chapter 15 attachment term missing: 法律法规与项目资源来源汇总\nERROR: chapter 15 attachment term missing: 项目资料来源与内部资源\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 22643
+  },
+  {
+    "country": "欧洲通用",
+    "slug": "europe-general",
+    "html": "family-plan-pages/final-single/europe-general-v20plus-final.html",
+    "code": "eu",
+    "project": "eu-generic",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/europe-general-v20plus-final.html\nsize: 11027\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 18182
+  },
+  {
+    "country": "葡萄牙",
+    "slug": "portugal-ari-d7",
+    "html": "family-plan-pages/final-single/portugal-ari-d7-v20plus-final.html",
+    "code": "pt",
+    "project": "pt-ari-d7",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/portugal-ari-d7-v20plus-final.html\nsize: 11171\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 18334
+  },
+  {
+    "country": "希腊",
+    "slug": "greece-golden-visa",
+    "html": "family-plan-pages/final-single/greece-golden-visa-v20plus-final.html",
+    "code": "gr",
+    "project": "gr-golden-visa",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/greece-golden-visa-v20plus-final.html\nsize: 10966\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 18079
+  },
+  {
+    "country": "马耳他",
+    "slug": "malta-mprp",
+    "html": "family-plan-pages/final-single/malta-mprp-v20plus-final.html",
+    "code": "mt",
+    "project": "mt-mprp",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/malta-mprp-v20plus-final.html\nsize: 10902\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 17765
+  },
+  {
+    "country": "多米尼克",
+    "slug": "dominica-cbi",
+    "html": "family-plan-pages/final-single/dominica-cbi-v20plus-final.html",
+    "code": "dm",
+    "project": "dm-cbi",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/dominica-cbi-v20plus-final.html\nsize: 10767\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 17832
+  },
+  {
+    "country": "瓦努阿图",
+    "slug": "vanuatu-cbi",
+    "html": "family-plan-pages/final-single/vanuatu-cbi-v20plus-final.html",
+    "code": "vu",
+    "project": "vu-cbi",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/vanuatu-cbi-v20plus-final.html\nsize: 10628\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 17558
+  },
+  {
+    "country": "格鲁吉亚",
+    "slug": "georgia-investment-residence",
+    "html": "family-plan-pages/final-single/georgia-investment-residence-v20plus-final.html",
+    "code": "ge",
+    "project": "ge-invest",
+    "pass": false,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/georgia-investment-residence-v20plus-final.html\nsize: 10758\nimg tags: 0\nsvg tags: 2\ndata svg count: 0\nerrors: 0\nwarnings: 2\nWARN: table count low for V20Plus table-detail standard: 9\nWARN: image/SVG count low: 2\n",
+    "warnings": [
+      "WARN: table count low for V20Plus table-detail standard: 9",
+      "WARN: image/SVG count low: 2"
+    ],
+    "hard": {
+      "has_15_sections": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": false,
+      "mobile": true
+    },
+    "size": 17884
+  }
+]

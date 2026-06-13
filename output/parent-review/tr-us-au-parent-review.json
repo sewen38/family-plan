@@ -1,0 +1,102 @@
+[
+  {
+    "country": "土耳其基金",
+    "slug": "tr-fund",
+    "html": "family-plan-pages/final-single/tr-fund-v20plus-final.html",
+    "code": "tr",
+    "project": "tr-fund",
+    "pass": true,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/tr-fund-v20plus-final.html\nsize: 24908\nimg tags: 0\nsvg tags: 6\ndata svg count: 0\nerrors: 0\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "validator_zero_errors": true,
+      "validator_zero_warnings": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 36387
+  },
+  {
+    "country": "土耳其购房",
+    "slug": "tr-realestate",
+    "html": "family-plan-pages/final-single/tr-realestate-v20plus-final.html",
+    "code": "tr",
+    "project": "tr-realestate",
+    "pass": true,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/tr-realestate-v20plus-final.html\nsize: 24803\nimg tags: 0\nsvg tags: 6\ndata svg count: 0\nerrors: 0\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "validator_zero_errors": true,
+      "validator_zero_warnings": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 36218
+  },
+  {
+    "country": "美国EB1A",
+    "slug": "us-eb1a",
+    "html": "family-plan-pages/final-single/us-eb1a-v20plus-final.html",
+    "code": "us",
+    "project": "us-eb1a",
+    "pass": true,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/us-eb1a-v20plus-final.html\nsize: 79615\nimg tags: 3\nsvg tags: 2\ndata svg count: 3\nerrors: 0\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "validator_zero_errors": true,
+      "validator_zero_warnings": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 113069
+  },
+  {
+    "country": "美国NIW-O1",
+    "slug": "us-niw-o1",
+    "html": "family-plan-pages/final-single/us-niw-o1-reference-v20plus-final.html",
+    "code": "us",
+    "project": "us-niw-o1",
+    "pass": true,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/us-niw-o1-reference-v20plus-final.html\nsize: 24998\nimg tags: 0\nsvg tags: 6\ndata svg count: 0\nerrors: 0\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "validator_zero_errors": true,
+      "validator_zero_warnings": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 36117
+  },
+  {
+    "country": "澳大利亚482",
+    "slug": "au-482",
+    "html": "family-plan-pages/final-single/au-482-v20plus-final.html",
+    "code": "au",
+    "project": "au-482",
+    "pass": true,
+    "validator": "# V20Plus single-country fusion validation\nfile: family-plan-pages/final-single/au-482-v20plus-final.html\nsize: 25973\nimg tags: 0\nsvg tags: 6\ndata svg count: 0\nerrors: 0\nwarnings: 0\n",
+    "warnings": [],
+    "hard": {
+      "validator_zero_errors": true,
+      "validator_zero_warnings": true,
+      "has_cost_materials": true,
+      "has_tax": true,
+      "has_law": true,
+      "has_commission": true,
+      "mobile": true
+    },
+    "size": 38195
+  }
+]

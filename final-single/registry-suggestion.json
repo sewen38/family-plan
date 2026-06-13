@@ -1,0 +1,95 @@
+{
+  "addEntries": [
+    {
+      "id": "europe-general-v20plus",
+      "countryName": "欧洲通用",
+      "projectName": "欧洲黄金签证/居留组合筛选",
+      "patterns": [
+        "欧洲通用",
+        "欧洲黄金签证",
+        "europe-general-v20plus"
+      ],
+      "localUrl": "final-single/europe-general-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    },
+    {
+      "id": "portugal-ari-d7-v20plus",
+      "countryName": "葡萄牙",
+      "projectName": "ARI投资居留 / D7被动收入居留 / D2创业居留",
+      "patterns": [
+        "葡萄牙",
+        "ARI投资居留",
+        "portugal-ari-d7-v20plus"
+      ],
+      "localUrl": "final-single/portugal-ari-d7-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    },
+    {
+      "id": "greece-golden-visa-v20plus",
+      "countryName": "希腊",
+      "projectName": "黄金签证房地产/合规投资居留",
+      "patterns": [
+        "希腊",
+        "黄金签证房地产",
+        "greece-golden-visa-v20plus"
+      ],
+      "localUrl": "final-single/greece-golden-visa-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    },
+    {
+      "id": "malta-mprp-v20plus",
+      "countryName": "马耳他",
+      "projectName": "MPRP 永居",
+      "patterns": [
+        "马耳他",
+        "MPRP 永居",
+        "malta-mprp-v20plus"
+      ],
+      "localUrl": "final-single/malta-mprp-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    },
+    {
+      "id": "dominica-cbi-v20plus",
+      "countryName": "多米尼克",
+      "projectName": "EDF捐款 / 政府批准房产入籍",
+      "patterns": [
+        "多米尼克",
+        "EDF捐款",
+        "dominica-cbi-v20plus"
+      ],
+      "localUrl": "final-single/dominica-cbi-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    },
+    {
+      "id": "vanuatu-cbi-v20plus",
+      "countryName": "瓦努阿图",
+      "projectName": "DSP 捐款入籍",
+      "patterns": [
+        "瓦努阿图",
+        "DSP 捐款入籍",
+        "vanuatu-cbi-v20plus"
+      ],
+      "localUrl": "final-single/vanuatu-cbi-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    },
+    {
+      "id": "georgia-investment-residence-v20plus",
+      "countryName": "格鲁吉亚",
+      "projectName": "投资居留 / 房产短期居留",
+      "patterns": [
+        "格鲁吉亚",
+        "投资居留",
+        "georgia-investment-residence-v20plus"
+      ],
+      "localUrl": "final-single/georgia-investment-residence-v20plus-final.html",
+      "status": "final",
+      "embed": "single-v20plus"
+    }
+  ]
+}

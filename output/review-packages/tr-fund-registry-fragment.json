@@ -1,0 +1,13 @@
+{
+  "id": "tr-fund",
+  "country": "土耳其",
+  "project": "基金投资入籍 + 美国E-2跳板",
+  "title": "土耳其基金",
+  "file": "final-single/tr-fund-v20plus-final.html",
+  "sha256": "cf1ab5b68e112a339d2513b86e9d79bbfd85cbbbc94c4360747cfbf5b4be129c",
+  "status": "final-pass",
+  "size": 91994,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

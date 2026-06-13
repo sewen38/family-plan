@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-06-13T03:14:05.515Z",
+  "registry": {
+    "countryCount": 10,
+    "projectCount": 74,
+    "countries": {
+      "ge": [
+        "ge-ie-digitalnomad",
+        "ge-ie-freelance",
+        "ge-invest",
+        "ge-invest-business",
+        "ge-invest-realestate",
+        "ge-temp-rental",
+        "ge-temp-residence"
+      ],
+      "jp": [
+        "jp-biz",
+        "jp-biz-2025",
+        "jp-biz-startup",
+        "jp-hsp",
+        "jp-hsp-70",
+        "jp-hsp-80",
+        "jp-jskip-income",
+        "jp-super-hsp"
+      ],
+      "vu": [
+        "vu-dsp",
+        "vu-dsp-couple",
+        "vu-dsp-family-big",
+        "vu-dsp-family4",
+        "vu-dsp-single",
+        "vu-dsp-single-fast",
+        "vu-tax-family",
+        "vu-tax-single"
+      ],
+      "tr": [
+        "tr-bonds-cbi",
+        "tr-deposit-cbi",
+        "tr-fund-cbi",
+        "tr-fund-e2",
+        "tr-realestate-cbi",
+        "tr-realestate-education"
+      ],
+      "au": [
+        "au-186-de",
+        "au-186-niv",
+        "au-189-edu",
+        "au-189-skilled",
+        "au-190-state",
+        "au-482-sid",
+        "au-491-482-combo",
+        "au-491-regional",
+        "au-858-niv"
+      ],
+      "nz": [
+        "nz-aip-balanced",
+        "nz-aip-edu",
+        "nz-aip-growth",
+        "nz-green-smc-combo",
+        "nz-green-tier1",
+        "nz-ict-aewv",
+        "nz-ict-partner-combo",
+        "nz-partner-residence",
+        "nz-smc-6pt"
+      ],
+      "us": [
+        "us-e2",
+        "us-eb1a",
+        "us-eb5",
+        "us-eb5-e2-combo",
+        "us-h1b",
+        "us-l1",
+        "us-l1-h1b-combo",
+        "us-niw",
+        "us-o1-eb1a"
+      ],
+      "dm": [
+        "dm-cbi-couple",
+        "dm-cbi-family",
+        "dm-cbi-realestate",
+        "dm-cbi-single",
+        "dm-realestate"
+      ],
+      "hk": [
+        "hk-asmtp",
+        "hk-gqp",
+        "hk-ncies",
+        "hk-ttps-a",
+        "hk-ttps-b"
+      ],
+      "sg": [
+        "sg-ep-pic",
+        "sg-ep-pr",
+        "sg-fo-13o",
+        "sg-fo-13u",
+        "sg-gip-a",
+        "sg-gip-b",
+        "sg-gip-c",
+        "sg-techpass-pr"
+      ]
+    }
+  },
+  "single": {
+    "total": 74,
+    "passed": 74,
+    "failed": 0,
+    "passRate": 100
+  },
+  "multi": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "passRate": 100
+  },
+  "overall": {
+    "total": 94,
+    "passed": 94,
+    "failed": 0,
+    "passRate": 100
+  },
+  "outputs": {
+    "json": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/output/verification/v20plus-standards-report.json",
+    "markdown": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/output/verification/v20plus-standards-report.md"
+  }
+}
+
+# V20Plus 定稿标准自动验收报告
+
+- 生成时间：2026-06-13T03:14:05.515Z
+- 单项目参考：family-plan-pages/us-eb1a-v20plus-final.html
+- 多国参考：family-plan-pages/fusion-sg-hk-tr-us-au-v1-final.html
+- Registry 单项目：74 个，覆盖国家：10 个
+- 多国随机组合：20 组（seed=20260613）
+
+## 汇总
+| 范围 | 总数 | 通过 | 失败 | 通过率 |
+|---|---:|---:|---:|---:|
+| 单国家单项目 | 74 | 74 | 0 | 100% |
+| 多国家多项目 | 20 | 20 | 0 | 100% |
+
+## 单项目失败项
+全部通过。
+
+## 多国组合失败项
+全部通过。
+
+## 验收说明
+- 本脚本只读取和分析页面/registry/模板，不修改业务页面。
+- 静态验收会检查：15章、费用材料、财税、法案法规、佣金、手机端、禁入项目；多国额外检查完整单项目模块嵌入区、模块循环、预算材料、法案、佣金和国家保留。
+- 如需让 CI 在失败时非零退出，请加 `--strict`。

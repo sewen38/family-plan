@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-06-13T13:30:50.085591",
+  "item": {
+    "id": "portugal-ari-d7",
+    "country": "葡萄牙",
+    "project": "ARI / D7 / D8 居留",
+    "title": "葡萄牙",
+    "file": "final-single/portugal-ari-d7-v20plus-final.html",
+    "sha256": "4ac1b70d853f4336c726c233ab3fec9ad4e9d74a1c02bab46ae737eedf96c01f",
+    "status": "final-pass",
+    "size": 91585,
+    "tables": 61,
+    "svg": 7,
+    "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+  },
+  "strict_reference": {
+    "file": "family-plan-pages/us-eb1a-v20plus-final.html",
+    "size": 113069,
+    "tables": 72,
+    "svg": 5,
+    "sections": 15
+  },
+  "thresholds": {
+    "min_size": 50881,
+    "min_tables": 25,
+    "min_svg": 2
+  },
+  "strict_result": {
+    "file": "family-plan-pages/final-single/portugal-ari-d7-v20plus-final.html",
+    "size": 91585,
+    "tables": 61,
+    "svg": 7,
+    "sections": 15,
+    "pass": true,
+    "checks": {
+      "size>=threshold": true,
+      "tables>=threshold": true,
+      "svg>=2": true,
+      "sections>=15": true,
+      "required_phrases": true,
+      "no_skeleton_phrases": true
+    },
+    "missing": [],
+    "skeleton": [],
+    "sha256": "4ac1b70d853f4336c726c233ab3fec9ad4e9d74a1c02bab46ae737eedf96c01f"
+  },
+  "conclusion": "最终达标版：通过 /tmp/strict_single_v20plus_check.py，且按EB-1A硬基准补齐15章、费用/材料/生活费用、财税全文、架构图、资金双循环、法案资源与佣金页。"
+}

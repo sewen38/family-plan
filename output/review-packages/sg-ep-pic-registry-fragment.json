@@ -1,0 +1,13 @@
+{
+  "id": "sg-ep-pic",
+  "country": "新加坡",
+  "project": "EP / EP-PIC 自雇投资公司",
+  "title": "新加坡 EP/PIC",
+  "file": "final-single/sg-ep-pic-v20plus-final.html",
+  "sha256": "5d190d81a7d019f1d3a1d70afb1708ba21b3d31f9aa2d2246e1cbd2b2455dc1f",
+  "status": "final-pass",
+  "size": 91969,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

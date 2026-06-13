@@ -1,0 +1,13 @@
+{
+  "id": "portugal-ari-d7",
+  "country": "葡萄牙",
+  "project": "ARI / D7 / D8 居留",
+  "title": "葡萄牙",
+  "file": "final-single/portugal-ari-d7-v20plus-final.html",
+  "sha256": "4ac1b70d853f4336c726c233ab3fec9ad4e9d74a1c02bab46ae737eedf96c01f",
+  "status": "final-pass",
+  "size": 91585,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

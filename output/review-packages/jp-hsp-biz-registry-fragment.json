@@ -1,0 +1,13 @@
+{
+  "id": "jp-hsp-biz",
+  "country": "日本",
+  "project": "HSP 高度人才 / 经营管理",
+  "title": "日本 HSP/经营管理",
+  "file": "final-single/jp-hsp-biz-v20plus-final.html",
+  "sha256": "dfb114ccff0e7c5458f40207cd4ce2bd6380398f123694666ed4a73ec094ae93",
+  "status": "final-pass",
+  "size": 91995,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

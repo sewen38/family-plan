@@ -1,0 +1,13 @@
+{
+  "id": "au-482",
+  "country": "澳大利亚",
+  "project": "482 SID 技能需求签证",
+  "title": "澳大利亚 482",
+  "file": "final-single/au-482-v20plus-final.html",
+  "sha256": "ca73184327703edf09916d316e7364a114006135dfad9361c03687fe09fa06e4",
+  "status": "final-pass",
+  "size": 91892,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

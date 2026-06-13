@@ -1,0 +1,13 @@
+{
+  "id": "us-niw-o1-reference",
+  "country": "美国",
+  "project": "NIW / O-1 参考路径",
+  "title": "美国 NIW/O-1",
+  "file": "final-single/us-niw-o1-reference-v20plus-final.html",
+  "sha256": "8f5f7fd9df520909a1b8c3a43b7e3fa55c9920b036ff829296f29fd554dc6f9a",
+  "status": "final-pass",
+  "size": 91649,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

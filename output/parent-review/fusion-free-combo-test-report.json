@@ -1,0 +1,511 @@
+{
+  "generated_at": "2026-06-13T13:33:00.553004",
+  "reference": "fusion-sg-hk-tr-us-au-v1-final.html",
+  "tested_count": 22,
+  "pass_count": 22,
+  "results": [
+    {
+      "file": "fusion-free-combo-01-v20plus-final.html",
+      "combo": [
+        "sg-ep-pic",
+        "hk-asmtp",
+        "jp-hsp-biz",
+        "nz-smc-aip",
+        "tr-fund",
+        "tr-realestate",
+        "us-eb1a",
+        "us-niw-o1-reference",
+        "au-482",
+        "europe-general",
+        "portugal-ari-d7",
+        "greece-golden-visa",
+        "malta-mprp",
+        "dominica-cbi",
+        "vanuatu-cbi",
+        "georgia-investment-residence"
+      ],
+      "count": 16,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 53358,
+      "sha256": "247d6b952a843f05b9a13e3a9bb14a3fdd615f0518758d1faae751353be519ec",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-02-v20plus-final.html",
+      "combo": [
+        "sg-ep-pic",
+        "hk-asmtp",
+        "tr-fund",
+        "tr-realestate",
+        "us-eb1a",
+        "us-niw-o1-reference",
+        "au-482",
+        "jp-hsp-biz",
+        "nz-smc-aip",
+        "portugal-ari-d7",
+        "greece-golden-visa"
+      ],
+      "count": 11,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 39410,
+      "sha256": "ae7bc5fc715b1d0fdf698f413d84febcba78e177c569fdc1f891f416563a1942",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-03-v20plus-final.html",
+      "combo": [
+        "sg-ep-pic",
+        "hk-asmtp",
+        "tr-fund",
+        "us-eb1a",
+        "au-482"
+      ],
+      "count": 5,
+      "includes_us": true,
+      "includes_small": false,
+      "size": 39104,
+      "sha256": "c0a318a5a7acca7268bc354c2299763c555d2736be5d774ace2022f6e195f7f2",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-04-v20plus-final.html",
+      "combo": [
+        "dominica-cbi",
+        "vanuatu-cbi",
+        "georgia-investment-residence"
+      ],
+      "count": 3,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 33390,
+      "sha256": "c1fccc4d29145830b3901d786814142f0c7a01f07f8255b4a6141b9564c030be",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-05-v20plus-final.html",
+      "combo": [
+        "portugal-ari-d7",
+        "greece-golden-visa",
+        "malta-mprp",
+        "europe-general"
+      ],
+      "count": 4,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 35919,
+      "sha256": "f1c909bd01062ff07b172558002ec69fbc1617fa30b6d62079f1d982262ddbb6",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-06-v20plus-final.html",
+      "combo": [
+        "jp-hsp-biz",
+        "nz-smc-aip",
+        "au-482"
+      ],
+      "count": 3,
+      "includes_us": false,
+      "includes_small": false,
+      "size": 33709,
+      "sha256": "f046d3bdfe7eeaf52714df71329fa033a103d2e8cbe1229c5b68e4c99cecea08",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-07-v20plus-final.html",
+      "combo": [
+        "europe-general",
+        "georgia-investment-residence",
+        "portugal-ari-d7",
+        "vanuatu-cbi",
+        "sg-ep-pic"
+      ],
+      "count": 5,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 39038,
+      "sha256": "33cfe45431a288fd53803f82faf16662fa46dc2722938da59e0d0c7608c628e9",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-08-v20plus-final.html",
+      "combo": [
+        "nz-smc-aip",
+        "georgia-investment-residence",
+        "us-niw-o1-reference"
+      ],
+      "count": 3,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 33548,
+      "sha256": "4f38c94faf67f9fc4ac697f0b0cc822fc03c0b77c5a83ea8bfc287ef11ac8c53",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-09-v20plus-final.html",
+      "combo": [
+        "us-niw-o1-reference",
+        "hk-asmtp",
+        "georgia-investment-residence"
+      ],
+      "count": 3,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 33430,
+      "sha256": "6fe9b21640f9197945f156e8bc43f2960d74b3aae0413ff019d0781867de2dff",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-10-v20plus-final.html",
+      "combo": [
+        "sg-ep-pic",
+        "hk-asmtp",
+        "vanuatu-cbi"
+      ],
+      "count": 3,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 33389,
+      "sha256": "c590bc1339680a55428b551e52d820bf657df6e265d6be399e381a0ea8e53512",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-11-v20plus-final.html",
+      "combo": [
+        "us-niw-o1-reference",
+        "au-482",
+        "vanuatu-cbi",
+        "sg-ep-pic",
+        "nz-smc-aip"
+      ],
+      "count": 5,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 39208,
+      "sha256": "0cb6afee5a2cc2e3c941bdf8073d972108f7d0234754b85dfea9be4dbfcf7a9f",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-12-v20plus-final.html",
+      "combo": [
+        "jp-hsp-biz",
+        "au-482",
+        "vanuatu-cbi"
+      ],
+      "count": 3,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 33608,
+      "sha256": "bc5ad7c0ea9a54084fed60f04b8468153122efde1b96fb8b82b4bbc4d82b39b0",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-13-v20plus-final.html",
+      "combo": [
+        "tr-fund",
+        "us-niw-o1-reference",
+        "portugal-ari-d7"
+      ],
+      "count": 3,
+      "includes_us": true,
+      "includes_small": false,
+      "size": 33414,
+      "sha256": "f738c95230b95a39518d97e35407002e84e4f91d527ecbdb066c8106b7522a61",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-14-v20plus-final.html",
+      "combo": [
+        "sg-ep-pic",
+        "portugal-ari-d7",
+        "tr-fund"
+      ],
+      "count": 3,
+      "includes_us": false,
+      "includes_small": false,
+      "size": 33442,
+      "sha256": "c614e0ff3b6637aa24d572c1c0c77a33b9d02b0b221f3d27dfe7433f9579f7b9",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-15-v20plus-final.html",
+      "combo": [
+        "jp-hsp-biz",
+        "georgia-investment-residence",
+        "au-482",
+        "us-eb1a"
+      ],
+      "count": 4,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 36457,
+      "sha256": "fcad980d1dbab348bf829043450677cb09de1617529b2200f43487db980aa761",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-16-v20plus-final.html",
+      "combo": [
+        "us-eb1a",
+        "malta-mprp",
+        "jp-hsp-biz"
+      ],
+      "count": 3,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 33456,
+      "sha256": "b18100351048e8100d102b0c75d679ac24e186fd9fafc3d52fe1cfb27d32cd82",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-17-v20plus-final.html",
+      "combo": [
+        "tr-realestate",
+        "dominica-cbi",
+        "nz-smc-aip",
+        "vanuatu-cbi",
+        "georgia-investment-residence"
+      ],
+      "count": 5,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 39113,
+      "sha256": "060389a9a57213192deefaa04c4ca4dadc0b190f2de7ad4c1a21496d3d3f71a4",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-18-v20plus-final.html",
+      "combo": [
+        "portugal-ari-d7",
+        "sg-ep-pic",
+        "vanuatu-cbi"
+      ],
+      "count": 3,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 33366,
+      "sha256": "ac4d2974d33dfb89bea1872126f52431b428422a07faf6e83e45056c3436de87",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-19-v20plus-final.html",
+      "combo": [
+        "dominica-cbi",
+        "us-eb1a",
+        "greece-golden-visa",
+        "portugal-ari-d7"
+      ],
+      "count": 4,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 35954,
+      "sha256": "25f87a1ff829bd9a11973d6983de9e25027e39801922c98e2403df62d976ee8f",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-20-v20plus-final.html",
+      "combo": [
+        "georgia-investment-residence",
+        "us-niw-o1-reference",
+        "sg-ep-pic",
+        "nz-smc-aip"
+      ],
+      "count": 4,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 36418,
+      "sha256": "0d9fad9f689bd98af8bbaf9d20effbaa34544633e3003c1a5dedff3d0b33b6be",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-21-v20plus-final.html",
+      "combo": [
+        "greece-golden-visa",
+        "us-eb1a",
+        "georgia-investment-residence",
+        "us-niw-o1-reference",
+        "hk-asmtp"
+      ],
+      "count": 5,
+      "includes_us": true,
+      "includes_small": true,
+      "size": 38885,
+      "sha256": "3ce57936014130b17fced77e8d41dfa6511226ff40e3a0e1443d7c514ef8bb91",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    },
+    {
+      "file": "fusion-free-combo-22-v20plus-final.html",
+      "combo": [
+        "hk-asmtp",
+        "georgia-investment-residence",
+        "nz-smc-aip",
+        "tr-fund",
+        "jp-hsp-biz"
+      ],
+      "count": 5,
+      "includes_us": false,
+      "includes_small": true,
+      "size": 39324,
+      "sha256": "4fe7401b88ac85e27a526be6ea202c475714b5f4a2092b84e88418f29c2e7971",
+      "checks": {
+        "size>=fusion_ref_45pct": true,
+        "has_15_fusion_sections": true,
+        "has_full_embeds": true,
+        "all_single_pass": true,
+        "required_terms": true
+      },
+      "pass": true
+    }
+  ],
+  "review_links": [
+    "https://sewen38.github.io/family-plan/fusion-free-combo-all16-v20plus-final.html",
+    "https://sewen38.github.io/family-plan/fusion-free-combo-11country-v20plus-final.html"
+  ]
+}

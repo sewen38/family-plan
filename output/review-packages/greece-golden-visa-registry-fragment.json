@@ -1,0 +1,13 @@
+{
+  "id": "greece-golden-visa",
+  "country": "希腊",
+  "project": "黄金签证",
+  "title": "希腊",
+  "file": "final-single/greece-golden-visa-v20plus-final.html",
+  "sha256": "22bcb121c39a875f154df4bb089494337170afc75024ebbe6f8372e33de24334",
+  "status": "final-pass",
+  "size": 91333,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

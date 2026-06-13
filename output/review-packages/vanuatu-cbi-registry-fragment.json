@@ -1,0 +1,13 @@
+{
+  "id": "vanuatu-cbi",
+  "country": "瓦努阿图",
+  "project": "CBI 公民身份",
+  "title": "瓦努阿图",
+  "file": "final-single/vanuatu-cbi-v20plus-final.html",
+  "sha256": "675895c65463c6e56dbbe4ea523d36b20c0a592bd01b7006c308b6135acde815",
+  "status": "final-pass",
+  "size": 91562,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}

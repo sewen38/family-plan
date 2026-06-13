@@ -1,0 +1,158 @@
+window.FINAL_SINGLE_REGISTRY = {
+  "version": "2026-06-13-final-single-asia-v2",
+  "description": "Registry of approved complete single-country/single-project final pages for fusion generator. Missing entries are hard blockers.",
+  "entries": [
+    {
+      "id": "sg-ep-pic-v20plus",
+      "country": "sg",
+      "countryName": "新加坡",
+      "projectName": "EP / EP-PIC 自雇投资公司",
+      "patterns": [
+        "ep",
+        "pic",
+        "sg-ep-pr",
+        "sg-ep-pic",
+        "employment pass",
+        "自雇",
+        "新加坡ep"
+      ],
+      "url": "final-single/sg-ep-pic-v20plus-final.html",
+      "localUrl": "final-single/sg-ep-pic-v20plus-final.html",
+      "status": "final",
+      "embedReady": true
+    },
+    {
+      "id": "hk-asmtp-v20plus",
+      "country": "hk",
+      "countryName": "香港",
+      "projectName": "ASMTP 专才计划（雇主担保 + 自有公司/自雇）",
+      "patterns": [
+        "asmtp",
+        "专才",
+        "hk-asmtp",
+        "hk-asmtp-self",
+        "自雇专才"
+      ],
+      "url": "final-single/hk-asmtp-v20plus-final.html",
+      "localUrl": "final-single/hk-asmtp-v20plus-final.html",
+      "status": "final",
+      "embedReady": true
+    },
+    {
+      "id": "tr-fund-cbi-final",
+      "country": "tr",
+      "countryName": "土耳其",
+      "projectName": "基金入籍 + E-2 母版",
+      "patterns": [
+        "fund",
+        "基金",
+        "tr-fund-cbi"
+      ],
+      "url": "https://sewen38.github.io/tr-assessment/exec.html",
+      "localUrl": "turkey-fund-v11-review.html",
+      "status": "final"
+    },
+    {
+      "id": "tr-realestate-cbi-final",
+      "country": "tr",
+      "countryName": "土耳其",
+      "projectName": "购房入籍",
+      "patterns": [
+        "realestate",
+        "real-estate",
+        "购房",
+        "房产",
+        "tr-realestate-cbi"
+      ],
+      "url": "turkey-realestate-template-correct.html",
+      "status": "final"
+    },
+    {
+      "id": "us-eb1a-v20plus",
+      "country": "us",
+      "countryName": "美国",
+      "projectName": "EB-1A Extraordinary Ability",
+      "patterns": [
+        "eb-1a",
+        "eb1a",
+        "杰出人才"
+      ],
+      "url": "https://sewen38.github.io/us-assessment/us-eb1a-v20plus-review.html",
+      "localUrl": "us-eb1a-v20plus-final.html",
+      "status": "final"
+    },
+    {
+      "id": "us-master-final",
+      "country": "us",
+      "countryName": "美国",
+      "projectName": "美国全路径母版（EB-5 / NIW / O-1 / L-1 / E-2等）",
+      "patterns": [
+        "eb-5",
+        "eb5",
+        "niw",
+        "o-1",
+        "o1",
+        "l-1",
+        "l1",
+        "e-2",
+        "e2",
+        "master",
+        "exec"
+      ],
+      "url": "https://sewen38.github.io/us-assessment/exec.html",
+      "status": "final"
+    },
+    {
+      "id": "au-482-v20plus",
+      "country": "au",
+      "countryName": "澳大利亚",
+      "projectName": "482 SID → 186",
+      "patterns": [
+        "482",
+        "sid",
+        "186",
+        "雇主担保"
+      ],
+      "url": "https://sewen38.github.io/au-assessment/au-482-v20plus-review.html",
+      "status": "final"
+    },
+    {
+      "id": "jp-hsp-biz-v20plus",
+      "country": "jp",
+      "countryName": "日本",
+      "projectName": "HSP高度人才 / 经营管理签证",
+      "patterns": [
+        "jp-hsp",
+        "jp-biz",
+        "hsp",
+        "高度人才",
+        "高度专门职",
+        "经营管理",
+        "business manager"
+      ],
+      "url": "final-single/jp-hsp-biz-v20plus-final.html",
+      "localUrl": "final-single/jp-hsp-biz-v20plus-final.html",
+      "status": "final",
+      "embedReady": true
+    },
+    {
+      "id": "nz-smc-aip-v20plus",
+      "country": "nz",
+      "countryName": "新西兰",
+      "projectName": "SMC六分制技术移民 / Active Investor Plus",
+      "patterns": [
+        "nz-smc",
+        "smc",
+        "skilled migrant",
+        "技术移民",
+        "aip",
+        "active investor plus",
+        "主动投资者"
+      ],
+      "url": "final-single/nz-smc-aip-v20plus-final.html",
+      "localUrl": "final-single/nz-smc-aip-v20plus-final.html",
+      "status": "final",
+      "embedReady": true
+    }
+  ]
+};

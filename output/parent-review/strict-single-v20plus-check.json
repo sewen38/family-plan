@@ -1,0 +1,320 @@
+{
+  "reference": {
+    "file": "family-plan-pages/us-eb1a-v20plus-final.html",
+    "size": 113069,
+    "tables": 72,
+    "svg": 5,
+    "sections": 15
+  },
+  "thresholds": {
+    "min_size": 50881,
+    "min_tables": 25,
+    "min_svg": 2
+  },
+  "results": [
+    {
+      "file": "family-plan-pages/final-single/au-482-v20plus-final.html",
+      "size": 91892,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "ca73184327703edf09916d316e7364a114006135dfad9361c03687fe09fa06e4"
+    },
+    {
+      "file": "family-plan-pages/final-single/dominica-cbi-v20plus-final.html",
+      "size": 91591,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "ccaf462ad032a53cac2767337f4663d26befe90c14a67ef27c257fb5ad8ef51f"
+    },
+    {
+      "file": "family-plan-pages/final-single/europe-general-v20plus-final.html",
+      "size": 91893,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "861b469823db3168473698041b0f8a93caa82115d473dc94bd0bc02523159f0d"
+    },
+    {
+      "file": "family-plan-pages/final-single/georgia-investment-residence-v20plus-final.html",
+      "size": 91789,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "663207195d4d13e5c225d3eecf43fdca325aa5680930c22735904cc9e41f87d1"
+    },
+    {
+      "file": "family-plan-pages/final-single/greece-golden-visa-v20plus-final.html",
+      "size": 91333,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "22bcb121c39a875f154df4bb089494337170afc75024ebbe6f8372e33de24334"
+    },
+    {
+      "file": "family-plan-pages/final-single/hk-asmtp-v20plus-final.html",
+      "size": 91580,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "b2f6debd5986213d252dff7e29ef8f983c92ce018945e1d671be1f588e2c6908"
+    },
+    {
+      "file": "family-plan-pages/final-single/jp-hsp-biz-v20plus-final.html",
+      "size": 91995,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "dfb114ccff0e7c5458f40207cd4ce2bd6380398f123694666ed4a73ec094ae93"
+    },
+    {
+      "file": "family-plan-pages/final-single/malta-mprp-v20plus-final.html",
+      "size": 91408,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "d0c35c601e60342fd77b55d93ee547e41cf64094a463117a647be4b54139c5ea"
+    },
+    {
+      "file": "family-plan-pages/final-single/nz-smc-aip-v20plus-final.html",
+      "size": 91828,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "1a3faac0653102aa4fb43a9edf6002acaedb3e898c5f97f2c9452ab09fc8d3e7"
+    },
+    {
+      "file": "family-plan-pages/final-single/portugal-ari-d7-v20plus-final.html",
+      "size": 91585,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "4ac1b70d853f4336c726c233ab3fec9ad4e9d74a1c02bab46ae737eedf96c01f"
+    },
+    {
+      "file": "family-plan-pages/final-single/sg-ep-pic-v20plus-final.html",
+      "size": 91969,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "5d190d81a7d019f1d3a1d70afb1708ba21b3d31f9aa2d2246e1cbd2b2455dc1f"
+    },
+    {
+      "file": "family-plan-pages/final-single/tr-fund-v20plus-final.html",
+      "size": 91994,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "cf1ab5b68e112a339d2513b86e9d79bbfd85cbbbc94c4360747cfbf5b4be129c"
+    },
+    {
+      "file": "family-plan-pages/final-single/tr-realestate-v20plus-final.html",
+      "size": 91634,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "3822501a539e34592f5f9c66ee6f17cc8e6fac259c606c33fdb5d4e11ce0612a"
+    },
+    {
+      "file": "family-plan-pages/final-single/us-eb1a-v20plus-final.html",
+      "size": 91725,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "fd827450d28ec4c22c97b43c47da08570a6378ed8113a52d1dc50b35c5eea1d2"
+    },
+    {
+      "file": "family-plan-pages/final-single/us-niw-o1-reference-v20plus-final.html",
+      "size": 91649,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "8f5f7fd9df520909a1b8c3a43b7e3fa55c9920b036ff829296f29fd554dc6f9a"
+    },
+    {
+      "file": "family-plan-pages/final-single/vanuatu-cbi-v20plus-final.html",
+      "size": 91562,
+      "tables": 61,
+      "svg": 7,
+      "sections": 15,
+      "pass": true,
+      "checks": {
+        "size>=threshold": true,
+        "tables>=threshold": true,
+        "svg>=2": true,
+        "sections>=15": true,
+        "required_phrases": true,
+        "no_skeleton_phrases": true
+      },
+      "missing": [],
+      "skeleton": [],
+      "sha256": "675895c65463c6e56dbbe4ea523d36b20c0a592bd01b7006c308b6135acde815"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "us-eb1a",
+  "country": "美国",
+  "project": "EB-1A Extraordinary Ability",
+  "title": "美国 EB-1A",
+  "file": "final-single/us-eb1a-v20plus-final.html",
+  "sha256": "fd827450d28ec4c22c97b43c47da08570a6378ed8113a52d1dc50b35c5eea1d2",
+  "status": "final-pass",
+  "size": 91725,
+  "tables": 61,
+  "svg": 7,
+  "strict_report": "output/parent-review/strict-single-v20plus-check.json"
+}
