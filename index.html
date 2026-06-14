@@ -479,7 +479,7 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已生成标准问卷文本。请复制问卷文本发给当前智能体，智能体将按主 Skill V20 最新定稿逻辑直接生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已生成标准问卷文本。请复制问卷文本发给当前智能体，智能体将按主 Skill V21 专业级最新输出标准直接生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
@@ -495,7 +495,7 @@ function refreshDiagnosis(){
     var body=extractDiagnosisComment(comments);
     if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
       saveDiagnosisIssue(rec.issue,rec.name,body);}
-    else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','Issue #'+rec.issue+' 已记录。当前最终流程以复制问卷文本交给智能体生成为准，不依赖任何网络回调。');}
+    else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','Issue #'+rec.issue+' 已记录。当前最终流程以复制问卷文本交给智能体生成为准，不依赖任何网络回调。');}
   }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新。','Issue #'+rec.issue+' 已记录在本机浏览器。');});
 }
 // 国家名称 → 评估页URL 映射表
@@ -610,7 +610,7 @@ function showCountryPicker(issue,preSelectedCodes){
 // 批量依次评估：选中国家的队列，一个接一个
 var BATCH_KEY='batch_assessment';
 var BATCH_DATA_KEY='batch_assessment_data';
-var ASSESSMENT_VERSION='20260609-v10';
+var ASSESSMENT_VERSION='20260614-v21-professional';
 function startBatchAssessment(issue){
   var cbs=document.querySelectorAll('input[name="pickCountry"]:checked');
   if(cbs.length===0){T('请至少选择一个国家');return;}
@@ -708,14 +708,14 @@ document.getElementById('f').onsubmit=function(e){
   }
   window._t=buildProtocolText(summary);
   document.getElementById('ov').classList.remove('on');
-  renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');
+  renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
 
   // Automatic channels are best-effort only and run after the UI responds immediately.
   // Channel 1: try local server (same WiFi → instant processing)
   fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
   .then(function(r){return r.json()})
   .then(function(r){
-    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');}
+    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');}
   })
   .catch(function(){
     // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
@@ -730,7 +730,7 @@ document.getElementById('f').onsubmit=function(e){
       if(r.number){
         saveDiagnosisIssue(r.number,(m.name||[]).join(','));
         document.getElementById('ov').classList.remove('on');
-        renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V20 生成诊断草案。','');
+        renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
         setTimeout(refreshDiagnosis,1200);
         // Also try to trigger local server for instant processing
         try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.number,name:(m.name||[]).join(',')})}) }catch(e){}
