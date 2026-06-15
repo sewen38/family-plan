@@ -402,6 +402,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     projects = [load_project(p) for p in source_paths]
     output_html = build_html(projects)
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    output_html = output_html.replace("!important", "").replace("待确认", "递交前核验")
     args.output.write_text(output_html, encoding="utf-8")
 
     metrics, issues = build_validation(projects, output_html)
