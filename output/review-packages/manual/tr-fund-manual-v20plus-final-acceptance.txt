@@ -1,0 +1,22 @@
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/tr-fund-manual-v20plus-final.html
+size: 69880
+img tags: 2
+svg tags: 5
+data svg count: 2
+errors: 0
+warnings: 0
+
+# Extra hard checks
+html_path: family-plan-pages/final-single/manual/tr-fund-manual-v20plus-final.html
+size_bytes: 103973
+char_count: 69880
+table_count: 64
+svg_tags: 5
+data_svg_count: 2
+svg_or_data_total: 7
+chapters_15_complete: True
+fee_material_tax_law_commission_present: True
+no_realestate_deposit_bond_budget_commission_mix: True
+no_downgrade_expressions: True
+validator: 0 errors / 0 warnings

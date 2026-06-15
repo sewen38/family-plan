@@ -1,0 +1,8 @@
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/sg-ep-pic-manual-v20plus-final.html
+size: 82634
+img tags: 5
+svg tags: 0
+data svg count: 5
+errors: 0
+warnings: 0

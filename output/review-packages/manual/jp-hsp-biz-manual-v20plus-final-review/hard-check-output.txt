@@ -1,0 +1,7 @@
+size_bytes=94519
+table_count=75
+svg_data_img_graphics=7
+chapters_complete=True
+fees_materials_tax_law_commission_complete=True
+forbidden_expressions_found=[]
+hard_check_errors=0

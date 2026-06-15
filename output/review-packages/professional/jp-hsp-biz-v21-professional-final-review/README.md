@@ -1,0 +1,6 @@
+# 日本 HSP/经营管理 V21 Professional Review Package
+
+HTML: `jp-hsp-biz-manual-v21-professional-final.html`
+生成时间：2026-06-13 Asia/Shanghai
+
+包内包含：HTML、README、真实数据来源清单、财税架构说明、法规条款清单、验收报告。

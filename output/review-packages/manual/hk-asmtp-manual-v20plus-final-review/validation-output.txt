@@ -1,0 +1,8 @@
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/hk-asmtp-manual-v20plus-final.html
+size: 89381
+img tags: 9
+svg tags: 0
+data svg count: 9
+errors: 0
+warnings: 0

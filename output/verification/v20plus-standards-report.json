@@ -1,0 +1,4876 @@
+{
+  "generatedAt": "2026-06-13T03:14:05.515Z",
+  "script": "family-plan-pages/scripts/verify-v20plus-standards.js",
+  "mode": "static-acceptance",
+  "references": {
+    "single": "family-plan-pages/us-eb1a-v20plus-final.html",
+    "multi": "family-plan-pages/fusion-sg-hk-tr-us-au-v1-final.html"
+  },
+  "registry": {
+    "countryCount": 10,
+    "projectCount": 74,
+    "countries": {
+      "ge": [
+        "ge-ie-digitalnomad",
+        "ge-ie-freelance",
+        "ge-invest",
+        "ge-invest-business",
+        "ge-invest-realestate",
+        "ge-temp-rental",
+        "ge-temp-residence"
+      ],
+      "jp": [
+        "jp-biz",
+        "jp-biz-2025",
+        "jp-biz-startup",
+        "jp-hsp",
+        "jp-hsp-70",
+        "jp-hsp-80",
+        "jp-jskip-income",
+        "jp-super-hsp"
+      ],
+      "vu": [
+        "vu-dsp",
+        "vu-dsp-couple",
+        "vu-dsp-family-big",
+        "vu-dsp-family4",
+        "vu-dsp-single",
+        "vu-dsp-single-fast",
+        "vu-tax-family",
+        "vu-tax-single"
+      ],
+      "tr": [
+        "tr-bonds-cbi",
+        "tr-deposit-cbi",
+        "tr-fund-cbi",
+        "tr-fund-e2",
+        "tr-realestate-cbi",
+        "tr-realestate-education"
+      ],
+      "au": [
+        "au-186-de",
+        "au-186-niv",
+        "au-189-edu",
+        "au-189-skilled",
+        "au-190-state",
+        "au-482-sid",
+        "au-491-482-combo",
+        "au-491-regional",
+        "au-858-niv"
+      ],
+      "nz": [
+        "nz-aip-balanced",
+        "nz-aip-edu",
+        "nz-aip-growth",
+        "nz-green-smc-combo",
+        "nz-green-tier1",
+        "nz-ict-aewv",
+        "nz-ict-partner-combo",
+        "nz-partner-residence",
+        "nz-smc-6pt"
+      ],
+      "us": [
+        "us-e2",
+        "us-eb1a",
+        "us-eb5",
+        "us-eb5-e2-combo",
+        "us-h1b",
+        "us-l1",
+        "us-l1-h1b-combo",
+        "us-niw",
+        "us-o1-eb1a"
+      ],
+      "dm": [
+        "dm-cbi-couple",
+        "dm-cbi-family",
+        "dm-cbi-realestate",
+        "dm-cbi-single",
+        "dm-realestate"
+      ],
+      "hk": [
+        "hk-asmtp",
+        "hk-gqp",
+        "hk-ncies",
+        "hk-ttps-a",
+        "hk-ttps-b"
+      ],
+      "sg": [
+        "sg-ep-pic",
+        "sg-ep-pr",
+        "sg-fo-13o",
+        "sg-fo-13u",
+        "sg-gip-a",
+        "sg-gip-b",
+        "sg-gip-c",
+        "sg-techpass-pr"
+      ]
+    }
+  },
+  "templates": {
+    "ok": true,
+    "countryTemplateCount": 13,
+    "error": null
+  },
+  "single": {
+    "summary": {
+      "total": 74,
+      "passed": 74,
+      "failed": 0,
+      "passRate": 100
+    },
+    "results": [
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-ie-digitalnomad",
+        "url": "exec.html?countries=ge&projects=ge%3Age-ie-digitalnomad&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-ie-freelance",
+        "url": "exec.html?countries=ge&projects=ge%3Age-ie-freelance&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-invest",
+        "url": "exec.html?countries=ge&projects=ge%3Age-invest&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-invest-business",
+        "url": "exec.html?countries=ge&projects=ge%3Age-invest-business&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-invest-realestate",
+        "url": "exec.html?countries=ge&projects=ge%3Age-invest-realestate&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-temp-rental",
+        "url": "exec.html?countries=ge&projects=ge%3Age-temp-rental&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "ge",
+        "countryName": "格鲁吉亚",
+        "project": "ge-temp-residence",
+        "url": "exec.html?countries=ge&projects=ge%3Age-temp-residence&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-biz",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-biz&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-biz-2025",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-biz-2025&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-biz-startup",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-biz-startup&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-hsp",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-hsp&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-hsp-70",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-hsp-70&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-hsp-80",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-hsp-80&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-jskip-income",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-jskip-income&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "jp",
+        "countryName": "日本",
+        "project": "jp-super-hsp",
+        "url": "exec.html?countries=jp&projects=jp%3Ajp-super-hsp&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-dsp",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-dsp&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-dsp-couple",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-dsp-couple&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-dsp-family-big",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-dsp-family-big&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-dsp-family4",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-dsp-family4&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-dsp-single",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-dsp-single&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-dsp-single-fast",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-dsp-single-fast&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-tax-family",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-tax-family&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "vu",
+        "countryName": "瓦努阿图",
+        "project": "vu-tax-single",
+        "url": "exec.html?countries=vu&projects=vu%3Avu-tax-single&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "tr",
+        "countryName": "土耳其",
+        "project": "tr-bonds-cbi",
+        "url": "exec.html?countries=tr&projects=tr%3Atr-bonds-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "tr",
+        "countryName": "土耳其",
+        "project": "tr-deposit-cbi",
+        "url": "exec.html?countries=tr&projects=tr%3Atr-deposit-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "tr",
+        "countryName": "土耳其",
+        "project": "tr-fund-cbi",
+        "url": "exec.html?countries=tr&projects=tr%3Atr-fund-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "tr",
+        "countryName": "土耳其",
+        "project": "tr-fund-e2",
+        "url": "exec.html?countries=tr&projects=tr%3Atr-fund-e2&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "tr",
+        "countryName": "土耳其",
+        "project": "tr-realestate-cbi",
+        "url": "exec.html?countries=tr&projects=tr%3Atr-realestate-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "tr",
+        "countryName": "土耳其",
+        "project": "tr-realestate-education",
+        "url": "exec.html?countries=tr&projects=tr%3Atr-realestate-education&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-186-de",
+        "url": "exec.html?countries=au&projects=au%3Aau-186-de&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-186-niv",
+        "url": "exec.html?countries=au&projects=au%3Aau-186-niv&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-189-edu",
+        "url": "exec.html?countries=au&projects=au%3Aau-189-edu&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-189-skilled",
+        "url": "exec.html?countries=au&projects=au%3Aau-189-skilled&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-190-state",
+        "url": "exec.html?countries=au&projects=au%3Aau-190-state&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-482-sid",
+        "url": "exec.html?countries=au&projects=au%3Aau-482-sid&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-491-482-combo",
+        "url": "exec.html?countries=au&projects=au%3Aau-491-482-combo&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-491-regional",
+        "url": "exec.html?countries=au&projects=au%3Aau-491-regional&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "au",
+        "countryName": "澳大利亚",
+        "project": "au-858-niv",
+        "url": "exec.html?countries=au&projects=au%3Aau-858-niv&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-aip-balanced",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-aip-balanced&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-aip-edu",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-aip-edu&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-aip-growth",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-aip-growth&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-green-smc-combo",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-green-smc-combo&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-green-tier1",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-green-tier1&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-ict-aewv",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-ict-aewv&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-ict-partner-combo",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-ict-partner-combo&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-partner-residence",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-partner-residence&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "nz",
+        "countryName": "新西兰",
+        "project": "nz-smc-6pt",
+        "url": "exec.html?countries=nz&projects=nz%3Anz-smc-6pt&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-e2",
+        "url": "exec.html?countries=us&projects=us%3Aus-e2&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-eb1a",
+        "url": "exec.html?countries=us&projects=us%3Aus-eb1a&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-eb5",
+        "url": "exec.html?countries=us&projects=us%3Aus-eb5&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-eb5-e2-combo",
+        "url": "exec.html?countries=us&projects=us%3Aus-eb5-e2-combo&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-h1b",
+        "url": "exec.html?countries=us&projects=us%3Aus-h1b&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-l1",
+        "url": "exec.html?countries=us&projects=us%3Aus-l1&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-l1-h1b-combo",
+        "url": "exec.html?countries=us&projects=us%3Aus-l1-h1b-combo&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-niw",
+        "url": "exec.html?countries=us&projects=us%3Aus-niw&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "us",
+        "countryName": "美国",
+        "project": "us-o1-eb1a",
+        "url": "exec.html?countries=us&projects=us%3Aus-o1-eb1a&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "dm",
+        "countryName": "多米尼克",
+        "project": "dm-cbi-couple",
+        "url": "exec.html?countries=dm&projects=dm%3Adm-cbi-couple&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "dm",
+        "countryName": "多米尼克",
+        "project": "dm-cbi-family",
+        "url": "exec.html?countries=dm&projects=dm%3Adm-cbi-family&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "dm",
+        "countryName": "多米尼克",
+        "project": "dm-cbi-realestate",
+        "url": "exec.html?countries=dm&projects=dm%3Adm-cbi-realestate&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "dm",
+        "countryName": "多米尼克",
+        "project": "dm-cbi-single",
+        "url": "exec.html?countries=dm&projects=dm%3Adm-cbi-single&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "dm",
+        "countryName": "多米尼克",
+        "project": "dm-realestate",
+        "url": "exec.html?countries=dm&projects=dm%3Adm-realestate&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "hk",
+        "countryName": "香港",
+        "project": "hk-asmtp",
+        "url": "exec.html?countries=hk&projects=hk%3Ahk-asmtp&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "hk",
+        "countryName": "香港",
+        "project": "hk-gqp",
+        "url": "exec.html?countries=hk&projects=hk%3Ahk-gqp&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "hk",
+        "countryName": "香港",
+        "project": "hk-ncies",
+        "url": "exec.html?countries=hk&projects=hk%3Ahk-ncies&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "hk",
+        "countryName": "香港",
+        "project": "hk-ttps-a",
+        "url": "exec.html?countries=hk&projects=hk%3Ahk-ttps-a&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "hk",
+        "countryName": "香港",
+        "project": "hk-ttps-b",
+        "url": "exec.html?countries=hk&projects=hk%3Ahk-ttps-b&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-ep-pic",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-ep-pic&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-ep-pr",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-ep-pr&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-fo-13o",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-fo-13o&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-fo-13u",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-fo-13u&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-gip-a",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-gip-a&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-gip-b",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-gip-b&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-gip-c",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-gip-c&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      },
+      {
+        "type": "single",
+        "country": "sg",
+        "countryName": "新加坡",
+        "project": "sg-techpass-pr",
+        "url": "exec.html?countries=sg&projects=sg%3Asg-techpass-pr&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "chapters15": {
+            "pass": true,
+            "missing": []
+          },
+          "feeMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "mobile": {
+            "pass": true,
+            "missing": []
+          },
+          "forbidden": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "chapterHits": 15,
+          "execBytes": 20368,
+          "referenceBytes": 79615,
+          "minBytes": 43788,
+          "aliasCovered": true,
+          "countryKnown": true
+        }
+      }
+    ]
+  },
+  "multi": {
+    "seed": 20260613,
+    "samples": 20,
+    "summary": {
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "passRate": 100
+    },
+    "results": [
+      {
+        "type": "multi",
+        "countries": [
+          "sg",
+          "hk",
+          "tr",
+          "us",
+          "au"
+        ],
+        "projects": [
+          {
+            "country": "sg",
+            "project": "sg-ep-pic"
+          },
+          {
+            "country": "hk",
+            "project": "hk-asmtp"
+          },
+          {
+            "country": "tr",
+            "project": "tr-fund-cbi"
+          },
+          {
+            "country": "us",
+            "project": "us-eb1a"
+          },
+          {
+            "country": "au",
+            "project": "au-482-sid"
+          }
+        ],
+        "url": "fusion.html?countries=sg%2Chk%2Ctr%2Cus%2Cau&projects=sg%3Asg-ep-pic%7Chk%3Ahk-asmtp%7Ctr%3Atr-fund-cbi%7Cus%3Aus-eb1a%7Cau%3Aau-482-sid&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 5,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "sg",
+            "hk",
+            "tr",
+            "us",
+            "au"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "hk",
+          "tr",
+          "us"
+        ],
+        "projects": [
+          {
+            "country": "hk",
+            "project": "hk-ncies"
+          },
+          {
+            "country": "tr",
+            "project": "tr-bonds-cbi"
+          },
+          {
+            "country": "us",
+            "project": "us-e2"
+          }
+        ],
+        "url": "fusion.html?countries=hk%2Ctr%2Cus&projects=hk%3Ahk-ncies%7Ctr%3Atr-bonds-cbi%7Cus%3Aus-e2&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 3,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "hk",
+            "tr",
+            "us"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "ge",
+          "hk",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "ge",
+            "project": "ge-temp-residence"
+          },
+          {
+            "country": "hk",
+            "project": "hk-ttps-b"
+          },
+          {
+            "country": "vu",
+            "project": "vu-dsp-single-fast"
+          }
+        ],
+        "url": "fusion.html?countries=ge%2Chk%2Cvu&projects=ge%3Age-temp-residence%7Chk%3Ahk-ttps-b%7Cvu%3Avu-dsp-single-fast&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 3,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "ge",
+            "hk",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "au",
+          "jp",
+          "tr"
+        ],
+        "projects": [
+          {
+            "country": "au",
+            "project": "au-491-482-combo"
+          },
+          {
+            "country": "jp",
+            "project": "jp-hsp-80"
+          },
+          {
+            "country": "tr",
+            "project": "tr-realestate-cbi"
+          }
+        ],
+        "url": "fusion.html?countries=au%2Cjp%2Ctr&projects=au%3Aau-491-482-combo%7Cjp%3Ajp-hsp-80%7Ctr%3Atr-realestate-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 3,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "au",
+            "jp",
+            "tr"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "jp",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "jp",
+            "project": "jp-hsp-80"
+          },
+          {
+            "country": "vu",
+            "project": "vu-dsp-couple"
+          }
+        ],
+        "url": "fusion.html?countries=jp%2Cvu&projects=jp%3Ajp-hsp-80%7Cvu%3Avu-dsp-couple&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 2,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "jp",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "us",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "us",
+            "project": "us-eb1a"
+          },
+          {
+            "country": "vu",
+            "project": "vu-dsp-single-fast"
+          }
+        ],
+        "url": "fusion.html?countries=us%2Cvu&projects=us%3Aus-eb1a%7Cvu%3Avu-dsp-single-fast&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 2,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "us",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "hk",
+          "nz",
+          "sg",
+          "tr"
+        ],
+        "projects": [
+          {
+            "country": "hk",
+            "project": "hk-gqp"
+          },
+          {
+            "country": "nz",
+            "project": "nz-aip-growth"
+          },
+          {
+            "country": "sg",
+            "project": "sg-ep-pr"
+          },
+          {
+            "country": "tr",
+            "project": "tr-realestate-cbi"
+          }
+        ],
+        "url": "fusion.html?countries=hk%2Cnz%2Csg%2Ctr&projects=hk%3Ahk-gqp%7Cnz%3Anz-aip-growth%7Csg%3Asg-ep-pr%7Ctr%3Atr-realestate-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 4,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "hk",
+            "nz",
+            "sg",
+            "tr"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "dm",
+          "jp",
+          "us"
+        ],
+        "projects": [
+          {
+            "country": "dm",
+            "project": "dm-realestate"
+          },
+          {
+            "country": "jp",
+            "project": "jp-biz"
+          },
+          {
+            "country": "us",
+            "project": "us-eb5"
+          }
+        ],
+        "url": "fusion.html?countries=dm%2Cjp%2Cus&projects=dm%3Adm-realestate%7Cjp%3Ajp-biz%7Cus%3Aus-eb5&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 3,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "dm",
+            "jp",
+            "us"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "nz",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "nz",
+            "project": "nz-partner-residence"
+          },
+          {
+            "country": "vu",
+            "project": "vu-dsp-single"
+          }
+        ],
+        "url": "fusion.html?countries=nz%2Cvu&projects=nz%3Anz-partner-residence%7Cvu%3Avu-dsp-single&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 2,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "nz",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "hk",
+          "jp",
+          "nz",
+          "sg",
+          "tr"
+        ],
+        "projects": [
+          {
+            "country": "hk",
+            "project": "hk-asmtp"
+          },
+          {
+            "country": "jp",
+            "project": "jp-jskip-income"
+          },
+          {
+            "country": "nz",
+            "project": "nz-aip-balanced"
+          },
+          {
+            "country": "sg",
+            "project": "sg-techpass-pr"
+          },
+          {
+            "country": "tr",
+            "project": "tr-deposit-cbi"
+          }
+        ],
+        "url": "fusion.html?countries=hk%2Cjp%2Cnz%2Csg%2Ctr&projects=hk%3Ahk-asmtp%7Cjp%3Ajp-jskip-income%7Cnz%3Anz-aip-balanced%7Csg%3Asg-techpass-pr%7Ctr%3Atr-deposit-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 5,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "hk",
+            "jp",
+            "nz",
+            "sg",
+            "tr"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "jp",
+          "tr"
+        ],
+        "projects": [
+          {
+            "country": "jp",
+            "project": "jp-biz"
+          },
+          {
+            "country": "tr",
+            "project": "tr-fund-cbi"
+          }
+        ],
+        "url": "fusion.html?countries=jp%2Ctr&projects=jp%3Ajp-biz%7Ctr%3Atr-fund-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 2,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "jp",
+            "tr"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "jp",
+          "nz"
+        ],
+        "projects": [
+          {
+            "country": "jp",
+            "project": "jp-biz-startup"
+          },
+          {
+            "country": "nz",
+            "project": "nz-partner-residence"
+          }
+        ],
+        "url": "fusion.html?countries=jp%2Cnz&projects=jp%3Ajp-biz-startup%7Cnz%3Anz-partner-residence&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 2,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "jp",
+            "nz"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "au",
+          "hk",
+          "jp",
+          "sg"
+        ],
+        "projects": [
+          {
+            "country": "au",
+            "project": "au-189-edu"
+          },
+          {
+            "country": "hk",
+            "project": "hk-gqp"
+          },
+          {
+            "country": "jp",
+            "project": "jp-biz-2025"
+          },
+          {
+            "country": "sg",
+            "project": "sg-fo-13o"
+          }
+        ],
+        "url": "fusion.html?countries=au%2Chk%2Cjp%2Csg&projects=au%3Aau-189-edu%7Chk%3Ahk-gqp%7Cjp%3Ajp-biz-2025%7Csg%3Asg-fo-13o&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 4,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "au",
+            "hk",
+            "jp",
+            "sg"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "jp",
+          "nz",
+          "tr"
+        ],
+        "projects": [
+          {
+            "country": "jp",
+            "project": "jp-hsp-70"
+          },
+          {
+            "country": "nz",
+            "project": "nz-partner-residence"
+          },
+          {
+            "country": "tr",
+            "project": "tr-realestate-cbi"
+          }
+        ],
+        "url": "fusion.html?countries=jp%2Cnz%2Ctr&projects=jp%3Ajp-hsp-70%7Cnz%3Anz-partner-residence%7Ctr%3Atr-realestate-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 3,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "jp",
+            "nz",
+            "tr"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "hk",
+          "jp",
+          "nz",
+          "tr",
+          "us"
+        ],
+        "projects": [
+          {
+            "country": "hk",
+            "project": "hk-asmtp"
+          },
+          {
+            "country": "jp",
+            "project": "jp-jskip-income"
+          },
+          {
+            "country": "nz",
+            "project": "nz-green-tier1"
+          },
+          {
+            "country": "tr",
+            "project": "tr-realestate-education"
+          },
+          {
+            "country": "us",
+            "project": "us-niw"
+          }
+        ],
+        "url": "fusion.html?countries=hk%2Cjp%2Cnz%2Ctr%2Cus&projects=hk%3Ahk-asmtp%7Cjp%3Ajp-jskip-income%7Cnz%3Anz-green-tier1%7Ctr%3Atr-realestate-education%7Cus%3Aus-niw&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 5,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "hk",
+            "jp",
+            "nz",
+            "tr",
+            "us"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "hk",
+          "jp"
+        ],
+        "projects": [
+          {
+            "country": "hk",
+            "project": "hk-ncies"
+          },
+          {
+            "country": "jp",
+            "project": "jp-biz-2025"
+          }
+        ],
+        "url": "fusion.html?countries=hk%2Cjp&projects=hk%3Ahk-ncies%7Cjp%3Ajp-biz-2025&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 2,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "hk",
+            "jp"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "au",
+          "ge",
+          "sg",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "au",
+            "project": "au-189-edu"
+          },
+          {
+            "country": "ge",
+            "project": "ge-invest"
+          },
+          {
+            "country": "sg",
+            "project": "sg-fo-13u"
+          },
+          {
+            "country": "vu",
+            "project": "vu-tax-family"
+          }
+        ],
+        "url": "fusion.html?countries=au%2Cge%2Csg%2Cvu&projects=au%3Aau-189-edu%7Cge%3Age-invest%7Csg%3Asg-fo-13u%7Cvu%3Avu-tax-family&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 4,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "au",
+            "ge",
+            "sg",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "jp",
+          "nz",
+          "tr"
+        ],
+        "projects": [
+          {
+            "country": "jp",
+            "project": "jp-jskip-income"
+          },
+          {
+            "country": "nz",
+            "project": "nz-green-tier1"
+          },
+          {
+            "country": "tr",
+            "project": "tr-fund-cbi"
+          }
+        ],
+        "url": "fusion.html?countries=jp%2Cnz%2Ctr&projects=jp%3Ajp-jskip-income%7Cnz%3Anz-green-tier1%7Ctr%3Atr-fund-cbi&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 3,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "jp",
+            "nz",
+            "tr"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "dm",
+          "nz",
+          "tr",
+          "us",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "dm",
+            "project": "dm-cbi-realestate"
+          },
+          {
+            "country": "nz",
+            "project": "nz-aip-growth"
+          },
+          {
+            "country": "tr",
+            "project": "tr-bonds-cbi"
+          },
+          {
+            "country": "us",
+            "project": "us-h1b"
+          },
+          {
+            "country": "vu",
+            "project": "vu-dsp-single-fast"
+          }
+        ],
+        "url": "fusion.html?countries=dm%2Cnz%2Ctr%2Cus%2Cvu&projects=dm%3Adm-cbi-realestate%7Cnz%3Anz-aip-growth%7Ctr%3Atr-bonds-cbi%7Cus%3Aus-h1b%7Cvu%3Avu-dsp-single-fast&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 5,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "dm",
+            "nz",
+            "tr",
+            "us",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      },
+      {
+        "type": "multi",
+        "countries": [
+          "ge",
+          "nz",
+          "us",
+          "vu"
+        ],
+        "projects": [
+          {
+            "country": "ge",
+            "project": "ge-invest"
+          },
+          {
+            "country": "nz",
+            "project": "nz-aip-edu"
+          },
+          {
+            "country": "us",
+            "project": "us-l1"
+          },
+          {
+            "country": "vu",
+            "project": "vu-dsp-family4"
+          }
+        ],
+        "url": "fusion.html?countries=ge%2Cnz%2Cus%2Cvu&projects=ge%3Age-invest%7Cnz%3Anz-aip-edu%7Cus%3Aus-l1%7Cvu%3Avu-dsp-family4&dynamic=1",
+        "pass": true,
+        "issues": [],
+        "checks": {
+          "embedArea": {
+            "pass": true,
+            "missing": []
+          },
+          "budgetMaterials": {
+            "pass": true,
+            "missing": []
+          },
+          "laws": {
+            "pass": true,
+            "missing": []
+          },
+          "commission": {
+            "pass": true,
+            "missing": []
+          },
+          "tax": {
+            "pass": true,
+            "missing": []
+          }
+        },
+        "metrics": {
+          "moduleArea": true,
+          "moduleLoop": true,
+          "moduleCountExpected": 4,
+          "chapterHits": 15,
+          "countriesSeen": [
+            "ge",
+            "nz",
+            "us",
+            "vu"
+          ],
+          "fusionBytes": 36071,
+          "referenceBytes": 26446,
+          "minBytes": 18000
+        }
+      }
+    ]
+  },
+  "overall": {
+    "total": 94,
+    "passed": 94,
+    "failed": 0,
+    "passRate": 100
+  }
+}

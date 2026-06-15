@@ -1,0 +1,27 @@
+# Validator command
+python3 skills/family-plan-full/scripts/validate_single_v20plus.py family-plan-pages/final-single/manual/tr-realestate-manual-v20plus-final.html --country tr --project realestate --forbid 基金投资认购款 --forbid 银行存款入籍 --forbid 政府债券入籍 --forbid 房地产投资基金入籍
+
+# Validator output
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/tr-realestate-manual-v20plus-final.html
+size: 79383
+img tags: 6
+svg tags: 0
+data svg count: 6
+errors: 0
+warnings: 0
+
+# Extra hard checks
+{
+  "size_bytes": 111605,
+  "size>=80KB": true,
+  "tables": 64,
+  "tables>=35": true,
+  "svg_data_or_inline": 6,
+  "svg/data>=4": true,
+  "15_chapters": true,
+  "fees_materials_tax_law_commission": true,
+  "calculator_sync": true,
+  "no_unselected_budget_commission": true,
+  "no_degraded_phrases": true
+}

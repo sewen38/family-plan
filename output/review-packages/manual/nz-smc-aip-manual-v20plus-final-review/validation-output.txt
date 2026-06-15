@@ -1,0 +1,8 @@
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/nz-smc-aip-manual-v20plus-final.html
+size: 76333
+img tags: 8
+svg tags: 0
+data svg count: 8
+errors: 0
+warnings: 0

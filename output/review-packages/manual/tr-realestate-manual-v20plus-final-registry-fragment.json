@@ -1,0 +1,14 @@
+{
+  "id": "tr-realestate-manual-v20plus-final",
+  "country": "tr",
+  "country_name": "土耳其",
+  "project": "realestate",
+  "project_name": "购房入籍",
+  "html": "family-plan-pages/final-single/manual/tr-realestate-manual-v20plus-final.html",
+  "validator": "0 errors / 0 warnings",
+  "size_bytes": 111605,
+  "tables": 64,
+  "graphics": 6,
+  "commission_password": "888888",
+  "updated": "2026-06-13T14:17:00+08:00"
+}

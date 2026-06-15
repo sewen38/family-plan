@@ -1,0 +1,22 @@
+{
+  "id": "tr-fund-manual-v20plus-final",
+  "country": "tr",
+  "project": "fund-cbi-e2",
+  "title": "土耳其基金入籍 + 美国E-2衔接 · 单国家单项目V20Plus人工终稿",
+  "path": "family-plan-pages/final-single/manual/tr-fund-manual-v20plus-final.html",
+  "review_package": "family-plan-pages/output/review-packages/manual/tr-fund-manual-v20plus-final-review.zip",
+  "validation": {
+    "html_path": "family-plan-pages/final-single/manual/tr-fund-manual-v20plus-final.html",
+    "size_bytes": 103973,
+    "char_count": 69880,
+    "table_count": 64,
+    "svg_tags": 5,
+    "data_svg_count": 2,
+    "svg_or_data_total": 7,
+    "chapters_15_complete": true,
+    "fee_material_tax_law_commission_present": true,
+    "no_realestate_deposit_bond_budget_commission_mix": true,
+    "no_downgrade_expressions": true,
+    "validator": "0 errors / 0 warnings"
+  }
+}

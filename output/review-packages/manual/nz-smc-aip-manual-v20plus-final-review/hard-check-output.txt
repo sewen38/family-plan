@@ -1,0 +1,7 @@
+extra hard check
+size_bytes: 105416 PASS
+tables: 67 PASS
+svg/data graphics: 16 PASS
+15 chapters: PASS
+fees/materials/tax/laws/commission: PASS
+forbidden downgrade expressions: []

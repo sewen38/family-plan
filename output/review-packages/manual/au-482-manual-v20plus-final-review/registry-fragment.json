@@ -1,0 +1,13 @@
+{
+  "id": "au-482-manual-v20plus-final",
+  "country": "Australia",
+  "project": "482 SID -> 186 TRT",
+  "final_html": "family-plan-pages/final-single/manual/au-482-manual-v20plus-final.html",
+  "review_package": "family-plan-pages/output/review-packages/manual/au-482-manual-v20plus-final-review.zip",
+  "validator": "0 errors / 0 warnings",
+  "size_bytes": 128360,
+  "table_count": 78,
+  "svg_data_count": 6,
+  "sha256_html": "fe58564f8248b9fed2dee2b3782e95ab24fd9562e568f6e289cc9f682dc0ea37",
+  "created_at": "2026-06-13 Asia/Shanghai"
+}

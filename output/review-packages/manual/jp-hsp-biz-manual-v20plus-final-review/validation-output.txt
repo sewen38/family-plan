@@ -1,0 +1,8 @@
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/jp-hsp-biz-manual-v20plus-final.html
+size: 62963
+img tags: 2
+svg tags: 3
+data svg count: 2
+errors: 0
+warnings: 0

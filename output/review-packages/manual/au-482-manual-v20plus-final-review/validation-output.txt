@@ -1,0 +1,8 @@
+# V20Plus single-country fusion validation
+file: family-plan-pages/final-single/manual/au-482-manual-v20plus-final.html
+size: 90655
+img tags: 3
+svg tags: 3
+data svg count: 3
+errors: 0
+warnings: 0

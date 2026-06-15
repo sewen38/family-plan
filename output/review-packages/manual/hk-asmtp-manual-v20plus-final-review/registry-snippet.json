@@ -1,0 +1,28 @@
+{
+  "id": "hk-asmtp-manual-v20plus-final",
+  "country": "hk",
+  "project": "asmtp",
+  "title": "香港 ASMTP 专才单国家单项目 V20Plus 最终审核页",
+  "html": "family-plan-pages/final-single/manual/hk-asmtp-manual-v20plus-final.html",
+  "review_package": "family-plan-pages/output/review-packages/manual/hk-asmtp-manual-v20plus-final-review.zip",
+  "validation": {
+    "html_path": "family-plan-pages/final-single/manual/hk-asmtp-manual-v20plus-final.html",
+    "size_bytes": 125861,
+    "table_count": 79,
+    "img_tags": 9,
+    "svg_tags": 0,
+    "data_svg_count": 9,
+    "validator": "0 errors / 0 warnings",
+    "password_page": "888888",
+    "selected_projects": [
+      "香港 ASMTP 专才雇主担保",
+      "香港 ASMTP 自有公司/自雇专才"
+    ],
+    "excluded_execution_projects": [
+      "CIES",
+      "高才通",
+      "优才",
+      "IANG"
+    ]
+  }
+}
