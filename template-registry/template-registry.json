@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-06-15T10:37:00+08:00",
+  "highest_priority_template": "family-plan-v21-final-exec-20260614",
+  "templates": [
+    {
+      "id": "family-plan-v21-final-exec-20260614",
+      "name": "V21 执行策划案定稿版模板",
+      "status": "confirmed_final_by_honglei",
+      "confirmed_at": "2026-06-15T10:37:00+08:00",
+      "source_package": "/Users/hongleizhu/.openclaw/media/inbound/v21-执行策划案模版-20260614---5e0e4ed6-c375-48e3-b930-dfe9a2441fc6.zip",
+      "extracted_dir": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614",
+      "fusion_master": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/index.html",
+      "single_project_samples": [
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/sg-ep-pic-single.html",
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/au-482-single.html",
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/tr-fund-single.html"
+      ],
+      "mandatory_rules": [
+        "制作执行策划案时必须以该模板包为最高优先级定稿模板，不得凭记忆重构。",
+        "完整单项目模块区必须保持单项目独立完整页入口/预览/单独打开，不得把多个单项目DOM静态硬嵌进融合页导致CSS污染。",
+        "融合页必须采用完整单项目模块嵌入区 + 15章拆章重组融合逻辑。",
+        "单项目页必须达到模板样本厚度和结构标准，不得摘要化。",
+        "架构图必须有效解决税务/资金/身份问题，包含主体、资金流、利润流、税务居民、DTA/预提税、CFC/CRS/FATCA/FBAR、37号文/ODI/FDI及禁止动作。",
+        "数据必须详细真实有出处：官方费、投资额、律师顾问费、第三方费、材料、法案条款、政策来源都必须标明来源或核验入口。",
+        "核心数据不得用待确认、按官方、视情况、详见源页替代；动态费用必须写明核验入口、核验动作和影响范围。",
+        "图片/SVG必须手机端可读，不得出框、黑块遮字、低对比、乱码、坏图或全局CSS覆盖SVG文字。",
+        "最终发布前必须运行模板验收：章节、表格、SVG、链接、待确认、!important、完整模块展开方式、线上200可打开。"
+      ],
+      "known_failure_modes": [
+        "把整改说明页包装成最终结果页。",
+        "把完整单项目模块理解为静态全文DOM嵌入。",
+        "融合页吞掉单项目页导致CSS/ID/SVG互相污染。",
+        "架构图只画身份/资产配置，没有税务优化效果。",
+        "数据没有来源、费用材料清单不完整。",
+        "页面图片/SVG出框、黑底黑字、黑块遮字。"
+      ]
+    }
+  ]
+}
