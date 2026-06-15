@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated_at": "2026-06-15T10:37:00+08:00",
+  "updated_at": "2026-06-15T17:25:14+08:00",
   "highest_priority_template": "family-plan-v21-final-exec-20260614",
   "templates": [
     {
@@ -8,16 +8,17 @@
       "name": "V21 执行策划案定稿版模板",
       "status": "confirmed_final_by_honglei",
       "confirmed_at": "2026-06-15T10:37:00+08:00",
-      "source_package": "/Users/hongleizhu/.openclaw/media/inbound/v21-执行策划案模版-20260614---5e0e4ed6-c375-48e3-b930-dfe9a2441fc6.zip",
-      "extracted_dir": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614",
-      "fusion_master": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/index.html",
+      "source_package": "/Users/hongleizhu/.openclaw/media/inbound/v21-执行策划案模版-20260614---057dbebf-dea4-477d-976c-96e8c2b498d1.zip",
+      "extracted_dir": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057",
+      "fusion_master": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/index.html",
       "single_project_samples": [
-        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/sg-ep-pic-single.html",
-        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/au-482-single.html",
-        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/tr-fund-single.html"
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/sg-ep-pic-single.html",
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/au-482-single.html",
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/tr-fund-single.html"
       ],
       "mandatory_rules": [
         "制作执行策划案时必须以该模板包为最高优先级定稿模板，不得凭记忆重构。",
+        "原始模板目录必须保持 pristine，不得直接编辑；所有生成/整改必须复制到派生工作目录，最终用原始模板目录做对照审核。",
         "完整单项目模块区必须保持单项目独立完整页入口/预览/单独打开，不得把多个单项目DOM静态硬嵌进融合页导致CSS污染。",
         "融合页必须采用完整单项目模块嵌入区 + 15章拆章重组融合逻辑。",
         "单项目页必须达到模板样本厚度和结构标准，不得摘要化。",
@@ -34,7 +35,8 @@
         "架构图只画身份/资产配置，没有税务优化效果。",
         "数据没有来源、费用材料清单不完整。",
         "页面图片/SVG出框、黑底黑字、黑块遮字。"
-      ]
+      ],
+      "source_package_sha256": "0c0d02fc8a2a0002a563debc051e0cfddfa151faf63af540e1764b9162398389"
     }
   ]
 }
