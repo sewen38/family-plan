@@ -119,7 +119,7 @@ def extract_master_styles(master_html: str) -> str:
     # Preserve the visual language from index.html, then add small fusion-specific rules.
     extra = """
 <style>
-.fusion-meta{font-size:13px;color:#64748b;margin-top:6px}.source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.source-item{padding:10px 12px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:13px}.full-module details{border:1px solid rgba(15,23,42,.10);border-radius:18px;background:#fff;overflow:hidden}.full-module summary{cursor:pointer;list-style:none;padding:14px 16px;background:linear-gradient(90deg,rgba(6,26,51,.98),rgba(16,42,76,.94));color:#fff;font-weight:900}.full-module summary::-webkit-details-marker{display:none}.full-module .module-inner{max-height:78vh;overflow:auto;padding:18px;background:#fffaf2}.validation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.validation-card{border-radius:16px;padding:13px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 18px rgba(15,23,42,.04)}.validation-card b{display:block;font-size:22px;color:#071a33;letter-spacing:-.04em}.validation-card span{font-size:12px;color:#64748b}.issue-list{margin:10px 0 0;padding-left:1.2em}.issue-list li{margin:4px 0}.project-body .hero,.module-inner .hero{border-radius:16px;margin-bottom:12px}.module-inner style,.module-inner script,.project-body script{display:none!important}.empty-chapter{padding:12px 14px;border-radius:14px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-weight:750}.chapter-anchor{scroll-margin-top:18px}.data-uri-note{font-size:12px;color:#64748b;margin:8px 0}.module-inner [id]{scroll-margin-top:10px}
+.fusion-meta{font-size:13px;color:#64748b;margin-top:6px}.source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.source-item{padding:10px 12px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:13px}.full-module details{border:1px solid rgba(15,23,42,.10);border-radius:18px;background:#fff;overflow:hidden}.full-module summary{cursor:pointer;list-style:none;padding:14px 16px;background:linear-gradient(90deg,rgba(6,26,51,.98),rgba(16,42,76,.94));color:#fff;font-weight:900}.full-module summary::-webkit-details-marker{display:none}.full-module .module-inner{max-height:78vh;overflow:auto;padding:18px;background:#fffaf2}.validation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.validation-card{border-radius:16px;padding:13px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 18px rgba(15,23,42,.04)}.validation-card b{display:block;font-size:22px;color:#071a33;letter-spacing:-.04em}.validation-card span{font-size:12px;color:#64748b}.issue-list{margin:10px 0 0;padding-left:1.2em}.issue-list li{margin:4px 0}.project-body .hero,.module-inner .hero{border-radius:16px;margin-bottom:12px}.module-inner style,.module-inner script,.project-body script{display:none!important}.empty-chapter{padding:12px 14px;border-radius:14px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-weight:750}.chapter-anchor{scroll-margin-top:18px}.data-uri-note{font-size:12px;color:#64748b;margin:8px 0}.module-inner [id]{scroll-margin-top:10px}.iframe-panel{display:none;margin-top:12px;border:2px solid #2563eb;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 20px 54px rgba(29,78,216,.16)}.iframe-panel.on{display:block}.iframe-panel iframe{width:100%;height:calc(100vh - 104px);min-height:680px;border:0;background:#fff}.figure-scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.figure-scroll svg,.figure-scroll img{display:block;height:auto}.project-body svg,.chapter-anchor svg{max-width:100%;height:auto}.chapter-anchor .project-body{overflow-x:auto}
 </style>
 """
     return styles + extra
@@ -303,17 +303,27 @@ def source_overview(projects: List[ProjectDoc]) -> str:
 
 
 def build_full_modules(projects: List[ProjectDoc]) -> str:
+    """Build the top complete-single-module area.
+
+    Important: the V21 final template keeps each single-project page as an
+    independent source page. The fusion page must not statically inject 11 full
+    DOM trees here, otherwise CSS/IDs/SVG styles collide and images overflow.
+    Therefore this area provides card + iframe preview + standalone link.
+    """
     blocks = []
     for i, p in enumerate(projects, 1):
+        src = html.escape(p.rel_path)
+        title = html.escape(p.title)
         blocks.append(f"""
 <div class="project-block full-module" id="module-{html.escape(p.key)}">
-  <div class="project-head"><h3>{i:02d}. {html.escape(p.title)}</h3><span class="badge">完整单项目模块</span></div>
+  <div class="project-head"><h3>{i:02d}. {title}</h3><span class="badge">V21完整单项目</span></div>
   <div class="project-body">
-    <div class="ok">内容源：{html.escape(p.rel_path)}｜静态全文嵌入，保留表格/图片/SVG，移除脚本以避免多项目 ID 冲突。</div>
-    <details>
-      <summary>展开 / 收起完整单项目正文</summary>
-      <div class="module-inner">{p.full_html}</div>
-    </details>
+    <div class="ok">内容源：{src}｜保持单项目页独立结构、CSS、图表与响应式规则；融合页下方15章从同源页面拆章重组。</div>
+    <div class="expand-actions">
+      <button class="btn btn-primary" onclick="togglePreview('preview-{html.escape(p.key)}','{src}',this)">展开方案</button>
+      <a class="btn btn-green" href="{src}" target="_blank" rel="noopener">单独打开</a>
+    </div>
+    <div class="iframe-panel" id="preview-{html.escape(p.key)}" data-loaded="0"></div>
   </div>
 </div>""")
     return "".join(blocks)
@@ -356,10 +366,10 @@ def build_html(projects: List[ProjectDoc], metrics_placeholder: bool = False) ->
 <div class="progress" id="progress"></div>
 <div class="hero"><h1>11国V21单项目融合执行策划案</h1><p>以 template-v21-20260614/index.html 为母版｜完整单项目模块嵌入区 + 15章拆章重组融合</p><div class="quality-bar"><div class="quality-pill"><b>{len(projects)}个</b>单项目源页</div><div class="quality-pill"><b>{total_tables}个</b>源表格</div><div class="quality-pill"><b>{total_svg}个</b>源SVG</div><div class="quality-pill"><b>{total_pending}处</b>待确认</div></div></div>
 <div class="wrap">
-<section class="card"><h2>快速目录</h2><div class="toc">{toc}</div><div class="summary-grid"><div class="summary"><b>母版规则</b><br/>视觉/CSS/卡片结构沿用 template-v21-20260614/index.html。</div><div class="summary"><b>内容规则</b><br/>优先读取 final-single/generated-v21；同时复用3个标准单项目页。</div><div class="summary"><b>融合规则</b><br/>先完整嵌入单项目模块，再按一至十五章拆章重组。</div></div></section>
+<section class="card"><h2>快速目录</h2><div class="toc">{toc}</div><div class="summary-grid"><div class="summary"><b>母版规则</b><br/>视觉/CSS/卡片结构沿用 template-v21-20260614/index.html。</div><div class="summary"><b>内容规则</b><br/>优先读取 final-single/generated-v21；同时复用3个标准单项目页。</div><div class="summary"><b>融合规则</b><br/>先保留完整单项目入口/预览，再按一至十五章拆章重组。</div></div></section>
 <section class="card chapter"><div class="section-kicker">Source Map</div><h2>单项目源页清单</h2>{source_overview(projects)}</section>
 __VALIDATION__
-<section class="card chapter"><div class="section-kicker">Section 01</div><h2>完整单项目模块嵌入区</h2><p>以下为本融合页的全部内容源。每个单项目页以完整静态正文嵌入，供审核追溯；下方15章正文均从同一批页面拆章重组。</p>{build_full_modules(projects)}</section>
+<section class="card chapter"><div class="section-kicker">Section 01</div><h2>完整单项目模块嵌入区</h2><p>以下为本融合页的全部内容源。每个单项目页保持独立完整页面，可展开预览或单独打开；下方15章正文均从同一批页面拆章重组。</p>{build_full_modules(projects)}</section>
 {build_chapter_sections(projects)}
 <section class="commission"><h2>佣金与合规隔离提醒</h2><p>本融合页为模板级最终复核页。任何佣金、返点、第三方费用、投资收益、税务效果与身份获批判断，均须回到对应单项目源页及客户问卷逐项确认；不得用融合页摘要替代律师、税务师或持牌顾问意见。</p></section>
 </div>
@@ -369,7 +379,17 @@ window.addEventListener('scroll',()=>{{const h=document.documentElement;const p=
 </script>
 """
     page = f"""<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/><title>11国V21单项目融合执行策划案｜Template Final Review</title>{styles}</head><body>{body_core}</body></html>"""
+<html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/><title>11国V21单项目融合执行策划案｜Template Final Review</title>{styles}</head><body>{body_core}
+<script>
+function togglePreview(id, src, btn){{
+  const el=document.getElementById(id); if(!el) return;
+  if(!el.classList.contains('on')){{
+    el.classList.add('on'); if(el.dataset.loaded!=='1'){{ el.innerHTML='<iframe loading="lazy" src="'+src+'"></iframe>'; el.dataset.loaded='1'; }}
+    if(btn) btn.textContent='收起方案';
+  }}else{{ el.classList.remove('on'); if(btn) btn.textContent='展开方案'; }}
+}}
+</script>
+</body></html>"""
     if metrics_placeholder:
         return page
     metrics, issues = build_validation(projects, page.replace("__VALIDATION__", ""))
