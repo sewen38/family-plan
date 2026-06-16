@@ -161,8 +161,11 @@ def validate_diagnosis(text: str) -> List[str]:
 
 
 def validate_execution_html(text: str) -> List[str]:
-    req = ["<!doctype html", "viewport", "完整单项目模块", "十五", "财税", "法案", "人工4重审核", "风险声明"]
-    return validate_common(text.lower() if "<!doctype html" in text.lower() else text, req, 9000)
+    req = ["<!doctype html", "viewport", "完整单项目模块", "财税", "法案", "人工4重审核", "风险声明"]
+    errors = validate_common(text.lower() if "<!doctype html" in text.lower() else text, req, 9000)
+    if not any(x in text for x in ["十五", "第15章", "15章", "第十五章"]):
+        errors.append("missing: 十五/第15章")
+    return errors
 
 
 def validate_common(text: str, required: List[str], min_len: int) -> List[str]:
@@ -221,6 +224,7 @@ def make_diagnosis(issue: dict, q: str, knowledge: str) -> str:
 
 def repair_output(kind: str, draft: str, errors: List[str], q: str, knowledge: str) -> str:
     standard = DIAGNOSIS_STD if kind == "diagnosis" else EXEC_STD
+    extra = "" if kind == "diagnosis" else "执行策划案HTML必须显式出现章节标题：第1章至第15章，最后一章标题必须含‘第15章’或‘十五、重要风险声明与附件’。"
     prompt = f"""以下草稿未通过云端人工4重审核前置 gate。请直接输出修复后的完整最终稿，不要解释。
 
 【错误项】
@@ -228,6 +232,7 @@ def repair_output(kind: str, draft: str, errors: List[str], q: str, knowledge: s
 
 【必须遵守】
 {standard}
+{extra}
 
 【客户资料】
 {compact_text(q, 6000)}
