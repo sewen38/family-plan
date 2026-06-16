@@ -415,47 +415,39 @@ def process(issue: dict) -> None:
     q = extract_body(issue.get("body", ""))
     try:
         if effective_mode == "execution":
-            knowledge = load_knowledge(q, execution=True)
-            result = make_execution(issue, q, knowledge)
-            result = ensure_execution_v21_supplement(result, q)
-            result = sanitize_client_output(ensure_requested_coverage(result, q, execution=True))
-            errors = validate_execution_html(result, q)
-            if errors:
-                result = repair_output("execution", result, errors, q, knowledge)
-                result = html_wrap_if_needed(result, f"执行策划案云端审核版 Issue {num}")
-                result = ensure_execution_v21_supplement(result, q)
-                result = sanitize_client_output(ensure_requested_coverage(result, q, execution=True))
-                errors = validate_execution_html(result, q)
-            if errors:
-                comment(num, "## 云端执行策划案已阻塞：未通过V21人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
+            # Template-driven V21 fusion renderer
+            import tempfile as _tfe, subprocess as _spe
+            _tmp = _tfe.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8')
+            _tmp.write(q); _tmp.close()
+            exec_out = f"cloud-output/execution-plan-issue-{num}.html"
+            exec_rend = os.path.join(os.getcwd(), "scripts/cloud-runner/v21_fusion_renderer.py")
+            _re = _spe.run([sys.executable, exec_rend, _tmp.name, str(num), "--output", exec_out], capture_output=True, text=True, timeout=600, env=os.environ)
+            os.unlink(_tmp.name)
+            if _re.returncode == 0 and Path(exec_out).exists():
+                exec_url = f"https://sewen38.github.io/family-plan/{exec_out}"
+                comment(num, f"## Execution plan generated (template-driven)\n\nReview: {exec_url}")
+                set_labels(num, original_labs + ["executed"])
+                close_issue(num)
+            else:
+                comment(num, f"## Renderer blocked\n```\n{_re.stderr[:2000] if _re.stderr else 'exit='+str(_re.returncode)}\n```")
                 set_labels(num, original_labs + ["execution-request", "cloud-blocked"])
-                return
-            path = f"cloud-output/execution-plan-issue-{num}.html"
-            url = put_file(path, result, f"Add cloud execution plan for issue {num}")
-            comment(num, f"## 云端执行策划案已生成\n\n审核链接：\n{url}\n\n人工4重审核：已通过基础云端 gate（结构、模块质量、专业有效性、手机端交付）。\n\n云端执行器：GitHub Actions family-plan-cloud-runner")
-            set_labels(num, original_labs + ["executed"])
-            close_issue(num)
         else:
-            knowledge = load_knowledge(q, execution=False)
-            result = make_diagnosis(issue, q, knowledge)
-            result = ensure_four_review(result)
-            result = sanitize_client_output(ensure_requested_coverage(result, q, execution=False))
-            errors = validate_diagnosis(result, q)
-            if errors:
-                result = repair_output("diagnosis", result, errors, q, knowledge)
-                result = ensure_four_review(result)
-                result = sanitize_client_output(ensure_requested_coverage(result, q, execution=False))
-                errors = validate_diagnosis(result, q)
-            if errors:
-                comment(num, "## 云端诊断已阻塞：未通过人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
+            # Template-driven diagnosis renderer
+            import tempfile as _tfd, subprocess as _spd
+            _tmp = _tfd.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8')
+            _tmp.write(q); _tmp.close()
+            diag_out = f"cloud-output/diagnosis-draft-issue-{num}.html"
+            diag_rend = os.path.join(os.getcwd(), "scripts/cloud-runner/diagnosis_template_renderer.py")
+            _rd = _spd.run([sys.executable, diag_rend, _tmp.name, "--output", diag_out], capture_output=True, text=True, timeout=480, env=os.environ)
+            os.unlink(_tmp.name)
+            if _rd.returncode == 0 and Path(diag_out).exists():
+                diag_url = f"https://sewen38.github.io/family-plan/{diag_out}"
+                comment(num, f"## Diagnosis draft generated (template-driven)\n\nReview: {diag_url}")
+                set_labels(num, original_labs + ["questionnaire", "diagnosed"])
+                close_issue(num)
+            else:
+                comment(num, f"## Renderer blocked\n```\n{_rd.stderr[:2000] if _rd.stderr else 'exit='+str(_rd.returncode)}\n```")
                 set_labels(num, original_labs + ["pending", "cloud-blocked"])
-                return
-            diag_html = markdown_to_mobile_html(result, f"诊断草案云端审核版 Issue {num}")
-            diag_path = f"cloud-output/diagnosis-draft-issue-{num}.html"
-            diag_url = put_file(diag_path, diag_html, f"Add cloud diagnosis draft for issue {num}")
-            comment(num, result + f"\n\n---\n云端诊断草案HTML审核链接：\n{diag_url}\n\n云端执行器：GitHub Actions family-plan-cloud-runner")
-            set_labels(num, original_labs + ["questionnaire", "diagnosed"])
-            close_issue(num)
     except Exception as e:
         comment(num, f"## 云端执行器未完成\n\n原因：`{str(e)}`")
         set_labels(num, original_labs + (["execution-request"] if effective_mode == "execution" else ["pending"]) + ["cloud-blocked"])
