@@ -290,7 +290,7 @@ def make_diagnosis(issue: dict, q: str, knowledge: str) -> str:
 
 def repair_output(kind: str, draft: str, errors: List[str], q: str, knowledge: str) -> str:
     standard = DIAGNOSIS_STD if kind == "diagnosis" else EXEC_STD
-    extra = "" if kind == "diagnosis" else "执行策划案HTML必须显式出现章节标题：第1章至第15章，最后一章标题必须含‘第15章’或‘十五、重要风险声明与附件’。"
+    extra = "" if kind == "diagnosis" else "执行策划案HTML必须显式出现章节标题：第1章至第15章，最后一章标题必须含‘第15章’或‘十五、重要风险声明与附件’。如错误包含too short，必须扩写完整单项目模块区和15章正文，尤其逐项展开六个选中项目。"
     prompt = f"""以下草稿未通过云端人工4重审核前置 gate。请直接输出修复后的完整最终稿，不要解释。
 
 【错误项】
@@ -315,6 +315,9 @@ def repair_output(kind: str, draft: str, errors: List[str], q: str, knowledge: s
 def make_execution(issue: dict, q: str, knowledge: str) -> str:
     prompt = f"""生成手机端可打开的V21执行策划案HTML。必须输出完整HTML源码，不要Markdown围栏。
 若客户选择多国多项目，先放“完整单项目模块嵌入区”，每个单项目必须有独立质量摘要和章节入口；再做15章拆章重组。
+本次是六国六项目融合，不得摘要化。完整单项目模块嵌入区必须逐个展开：新加坡EP、香港专才、美国EB1A+NIW+O1、澳大利亚482、土耳其基金+美国E2、多米尼克捐款。每个单项目模块至少包含：客户适配判断、申请条件、关键材料、费用预算、时间线、税务/资金影响、教育/家庭影响、风险与解决动作。
+15章拆章重组中每章必须有实质内容；第14章必须是财税执行策划案全文级别，包含主体架构、资金流、利润流、税务居民、CRS/FATCA/FBAR/37号文/ODI/FDI影响；第15章必须有详细法案附件。
+HTML正文目标长度不少于20000字符；如内容不足，继续展开每个国家项目的费用、材料、时间轴和风险解决动作。
 必须包含根据客户情况绘制的SVG架构图（内嵌SVG，不用外链图片），并解释如何解决税务/资金/身份问题。
 
 【客户/诊断/方案选择资料】\n{compact_text(q, 10000)}
