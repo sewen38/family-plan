@@ -183,6 +183,8 @@ def validate_common(text: str, required: List[str], min_len: int) -> List[str]:
 
 
 def html_wrap_if_needed(content: str, title: str) -> str:
+    content = re.sub(r"^```(?:html)?\s*", "", content.strip(), flags=re.I)
+    content = re.sub(r"\s*```$", "", content.strip())
     if "<html" in content.lower() and "<!doctype" in content.lower():
         return content
     escaped = html.escape(content).replace("\n", "<br>\n")
