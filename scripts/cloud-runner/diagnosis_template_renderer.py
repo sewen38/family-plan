@@ -118,6 +118,21 @@ def main():
     raw = call_model(prompt, 15000)
     raw = re.sub(r'^```(?:json)?\s*','',raw.strip()); raw = re.sub(r'\s*```$','',raw.strip())
     data = json.loads(raw)
+    # Normalize model output keys
+    for p in data.get('plans',[]):
+        for k,v in {'id':('id','plan_id','letter'),'name':('name','plan_name'),'logic':('logic','core'),'steps':('steps','actions'),'budget':('budget','cost'),'pros':('pros','advantages'),'cons':('cons','disadvantages'),'fitness':('fitness','suitability')}.items():
+            if k not in p: p[k]=p.get(next((x for x in v if x in p),''),'')
+        if not p.get('steps'): p['steps']=[]
+    for t in data.get('topics',[]):
+        for k,v in {'title':('title','topic'),'current_risk':('current_risk','risk'),'why_it_happens':('why_it_happens','cause'),'materials_needed':('materials_needed','materials'),'solution':('solution','fix'),'deliverables':('deliverables','output')}.items():
+            if k not in t: t[k]=t.get(v[1],'')
+    data.setdefault('client_name',data.get('client_name','Client')); data.setdefault('client_summary',data.get('client_summary',{}))
+    data.setdefault('problems',data.get('problems',[])); data.setdefault('root_judgment',data.get('root_judgment',{}))
+    data.setdefault('passport_boundary',data.get('passport_boundary','')); data.setdefault('comparison',data.get('comparison',{}))
+    data.setdefault('actions',data.get('actions',[])); data.setdefault('risk_statements',data.get('risk_statements',[]))
+    data.setdefault('law_appendix',data.get('law_appendix',[]))
+    for p in data.get('problems',[]): p.setdefault('id',p.get('id',1)); p.setdefault('problem',p.get('problem','')); p.setdefault('severity',p.get('severity','P2')); p.setdefault('detail',p.get('detail','')); p.setdefault('action',p.get('action',''))
+    comp=data.get('comparison',{}); comp.setdefault('recommendation',comp.get('recommendation','')); comp.setdefault('reasons',comp.get('reasons',[])); comp.setdefault('not_recommended',comp.get('not_recommended',{}))
     print("JSON: {} topics, {} plans".format(len(data.get('topics',[])), len(data.get('plans',[]))))
     html = build(data)
     Path(out).parent.mkdir(parents=True,exist_ok=True); Path(out).write_text(html,encoding='utf-8')
