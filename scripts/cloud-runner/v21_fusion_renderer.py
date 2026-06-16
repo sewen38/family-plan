@@ -139,6 +139,14 @@ def main():
     raw = call_model(prompt, 10000)
     raw = re.sub(r'^```(?:json)?\s*','',raw.strip()); raw = re.sub(r'\s*```$','',raw.strip())
     data = json.loads(raw)
+    # Defensive normalization
+    data.setdefault("customer_profile",data.get("customer_profile",{})); data.setdefault("root_judgment",data.get("root_judgment",{}))
+    data.setdefault("project_matrix",data.get("project_matrix",[])); data.setdefault("fusion_analysis",data.get("fusion_analysis",{}))
+    data.setdefault("risk_statements",data.get("risk_statements",[])); data.setdefault("password_note",data.get("password_note","888888"))
+    for p in data["project_matrix"]:
+        for k in ["name","country","role","priority","reason"]: p.setdefault(k,"")
+    if not data["project_matrix"]:
+        data["project_matrix"]=[{"name":m,"country":m,"role":"Platform","priority":"Main","reason":"Selected"} for m in modules]
     html = build_html(issue_num, data, modules, q)
     Path(out).parent.mkdir(parents=True,exist_ok=True); Path(out).write_text(html,encoding='utf-8')
     print("Written {} ({} bytes)".format(out, len(html)))
