@@ -32,7 +32,7 @@ concurrency:
 jobs:
   cloud-runner:
     runs-on: ubuntu-latest
-    if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'pending') || contains(github.event.issue.labels.*.name, 'questionnaire')
+    if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'pending') || contains(github.event.issue.labels.*.name, 'questionnaire') || contains(github.event.issue.labels.*.name, 'execution-request')
     steps:
       - name: Checkout
         uses: actions/checkout@v4

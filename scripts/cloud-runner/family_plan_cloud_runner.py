@@ -186,6 +186,17 @@ def html_wrap_if_needed(content: str, title: str) -> str:
     return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><style>*{{box-sizing:border-box}}body{{margin:0;background:#f5f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif;line-height:1.72}}.hero{{background:linear-gradient(135deg,#071a33,#17406f);color:#fff;padding:28px 16px}}.wrap{{max-width:980px;margin:auto;padding:14px}}.card{{background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 24px rgba(15,23,42,.08)}}table{{width:100%;border-collapse:collapse}}th,td{{border:1px solid #e5e7eb;padding:8px;vertical-align:top}}.table-wrap{{overflow-x:auto}}@media(max-width:640px){{body{{font-size:14px}}.wrap{{padding:8px}}.card{{padding:13px}}table{{min-width:760px}}}}</style></head><body><section class="hero"><h1>{html.escape(title)}</h1><p>V21 云端执行策划案 · 手机端审核版</p></section><main class="wrap"><section class="card">{escaped}</section></main></body></html>'''
 
 
+def markdown_to_mobile_html(md: str, title: str) -> str:
+    safe = html.escape(md)
+    body = safe
+    body = re.sub(r"^### (.+)$", r"<h3>\1</h3>", body, flags=re.M)
+    body = re.sub(r"^## (.+)$", r"<h2>\1</h2>", body, flags=re.M)
+    body = re.sub(r"^# (.+)$", r"<h1>\1</h1>", body, flags=re.M)
+    body = body.replace("\n", "<br>\n")
+    body = re.sub(r"&lt;strong&gt;|&lt;/strong&gt;", "", body)
+    return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><style>*{{box-sizing:border-box}}body{{margin:0;background:#f5f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif;line-height:1.72}}.hero{{background:linear-gradient(135deg,#071a33,#17406f);color:#fff;padding:30px 16px}}.hero h1{{font-size:24px;margin:0 0 8px}}.wrap{{max-width:980px;margin:auto;padding:14px}}.card{{background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 24px rgba(15,23,42,.08);overflow-wrap:anywhere}}h1,h2,h3{{color:#0b2a4a;line-height:1.35}}h2{{border-left:5px solid #2563eb;padding-left:10px;margin-top:26px}}p,li{{font-size:15px}}@media(max-width:640px){{.wrap{{padding:8px}}.card{{padding:13px}}p,li{{font-size:14px}}.hero h1{{font-size:21px}}}}</style></head><body><section class="hero"><h1>{html.escape(title)}</h1><p>云端诊断草案 · 手机端审核版</p></section><main class="wrap"><article class="card">{body}</article></main></body></html>'''
+
+
 def put_file(path: str, content: str, message: str) -> str:
     encoded = base64.b64encode(content.encode("utf-8")).decode("ascii")
     data = {"message": message, "content": encoded, "branch": "main"}
@@ -223,10 +234,11 @@ def make_execution(issue: dict, q: str, knowledge: str) -> str:
 def process(issue: dict) -> None:
     num = issue["number"]
     labs = labels(issue)
+    effective_mode = "execution" if (MODE == "execution" or "execution-request" in labs) else "diagnosis"
     if "in-progress" in labs:
         print(f"Issue #{num} already in-progress, skip")
         return
-    terminal = "executed" if MODE == "execution" else "diagnosed"
+    terminal = "executed" if effective_mode == "execution" else "diagnosed"
     if terminal in labs:
         print(f"Issue #{num} already {terminal}, skip")
         return
@@ -234,7 +246,7 @@ def process(issue: dict) -> None:
     original_labs = [x for x in labs if x != "in-progress"]
     q = extract_body(issue.get("body", ""))
     try:
-        if MODE == "execution":
+        if effective_mode == "execution":
             knowledge = load_knowledge(q, execution=True)
             result = make_execution(issue, q, knowledge)
             errors = validate_execution_html(result)
@@ -255,12 +267,15 @@ def process(issue: dict) -> None:
                 comment(num, "## 云端诊断已阻塞：未通过人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
                 set_labels(num, original_labs + ["pending", "cloud-blocked"])
                 return
-            comment(num, result + "\n\n---\n云端执行器：GitHub Actions family-plan-cloud-runner")
+            diag_html = markdown_to_mobile_html(result, f"诊断草案云端审核版 Issue {num}")
+            diag_path = f"cloud-output/diagnosis-draft-issue-{num}.html"
+            diag_url = put_file(diag_path, diag_html, f"Add cloud diagnosis draft for issue {num}")
+            comment(num, result + f"\n\n---\n云端诊断草案HTML审核链接：\n{diag_url}\n\n云端执行器：GitHub Actions family-plan-cloud-runner")
             set_labels(num, original_labs + ["questionnaire", "diagnosed"])
             close_issue(num)
     except Exception as e:
         comment(num, f"## 云端执行器未完成\n\n原因：`{str(e)}`")
-        set_labels(num, original_labs + (["execution-request"] if MODE == "execution" else ["pending"]) + ["cloud-blocked"])
+        set_labels(num, original_labs + (["execution-request"] if effective_mode == "execution" else ["pending"]) + ["cloud-blocked"])
         raise
 
 
