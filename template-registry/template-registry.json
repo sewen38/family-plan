@@ -1,20 +1,20 @@
 {
   "version": "1.0",
-  "updated_at": "2026-06-15T17:25:14+08:00",
+  "updated_at": "2026-06-16T12:03:00+08:00",
   "highest_priority_template": "family-plan-v21-final-exec-20260614",
   "templates": [
     {
       "id": "family-plan-v21-final-exec-20260614",
       "name": "V21 执行策划案定稿版模板",
-      "status": "confirmed_final_by_honglei",
-      "confirmed_at": "2026-06-15T10:37:00+08:00",
-      "source_package": "/Users/hongleizhu/.openclaw/media/inbound/v21-执行策划案模版-20260614---057dbebf-dea4-477d-976c-96e8c2b498d1.zip",
-      "extracted_dir": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057",
-      "fusion_master": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/index.html",
+      "status": "confirmed_final_by_honglei_latest_upload",
+      "confirmed_at": "2026-06-16T12:03:00+08:00",
+      "source_package": "/Users/hongleizhu/.openclaw/media/inbound/v21-执行策划案模版-20260614---8f268c79-6afb-49df-9667-b16b09723632.zip",
+      "extracted_dir": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-inbound-8f268c79",
+      "fusion_master": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-inbound-8f268c79/index.html",
       "single_project_samples": [
-        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/sg-ep-pic-single.html",
-        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/au-482-single.html",
-        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-new057/tr-fund-single.html"
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-inbound-8f268c79/sg-ep-pic-single.html",
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-inbound-8f268c79/au-482-single.html",
+        "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614-inbound-8f268c79/tr-fund-single.html"
       ],
       "mandatory_rules": [
         "制作执行策划案时必须以该模板包为最高优先级定稿模板，不得凭记忆重构。",
