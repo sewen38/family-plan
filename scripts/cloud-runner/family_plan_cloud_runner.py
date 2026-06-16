@@ -8,7 +8,7 @@ Required repository secrets:
 - OPENAI_API_KEY
 Optional:
 - OPENAI_BASE_URL (default https://api.openai.com/v1)
-- OPENAI_MODEL (default gpt-4o-mini)
+- OPENAI_MODEL (default deepseek/deepseek-v4-flash)
 """
 from __future__ import annotations
 import json, os, re, sys, time, urllib.error, urllib.request
@@ -18,7 +18,7 @@ REPO = os.environ.get("REPO", "sewen38/family-plan")
 GH_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_BASE_URL = (os.environ.get("OPENAI_BASE_URL") or "https://api.openai.com/v1").rstrip("/")
-OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "gpt-4o-mini"
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "deepseek/deepseek-v4-flash"
 MODE = os.environ.get("INPUT_MODE") or "diagnosis"
 INPUT_ISSUE = os.environ.get("INPUT_ISSUE_NUMBER") or os.environ.get("EVENT_ISSUE_NUMBER") or ""
 

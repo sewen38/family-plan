@@ -25,7 +25,7 @@
 
 - `OPENAI_API_KEY`：必需，OpenAI 兼容 API Key
 - `OPENAI_BASE_URL`：可选，默认 `https://api.openai.com/v1`
-- `OPENAI_MODEL`：可选，默认 `gpt-4o-mini`
+- `OPENAI_MODEL`：可选，默认 `deepseek/deepseek-v4-flash`
 
 没有 `OPENAI_API_KEY` 时，workflow 会启动但不会生成内容，会在 Issue 评论中写明阻塞原因。
 
