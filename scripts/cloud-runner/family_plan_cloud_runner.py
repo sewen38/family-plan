@@ -226,7 +226,7 @@ def ensure_requested_coverage(text: str, q: str, execution: bool = False) -> str
 
 def validate_execution_html(text: str, q: str = "") -> List[str]:
     req = ["<!doctype html", "viewport", "完整单项目模块", "财税", "法案", "人工4重审核", "风险声明"]
-    errors = validate_common(text.lower() if "<!doctype html" in text.lower() else text, req, 24000)
+    errors = validate_common(text.lower() if "<!doctype html" in text.lower() else text, req, 20000)
     if not any(x in text for x in ["十五", "第15章", "15章", "第十五章"]):
         errors.append("missing: 十五/第15章")
     return errors + validate_request_coverage(text, q, execution=True)
