@@ -24,9 +24,9 @@ OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "deepseek/deepseek-v4-flash"
 MODE = (os.environ.get("INPUT_MODE") or "diagnosis").lower()
 INPUT_ISSUE = os.environ.get("INPUT_ISSUE_NUMBER") or os.environ.get("EVENT_ISSUE_NUMBER") or ""
 
-SYSTEM_BASE = """你是跨境家庭全球规划顾问。只用最终定稿版标准，禁用旧9节/旧8段/docx默认/摘要型输出。客户视角，手机端可读，无内部痕迹、TODO、乱码。输出前自检人工4重审核：整体结构、专题/模块质量、专业有效性、视觉交付。"""
+SYSTEM_BASE = """你是跨境家庭全球规划顾问。只用最终定稿版标准，禁用旧9节/旧8段/docx默认/摘要型输出。客户视角，手机端可读，无内部痕迹、TODO、乱码。严禁出现“好的/遵照/作为AI/云端执行器”等对话痕迹。输出前自检人工4重审核：整体结构、专题/模块质量、专业有效性、视觉交付。"""
 DIAGNOSIS_STD = """诊断草案12段：1封面摘要+风险雷达 2七步法 3客户信息速览含诊断含义 4待解决问题P0-P3+立即动作 5根本判断 6第三国护照边界 7重要专题深度分析 8多方案 9对比推荐 10财税解决方案 11行动计划+风险声明 12法案依据。重要专题必须五段式：当前风险→为什么会出事→需要核验材料→解决方案→最终交付物。末尾给A/B/C/D方案和结构化JSON。"""
-EXEC_STD = """执行策划案按V21最终定稿：手机端HTML、完整单项目模块区、15章拆章重组、单国家单项目质量永远第一、图片/架构图必须按客户情况解决问题。必须含：客户信息、根本判断、项目矩阵、合规、资金、身份、教育、福利、预算材料、时间轴、财税全文、法案附件、人工4重审核。"""
+EXEC_STD = """执行策划案按V21最终定稿：手机端HTML、完整单项目模块区、15章拆章重组、单国家单项目质量永远第一、图片/架构图必须按客户情况解决问题。必须含：客户信息、根本判断、项目矩阵、合规、资金、身份、教育、福利、预算材料、时间轴、财税全文、法案附件、人工4重审核。多国多项目必须逐一覆盖客户选中的每个国家和项目，不得漏项；如客户提供密码888888，HTML必须包含内部密码区或密码说明。"""
 
 COUNTRY_FILES = {
     "美国|加拿大|EB-5|EB1|EB-1|NIW|O-1|E-2": ["references/美加移民政策对比研究-2026.md"],
@@ -155,17 +155,30 @@ def call_model(system: str, prompt: str, max_tokens: int) -> str:
         raise RuntimeError(f"Model API failed: {e.code} {detail[:1200]}")
 
 
-def validate_diagnosis(text: str) -> List[str]:
+def validate_request_coverage(text: str, q: str, execution: bool = False) -> List[str]:
+    errors = []
+    for term in ["新加坡", "香港", "美国", "澳大利亚", "土耳其", "多米尼克"]:
+        if term in q and term not in text:
+            errors.append(f"missing requested country: {term}")
+    for term in ["EP", "专才", "EB1A", "NIW", "O1", "O-1", "482", "E2", "E-2", "捐款"]:
+        if term in q and term not in text:
+            errors.append(f"missing requested project: {term}")
+    if execution and "888888" in q and "888888" not in text:
+        errors.append("missing default password: 888888")
+    return errors
+
+
+def validate_diagnosis(text: str, q: str = "") -> List[str]:
     req = ["风险雷达", "根本判断", "第三国护照", "重要专题", "当前风险", "为什么会出事", "需要核验材料", "解决方案", "最终交付物", "方案", "行动计划", "风险声明", "法案", "人工4重审核"]
-    return validate_common(text, req, 5500)
+    return validate_common(text, req, 8500) + validate_request_coverage(text, q, execution=False)
 
 
-def validate_execution_html(text: str) -> List[str]:
+def validate_execution_html(text: str, q: str = "") -> List[str]:
     req = ["<!doctype html", "viewport", "完整单项目模块", "财税", "法案", "人工4重审核", "风险声明"]
-    errors = validate_common(text.lower() if "<!doctype html" in text.lower() else text, req, 9000)
+    errors = validate_common(text.lower() if "<!doctype html" in text.lower() else text, req, 24000)
     if not any(x in text for x in ["十五", "第15章", "15章", "第十五章"]):
         errors.append("missing: 十五/第15章")
-    return errors
+    return errors + validate_request_coverage(text, q, execution=True)
 
 
 def validate_common(text: str, required: List[str], min_len: int) -> List[str]:
@@ -174,7 +187,7 @@ def validate_common(text: str, required: List[str], min_len: int) -> List[str]:
     for r in required:
         if r not in text and r.lower() not in text.lower():
             errors.append(f"missing: {r}")
-    for f in ["TODO", "待生成", "Lorem", "�", "作为AI", "prompt"]:
+    for f in ["TODO", "待生成", "Lorem", "�", "作为AI", "prompt", "好的，", "遵照您的指示", "云端执行器："]:
         if f in text:
             errors.append(f"forbidden: {f}")
     if len(text) < min_len:
@@ -245,7 +258,7 @@ def repair_output(kind: str, draft: str, errors: List[str], q: str, knowledge: s
 【待修复草稿】
 {compact_text(draft, 12000)}
 """
-    return call_model(SYSTEM_BASE + "\n" + standard, prompt, 9000 if kind == "diagnosis" else 12000)
+    return call_model(SYSTEM_BASE + "\n" + standard, prompt, 10000 if kind == "diagnosis" else 16000)
 
 
 def make_execution(issue: dict, q: str, knowledge: str) -> str:
@@ -256,7 +269,7 @@ def make_execution(issue: dict, q: str, knowledge: str) -> str:
 【客户/诊断/方案选择资料】\n{compact_text(q, 10000)}
 
 【相关知识】\n{knowledge}"""
-    raw = call_model(SYSTEM_BASE + "\n" + EXEC_STD, prompt, 12000)
+    raw = call_model(SYSTEM_BASE + "\n" + EXEC_STD, prompt, 16000)
     return html_wrap_if_needed(raw, f"执行策划案云端审核版 Issue {issue['number']}")
 
 
@@ -278,11 +291,11 @@ def process(issue: dict) -> None:
         if effective_mode == "execution":
             knowledge = load_knowledge(q, execution=True)
             result = make_execution(issue, q, knowledge)
-            errors = validate_execution_html(result)
+            errors = validate_execution_html(result, q)
             if errors:
                 result = repair_output("execution", result, errors, q, knowledge)
                 result = html_wrap_if_needed(result, f"执行策划案云端审核版 Issue {num}")
-                errors = validate_execution_html(result)
+                errors = validate_execution_html(result, q)
             if errors:
                 comment(num, "## 云端执行策划案已阻塞：未通过V21人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
                 set_labels(num, original_labs + ["execution-request", "cloud-blocked"])
@@ -295,10 +308,10 @@ def process(issue: dict) -> None:
         else:
             knowledge = load_knowledge(q, execution=False)
             result = make_diagnosis(issue, q, knowledge)
-            errors = validate_diagnosis(result)
+            errors = validate_diagnosis(result, q)
             if errors:
                 result = repair_output("diagnosis", result, errors, q, knowledge)
-                errors = validate_diagnosis(result)
+                errors = validate_diagnosis(result, q)
             if errors:
                 comment(num, "## 云端诊断已阻塞：未通过人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
                 set_labels(num, original_labs + ["pending", "cloud-blocked"])
