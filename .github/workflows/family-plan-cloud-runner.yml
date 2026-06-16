@@ -1,0 +1,57 @@
+name: Family Plan Cloud Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: false
+        default: "diagnosis"
+        type: choice
+        options:
+          - diagnosis
+          - execution
+          - all
+      issue_number:
+        description: "Optional issue number to process"
+        required: false
+        default: ""
+  issues:
+    types: [opened, labeled, edited]
+  schedule:
+    - cron: "*/10 * * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: family-plan-cloud-runner-${{ github.event.inputs.issue_number || github.event.issue.number || 'scheduled' }}
+  cancel-in-progress: false
+
+jobs:
+  cloud-runner:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'pending') || contains(github.event.issue.labels.*.name, 'questionnaire')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run cloud diagnosis/execution worker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          INPUT_MODE: ${{ github.event.inputs.mode }}
+          INPUT_ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+        run: |
+          python scripts/cloud-runner/family_plan_cloud_runner.py
