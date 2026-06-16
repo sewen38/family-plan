@@ -156,7 +156,7 @@ def call_model(system: str, prompt: str, max_tokens: int) -> str:
 
 
 def validate_diagnosis(text: str) -> List[str]:
-    req = ["风险雷达", "根本判断", "第三国护照", "重要专题", "当前风险", "为什么会出事", "需要核验材料", "解决方案", "最终交付物", "方案", "立即行动", "风险声明", "法案", "人工4重审核"]
+    req = ["风险雷达", "根本判断", "第三国护照", "重要专题", "当前风险", "为什么会出事", "需要核验材料", "解决方案", "最终交付物", "方案", "行动计划", "风险声明", "法案", "人工4重审核"]
     return validate_common(text, req, 5500)
 
 
@@ -219,6 +219,28 @@ def make_diagnosis(issue: dict, q: str, knowledge: str) -> str:
     return call_model(SYSTEM_BASE + "\n" + DIAGNOSIS_STD, prompt, 9000)
 
 
+def repair_output(kind: str, draft: str, errors: List[str], q: str, knowledge: str) -> str:
+    standard = DIAGNOSIS_STD if kind == "diagnosis" else EXEC_STD
+    prompt = f"""以下草稿未通过云端人工4重审核前置 gate。请直接输出修复后的完整最终稿，不要解释。
+
+【错误项】
+{chr(10).join('- '+e for e in errors)}
+
+【必须遵守】
+{standard}
+
+【客户资料】
+{compact_text(q, 6000)}
+
+【相关知识】
+{compact_text(knowledge, 6000)}
+
+【待修复草稿】
+{compact_text(draft, 12000)}
+"""
+    return call_model(SYSTEM_BASE + "\n" + standard, prompt, 9000 if kind == "diagnosis" else 12000)
+
+
 def make_execution(issue: dict, q: str, knowledge: str) -> str:
     prompt = f"""生成手机端可打开的V21执行策划案HTML。必须输出完整HTML源码，不要Markdown围栏。
 若客户选择多国多项目，先放“完整单项目模块嵌入区”，每个单项目必须有独立质量摘要和章节入口；再做15章拆章重组。
@@ -251,6 +273,10 @@ def process(issue: dict) -> None:
             result = make_execution(issue, q, knowledge)
             errors = validate_execution_html(result)
             if errors:
+                result = repair_output("execution", result, errors, q, knowledge)
+                result = html_wrap_if_needed(result, f"执行策划案云端审核版 Issue {num}")
+                errors = validate_execution_html(result)
+            if errors:
                 comment(num, "## 云端执行策划案已阻塞：未通过V21人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
                 set_labels(num, original_labs + ["execution-request", "cloud-blocked"])
                 return
@@ -263,6 +289,9 @@ def process(issue: dict) -> None:
             knowledge = load_knowledge(q, execution=False)
             result = make_diagnosis(issue, q, knowledge)
             errors = validate_diagnosis(result)
+            if errors:
+                result = repair_output("diagnosis", result, errors, q, knowledge)
+                errors = validate_diagnosis(result)
             if errors:
                 comment(num, "## 云端诊断已阻塞：未通过人工4重审核前置检查\n\n" + "\n".join(f"- {e}" for e in errors))
                 set_labels(num, original_labs + ["pending", "cloud-blocked"])
