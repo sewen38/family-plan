@@ -425,7 +425,8 @@ def process(issue: dict) -> None:
             _re = _spe.run([sys.executable, exec_rend, _tmp.name, str(num), "--output", exec_out], capture_output=True, text=True, timeout=600, env=os.environ)
             os.unlink(_tmp.name)
             if _re.returncode == 0 and Path(exec_out).exists():
-                exec_url = f"https://sewen38.github.io/family-plan/{exec_out}"
+                exec_html = Path(exec_out).read_text(encoding='utf-8')
+                exec_url = put_file(exec_out, exec_html, f"Add cloud execution plan for issue {num}")
                 comment(num, f"## Execution plan generated (template-driven)\n\nReview: {exec_url}")
                 set_labels(num, original_labs + ["executed"])
                 close_issue(num)
@@ -442,7 +443,8 @@ def process(issue: dict) -> None:
             _rd = _spd.run([sys.executable, diag_rend, _tmp.name, "--output", diag_out], capture_output=True, text=True, timeout=480, env=os.environ)
             os.unlink(_tmp.name)
             if _rd.returncode == 0 and Path(diag_out).exists():
-                diag_url = f"https://sewen38.github.io/family-plan/{diag_out}"
+                diag_html = Path(diag_out).read_text(encoding='utf-8')
+                diag_url = put_file(diag_out, diag_html, f"Add cloud diagnosis draft for issue {num}")
                 comment(num, f"## Diagnosis draft generated (template-driven)\n\nReview: {diag_url}")
                 set_labels(num, original_labs + ["questionnaire", "diagnosed"])
                 close_issue(num)
