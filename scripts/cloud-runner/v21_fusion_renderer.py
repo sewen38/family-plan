@@ -118,8 +118,9 @@ def build_html(issue_num, data, modules, questionnaire_text):
     # remove original ch2 line if duplicated by pm_html
     ch_blocks = ch_blocks.replace('<section class="card" id="ch2">', '<!-- ch2 in pm block --><section class="card" id="ch2x" style="display:hidden">')
     
+    safe_css = css.replace('{', '{{').replace('}', '}}')
     full = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V21 Fusion Plan|{}</title><style>{}</style></head><body><section class="hero"><h1>V21 Template-Driven Fusion|6-Country Multi-Project Execution Plan</h1><p>Client: {} | Projects: 6 | Internal PW: 888888</p></section><main class="wrap"><section class="card"><h2>TOC</h2><div class="toc">{}</div></section><section class="card"><h2>Data Integrity Checklist</h2>{}</section><section class="card"><h2>Full Single-Project Module Embed Area</h2><p>{} single-project modules as content sources.</p>{}</section>{}{}<section class="card"><h2>Human 4-Layer Review</h2><ol><li><b>Structure:</b> TOC + Data Integrity + Module Area + 15 chapters.</li><li><b>Module Quality:</b> {} single-projects with independent preview.</li><li><b>Professional Validity:</b> Tax arch and law appendix with verify hooks.</li><li><b>Visual Delivery:</b> Mobile responsive, tables scrollable, SVG inline, no bad chars.</li></ol></section></main></body></html>'.format(
-        esc(str(cp.get("name",""))), css,
+        esc(str(cp.get("name",""))), safe_css,
         esc(str(cp.get("name",""))),
         "".join('<a href="#ch{}">Ch.{}</a>'.format(i,i) for i in range(1,16)),
         integrity, len(modules), mod_cards,
