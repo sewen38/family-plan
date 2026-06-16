@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-06-16T12:08:00+08:00",
+  "highest_priority_template": "diagnosis-identity-tax-v2-deep-20260616",
+  "templates": [
+    {
+      "id": "diagnosis-identity-tax-v2-deep-20260616",
+      "name": "身份+财税诊断草案定稿版 V2 深度增强版",
+      "status": "confirmed_final_by_honglei_latest_upload",
+      "confirmed_at": "2026-06-16T12:08:00+08:00",
+      "source_package": "/Users/hongleizhu/.openclaw/media/inbound/诊断草案定稿版-身份财税-V2深度增强---aafc3209-538e-45ad-a914-87fd1f2e278e.zip",
+      "source_package_sha256": "0e970f9fad8932ba1aec3dcc03e14f8aced7cd35eeaf68c5f382bb1caa93ea2e",
+      "extracted_dir": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-diagnosis-v2-deep-20260616",
+      "template_html": "/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-diagnosis-v2-deep-20260616/index.html",
+      "mandatory_headings": [
+        "风险雷达",
+        "7步法生成路径",
+        "一、客户基础信息速览",
+        "二、待解决问题分级",
+        "三、根本判断",
+        "四、第三国护照使用边界",
+        "五、重要专题深度分析：逐项风险诊断与解决方案",
+        "专题一：中美税务居民身份边界",
+        "专题二：企业分红与资金来源证明",
+        "专题三：CRS、银行KYC与境外账户",
+        "专题四：美元保险与传承结构",
+        "专题五：美国EB-5路径",
+        "专题六：香港CIES与香港资产平台",
+        "专题七：新加坡平台",
+        "专题八：第三国护照与E-2跳板",
+        "六、多方案框架设计",
+        "七、方案综合对比与推荐",
+        "八、立即行动计划",
+        "九、重要风险声明",
+        "十、附件：法案与政策依据"
+      ],
+      "mandatory_rules": [
+        "诊断草案必须复用该模板骨架，不得自由生成摘要页替代。",
+        "重要专题必须保留8个专题结构，每个专题必须包含当前风险、为什么会出事、需要核验材料、解决方案、最终交付物。",
+        "输出必须手机端可读，表格可横向滚动，附件法案无乱码。",
+        "客户可见页面不得出现内部prompt、TODO、作为AI、测试说明或对话痕迹。"
+      ]
+    }
+  ]
+}
