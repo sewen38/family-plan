@@ -57,3 +57,5 @@
 <!-- rerun cloud smoke after GitHub OPENAI_API_KEY secret manual update: 20260617-1343 -->
 
 <!-- rerun cloud smoke after fallback model chain: 20260617-1347 -->
+
+<!-- rerun cloud smoke after DEEPSEEK_API_KEY secret manual add: 20260617-1404 -->
