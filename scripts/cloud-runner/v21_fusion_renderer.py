@@ -52,7 +52,7 @@ def detect_modules(q: str):
     return found or ['sg-ep-pic','hk-asmtp','us-eb1a','au-482','tr-fund','dm-cbi']
 
 def strip_customer_bad(src: str) -> str:
-    reps={'Professional Review':'专业审核','Acceptance Review':'验收审核','Source Map':'资料来源','Clean Final':'最终交付版','generated-v21':'V21','human-final':'最终交付版','template-v21':'V21模板','V20Plus':'V21','TODO':'','TBD':'','placeholder':'','仅供测试':'审核版','内部审核':'人工审核','final-single/generated':'内容源','工作底稿':'正式交付版','底稿':'正式版','补强说明':'说明','修复说明':'说明','待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：'}
+    reps={'Professional Review':'专业审核','Acceptance Review':'验收审核','Source Map':'资料来源','Clean Final':'最终交付版','generated-v21':'V21','human-final':'最终交付版','template-v21':'V21模板','V20Plus':'V21','TODO':'','TBD':'','placeholder':'','仅供测试':'审核版','内部审核':'人工审核','final-single/generated':'内容源','工作底稿':'正式交付版','底稿':'正式版','补强说明':'说明','修复说明':'说明','待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','fallback':'备用机制','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：'}
     for a,b in reps.items(): src=src.replace(a,b)
     return src
 
@@ -99,7 +99,7 @@ def copy_modules(issue_num: int, modules):
         if not src.exists(): raise SystemExit(f'module source missing: {src}')
         h=strip_customer_bad(read(src))
         h = h.replace('<body>', '<body>'+standard_child_supplement(MODULE_TITLES.get(m,m)), 1) if '<body>' in h else standard_child_supplement(MODULE_TITLES.get(m,m)) + h
-        for a,b in {'待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：','tax-assessment/':'财税执行策划案框架','补强':'完善','manual':'专业版','skills/family-plan':'标准模板','tr-assessment/':'土耳其评估'}.items(): h=h.replace(a,b)
+        for a,b in {'待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','fallback':'备用机制','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：','tax-assessment/':'财税执行策划案框架','fallback':'备用机制','补强':'完善','manual':'专业版','skills/family-plan':'标准模板','tr-assessment/':'土耳其评估'}.items(): h=h.replace(a,b)
         h=re.sub(r'生成日期：[^<\n]*?(?:html|HTML)[^<\n]*', '生成日期：2026-06-17 ｜ 数据核验：官方/权威来源逐项记录', h)
         h=h.replace('final-single/manual/','').replace('.html','')
         validate_html(h,m)

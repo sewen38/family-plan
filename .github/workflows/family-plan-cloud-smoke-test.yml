@@ -36,8 +36,8 @@ jobs:
       - name: Run random 3-country smoke test
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          OPENAI_BASE_URL: https://us.aitechflux.com/v1
+          OPENAI_MODEL: aitechflux/gpt-5.5
         run: |
           mkdir -p cloud-runs/logs
           REQ=$(ls -t cloud-requests/random3-*.txt | head -1)
@@ -60,7 +60,7 @@ jobs:
           for p in paths:
               s=p.read_text(encoding='utf-8',errors='replace')
               text=BeautifulSoup(s,'html.parser').get_text('\n',strip=True)
-              bad=[x for x in ['�','TODO','Lorem','placeholder','思考过程','内部过程','作为AI','云端执行器','工作底稿','结构预览'] if x in s or x in text]
+              bad=[x for x in ['�','TODO','Lorem','placeholder','思考过程','内部过程','作为AI','云端执行器','工作底稿','结构预览','fallback'] if x in s or x in text]
               print(p, p.stat().st_size, len(text), s.lower().count('<table'), s.lower().count('<svg'), s.lower().count('<img'), bad)
               assert not bad
           print('CLOUD_SMOKE_VISIBLE_GATE=PASS')

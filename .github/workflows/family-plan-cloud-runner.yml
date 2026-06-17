@@ -55,7 +55,7 @@ jobs:
           INPUT_MODE: ${{ github.event.inputs.mode }}
           INPUT_ISSUE_NUMBER: ${{ github.event.inputs.issue_number }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          OPENAI_BASE_URL: https://us.aitechflux.com/v1
+          OPENAI_MODEL: aitechflux/gpt-5.5
         run: |
           python scripts/cloud-runner/family_plan_cloud_runner.py
