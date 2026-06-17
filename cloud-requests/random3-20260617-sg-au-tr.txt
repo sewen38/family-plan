@@ -53,3 +53,5 @@
 <!-- rerun cloud smoke after final fallback scrub: 20260617-1224 -->
 
 <!-- rerun cloud smoke after clean scrub and resolved module path: 20260617-1228 -->
+
+<!-- rerun cloud smoke after GitHub OPENAI_API_KEY secret manual update: 20260617-1343 -->
