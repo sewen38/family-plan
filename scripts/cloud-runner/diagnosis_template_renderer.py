@@ -13,15 +13,27 @@ CLOUD_OUTPUT.mkdir(parents=True, exist_ok=True)
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_BASE_URL = (os.environ.get("OPENAI_BASE_URL") or "https://us.aitechflux.com/v1").rstrip("/")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "aitechflux/gpt-5.5"
-OPENAI_FALLBACK_MODELS = [m.strip() for m in (os.environ.get("OPENAI_FALLBACK_MODELS") or "deepseek/deepseek-v4-flash").split(",") if m.strip()]
+OPENAI_FALLBACK_MODELS = [m.strip() for m in (os.environ.get("OPENAI_FALLBACK_MODELS") or "deepseek-chat").split(",") if m.strip()]
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_BASE_URL = (os.environ.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com/v1").rstrip("/")
 
 SYSTEM = """你是跨境家庭全球规划顾问。只输出JSON，不要输出任何解释、Markdown围栏或HTML。必须包含8个专题且每个含五段式结构。所有字段必填。"""
 
+def model_endpoint(model: str) -> tuple[str, str, str]:
+    """Return (base_url, api_key, provider_label) for a model candidate."""
+    if model.startswith("deepseek") and DEEPSEEK_API_KEY:
+        return DEEPSEEK_BASE_URL, DEEPSEEK_API_KEY, "deepseek"
+    return OPENAI_BASE_URL, OPENAI_API_KEY, "primary"
+
+
 def call_one_model(model: str, prompt: str, max_tokens: int) -> str:
+    base_url, api_key, provider = model_endpoint(model)
+    if not api_key:
+        raise RuntimeError(f"Missing API key for provider={provider} model={model}")
     payload = {"model": model, "messages": [{"role":"system","content":SYSTEM},{"role":"user","content":prompt}],
                "temperature": 0.15, "max_tokens": max_tokens, "response_format": {"type":"json_object"}}
-    req = urllib.request.Request(OPENAI_BASE_URL+"/chat/completions", data=json.dumps(payload,ensure_ascii=False).encode(), method="POST")
-    req.add_header("Authorization","Bearer "+OPENAI_API_KEY)
+    req = urllib.request.Request(base_url+"/chat/completions", data=json.dumps(payload,ensure_ascii=False).encode(), method="POST")
+    req.add_header("Authorization","Bearer "+api_key)
     req.add_header("Content-Type","application/json; charset=utf-8")
     with urllib.request.urlopen(req, timeout=240) as r:
         return json.loads(r.read().decode())["choices"][0]["message"]["content"].strip()
@@ -40,7 +52,8 @@ def call_model(prompt: str, max_tokens: int = 12000) -> str:
                 print(f"Retrying model={model} after {delay}s")
                 time.sleep(delay)
             try:
-                print(f"Calling model candidate {mi+1}/{len(models)}: {model} attempt {attempt}/3")
+                base_url, _, provider = model_endpoint(model)
+                print(f"Calling model candidate {mi+1}/{len(models)}: {model} provider={provider} base={base_url} attempt {attempt}/3")
                 return call_one_model(model, prompt, max_tokens)
             except urllib.error.HTTPError as e:
                 last_err=e

@@ -58,3 +58,14 @@ OPENAI_MODEL=aitechflux/gpt-5.5
 - 可用环境变量覆盖：`OPENAI_FALLBACK_MODELS=model1,model2`
 - 对 `429/502/503/504` 会先重试，再切换备用模型。
 - 若所有模型失败，才进入确定性定稿模板兜底，避免半成品输出。
+
+## 2026-06-17 14:00 DeepSeek独立备用通道
+
+已新增 DeepSeek 独立备用通道：
+
+- Primary: `aitechflux/gpt-5.5` via `OPENAI_API_KEY` / `https://us.aitechflux.com/v1`
+- Fallback: `deepseek-chat` via `DEEPSEEK_API_KEY` / `https://api.deepseek.com/v1`
+- GitHub Actions 需要新增 repository secret: `DEEPSEEK_API_KEY`
+- 可选覆盖：`OPENAI_FALLBACK_MODELS`、`DEEPSEEK_BASE_URL`
+
+注意：不要把 DeepSeek key 写入仓库文件；必须通过 GitHub Actions secret 注入。
