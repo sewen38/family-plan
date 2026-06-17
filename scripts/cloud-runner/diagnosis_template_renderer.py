@@ -185,6 +185,27 @@ def fallback_data_from_questionnaire(q: str) -> dict:
       'law_appendix':[{'region':'中国','law':'个人所得税、外汇管理、CRS、反洗钱规则','clause':'税务居民、资金来源、境外账户和大额交易审查','applicability':'适用于企业利润、个人分红、境外账户和跨境资金。','action':'整理完税和资金链证据，出境前复核。'}, {'region':'美国','law':'USCIS EB/O/NIW/E-2；IRS SPT/FBAR/FATCA','clause':'身份申请、税务居民和境外资产申报','applicability':'适用于美国教育、长期身份和E-2商业路径。','action':'赴美前做移民前税务规划。'}, {'region':'香港/新加坡/澳洲/土耳其/多米尼克','law':'各地移民政策、银行KYC和税务居民规则','clause':'申请条件、资金来源、续签、居住和税务义务','applicability':'适用于选中国家和项目。','action':'递交前逐项官网和律师复核。'}]
     }
 
+
+def diagnosis_data_is_adequate(data: dict) -> tuple[bool, str]:
+    topics=data.get('topics') or []
+    plans=data.get('plans') or []
+    problems=data.get('problems') or []
+    laws=data.get('law_appendix') or []
+    if len(topics) < 8:
+        return False, f'topics too few: {len(topics)}'
+    if len(plans) < 3:
+        return False, f'plans too few: {len(plans)}'
+    if len(problems) < 3:
+        return False, f'problems too few: {len(problems)}'
+    if len(laws) < 3:
+        return False, f'law_appendix too few: {len(laws)}'
+    required_topic_keys=['title','current_risk','why_it_happens','materials_needed','solution','deliverables']
+    for i,t in enumerate(topics):
+        missing=[k for k in required_topic_keys if not str(t.get(k,'')).strip()]
+        if missing:
+            return False, f'topic {i+1} missing {missing}'
+    return True, 'ok'
+
 def main():
     if len(sys.argv)<2: print("usage: diagnosis_template_renderer.py <questionnaire_text> [--output path]"); return 1
     q = Path(sys.argv[1]).read_text(encoding='utf-8',errors='ignore') if Path(sys.argv[1]).exists() else sys.argv[1]
@@ -198,6 +219,11 @@ def main():
     except Exception as e:
         print('Model unavailable; using deterministic final-template fallback:', str(e)[:180])
         data = fallback_data_from_questionnaire(q)
+    ok, why = diagnosis_data_is_adequate(data)
+    if not ok:
+        print('Model JSON inadequate; using deterministic final-template fallback:', why)
+        data = fallback_data_from_questionnaire(q)
+
     # Normalize model output keys
     for p in data.get('plans',[]):
         for k,v in {'id':('id','plan_id','letter'),'name':('name','plan_name'),'logic':('logic','core'),'steps':('steps','actions'),'budget':('budget','cost'),'pros':('pros','advantages'),'cons':('cons','disadvantages'),'fitness':('fitness','suitability')}.items():

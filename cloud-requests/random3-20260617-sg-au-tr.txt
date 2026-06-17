@@ -63,3 +63,5 @@
 <!-- rerun cloud smoke after gh-set DEEPSEEK_API_KEY: 20260617-1430 -->
 
 <!-- rerun cloud smoke after fixing full DeepSeek key ASCII: 20260617-1434 -->
+
+<!-- rerun cloud smoke after inadequate-model-json fallback fix: 20260617-1438 -->
