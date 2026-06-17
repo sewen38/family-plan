@@ -484,7 +484,13 @@ function renderDiagnosis(status,content){
 }
 function extractDiagnosisComment(comments){
   if(!Array.isArray(comments))return '';
-  for(var i=comments.length-1;i>=0;i--){var b=comments[i].body||'';if(/诊断草案|家庭全球规划|方案A|方案 A|根本判断/.test(b))return b;}
+  for(var i=comments.length-1;i>=0;i--){
+    var b=comments[i].body||'';
+    // Cloud runner writes an English review link instead of pasting the full Chinese draft.
+    // Treat that as generated so the customer can open document.html, where we redirect to the HTML review page.
+    if(/Diagnosis draft generated|Review:\s*https?:\/\/[^\s)]+diagnosis-draft-issue-\d+\.html/i.test(b))return b;
+    if(/诊断草案|家庭全球规划|方案A|方案 A|根本判断/.test(b))return b;
+  }
   return '';
 }
 function refreshDiagnosis(){
@@ -495,7 +501,7 @@ function refreshDiagnosis(){
     var body=extractDiagnosisComment(comments);
     if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
       saveDiagnosisIssue(rec.issue,rec.name,body);}
-    else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','Issue #'+rec.issue+' 已记录。当前最终流程以复制问卷文本交给智能体生成为准，不依赖任何网络回调。');}
+    else{renderDiagnosis('⏳ 已提交，诊断草案生成中。请稍后刷新。','');}
   }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新。','Issue #'+rec.issue+' 已记录在本机浏览器。');});
 }
 // 国家名称 → 评估页URL 映射表
