@@ -17,7 +17,7 @@ import hashlib, json, re, subprocess, sys, zipfile
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-ROOT=Path('/Users/hongleizhu/.openclaw/workspace/family-plan-pages')
+ROOT=Path(__file__).resolve().parents[1]
 REG=ROOT/'template-registry/template-registry.json'
 RECURSIVE=ROOT/'scripts/audit_v21_recursive_human_gate.py'
 
