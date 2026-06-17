@@ -1,0 +1,76 @@
+name: Family Plan Cloud Smoke Test
+
+on:
+  push:
+    paths:
+      - 'cloud-requests/**'
+      - '.github/workflows/family-plan-cloud-smoke-test.yml'
+      - 'scripts/cloud-runner/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: family-plan-cloud-smoke-test
+  cancel-in-progress: false
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install beautifulsoup4
+      - name: Validate cloud runner sync
+        run: |
+          python scripts/cloud-runner/validate_cloud_sync.py
+      - name: Run random 3-country smoke test
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+        run: |
+          set -e
+          REQ=$(ls -t cloud-requests/random3-*.txt | head -1)
+          RUN_ID=$(basename "$REQ" .txt)
+          echo "Using request: $REQ / $RUN_ID"
+          python scripts/cloud-runner/diagnosis_template_renderer.py "$REQ" --output "cloud-runs/${RUN_ID}-diagnosis.html"
+          python scripts/cloud-runner/v21_fusion_renderer.py "$REQ" 3003 --output "cloud-runs/${RUN_ID}-execution.html"
+          # Copy child modules next to execution page links.
+          rm -rf cloud-runs/project-modules-3003
+          cp -a cloud-output/project-modules-3003 cloud-runs/project-modules-3003
+          # Gate must pass before commit.
+          python scripts/v21_release_gate.py "cloud-runs/${RUN_ID}-execution.html"
+          python - <<'PY'
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          paths=[Path(p) for p in Path('cloud-runs').glob('random3-*-*.html')]
+          paths += sorted(Path('cloud-runs/project-modules-3003').glob('*.html'))
+          for p in paths:
+              s=p.read_text(encoding='utf-8',errors='replace')
+              text=BeautifulSoup(s,'html.parser').get_text('\n',strip=True)
+              bad=[x for x in ['�','TODO','Lorem','placeholder','思考过程','内部过程','作为AI','云端执行器','工作底稿','结构预览'] if x in s or x in text]
+              print(p, p.stat().st_size, len(text), s.lower().count('<table'), s.lower().count('<svg'), s.lower().count('<img'), bad)
+              assert not bad
+          print('CLOUD_SMOKE_VISIBLE_GATE=PASS')
+          PY
+      - name: Commit smoke test outputs
+        run: |
+          git config user.name "family-plan-cloud-runner"
+          git config user.email "actions@users.noreply.github.com"
+          git add cloud-runs
+          if git diff --cached --quiet; then
+            echo "No output changes"
+          else
+            git commit -m "Add cloud random3 smoke test outputs"
+            git push
+          fi
