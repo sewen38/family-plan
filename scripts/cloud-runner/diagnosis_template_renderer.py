@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Diagnosis template-driven renderer."""
 from pathlib import Path
-import html, json, os, re, sys, urllib.request
+import html, json, os, re, sys, time, urllib.error, urllib.request
 
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATE_HTML = ROOT / 'skills/family-plan-v21-final/assets/diagnosis-final-template-v2-deep/index.html'
@@ -13,18 +13,48 @@ CLOUD_OUTPUT.mkdir(parents=True, exist_ok=True)
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_BASE_URL = (os.environ.get("OPENAI_BASE_URL") or "https://us.aitechflux.com/v1").rstrip("/")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "aitechflux/gpt-5.5"
+OPENAI_FALLBACK_MODELS = [m.strip() for m in (os.environ.get("OPENAI_FALLBACK_MODELS") or "deepseek/deepseek-v4-flash").split(",") if m.strip()]
 
 SYSTEM = """你是跨境家庭全球规划顾问。只输出JSON，不要输出任何解释、Markdown围栏或HTML。必须包含8个专题且每个含五段式结构。所有字段必填。"""
 
-def call_model(prompt: str, max_tokens: int = 12000) -> str:
-    if not OPENAI_API_KEY: raise RuntimeError("Missing OPENAI_API_KEY")
-    payload = {"model": OPENAI_MODEL, "messages": [{"role":"system","content":SYSTEM},{"role":"user","content":prompt}],
+def call_one_model(model: str, prompt: str, max_tokens: int) -> str:
+    payload = {"model": model, "messages": [{"role":"system","content":SYSTEM},{"role":"user","content":prompt}],
                "temperature": 0.15, "max_tokens": max_tokens, "response_format": {"type":"json_object"}}
     req = urllib.request.Request(OPENAI_BASE_URL+"/chat/completions", data=json.dumps(payload,ensure_ascii=False).encode(), method="POST")
     req.add_header("Authorization","Bearer "+OPENAI_API_KEY)
     req.add_header("Content-Type","application/json; charset=utf-8")
     with urllib.request.urlopen(req, timeout=240) as r:
         return json.loads(r.read().decode())["choices"][0]["message"]["content"].strip()
+
+
+def call_model(prompt: str, max_tokens: int = 12000) -> str:
+    if not OPENAI_API_KEY: raise RuntimeError("Missing OPENAI_API_KEY")
+    models=[]
+    for m in [OPENAI_MODEL] + OPENAI_FALLBACK_MODELS:
+        if m and m not in models: models.append(m)
+    last_err=None
+    transient={429,502,503,504}
+    for mi, model in enumerate(models):
+        for attempt, delay in enumerate([0,5,15], start=1):
+            if delay:
+                print(f"Retrying model={model} after {delay}s")
+                time.sleep(delay)
+            try:
+                print(f"Calling model candidate {mi+1}/{len(models)}: {model} attempt {attempt}/3")
+                return call_one_model(model, prompt, max_tokens)
+            except urllib.error.HTTPError as e:
+                last_err=e
+                code=getattr(e, 'code', None)
+                print(f"Model {model} HTTP {code}")
+                if code not in transient:
+                    break
+            except Exception as e:
+                last_err=e
+                print(f"Model {model} error: {str(e)[:160]}")
+                break
+        if mi < len(models)-1:
+            print(f"Switching to fallback model: {models[mi+1]}")
+    raise RuntimeError(str(last_err) if last_err else "all model candidates failed")
 
 def load_template(): return TEMPLATE_HTML.read_text(encoding='utf-8')
 

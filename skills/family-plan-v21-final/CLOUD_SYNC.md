@@ -48,3 +48,13 @@ If repository secrets override defaults, ensure:
 OPENAI_BASE_URL=https://us.aitechflux.com/v1
 OPENAI_MODEL=aitechflux/gpt-5.5
 ```
+
+## 2026-06-17 13:47 方案二：备用模型链
+
+已在云端诊断 renderer 中加入备用模型链：
+
+- Primary: `aitechflux/gpt-5.5`
+- Fallback default: `deepseek/deepseek-v4-flash`
+- 可用环境变量覆盖：`OPENAI_FALLBACK_MODELS=model1,model2`
+- 对 `429/502/503/504` 会先重试，再切换备用模型。
+- 若所有模型失败，才进入确定性定稿模板兜底，避免半成品输出。
