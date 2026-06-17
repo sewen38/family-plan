@@ -418,7 +418,7 @@ existing_plans:'已有计划',other_constraints:'其他限制'
 };
 var O=['name','family','nationality','residence','tax_resident','business','revenue','dividend_annual','dividend_pending','income_taxed','income_untaxed','income','assets','asset_type','house_qty','house_val_1','house_val_2','house_val_3','house_val_4','house_val_5','house_val_6','house_val_7','house_val_8','house_val_9','house_val_10','equity_val','stock_val','deposit_val','insurance_val','other_asset_detail','target_countries','goals','budget','urgency','foreign_status','overseas_days','tax_filing','foreign_accounts','foreign_realestate','foreign_structures','has_foreign_company','foreign_co_country','foreign_co_operating','fund_transfers','has_planned_transfer','transfer_corp_cny','transfer_personal_cny','transfer_corp_usd','transfer_personal_usd','transfer_cash_usd','keep_cn','business_tie','existing_plans','other_constraints'];
 
-var G_TOKEN='gh'+'p_1r'+'POzP3'+'Nww5S849'+'nMgFjB'+'Ybxlyule'+'H2zQkXk';
+var ISSUE_PROXY_URL='https://family-plan-issue-proxy.sewen38.workers.dev';
 
 var DIAG_KEY='family_plan_last_issue_v1';
 var DIAG_TTL=48*60*60*1000;
@@ -496,7 +496,7 @@ function extractDiagnosisComment(comments){
 function refreshDiagnosis(){
   var rec=getDiagnosisIssue(); if(!rec){return;}
   renderDiagnosis('正在查询 Issue #'+rec.issue+' 的诊断草案...', '');
-  fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+rec.issue+'/comments',{headers:{'Authorization':'Bearer '+G_TOKEN,'Accept':'application/vnd.github+json'}})
+  fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+rec.issue+'/comments',{headers:{'Accept':'application/vnd.github+json'}})
   .then(function(r){return r.json()}).then(function(comments){
     var body=extractDiagnosisComment(comments);
     if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
@@ -726,20 +726,20 @@ document.getElementById('f').onsubmit=function(e){
   .catch(function(){
     // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
     var t='📋 '+((m.name||[]).join(',')||'未知')+' · '+new Date().toLocaleString('zh-CN','Asia/Shanghai');
-    fetch('https://api.github.com/repos/sewen38/family-plan/issues',{
+    fetch(ISSUE_PROXY_URL,{
       method:'POST',
-      headers:{'Authorization':'Bearer '+G_TOKEN,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
-      body:JSON.stringify({title:t,body:'## 原始问卷数据\n\n```\n'+summary+'\n```\n\n---\n📅 '+new Date().toISOString(),labels:['questionnaire','pending']})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:(m.name||[]).join(','),summary:summary})
     })
     .then(function(r){return r.json()})
     .then(function(r){
-      if(r.number){
-        saveDiagnosisIssue(r.number,(m.name||[]).join(','));
+      if(r.issue){
+        saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
         document.getElementById('ov').classList.remove('on');
         renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
         setTimeout(refreshDiagnosis,1200);
         // Also try to trigger local server for instant processing
-        try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.number,name:(m.name||[]).join(',')})}) }catch(e){}
+        try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.issue,name:(m.name||[]).join(',')})}) }catch(e){}
       } else {
         document.getElementById('ov').classList.remove('on');
         renderDiagnosis('⚠️ 自动提交未完成，请复制问卷给智能体生成诊断草案。','');

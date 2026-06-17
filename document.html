@@ -37,7 +37,6 @@ if (_issue) {
 <div class="hero"><h1>家庭全球规划 · 诊断草案</h1><p id="sub">正在载入文档...</p></div>
 <div class="wrap"><div class="toolbar"><button class="btn secondary" onclick="history.back()">返回上一页</button><button class="btn primary" onclick="window.print()">保存 / 打印 PDF</button></div><div class="doc" id="doc"><div class="loading">正在读取诊断草案...</div></div></div>
 <script>
-var G_TOKEN='***'+'p_1r'+'POzP3'+'Nww5S849'+'nMgFjB'+'Ybxlyule'+'H2zQkXk';
 function q(k){return new URL(location.href).searchParams.get(k)||''}
 function cleanText(s){return String(s||'').replace(/[\uFFFD]+/g,'')}
 function esc(s){return cleanText(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -85,7 +84,7 @@ function extract(comments){
   }
   return null;
 }
-function load(){var issue=q('issue');document.getElementById('sub').textContent=issue?'Issue #'+issue:'未指定编号';if(!issue){doc.innerHTML='<div class="loading">缺少 issue 编号</div>';return}fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+issue+'/comments',{headers:{'Authorization':'***'+G_TOKEN,'Accept':'application/vnd.github+json'}}).then(function(r){return r.json()}).then(function(c){var found=extract(c);if(found&&found.type==='url'){doc.innerHTML='<div class="loading">诊断草案已生成，正在打开手机端审核版...</div>';location.replace(found.value);return;}var md=found&&found.value;doc.innerHTML=md?(mdToHtml(md)+lawAppendix(md)):'<div class="loading">诊断草案尚未完成，请稍后刷新。</div>'}).catch(function(){doc.innerHTML='<div class="loading">读取失败，请稍后重试。</div>'})}
+function load(){var issue=q('issue');document.getElementById('sub').textContent=issue?'Issue #'+issue:'未指定编号';if(!issue){doc.innerHTML='<div class="loading">缺少 issue 编号</div>';return}fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+issue+'/comments',{headers:{'Accept':'application/vnd.github+json'}}).then(function(r){return r.json()}).then(function(c){var found=extract(c);if(found&&found.type==='url'){doc.innerHTML='<div class="loading">诊断草案已生成，正在打开手机端审核版...</div>';location.replace(found.value);return;}var md=found&&found.value;doc.innerHTML=md?(mdToHtml(md)+lawAppendix(md)):'<div class="loading">诊断草案尚未完成，请稍后刷新。</div>'}).catch(function(){doc.innerHTML='<div class="loading">读取失败，请稍后重试。</div>'})}
 load();
 </script>
 </body>

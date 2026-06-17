@@ -1,0 +1,7 @@
+name = "family-plan-issue-proxy"
+main = "src/index.js"
+compatibility_date = "2026-06-18"
+
+[vars]
+GITHUB_REPO = "sewen38/family-plan"
+ALLOWED_ORIGIN = "https://sewen38.github.io"
