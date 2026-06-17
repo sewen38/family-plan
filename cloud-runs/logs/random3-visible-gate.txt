@@ -1,4 +1,8 @@
-cloud-runs/random3-20260617-sg-au-tr-execution.html 212273 73925 6 2 0 ['fallback']
-Traceback (most recent call last):
-  File "<stdin>", line 10, in <module>
-AssertionError
+cloud-runs/random3-20260617-sg-au-tr-execution.html 212288 73916 6 2 0 []
+cloud-runs/random3-20260617-sg-au-tr-diagnosis.html 33124 5847 12 0 0 []
+cloud-runs/project-modules-3003/au-482.html 162937 42682 88 5 2 []
+cloud-runs/project-modules-3003/hk-asmtp.html 177844 38466 82 1 9 []
+cloud-runs/project-modules-3003/sg-ep-pic.html 163002 38461 81 2 5 []
+cloud-runs/project-modules-3003/tr-fund.html 147075 34628 74 7 2 []
+cloud-runs/project-modules-3003/us-eb1a.html 137456 31267 83 5 3 []
+CLOUD_SMOKE_VISIBLE_GATE=PASS
