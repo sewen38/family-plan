@@ -49,3 +49,5 @@
 <!-- rerun cloud smoke with committed logs: 20260617-1216 -->
 
 <!-- rerun cloud smoke after forcing GPT5.5 and cleaning fallback: 20260617-1222 -->
+
+<!-- rerun cloud smoke after final fallback scrub: 20260617-1224 -->
