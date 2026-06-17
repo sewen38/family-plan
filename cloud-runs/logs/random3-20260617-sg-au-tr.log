@@ -4,9 +4,15 @@ Calling model candidate 1/2: aitechflux/gpt-5.5 provider=primary base=https://us
 Model aitechflux/gpt-5.5 HTTP 401
 Switching to fallback model: deepseek-chat
 Calling model candidate 2/2: deepseek-chat provider=deepseek base=https://api.deepseek.com/v1 attempt 1/3
-Model deepseek-chat error: 'latin-1' codec can't encode character '\u2026' in position 13: ordinal not in range(256)
-Model unavailable; using deterministic final-template fallback: 'latin-1' codec can't encode character '\u2026' in position 13: ordinal not in range(256)
-JSON: 8 topics, 3 plans
-Written cloud-runs/random3-20260617-sg-au-tr-diagnosis.html (22859 bytes)
+JSON: 0 topics, 0 plans
+Traceback (most recent call last):
+  File "/home/runner/work/family-plan/family-plan/scripts/cloud-runner/diagnosis_template_renderer.py", line 230, in <module>
+    if __name__=='__main__': raise SystemExit(main())
+                                              ^^^^^^
+  File "/home/runner/work/family-plan/family-plan/scripts/cloud-runner/diagnosis_template_renderer.py", line 225, in main
+    if len(html) < 18000 or html.count('<table') < 8: raise RuntimeError('diagnosis too thin or missing tables')
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: diagnosis too thin or missing tables
 Written cloud-runs/random3-20260617-sg-au-tr-execution.html modules=['sg-ep-pic', 'hk-asmtp', 'us-eb1a', 'au-482', 'tr-fund'] bytes=82308 model=aitechflux/gpt-5.5 base=https://us.aitechflux.com/v1
-DIAG_CODE=0 EXEC_CODE=0 GATE_CODE=0 VISIBLE_CODE=0
+DIAG_CODE=1 EXEC_CODE=0 GATE_CODE=0 VISIBLE_CODE=0
+Cloud smoke failed; logs will be committed by next step
