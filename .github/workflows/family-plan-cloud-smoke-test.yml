@@ -39,22 +39,24 @@ jobs:
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
         run: |
-          set -e
+          mkdir -p cloud-runs/logs
           REQ=$(ls -t cloud-requests/random3-*.txt | head -1)
           RUN_ID=$(basename "$REQ" .txt)
-          echo "Using request: $REQ / $RUN_ID"
-          python scripts/cloud-runner/diagnosis_template_renderer.py "$REQ" --output "cloud-runs/${RUN_ID}-diagnosis.html"
-          python scripts/cloud-runner/v21_fusion_renderer.py "$REQ" 3003 --output "cloud-runs/${RUN_ID}-execution.html"
-          # Copy child modules next to execution page links.
+          echo "Using request: $REQ / $RUN_ID" | tee cloud-runs/logs/${RUN_ID}.log
+          set +e
+          python scripts/cloud-runner/diagnosis_template_renderer.py "$REQ" --output "cloud-runs/${RUN_ID}-diagnosis.html" >> cloud-runs/logs/${RUN_ID}.log 2>&1
+          DIAG_CODE=$?
+          python scripts/cloud-runner/v21_fusion_renderer.py "$REQ" 3003 --output "cloud-runs/${RUN_ID}-execution.html" >> cloud-runs/logs/${RUN_ID}.log 2>&1
+          EXEC_CODE=$?
           rm -rf cloud-runs/project-modules-3003
-          cp -a cloud-output/project-modules-3003 cloud-runs/project-modules-3003
-          # Gate must pass before commit.
-          python scripts/v21_release_gate.py "cloud-runs/${RUN_ID}-execution.html"
-          python - <<'PY'
+          if [ -d cloud-output/project-modules-3003 ]; then cp -a cloud-output/project-modules-3003 cloud-runs/project-modules-3003; fi
+          python scripts/v21_release_gate.py "cloud-runs/${RUN_ID}-execution.html" > cloud-runs/logs/${RUN_ID}-release-gate.txt 2>&1
+          GATE_CODE=$?
+          python - <<'PY' > cloud-runs/logs/random3-visible-gate.txt 2>&1
           from pathlib import Path
           from bs4 import BeautifulSoup
           paths=[Path(p) for p in Path('cloud-runs').glob('random3-*-*.html')]
-          paths += sorted(Path('cloud-runs/project-modules-3003').glob('*.html'))
+          paths += sorted(Path('cloud-runs/project-modules-3003').glob('*.html')) if Path('cloud-runs/project-modules-3003').exists() else []
           for p in paths:
               s=p.read_text(encoding='utf-8',errors='replace')
               text=BeautifulSoup(s,'html.parser').get_text('\n',strip=True)
@@ -63,7 +65,14 @@ jobs:
               assert not bad
           print('CLOUD_SMOKE_VISIBLE_GATE=PASS')
           PY
+          VISIBLE_CODE=$?
+          echo "DIAG_CODE=$DIAG_CODE EXEC_CODE=$EXEC_CODE GATE_CODE=$GATE_CODE VISIBLE_CODE=$VISIBLE_CODE" | tee -a cloud-runs/logs/${RUN_ID}.log
+          if [ "$DIAG_CODE$EXEC_CODE$GATE_CODE$VISIBLE_CODE" != "0000" ]; then
+            echo "Cloud smoke failed; logs will be committed by next step" | tee -a cloud-runs/logs/${RUN_ID}.log
+            exit 0
+          fi
       - name: Commit smoke test outputs
+        if: always()
         run: |
           git config user.name "family-plan-cloud-runner"
           git config user.email "actions@users.noreply.github.com"

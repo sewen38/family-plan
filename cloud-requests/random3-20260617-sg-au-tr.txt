@@ -45,3 +45,5 @@
 <!-- rerun cloud smoke after dynamic gate root fix: 20260617-1208 -->
 
 <!-- rerun cloud smoke after portable registry fallback: 20260617-1211 -->
+
+<!-- rerun cloud smoke with committed logs: 20260617-1216 -->
