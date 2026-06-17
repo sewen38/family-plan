@@ -3,6 +3,6 @@ Calling configured model for diagnosis JSON...
 Model unavailable; using deterministic final-template fallback: HTTP Error 401: Unauthorized
 JSON: 8 topics, 3 plans
 Written cloud-runs/random3-20260617-sg-au-tr-diagnosis.html (22859 bytes)
-Written cloud-runs/random3-20260617-sg-au-tr-execution.html modules=['sg-ep-pic', 'hk-asmtp', 'us-eb1a', 'au-482', 'tr-fund'] bytes=82244 model=deepseek-chat base=https://api.deepseek.com/v1
-DIAG_CODE=0 EXEC_CODE=0 GATE_CODE=1 VISIBLE_CODE=0
+Written cloud-runs/random3-20260617-sg-au-tr-execution.html modules=['sg-ep-pic', 'hk-asmtp', 'us-eb1a', 'au-482', 'tr-fund'] bytes=82317 model=aitechflux/gpt-5.5 base=https://us.aitechflux.com/v1
+DIAG_CODE=0 EXEC_CODE=0 GATE_CODE=1 VISIBLE_CODE=1
 Cloud smoke failed; logs will be committed by next step

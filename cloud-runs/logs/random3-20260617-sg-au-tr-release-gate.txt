@@ -1,5 +1,5 @@
 # V21 RELEASE GATE
 fusion: /home/runner/work/family-plan/family-plan/cloud-runs/random3-20260617-sg-au-tr-execution.html
 RESULT: BLOCKED
-- customer-visible blocked terms: {"fallback": 1}
+- customer-visible blocked terms: {"fallback": 2}
 - recursive child-page gate failed; see /home/runner/work/family-plan/family-plan/output/verification/release-gate-recursive-report.md
