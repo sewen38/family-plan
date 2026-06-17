@@ -42,6 +42,10 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Validate cloud runner sync
+        run: |
+          python scripts/cloud-runner/validate_cloud_sync.py
+
       - name: Run cloud diagnosis/execution worker
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

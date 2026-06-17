@@ -120,6 +120,8 @@ def check_template_shape(fusion:Path,msgs:list[str]):
         # allow public URLs? block local/html file names in visible text for customer pages.
         suspicious=[]
         for line in vis.split('\n'):
+            if line.startswith('http://') or line.startswith('https://'):
+                continue
             if '.html' in line or 'final-single/' in line or 'project-modules' in line:
                 suspicious.append(line[:160])
         if suspicious:
