@@ -8,8 +8,8 @@ Token-optimized cloud runner:
 Required repository secrets:
 - OPENAI_API_KEY
 Optional:
-- OPENAI_BASE_URL (default https://api.openai.com/v1)
-- OPENAI_MODEL (default deepseek/deepseek-v4-flash)
+- OPENAI_BASE_URL (default https://us.aitechflux.com/v1)
+- OPENAI_MODEL (default aitechflux/gpt-5.5)
 """
 from __future__ import annotations
 import base64, html, json, os, re, sys, time, urllib.error, urllib.request
@@ -20,8 +20,8 @@ from typing import Any, List, Optional
 REPO = os.environ.get("REPO", "sewen38/family-plan")
 GH_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-OPENAI_BASE_URL = (os.environ.get("OPENAI_BASE_URL") or "https://api.openai.com/v1").rstrip("/")
-OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "deepseek/deepseek-v4-flash"
+OPENAI_BASE_URL = (os.environ.get("OPENAI_BASE_URL") or "https://us.aitechflux.com/v1").rstrip("/")
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "aitechflux/gpt-5.5"
 MODE = (os.environ.get("INPUT_MODE") or "diagnosis").lower()
 INPUT_ISSUE = os.environ.get("INPUT_ISSUE_NUMBER") or os.environ.get("EVENT_ISSUE_NUMBER") or ""
 
