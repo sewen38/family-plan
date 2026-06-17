@@ -61,3 +61,5 @@
 <!-- rerun cloud smoke after DEEPSEEK_API_KEY secret manual add: 20260617-1404 -->
 
 <!-- rerun cloud smoke after gh-set DEEPSEEK_API_KEY: 20260617-1430 -->
+
+<!-- rerun cloud smoke after fixing full DeepSeek key ASCII: 20260617-1434 -->
