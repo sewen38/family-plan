@@ -29,11 +29,12 @@ BAD_VISIBLE_TERMS = [
 INTERNAL_PATH_TERMS = ['family-plan-pages/','skills/family-plan','tax-assessment/','tr-assessment/','MEMORY.md']
 
 CHAPTER_LABELS = {
-    10:['第10章','十、教育规划','教育规划'],
-    11:['第11章','十一、福利居住国规划','福利居住国规划','福利与医疗'],
-    12:['第12章','十二、预算明细汇总','预算明细','费用明细'],
-    14:['第14章','十四、财税执行策划案全文','财税执行策划案全文'],
-    15:['第15章','十五、重要风险声明','条款级法案附件','重要风险声明']
+    10:['十、教育规划','第10章','教育规划'],
+    11:['十一、福利居住国规划','第11章','福利居住国规划','福利与医疗'],
+    12:['十二、预算明细汇总','第12章','预算明细','费用明细'],
+    13:['十三、执行时间轴','第13章','执行时间轴','时间轴'],
+    14:['十四、财税执行策划案全文','第14章','财税执行策划案全文'],
+    15:['十五、重要风险声明','第15章','条款级法案附件','重要风险声明']
 }
 MIN_LEN = {10:900, 11:900, 12:900, 14:1200, 15:1000}
 REQUIRED_WORDS = {
@@ -65,20 +66,30 @@ def visible_text(soup:BeautifulSoup)->str:
 def extract_by_heading(html:str, n:int)->str:
     labels=CHAPTER_LABELS[n]
     starts=[]
-    for lab in labels:
-        m=re.search(re.escape(lab),html,flags=re.I)
-        if m: starts.append(m.start())
-    m=re.search(rf'id=["\']?ch{n}\b',html,flags=re.I)
+    # Prefer explicit chapter anchors before headings. For headings, prefer the full
+    # canonical chapter title (first label) and only then fallback to generic labels.
+    m=re.search(rf'id\s*=\s*(["\']?)(?:ch|s){n}\b\1',html,flags=re.I)
     if m: starts.append(m.start())
+    if not starts and labels:
+        m=re.search(re.escape(labels[0]),html,flags=re.I)
+        if m: starts.append(m.start())
+    if not starts:
+        for lab in labels[1:]:
+            m=re.search(re.escape(lab),html,flags=re.I)
+            if m: starts.append(m.start())
     if not starts: return ''
     start=min(starts)
     nexts=[]
     for k in range(n+1,16):
-        for lab in CHAPTER_LABELS.get(k,[]):
-            m=re.search(re.escape(lab),html[start+1:],flags=re.I)
+        m=re.search(rf'id\s*=\s*(["\']?)(?:ch|s){k}\b\1',html[start+1:],flags=re.I)
+        if m:
+            nexts.append(start+1+m.start())
+            continue
+        labs=CHAPTER_LABELS.get(k,[])
+        # Boundary must be a canonical full chapter title, not generic words like “时间轴”.
+        if labs:
+            m=re.search(re.escape(labs[0]),html[start+1:],flags=re.I)
             if m: nexts.append(start+1+m.start())
-        m=re.search(rf'id=["\']?ch{k}\b',html[start+1:],flags=re.I)
-        if m: nexts.append(start+1+m.start())
     end=min(nexts) if nexts else len(html)
     return html[start:end]
 
@@ -110,11 +121,7 @@ def audit_project(path:Path)->dict:
     if bad: issues.append('客户可见内部/未完成词: '+json.dumps(bad,ensure_ascii=False))
     chapter_info={}
     for n in [10,11,12,14,15]:
-        # prefer id if present
-        sec=''
-        node=soup.find(id=f'ch{n}')
-        if node: sec=str(node)
-        else: sec=extract_by_heading(html,n)
+        sec=extract_by_heading(html,n)
         txt=strip_tags(sec)
         words=REQUIRED_WORDS[n]
         missing_words=[w for w in words if w not in txt]

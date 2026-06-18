@@ -17,15 +17,15 @@
   - `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/au-482-single.html`
   - `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/tr-fund-single.html`
 
-## 文件：`/Users/hongleizhu/.openclaw/workspace/family-plan-pages/cloud-output/execution-plan-issue-68.html`
+## 文件：`/Users/hongleizhu/.openclaw/workspace/family-plan-pages/cloud-output/execution-plan-issue-69.html`
 
 **结论：PASS — 可进入人工终审**
 
 ### 基础统计
 | 指标 | 值 |
 |---|---:|
-| bytes | 167324 |
-| text_chars | 56493 |
+| bytes | 141262 |
+| text_chars | 56076 |
 | tables | 9 |
 | svg | 3 |
 | img | 0 |
@@ -43,7 +43,7 @@
 | F01 | P0 | **PASS** | 第12/14/15章合格（预算、财税全文、风险与条款附件） | 第12/14/15章厚度、关键词、表格初筛通过 |
 | G01 | P0 | **PASS** | 0 待确认类核心占位词 / 0 !important | 待确认类词与 !important 均为 0 |
 | H01 | P1 | **PASS** | 图片/SVG 不出框、无黑块遮字、无坏图风险 | 未发现静态视觉高风险 |
-| I01 | P0 | **PASS** | 完整单项目模块 iframe/独立页路径不404 | OK: project-modules-68/hk-asmtp.html<br>OK: project-modules-68/au-482.html<br>OK: project-modules-68/tr-fund.html |
+| I01 | P0 | **PASS** | 完整单项目模块 iframe/独立页路径不404 | OK: project-modules-69/hk-asmtp.html<br>OK: project-modules-69/au-482.html<br>OK: project-modules-69/tr-fund.html |
 | J01 | P0 | **PASS** | 不得将多个完整单项目 DOM 静态硬嵌入融合页 | 未发现多 body/html 或大量重复 id 风险 |
 
 ### 人工复核签字区
