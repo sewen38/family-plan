@@ -17,7 +17,7 @@
   - `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/au-482-single.html`
   - `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/tr-fund-single.html`
 
-## 文件：`/private/tmp/exec68-check/execution-plan-issue-68.html`
+## 文件：`/Users/hongleizhu/.openclaw/workspace/family-plan-pages/cloud-output/execution-plan-issue-68.html`
 
 **结论：PASS — 可进入人工终审**
 
