@@ -425,6 +425,12 @@ def process(issue: dict) -> None:
             _re = _spe.run([sys.executable, exec_rend, _tmp.name, str(num), "--output", exec_out], capture_output=True, text=True, timeout=600, env=os.environ)
             os.unlink(_tmp.name)
             if _re.returncode == 0 and Path(exec_out).exists():
+                gate_script = os.path.join(os.getcwd(), "scripts/v21_release_gate.py")
+                _gate = _spe.run([sys.executable, gate_script, exec_out], capture_output=True, text=True, timeout=300, env=os.environ)
+                if _gate.returncode != 0:
+                    comment(num, f"## Release gate blocked\n```\n{(_gate.stdout + chr(10) + _gate.stderr)[:3500]}\n```")
+                    set_labels(num, original_labs + ["execution-request", "cloud-blocked"])
+                    return
                 exec_html = Path(exec_out).read_text(encoding='utf-8')
                 # Upload child project modules referenced by the fusion page; otherwise GitHub Pages iframes 404
                 # and the recursive V21 release gate correctly blocks the delivery.
