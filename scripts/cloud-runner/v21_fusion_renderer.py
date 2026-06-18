@@ -121,7 +121,12 @@ def tax_svg():
     return '''<div class="svgbox"><svg viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg"><rect width="980" height="420" rx="18" fill="#f8fafc"/><defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker></defs><style>.b{fill:#fff;stroke:#1d4ed8;stroke-width:2}.t{font:700 16px sans-serif;fill:#0f172a}.s{font:13px sans-serif;fill:#334155}.a{stroke:#64748b;stroke-width:2;marker-end:url(#arr)}</style><text class="t" x="490" y="36" text-anchor="middle">财税架构图：事业国、管钱地、身份/教育地分层</text><rect class="b" x="40" y="70" width="190" height="86" rx="14"/><text class="t" x="76" y="106">中国经营主体</text><text class="s" x="70" y="132">利润/分红/完税证明</text><rect class="b" x="310" y="70" width="190" height="86" rx="14"/><text class="t" x="350" y="106">香港资产平台</text><text class="s" x="335" y="132">收款/保险/证券/控股</text><rect class="b" x="580" y="70" width="190" height="86" rx="14"/><text class="t" x="620" y="106">新加坡业务平台</text><text class="s" x="610" y="132">区域总部/供应链/EP</text><rect class="b" x="310" y="240" width="190" height="86" rx="14"/><text class="t" x="350" y="276">美国/澳洲路径</text><text class="s" x="332" y="302">移民前税务规划/教育</text><rect class="b" x="580" y="240" width="190" height="86" rx="14"/><text class="t" x="620" y="276">护照工具层</text><text class="s" x="606" y="302">土耳其/多米尼克边界</text><line class="a" x1="230" y1="113" x2="310" y2="113"/><line class="a" x1="500" y1="113" x2="580" y2="113"/><line class="a" x1="405" y1="156" x2="405" y2="240"/><line class="a" x1="675" y1="156" x2="675" y2="240"/></svg></div>'''
 
 def clean_input_text(q: str) -> str:
-    return q.replace('云端执行器','执行系统').replace('思考过程','').replace('内部过程','')
+    q = q.replace('云端执行器','执行系统').replace('思考过程','').replace('内部过程','')
+    # Customer-visible fusion pages must not expose GitHub Pages build paths or cloud-output file paths.
+    q = re.sub(r'诊断草案链接：\s*https?://[^\s<]+', '诊断草案链接：已归档供授权审核查看', q)
+    q = re.sub(r'https?://[^\s<]*cloud-output/[^\s<]+', '已归档诊断/执行页面', q)
+    q = re.sub(r'cloud-output/[^\s<]+', '已归档页面', q)
+    return q
 
 def build(issue_num:int, q:str, modules):
     q = clean_input_text(q)

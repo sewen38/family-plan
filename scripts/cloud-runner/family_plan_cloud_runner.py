@@ -426,6 +426,12 @@ def process(issue: dict) -> None:
             os.unlink(_tmp.name)
             if _re.returncode == 0 and Path(exec_out).exists():
                 exec_html = Path(exec_out).read_text(encoding='utf-8')
+                # Upload child project modules referenced by the fusion page; otherwise GitHub Pages iframes 404
+                # and the recursive V21 release gate correctly blocks the delivery.
+                mod_dir = Path(f"cloud-output/project-modules-{num}")
+                if mod_dir.exists():
+                    for mod_file in sorted(mod_dir.glob("*.html")):
+                        put_file(str(mod_file), mod_file.read_text(encoding='utf-8'), f"Add cloud execution module {mod_file.name} for issue {num}")
                 exec_url = put_file(exec_out, exec_html, f"Add cloud execution plan for issue {num}")
                 comment(num, f"## Execution plan generated (template-driven)\n\nReview: {exec_url}")
                 set_labels(num, original_labs + ["executed"])
