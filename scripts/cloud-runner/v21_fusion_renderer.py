@@ -46,7 +46,7 @@ def visible_text(src: str) -> str:
 
 def detect_modules(q: str):
     found=[]
-    rules=[('sg-ep-pic',['新加坡','EP','PIC','家办']),('hk-asmtp',['香港','专才','ASMTP','高才','CIES']),('us-eb1a',['美国','EB-1A','EB1A','NIW','O-1','O1']),('au-482',['澳大利亚','澳洲','482','186']),('tr-fund',['土耳其','基金','E-2','E2']),('dm-cbi',['多米尼克','CBI','捐款'])]
+    rules=[('sg-ep-pic',['新加坡','EP','PIC','家办']),('hk-asmtp',['香港','专才','ASMTP','高才','CIES']),('us-eb1a',['EB-1A','EB1A','NIW','O-1','O1']),('au-482',['澳大利亚','澳洲','482','186']),('tr-fund',['土耳其','基金','E-2','E2']),('dm-cbi',['多米尼克','CBI','捐款'])]
     for key, terms in rules:
         if any(t in q for t in terms) and key not in found: found.append(key)
     return found or ['sg-ep-pic','hk-asmtp','us-eb1a','au-482','tr-fund','dm-cbi']
