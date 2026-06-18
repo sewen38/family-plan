@@ -428,7 +428,12 @@ def process(issue: dict) -> None:
                 gate_script = os.path.join(os.getcwd(), "scripts/v21_release_gate.py")
                 _gate = _spe.run([sys.executable, gate_script, exec_out], capture_output=True, text=True, timeout=300, env=os.environ)
                 if _gate.returncode != 0:
-                    comment(num, f"## Release gate blocked\n```\n{(_gate.stdout + chr(10) + _gate.stderr)[:3500]}\n```")
+                    extra_reports = []
+                    for _rp in ["output/verification/release-gate-human-standard-report.md", "output/verification/release-gate-recursive-report.md"]:
+                        _p = Path(_rp)
+                        if _p.exists():
+                            extra_reports.append(f"\n\n### {_rp}\n" + _p.read_text(encoding='utf-8', errors='ignore')[:5000])
+                    comment(num, f"## Release gate blocked\n```\n{(_gate.stdout + chr(10) + _gate.stderr)[:3500]}\n```{''.join(extra_reports)[:9000]}")
                     set_labels(num, original_labs + ["execution-request", "cloud-blocked"])
                     return
                 exec_html = Path(exec_out).read_text(encoding='utf-8')

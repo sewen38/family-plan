@@ -33,8 +33,8 @@ from html import unescape
 from pathlib import Path
 from typing import Iterable, List, Dict, Tuple, Optional
 
-ROOT = Path("/Users/hongleizhu/.openclaw/workspace/family-plan-pages")
-SKILL = Path("/Users/hongleizhu/.openclaw/workspace/skills/family-plan-v21-final/SKILL.md")
+ROOT = Path(__file__).resolve().parents[1]
+SKILL = ROOT / "skills/family-plan-v21-final/SKILL.md"
 REGISTRY = ROOT / "template-registry/template-registry.json"
 STANDARD = ROOT / "template-registry/v21-final-exec-standard.md"
 TEMPLATE_DIR = ROOT / "template-v21-20260614"

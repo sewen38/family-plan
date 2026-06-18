@@ -8,7 +8,7 @@
 - 脚本初筛通过不等于人工通过；最终仍需按模板样本逐章阅读。
 
 ## 标准来源
-- Skill: `/Users/hongleizhu/.openclaw/workspace/skills/family-plan-v21-final/SKILL.md`
+- Skill: `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/skills/family-plan-v21-final/SKILL.md`
 - Registry: `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-registry/template-registry.json`
 - Standard: `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-registry/v21-final-exec-standard.md`
 - Fusion master: `/Users/hongleizhu/.openclaw/workspace/family-plan-pages/template-v21-20260614/index.html`
