@@ -116,30 +116,36 @@ def has_any(text: str, terms: Iterable[str]) -> bool:
 
 
 def extract_chapter(html: str, n: int) -> str:
-    """Best-effort extraction from chapter heading n to next chapter heading."""
-    heads = CHAPTERS[n]
+    """Best-effort extraction from chapter n to next chapter.
+
+    Prefer explicit id="chN" anchors before fuzzy heading terms. The old implementation
+    searched generic terms such as “身份路径” and “预算明细” first, which could match
+    the table of contents or earlier summary text and falsely fail chapter gates.
+    """
     starts = []
-    for h in heads:
-        m = re.search(re.escape(h), html, flags=re.I)
-        if m:
-            starts.append(m.start())
+    # id="ch9" / id='ch9' / id=ch9 first
+    m = re.search(rf'id\s*=\s*(["\']?)ch{n}\b\1', html, flags=re.I)
+    if m:
+        starts.append(m.start())
     if not starts:
-        # id="ch6" fallback
-        m = re.search(rf'id=["\']?ch{n}\b', html, flags=re.I)
-        if m:
-            starts.append(m.start())
+        heads = CHAPTERS[n]
+        for h in heads:
+            m = re.search(re.escape(h), html, flags=re.I)
+            if m:
+                starts.append(m.start())
     if not starts:
         return ""
     start = min(starts)
     next_positions = []
     for k in range(n + 1, 16):
+        m = re.search(rf'id\s*=\s*(["\']?)ch{k}\b\1', html[start + 1 :], flags=re.I)
+        if m:
+            next_positions.append(start + 1 + m.start())
+            continue
         for h in CHAPTERS[k]:
             m = re.search(re.escape(h), html[start + 1 :], flags=re.I)
             if m:
                 next_positions.append(start + 1 + m.start())
-        m = re.search(rf'id=["\']?ch{k}\b', html[start + 1 :], flags=re.I)
-        if m:
-            next_positions.append(start + 1 + m.start())
     end = min(next_positions) if next_positions else len(html)
     return html[start:end]
 

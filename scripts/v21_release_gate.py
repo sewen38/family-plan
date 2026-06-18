@@ -20,6 +20,7 @@ from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]
 REG=ROOT/'template-registry/template-registry.json'
 RECURSIVE=ROOT/'scripts/audit_v21_recursive_human_gate.py'
+HUMAN_STANDARD=ROOT/'scripts/audit-v21-human-standard.py'
 
 BLOCK_VISIBLE=[
  'Professional Review','Acceptance Review','Source Map','Quality Gate','Project Modules',
@@ -147,6 +148,47 @@ def check_recursive(fusion:Path,msgs:list[str]):
     if res.returncode!=0:
         fail(msgs,'recursive child-page gate failed; see '+str(out))
 
+def check_same_country_merge(fusion:Path,msgs:list[str]):
+    """Hard gate for same-country multi-project merging.
+
+    If multiple child module links point to the same country, the fusion page is still
+    splitting one country into several modules instead of using one country-level
+    plan with unselected projects subtracted.
+    """
+    html=fusion.read_text(encoding='utf-8',errors='ignore')
+    refs=re.findall(r'(?:href|src)=["\']([^"\']+\.html[^"\']*)["\']', html, flags=re.I)
+    refs=sorted(set(r.split('#')[0].split('?')[0] for r in refs if 'project-modules' in r or 'final-single' in r))
+    country_map={
+        'sg':['sg-','singapore','新加坡'],
+        'hk':['hk-','hongkong','香港'],
+        'us':['us-','usa','美国'],
+        'au':['au-','australia','澳大利亚','澳洲'],
+        'tr':['tr-','turkey','土耳其'],
+        'dm':['dm-','dominica','多米尼克'],
+    }
+    counts={}
+    for ref in refs:
+        low=ref.lower()
+        for c,keys in country_map.items():
+            if any(k.lower() in low for k in keys):
+                counts[c]=counts.get(c,0)+1
+                break
+    dup={c:n for c,n in counts.items() if n>1}
+    if dup:
+        fail(msgs,'same-country multi-project not merged into one country module: '+json.dumps(dup,ensure_ascii=False))
+
+
+def check_human_standard(fusion:Path,msgs:list[str]):
+    if not HUMAN_STANDARD.exists():
+        fail(msgs,'human standard audit script missing')
+        return
+    out=ROOT/'output/verification/release-gate-human-standard-report.md'
+    cmd=[sys.executable,str(HUMAN_STANDARD),str(fusion),'--md-report',str(out)]
+    res=subprocess.run(cmd,cwd=str(ROOT),text=True,capture_output=True)
+    if res.returncode!=0:
+        fail(msgs,'human-standard gate failed; see '+str(out))
+
+
 def main():
     if len(sys.argv)<2:
         print('usage: v21_release_gate.py <fusion.html>')
@@ -158,7 +200,9 @@ def main():
     check_registry_and_pristine(msgs)
     if fusion.exists():
         check_template_shape(fusion,msgs)
+        check_same_country_merge(fusion,msgs)
         check_recursive(fusion,msgs)
+        check_human_standard(fusion,msgs)
     print('# V21 RELEASE GATE')
     print('fusion:',fusion)
     if msgs:
