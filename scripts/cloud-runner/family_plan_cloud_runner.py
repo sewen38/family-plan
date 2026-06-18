@@ -425,6 +425,13 @@ def process(issue: dict) -> None:
             _re = _spe.run([sys.executable, exec_rend, _tmp.name, str(num), "--output", exec_out], capture_output=True, text=True, timeout=600, env=os.environ)
             os.unlink(_tmp.name)
             if _re.returncode == 0 and Path(exec_out).exists():
+                # Postprocess preliminary output into the V21 fidelity recomposed final template.
+                post = os.path.join(os.getcwd(), "scripts/cloud-runner/v21_fidelity_postprocess.py")
+                _post = _spe.run([sys.executable, post, str(num), exec_out], capture_output=True, text=True, timeout=600, env=os.environ)
+                if _post.returncode != 0:
+                    comment(num, f"## Fidelity postprocess failed\n```\n{(_post.stdout + chr(10) + _post.stderr)[:5000]}\n```")
+                    set_labels(num, original_labs + ["execution-request", "cloud-blocked"])
+                    return
                 gate_script = os.path.join(os.getcwd(), "scripts/v21_release_gate.py")
                 _gate = _spe.run([sys.executable, gate_script, exec_out], capture_output=True, text=True, timeout=300, env=os.environ)
                 if _gate.returncode != 0:

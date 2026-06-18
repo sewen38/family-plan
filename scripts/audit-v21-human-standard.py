@@ -32,6 +32,7 @@ from dataclasses import dataclass, asdict
 from html import unescape
 from pathlib import Path
 from typing import Iterable, List, Dict, Tuple, Optional
+from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills/family-plan-v21-final/SKILL.md"
@@ -118,10 +119,14 @@ def has_any(text: str, terms: Iterable[str]) -> bool:
 def extract_chapter(html: str, n: int) -> str:
     """Best-effort extraction from chapter n to next chapter.
 
-    Prefer explicit id="chN" anchors before fuzzy heading terms. The old implementation
-    searched generic terms such as “身份路径” and “预算明细” first, which could match
-    the table of contents or earlier summary text and falsely fail chapter gates.
+    Prefer explicit section id="chN" blocks. Fusion pages wrap each chapter in
+    <section id="chN"> and contain many nested h1/h2 headings from project pages;
+    regex slicing by the first nested heading can falsely truncate the section.
     """
+    soup = BeautifulSoup(html, 'html.parser')
+    node = soup.find(id=f'ch{n}')
+    if node:
+        return str(node)
     starts = []
     # id="ch9" / id='ch9' / id=ch9 first
     m = re.search(rf'id\s*=\s*(["\']?)ch{n}\b\1', html, flags=re.I)
@@ -333,7 +338,7 @@ def check_file(path: Path) -> Tuple[List[Check], Dict[str, object]]:
         quoted = re.findall(r"([\"'])(.*?\.html(?:\?[^\"']*)?)\1", args_text, flags=re.I | re.S)
         if quoted:
             toggle_paths.append(quoted[-1][1])
-    link_paths = [h for h in attr_values(html, "a", "href") if ".html" in h and ("single" in h.lower() or "final-single" in h.lower())]
+    link_paths = [h for h in attr_values(html, "a", "href") if ".html" in h and ("single" in h.lower() or "final-single" in h.lower() or "project-modules" in h.lower())]
     module_paths = [p for p in dict.fromkeys(iframe_srcs + toggle_paths + link_paths) if "+" not in p and "'" not in p and '"' not in p]
     is_probably_fusion = ("完整单项目模块" in text or len(module_paths) >= 2 or "fusion" in path.name.lower() or meta["iframe"] > 0)
     module_errors = []
