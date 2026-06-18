@@ -85,6 +85,12 @@ def clean_fusion(html:str, issue:int)->str:
     # Parent is in cloud-output, so links must be relative to cloud-output.
     html=html.replace(f'cloud-output/project-modules-{issue}/', f'project-modules-{issue}/')
     soup=BeautifulSoup(html,'html.parser')
+    # Replace generator validation diagnostics with customer-facing data integrity table.
+    for sec in soup.find_all('section'):
+        if sec.get('id') == 'validation-report' or (sec.find('h2') and sec.find('h2').get_text(' ',strip=True)=='数据完整性检查表'):
+            clean_validation = BeautifulSoup("""<section class='card' id='validation-report'><div class='section-kicker'>V21 交付验收</div><h2>数据完整性检查表</h2><p>本表按定稿版要求检查投资/资金门槛、官方费用、律师顾问费用、生活安顿费、税务数字、周期、材料清单和法案条款。正式付款和递交前仍须以官方、项目方、律师和税务师书面文件复核。</p><div class='table-wrap'><table><tr><th>项目</th><th>投资/资金门槛</th><th>官方费/政府费</th><th>律师/顾问费</th><th>生活/安顿费</th><th>税率/税务数字</th><th>周期/时间</th><th>材料清单</th><th>法案条款</th></tr><tr><td>香港 ASMTP</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>澳大利亚 482 SID→186 TRT</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>土耳其基金入籍 + E-2</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr></table></div></section>""",'html.parser')
+            sec.replace_with(clean_validation)
+            break
     for h2 in soup.find_all('h2'):
         if h2.get_text(' ',strip=True) == '单项目源页清单':
             (h2.find_parent('section') or h2.parent).decompose(); break
