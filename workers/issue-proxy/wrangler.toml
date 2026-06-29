@@ -1,6 +1,7 @@
 name = "family-plan-issue-proxy"
 main = "src/index.js"
 compatibility_date = "2026-06-18"
+account_id = "f8d2f31469f5c3ac33e3d4def4f652f4"
 
 [vars]
 GITHUB_REPO = "sewen38/family-plan"
