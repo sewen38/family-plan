@@ -425,17 +425,37 @@ var ISSUE_PROXY_URL='https://family-plan-issue-proxy.sewen38-family-plan.workers
 var DIAG_KEY='family_plan_last_issue_v1';
 var DIAG_TTL=48*60*60*1000;
 function saveDiagnosisIssue(issue,name,body){
-  try{localStorage.setItem(DIAG_KEY,JSON.stringify({issue:issue,name:name||'',body:body||'',ts:Date.now()}));}catch(e){}
+  issue=String(issue||'').replace(/[^0-9]/g,''); if(!issue)return;
+  var obj={issue:parseInt(issue,10),name:name||'',body:body||'',ts:Date.now()};
+  try{localStorage.setItem(DIAG_KEY,JSON.stringify(obj));}catch(e){}
+  try{document.cookie=DIAG_KEY+'='+encodeURIComponent(JSON.stringify(obj))+'; max-age='+(48*60*60)+'; path=/family-plan/; SameSite=Lax';}catch(e){}
+}
+function getCookieRecord(){
+  try{
+    var parts=document.cookie.split(';').map(function(x){return x.trim();});
+    for(var i=0;i<parts.length;i++){
+      if(parts[i].indexOf(DIAG_KEY+'=')===0){return JSON.parse(decodeURIComponent(parts[i].slice(DIAG_KEY.length+1)));}
+    }
+  }catch(e){}
+  return null;
 }
 function getDiagnosisIssue(){
   try{
-    var raw=localStorage.getItem(DIAG_KEY); if(!raw)return null;
-    var obj=JSON.parse(raw); if(!obj||!obj.issue)return null;
-    if(Date.now()-(obj.ts||0)>DIAG_TTL){localStorage.removeItem(DIAG_KEY);return null;}
+    var raw=localStorage.getItem(DIAG_KEY), obj=raw?JSON.parse(raw):getCookieRecord();
+    if(!obj||!obj.issue)return null;
+    if(Date.now()-(obj.ts||0)>DIAG_TTL){localStorage.removeItem(DIAG_KEY);document.cookie=DIAG_KEY+'=; max-age=0; path=/family-plan/';return null;}
     return obj;
-  }catch(e){return null;}
+  }catch(e){return getCookieRecord();}
 }
-function clearDiagnosisRecord(){try{localStorage.removeItem(DIAG_KEY);}catch(e){};var c=document.getElementById('diagnosisCard');if(c)c.classList.remove('on');T('已清除本机查询记录');}
+function markDiagnosisUrl(issue){
+  try{
+    var u=new URL(window.location.href);
+    u.searchParams.set('issue',issue);
+    u.searchParams.set('stage','diagnosis');
+    history.replaceState(null,'',u.toString());
+  }catch(e){}
+}
+function clearDiagnosisRecord(){try{localStorage.removeItem(DIAG_KEY);document.cookie=DIAG_KEY+'=; max-age=0; path=/family-plan/';}catch(e){};document.body.classList.remove('diagnosis-mode');var c=document.getElementById('diagnosisCard');if(c)c.classList.remove('on');T('已清除本机查询记录');}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function inlineMd(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`(.+?)`/g,'<code>$1</code>');}
 function mdToHtml(md){
@@ -481,7 +501,8 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已生成标准问卷文本。请复制问卷文本发给当前智能体，智能体将按主 Skill V21 专业级最新输出标准直接生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
+    var issueText=rec.issue?('Issue #'+rec.issue):'问卷编号已记录';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">'+issueText+' 已提交成功，云端正在生成诊断草案。关闭页面后再次打开本链接，会继续停留在本等待页；通常几分钟内完成。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)" onclick="refreshDiagnosis()">刷新诊断状态</a><a class="dl-primary" href="https://github.com/sewen38/family-plan/issues/'+(rec.issue||'')+'" target="_blank" rel="noopener">查看提交记录</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
@@ -758,6 +779,7 @@ document.getElementById('f').onsubmit=function(e){
   .then(function(r){
     if(r.issue){
       saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
+      markDiagnosisUrl(r.issue);
       document.getElementById('ov').classList.remove('on');
       renderDiagnosis('✅ 已提交，问卷编号 Issue #'+r.issue, '云端正在生成诊断草案，请稍后刷新。');
       setTimeout(refreshDiagnosis,1200);
