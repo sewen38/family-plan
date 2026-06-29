@@ -68,91 +68,9 @@ def load_builder():
     mod=importlib.util.module_from_spec(spec); sys.modules['v21fusion']=mod; spec.loader.exec_module(mod)
     return mod
 
-
-def inline_svg_styles(html:str)->str:
-    """Make SVGs self-contained before any HTML/style sanitizer strips <style> blocks.
-
-    Some generated SVGs used class names (.n/.t/.s/.a) plus an inner <style> tag.
-    The fusion builder hides/removes style tags to avoid CSS pollution; if classes remain
-    without inline fill/stroke, SVG rect defaults to black and text defaults to black,
-    producing meaningless black boxes. This function inlines the known V21 diagram styles
-    and removes the dependency on SVG <style>.
-    """
-    soup=BeautifulSoup(html,'html.parser')
-    for svg_tag in soup.find_all('svg'):
-        for st in svg_tag.find_all('style'):
-            st.decompose()
-        # Default transparent/light canvas for all generated diagrams.
-        for rect in svg_tag.find_all('rect'):
-            cls=(rect.get('class') or [])
-            if isinstance(cls, str): cls=cls.split()
-            # .n is the standard node box class.
-            if 'n' in cls:
-                rect['fill'] = rect.get('fill') or '#ffffff'
-                rect['stroke'] = rect.get('stroke') or '#1d4ed8'
-                rect['stroke-width'] = rect.get('stroke-width') or '2'
-            elif not rect.get('fill'):
-                rect['fill'] = '#f8fafc'
-        for text in svg_tag.find_all('text'):
-            cls=(text.get('class') or [])
-            if isinstance(cls, str): cls=cls.split()
-            if 't' in cls:
-                text['fill'] = text.get('fill') or '#0f172a'
-                text['font-size'] = text.get('font-size') or '16'
-                text['font-weight'] = text.get('font-weight') or '700'
-                text['font-family'] = text.get('font-family') or "-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif"
-            elif 's' in cls:
-                text['fill'] = text.get('fill') or '#334155'
-                text['font-size'] = text.get('font-size') or '13'
-                text['font-family'] = text.get('font-family') or "-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif"
-            elif not text.get('fill'):
-                text['fill'] = '#0f172a'
-        for line in svg_tag.find_all(['line','path']):
-            cls=(line.get('class') or [])
-            if isinstance(cls, str): cls=cls.split()
-            if 'a' in cls:
-                line['stroke'] = line.get('stroke') or '#64748b'
-                line['stroke-width'] = line.get('stroke-width') or '2'
-        # Hard fallback: any non-background rect still black becomes white box.
-        for rect in svg_tag.find_all('rect'):
-            fill=(rect.get('fill') or '').lower()
-            if fill in ('#000','#000000','black','rgb(0,0,0)'):
-                rect['fill']='#ffffff'; rect['stroke']=rect.get('stroke') or '#334155'; rect['stroke-width']=rect.get('stroke-width') or '1.5'
-    return str(soup)
-
-
-def sanitize_visuals_and_process_terms(html:str)->str:
-    """Customer-facing hard cleanup: no dark text containers, no patch/process headings."""
-    html = inline_svg_styles(html)
-    # Remove process/patch class names from DOM while keeping content.
-    html = re.sub(r"\sclass=(['\"])(?:v21-section-patch|v21-enhance-\d+)(['\"])", "", html)
-    # Formalize patch headings.
-    repl = {
-        '10.X 教育规划执行补充':'10.4 教育规划执行要点',
-        '11.X 福利与居住维护执行补充':'11.4 福利与居住维护要点',
-        '12.X 预算、三方费用与材料清单补充':'12.4 预算、三方费用与材料清单',
-        '14.X 财税执行策划案补充':'14.4 财税执行策划案要点',
-        '补充执行要求：':'执行要求：',
-        'v21-section-patch':'',
-        'v21-enhance':'',
-    }
-    for a,b in repl.items(): html=html.replace(a,b)
-    # Replace dark fills/strokes used as label boxes with light palette. Keep readable dark text.
-    dark_to_light = {
-        '#071a33':'#f8fafc', '#0b1220':'#f8fafc', '#111827':'#f8fafc', '#1f2937':'#f8fafc', '#1f3a5f':'#2563eb',
-        '#172033':'#334155', '#0f172a':'#111827'
-    }
-    for a,b in dark_to_light.items():
-        html=html.replace(f'fill="{a}"', f'fill="{b}"').replace(f"fill='{a}'", f"fill='{b}'")
-        html=html.replace(f'stroke="{a}"', f'stroke="{b}"').replace(f"stroke='{a}'", f"stroke='{b}'")
-    # Some SVG style blocks define dark rectangle classes.
-    html=html.replace('fill:#071a33','fill:#f8fafc').replace('fill:#0b1220','fill:#f8fafc').replace('fill:#111827','fill:#111827')
-    return html
-
 def clean_fusion(html:str, issue:int)->str:
     repls={
      'Professional Review · V21 Fidelity Recompose':'V21 定稿版融合执行策划案',
-     '11国V21单项目融合执行策划案':'V21多项目融合执行策划案',
      'V21保真全文拆章重组版｜图片/SVG保留｜数据完整性检查｜15章按国家项目重排':'完整单项目模块 + 15章拆章重组｜图片/SVG保留｜数据完整性检查',
      'V21 Commercial Review':'V21 交付验收','Acceptance Review':'交付验收','Source Map':'内容源清单','融合页基本验收':'数据完整性检查表',
      '以 template-v21-20260614/index.html 为母版｜完整单项目模块嵌入区 + 15章拆章重组融合':'严格遵循执行策划案定稿版格式｜单项目完整页 + 15章拆章重组融合',
@@ -187,7 +105,7 @@ def clean_fusion(html:str, issue:int)->str:
     if target and not soup2.find(string=re.compile('数据来源交叉核验表')):
         target.insert_before(BeautifulSoup(integrity_extra,'html.parser'))
     html=str(soup2)
-    return sanitize_visuals_and_process_terms(html)
+    return html
 
 def main():
     if len(sys.argv)<3:

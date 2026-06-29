@@ -72,8 +72,8 @@ input[type=text]:focus,input[type=number]:focus{border-color:#4a90d9}
 </head>
 <body>
 
-<h1>⚡ 家庭全球规划 · 快速版问卷 <span style="font-size:12px;color:#0b8a2a">最新版 20260629 GitHub-Only</span></h1>
-<div class="sub">9个板块 · 约15分钟 · 提交后跳转 GitHub 预填页 · 12个国家/地区可选</div>
+<h1>⚡ 家庭全球规划 · 快速版问卷 <span style="font-size:12px;color:#888">V3</span></h1>
+<div class="sub">9个板块 · 约15分钟 · 提交后总统自动接收 · 12个国家/地区可选</div>
 
 <div class="result-card" id="diagnosisCard">
   <h2>📄 我的诊断草案</h2>
@@ -418,42 +418,22 @@ existing_plans:'已有计划',other_constraints:'其他限制'
 };
 var O=['name','family','nationality','residence','tax_resident','business','revenue','dividend_annual','dividend_pending','income_taxed','income_untaxed','income','assets','asset_type','house_qty','house_val_1','house_val_2','house_val_3','house_val_4','house_val_5','house_val_6','house_val_7','house_val_8','house_val_9','house_val_10','equity_val','stock_val','deposit_val','insurance_val','other_asset_detail','target_countries','goals','budget','urgency','foreign_status','overseas_days','tax_filing','foreign_accounts','foreign_realestate','foreign_structures','has_foreign_company','foreign_co_country','foreign_co_operating','fund_transfers','has_planned_transfer','transfer_corp_cny','transfer_personal_cny','transfer_corp_usd','transfer_personal_usd','transfer_cash_usd','keep_cn','business_tie','existing_plans','other_constraints'];
 
-var ISSUE_PROXY_URL='https://family-plan-issue-proxy.sewen38-family-plan.workers.dev';
+var ISSUE_PROXY_URL='https://family-plan-issue-proxy.sewen38.workers.dev';
 
 var DIAG_KEY='family_plan_last_issue_v1';
 var DIAG_TTL=48*60*60*1000;
 function saveDiagnosisIssue(issue,name,body){
-  issue=String(issue||'').replace(/[^0-9]/g,''); if(!issue)return;
-  var obj={issue:parseInt(issue,10),name:name||'',body:body||'',ts:Date.now()};
-  try{localStorage.setItem(DIAG_KEY,JSON.stringify(obj));}catch(e){}
-  try{document.cookie=DIAG_KEY+'='+encodeURIComponent(JSON.stringify(obj))+'; max-age='+(48*60*60)+'; path=/family-plan/; SameSite=Lax';}catch(e){}
-}
-function getCookieRecord(){
-  try{
-    var parts=document.cookie.split(';').map(function(x){return x.trim();});
-    for(var i=0;i<parts.length;i++){
-      if(parts[i].indexOf(DIAG_KEY+'=')===0){return JSON.parse(decodeURIComponent(parts[i].slice(DIAG_KEY.length+1)));}
-    }
-  }catch(e){}
-  return null;
+  try{localStorage.setItem(DIAG_KEY,JSON.stringify({issue:issue,name:name||'',body:body||'',ts:Date.now()}));}catch(e){}
 }
 function getDiagnosisIssue(){
   try{
-    var raw=localStorage.getItem(DIAG_KEY), obj=raw?JSON.parse(raw):getCookieRecord();
-    if(!obj||!obj.issue)return null;
-    if(Date.now()-(obj.ts||0)>DIAG_TTL){localStorage.removeItem(DIAG_KEY);document.cookie=DIAG_KEY+'=; max-age=0; path=/family-plan/';return null;}
+    var raw=localStorage.getItem(DIAG_KEY); if(!raw)return null;
+    var obj=JSON.parse(raw); if(!obj||!obj.issue)return null;
+    if(Date.now()-(obj.ts||0)>DIAG_TTL){localStorage.removeItem(DIAG_KEY);return null;}
     return obj;
-  }catch(e){return getCookieRecord();}
+  }catch(e){return null;}
 }
-function markDiagnosisUrl(issue){
-  try{
-    var u=new URL(window.location.href);
-    u.searchParams.set('issue',issue);
-    u.searchParams.set('stage','diagnosis');
-    history.replaceState(null,'',u.toString());
-  }catch(e){}
-}
-function clearDiagnosisRecord(){try{localStorage.removeItem(DIAG_KEY);document.cookie=DIAG_KEY+'=; max-age=0; path=/family-plan/';}catch(e){};document.body.classList.remove('diagnosis-mode');var c=document.getElementById('diagnosisCard');if(c)c.classList.remove('on');T('已清除本机查询记录');}
+function clearDiagnosisRecord(){try{localStorage.removeItem(DIAG_KEY);}catch(e){};var c=document.getElementById('diagnosisCard');if(c)c.classList.remove('on');T('已清除本机查询记录');}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function inlineMd(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`(.+?)`/g,'<code>$1</code>');}
 function mdToHtml(md){
@@ -499,8 +479,7 @@ function renderDiagnosis(status,content){
   if(content){
     ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案已生成</div><div class="doc-desc">点击下方按钮即可在手机端直接阅读客户文档；如需保存，可在文档页使用“保存/打印PDF”。</div><div class="download-actions"><a class="dl-primary" href="document.html?issue='+(rec.issue||'')+'">查看诊断草案</a></div></div>';
   }else{
-    var issueText=rec.issue?('Issue #'+rec.issue):'问卷编号已记录';
-    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">'+issueText+' 已提交成功，云端正在生成诊断草案。关闭页面后再次打开本链接，会继续停留在本等待页；通常几分钟内完成。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)" onclick="refreshDiagnosis()">刷新诊断状态</a><a class="dl-primary" href="https://github.com/sewen38/family-plan/issues/'+(rec.issue||'')+'" target="_blank" rel="noopener">查看提交记录</a></div></div>';
+    ct.innerHTML='<div class="download-box"><div class="doc-title">诊断草案生成中</div><div class="doc-desc">系统已生成标准问卷文本。请复制问卷文本发给当前智能体，智能体将按主 Skill V21 专业级最新输出标准直接生成诊断草案。</div><div class="download-actions"><a class="dl-secondary" href="javascript:void(0)">待完成</a><a class="dl-primary" href="javascript:void(0)" onclick="showCopyFallback(&quot;复制问卷文本&quot;,&quot;发给当前智能体后，将直接生成诊断草案。&quot;)">复制问卷给智能体</a></div></div>';
   }
 }
 function extractDiagnosisComment(comments){
@@ -511,34 +490,13 @@ function extractDiagnosisComment(comments){
 function refreshDiagnosis(){
   var rec=getDiagnosisIssue(); if(!rec){return;}
   renderDiagnosis('正在查询 Issue #'+rec.issue+' 的诊断草案...', '');
-  // Use worker proxy to bypass GitHub API rate limits
-  fetch(ISSUE_PROXY_URL.replace('/api/create-issue','/api/diagnosis/'+rec.issue))
-  .then(function(r){return r.json()}).then(function(result){
-    if(result.ok && result.stage==='diagnosis_done'){
-      if(result.html){
-        renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', result.html);
-        saveDiagnosisIssue(rec.issue,rec.name,result.html);
-      } else {
-        renderDiagnosis('✅ 诊断草案已生成', '');
-        saveDiagnosisIssue(rec.issue,rec.name,'');
-      }
-    } else if(result.ok && result.stage==='pending'){
-      renderDiagnosis('⏳ 诊断草案生成中（云端执行器通常3-10分钟完成，请稍后点击刷新）','Issue #'+rec.issue+' 已提交，正在等待云端执行器生成诊断草案。');
-    } else if(result.ok && result.stage==='blocked'){
-      renderDiagnosis('⚠️ 云端生成遇到问题，请复制问卷文本发给当前智能体','Issue #'+rec.issue+' 云端处理被阻断。请使用下方的「复制问卷给智能体」按钮。');
-    } else {
-      renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体。','Issue #'+rec.issue+' 已记录。');
-    }
-  }).catch(function(){
-    // Fallback: try direct GitHub API
-    fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+rec.issue+'/comments',{headers:{'Accept':'application/vnd.github+json'}})
-    .then(function(r){return r.json()}).then(function(comments){
-      var body=extractDiagnosisComment(comments);
-      if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
-        saveDiagnosisIssue(rec.issue,rec.name,body);}
-      else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体。','Issue #'+rec.issue+' 已记录。');}
-    }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新或复制问卷文本发给智能体。','Issue #'+rec.issue+' 已记录。');});
-  });
+  fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+rec.issue+'/comments',{headers:{'Accept':'application/vnd.github+json'}})
+  .then(function(r){return r.json()}).then(function(comments){
+    var body=extractDiagnosisComment(comments);
+    if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
+      saveDiagnosisIssue(rec.issue,rec.name,body);}
+    else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','Issue #'+rec.issue+' 已记录。当前最终流程以复制问卷文本交给智能体生成为准，不依赖任何网络回调。');}
+  }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新。','Issue #'+rec.issue+' 已记录在本机浏览器。');});
 }
 // 国家名称 → 评估页URL 映射表
 var COUNTRY_URLS={
@@ -714,38 +672,6 @@ window.addEventListener('load',function(){
 
 
 
-
-
-function submitViaNavigationForm(name, summary){
-  renderDiagnosis('⏳ 正在切换备用提交方式...', '当前浏览器拦截了跨域 Ajax，系统正在改用普通表单 POST 提交。成功后会自动回到诊断等待页。');
-  var form=document.createElement('form');
-  form.method='POST';
-  form.action=ISSUE_PROXY_URL;
-  form.style.display='none';
-  function add(k,v){var input=document.createElement('input');input.type='hidden';input.name=k;input.value=v||'';form.appendChild(input);}
-  add('name',name||'');
-  add('summary',summary||'');
-  add('redirect',location.origin+location.pathname);
-  document.body.appendChild(form);
-  form.submit();
-}
-
-function buildGithubIssueUrl(name, summary){
-  var title='📋 '+(name||'未知')+' · '+new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
-  var body='## 原始问卷数据\n\n```\n'+summary+'\n```\n\n---\n📅 '+new Date().toISOString()+'\n来源：family-plan-github-fallback';
-  return 'https://github.com/sewen38/family-plan/issues/new?labels=questionnaire,pending&title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body);
-}
-function showGithubFallback(issueUrl, title, tip){
-  var s='<h3>⚠️ 自动提交通道暂时不可用</h3>';
-  s+='<div class="tip" style="color:#e53935">'+(tip||'请点击下方按钮打开 GitHub 预填问卷页，再点绿色 Submit new issue。提交后云端会自动生成诊断草案。')+'</div>';
-  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueUrl+'" target="_blank" rel="noopener">🚀 打开预填问卷提交页</a>';
-  s+='<button class="btn-copy" onclick="C()">📋 同时复制问卷文本</button>';
-  s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
-  s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
-  document.getElementById('rc').innerHTML=s;
-  document.getElementById('ov').classList.add('on');window.scrollTo(0,0);
-}
-
 function buildProtocolText(summary){
   return '【财税方案快速问卷提交】\n'
     + '请直接进入 Step 2，生成《跨境家庭全球规划诊断草案》。不要再发送问卷链接。\n'
@@ -774,39 +700,48 @@ document.getElementById('f').onsubmit=function(e){
     body+=(body?'&':'')+encodeURIComponent(k)+'='+encodeURIComponent(v);
   }
   
-  // Build compact summary: only include actually filled fields.
-  // This avoids giant GitHub prefill URLs that mobile/WeChat may refuse to open.
+  // Build summary first
   var summary='';
   for(var k of O){
-    var v=(m[k]||[]).join('、').trim();
-    if(!v || v==='未填' || v==='待确认' || v==='（未填）') continue;
+    var v=(m[k]||[]).join('、')||'（未填）';
     summary+=(summary?'\n':'')+Q[k]+'：'+v;
   }
-  if(!summary){ summary='姓名/代号：'+((m.name||[]).join(',')||'未填'); }
   window._t=buildProtocolText(summary);
+  document.getElementById('ov').classList.remove('on');
+  renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
 
-  var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
-  var issueFormUrl='https://github.com/sewen38/family-plan/issues/new?template=quick-questionnaire.yml';
-  var prefillLen=issueUrl.length;
-
-  // Main path: direct prefilled GitHub Issue URL, but only when URL is short enough for mobile.
-  if(prefillLen <= 5500){
-    renderDiagnosis('⏳ 正在打开 GitHub 提交页...', '已整理已填写字段，正在跳转到 GitHub 预填 Issue。请在打开页面点击 Submit new issue。');
-    setTimeout(function(){ window.location.href=issueUrl; }, 120);
-    return;
-  }
-
-  // Oversize fallback: copy text + open Issue Form template.
-  var s='<h3>✅ 问卷已整理完成</h3>';
-  s+='<div class="tip" style="color:#1565c0">已填写内容较多，预填链接约 '+prefillLen+' 字符，手机/微信可能无法跳转。请先复制文本，再打开 GitHub 表单提交。</div>';
-  s+='<button class="btn-copy" onclick="C()">📋 第一步：复制问卷文本</button>';
-  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueFormUrl+'" target="_self" rel="noopener">🚀 第二步：打开 GitHub 表单提交</a>';
-  s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
-  s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
-  document.getElementById('rc').innerHTML=s;
-  document.getElementById('ov').classList.add('on');
-  window.scrollTo(0,0);
-};
+  // Automatic channels are best-effort only and run after the UI responds immediately.
+  // Channel 1: try local server (same WiFi → instant processing)
+  fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+  .then(function(r){return r.json()})
+  .then(function(r){
+    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');}
+  })
+  .catch(function(){
+    // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
+    var t='📋 '+((m.name||[]).join(',')||'未知')+' · '+new Date().toLocaleString('zh-CN','Asia/Shanghai');
+    fetch(ISSUE_PROXY_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:(m.name||[]).join(','),summary:summary})
+    })
+    .then(function(r){return r.json()})
+    .then(function(r){
+      if(r.issue){
+        saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
+        document.getElementById('ov').classList.remove('on');
+        renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
+        setTimeout(refreshDiagnosis,1200);
+        // Also try to trigger local server for instant processing
+        try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.issue,name:(m.name||[]).join(',')})}) }catch(e){}
+      } else {
+        document.getElementById('ov').classList.remove('on');
+        renderDiagnosis('⚠️ 自动提交未完成，请复制问卷给智能体生成诊断草案。','');
+      }
+    })
+    .catch(function(){document.getElementById('ov').classList.remove('on');renderDiagnosis('⚠️ 当前网络无法自动提交，请复制问卷给智能体生成诊断草案。','');});
+  });
+  
   function showResult(msg,ok,minutes){
     var s='<h3>✅ '+(msg||'问卷已填写')+'</h3>';
     if(ok){

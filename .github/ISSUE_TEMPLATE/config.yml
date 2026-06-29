@@ -1,5 +1,0 @@
-blank_issues_enabled: true
-contact_links:
-  - name: 手机版快速问卷入口
-    url: https://sewen38.github.io/family-plan/start.html?v=20260629-issue-form
-    about: 优先使用手机端问卷；如自动提交失败，可使用本 GitHub Issue Form 稳定入口。
