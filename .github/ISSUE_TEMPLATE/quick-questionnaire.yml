@@ -1,0 +1,221 @@
+name: 快速版问卷 · 诊断草案自动生成
+about: 提交跨境家庭全球规划快速版问卷，自动触发诊断草案生成
+labels: [questionnaire, pending]
+title: "📋 快速版问卷 · "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # 跨境家庭全球规划 · 快速版问卷
+
+        提交后系统会自动生成《跨境家庭全球规划诊断草案》。  
+        如果部分信息暂时不确定，可以填写“未填/待确认”，系统会先基于已填信息诊断，并列入待确认事项。
+
+  - type: input
+    id: name
+    attributes:
+      label: 姓名/代号
+      description: 请填写称呼或代号
+      placeholder: 例如：王总家庭 / 陈先生
+    validations:
+      required: true
+
+  - type: textarea
+    id: family
+    attributes:
+      label: 家庭成员
+      description: 请描述核心家庭成员、年龄、身份
+      placeholder: 例如：夫43岁-企业主 / 妻40岁 / 女儿12岁
+    validations:
+      required: false
+
+  - type: input
+    id: nationality
+    attributes:
+      label: 现有国籍/护照/永居
+      placeholder: 例如：均为中国籍，无第二护照；或已持美国绿卡/香港身份等
+    validations:
+      required: false
+
+  - type: input
+    id: residence
+    attributes:
+      label: 当前主要居住国家/城市
+      placeholder: 例如：中国深圳 / 上海 / 香港
+    validations:
+      required: false
+
+  - type: input
+    id: tax_resident
+    attributes:
+      label: 哪些国家/地区认定你为税务居民？
+      placeholder: 例如：中国；美国；不确定
+    validations:
+      required: false
+
+  - type: textarea
+    id: business
+    attributes:
+      label: 企业所在地 & 行业
+      placeholder: 例如：深圳 / 跨境电商、智能硬件、供应链出口
+    validations:
+      required: false
+
+  - type: dropdown
+    id: revenue
+    attributes:
+      label: 企业年营收（人民币）
+      options:
+        - 未填/待确认
+        - 500万以下
+        - 500万-2000万
+        - 2000万-5000万
+        - 5000万-1亿
+        - 1亿-5亿
+        - 5亿以上
+    validations:
+      required: false
+
+  - type: input
+    id: dividends
+    attributes:
+      label: 每年分红/待分红金额
+      placeholder: 例如：每年分红300万，待分红1000万；或未填
+    validations:
+      required: false
+
+  - type: dropdown
+    id: assets
+    attributes:
+      label: 家庭资产规模（人民币）
+      options:
+        - 未填/待确认
+        - 500万以下
+        - 500万-1500万
+        - 1500万-3000万
+        - 3000万-5000万
+        - 5000万-1亿
+        - 1亿以上
+    validations:
+      required: false
+
+  - type: textarea
+    id: asset_structure
+    attributes:
+      label: 主要资产构成
+      description: 房产、企业股权、股票/基金、存款、保险、境外资产等
+      placeholder: 例如：深圳房产2套约1800万；企业股权约3000万；银行存款500万；香港保险50万美元
+    validations:
+      required: false
+
+  - type: textarea
+    id: target_countries
+    attributes:
+      label: 意向移民国家/地区
+      description: 可多填，例如土耳其、新加坡、澳大利亚、美国、香港、多米尼克、日本、瓦努阿图、格鲁吉亚、欧洲等
+      placeholder: 例如：新加坡、香港、土耳其、美国
+    validations:
+      required: true
+
+  - type: textarea
+    id: goals
+    attributes:
+      label: 核心诉求
+      description: 子女教育、资产安全、身份规划、税务优化、生活品质、财富传承等
+      placeholder: 例如：身份规划、税务优化、子女教育、资产配置/安全
+    validations:
+      required: false
+
+  - type: dropdown
+    id: budget
+    attributes:
+      label: 预算意向（人民币）
+      options:
+        - 未填/待确认
+        - 50万以下
+        - 50万-200万
+        - 200万-500万
+        - 500万-1500万
+        - 1500万+
+        - 无明确上限
+    validations:
+      required: false
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: 时间紧迫度
+      options:
+        - 未填/待确认
+        - 1个月内
+        - 3个月内
+        - 6个月内
+        - 1年内
+        - 不着急
+    validations:
+      required: false
+
+  - type: textarea
+    id: foreign_status
+    attributes:
+      label: 海外身份与居住情况
+      description: 是否持有外国签证/绿卡/护照？每年海外居住天数？报税情况？
+      placeholder: 例如：美国B1/B2；每年美国约60天；仅中国报税；或未填
+    validations:
+      required: false
+
+  - type: textarea
+    id: foreign_assets
+    attributes:
+      label: 海外账户与资产
+      description: 境外银行/券商账户、不动产、公司、信托、保险等
+      placeholder: 例如：香港银行账户100万美元；新加坡DBS 50万美元；无海外公司
+    validations:
+      required: false
+
+  - type: textarea
+    id: fund_transfer
+    attributes:
+      label: 资金跨境情况
+      description: 是否已有资金转出？方式、金额、合规状态；是否计划出境资金？
+      placeholder: 例如：通过个人购汇转出20万美元；计划公司资金出境500万；或未填
+    validations:
+      required: false
+
+  - type: dropdown
+    id: keep_cn
+    attributes:
+      label: 是否必须保留中国国籍？
+      options:
+        - 未填/待确认
+        - 必须保留
+        - 可放弃
+        - 待定
+    validations:
+      required: true
+
+  - type: dropdown
+    id: business_tie
+    attributes:
+      label: 是否需兼顾国内企业经营？
+      options:
+        - 未填/待确认
+        - 是，需频繁回国
+        - 是，但可远程
+        - 否，可放手
+    validations:
+      required: false
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: 已有计划/其他限制
+      placeholder: 例如：已有土耳其购房计划；不希望长期居住海外；希望孩子两年内入学等
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        提交后请等待系统自动处理。通常几分钟内会在本 Issue 下生成诊断草案链接。

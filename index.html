@@ -10,6 +10,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 body{font:16px -apple-system,sans-serif;background:#fff;color:#222;padding:12px;padding-bottom:110px;word-break:break-word;-webkit-text-size-adjust:100%}
 h1{font-size:18px;text-align:center;margin:8px 0 4px}
 .sub{text-align:center;font-size:13px;color:#888;margin-bottom:16px}
+.stable-link{display:block;text-align:center;margin:-6px auto 14px;max-width:360px;background:#f6f8fa;color:#24292f;border:1px solid #d0d7de;border-radius:12px;padding:10px 12px;text-decoration:none;font-size:13px;font-weight:800}.stable-link span{color:#0969da}
 .section{border:1px solid #e0e0e0;border-radius:10px;padding:14px;margin-bottom:12px}
 .section h2{font-size:15px;color:#333;margin-bottom:10px}
 .field{margin-bottom:12px}
@@ -74,6 +75,7 @@ input[type=text]:focus,input[type=number]:focus{border-color:#4a90d9}
 
 <h1>⚡ 家庭全球规划 · 快速版问卷 <span style="font-size:12px;color:#888">V3</span></h1>
 <div class="sub">9个板块 · 约15分钟 · 提交后总统自动接收 · 12个国家/地区可选</div>
+<a class="stable-link" href="https://github.com/sewen38/family-plan/issues/new?template=quick-questionnaire.yml" target="_blank" rel="noopener">自动提交失败？使用 <span>GitHub稳定版提交入口</span></a>
 
 <div class="result-card" id="diagnosisCard">
   <h2>📄 我的诊断草案</h2>
@@ -703,6 +705,7 @@ function showGithubFallback(issueUrl, title, tip){
   var s='<h3>⚠️ 自动提交通道暂时不可用</h3>';
   s+='<div class="tip" style="color:#e53935">'+(tip||'请点击下方按钮打开 GitHub 预填问卷页，再点绿色 Submit new issue。提交后云端会自动生成诊断草案。')+'</div>';
   s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueUrl+'" target="_blank" rel="noopener">🚀 打开预填问卷提交页</a>';
+  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#0969da;color:#fff;margin:12px 0" href="https://github.com/sewen38/family-plan/issues/new?template=quick-questionnaire.yml" target="_blank" rel="noopener">🧾 改用 GitHub 稳定版表单</a>';
   s+='<button class="btn-copy" onclick="C()">📋 同时复制问卷文本</button>';
   s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
   s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
