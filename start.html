@@ -774,22 +774,31 @@ document.getElementById('f').onsubmit=function(e){
     body+=(body?'&':'')+encodeURIComponent(k)+'='+encodeURIComponent(v);
   }
   
-  // Build summary first
+  // Build compact summary: only include actually filled fields.
+  // This avoids giant GitHub prefill URLs that mobile/WeChat may refuse to open.
   var summary='';
   for(var k of O){
-    var v=(m[k]||[]).join('、')||'（未填）';
+    var v=(m[k]||[]).join('、').trim();
+    if(!v || v==='未填' || v==='待确认' || v==='（未填）') continue;
     summary+=(summary?'\n':'')+Q[k]+'：'+v;
   }
+  if(!summary){ summary='姓名/代号：'+((m.name||[]).join(',')||'未填'); }
   window._t=buildProtocolText(summary);
 
-  // GitHub-only mode without giant prefilled URLs.
-  // Mobile/WeChat often fails when the prefilled Issue URL exceeds safe URL length.
-  // Therefore: copy questionnaire text, then open GitHub Issue Form template.
+  var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
   var issueFormUrl='https://github.com/sewen38/family-plan/issues/new?template=quick-questionnaire.yml';
-  var prefillLen=buildGithubIssueUrl((m.name||[]).join(','), summary).length;
+  var prefillLen=issueUrl.length;
+
+  // Main path: direct prefilled GitHub Issue URL, but only when URL is short enough for mobile.
+  if(prefillLen <= 5500){
+    renderDiagnosis('⏳ 正在打开 GitHub 提交页...', '已整理已填写字段，正在跳转到 GitHub 预填 Issue。请在打开页面点击 Submit new issue。');
+    setTimeout(function(){ window.location.href=issueUrl; }, 120);
+    return;
+  }
+
+  // Oversize fallback: copy text + open Issue Form template.
   var s='<h3>✅ 问卷已整理完成</h3>';
-  s+='<div class="tip" style="color:#1565c0">手机端已切换为稳定提交模式：先复制问卷文本，再打开 GitHub 表单。请在 GitHub 页面粘贴到“其他限制/补充说明”或相应字段后点击 <b>Submit new issue</b>。</div>';
-  s+='<div class="tip" style="color:#888">原因：完整预填链接长度约 '+prefillLen+' 字符，手机/微信容易拦截或无法跳转。</div>';
+  s+='<div class="tip" style="color:#1565c0">已填写内容较多，预填链接约 '+prefillLen+' 字符，手机/微信可能无法跳转。请先复制文本，再打开 GitHub 表单提交。</div>';
   s+='<button class="btn-copy" onclick="C()">📋 第一步：复制问卷文本</button>';
   s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueFormUrl+'" target="_self" rel="noopener">🚀 第二步：打开 GitHub 表单提交</a>';
   s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
