@@ -69,8 +69,61 @@ def load_builder():
     return mod
 
 
+def inline_svg_styles(html:str)->str:
+    """Make SVGs self-contained before any HTML/style sanitizer strips <style> blocks.
+
+    Some generated SVGs used class names (.n/.t/.s/.a) plus an inner <style> tag.
+    The fusion builder hides/removes style tags to avoid CSS pollution; if classes remain
+    without inline fill/stroke, SVG rect defaults to black and text defaults to black,
+    producing meaningless black boxes. This function inlines the known V21 diagram styles
+    and removes the dependency on SVG <style>.
+    """
+    soup=BeautifulSoup(html,'html.parser')
+    for svg_tag in soup.find_all('svg'):
+        for st in svg_tag.find_all('style'):
+            st.decompose()
+        # Default transparent/light canvas for all generated diagrams.
+        for rect in svg_tag.find_all('rect'):
+            cls=(rect.get('class') or [])
+            if isinstance(cls, str): cls=cls.split()
+            # .n is the standard node box class.
+            if 'n' in cls:
+                rect['fill'] = rect.get('fill') or '#ffffff'
+                rect['stroke'] = rect.get('stroke') or '#1d4ed8'
+                rect['stroke-width'] = rect.get('stroke-width') or '2'
+            elif not rect.get('fill'):
+                rect['fill'] = '#f8fafc'
+        for text in svg_tag.find_all('text'):
+            cls=(text.get('class') or [])
+            if isinstance(cls, str): cls=cls.split()
+            if 't' in cls:
+                text['fill'] = text.get('fill') or '#0f172a'
+                text['font-size'] = text.get('font-size') or '16'
+                text['font-weight'] = text.get('font-weight') or '700'
+                text['font-family'] = text.get('font-family') or "-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif"
+            elif 's' in cls:
+                text['fill'] = text.get('fill') or '#334155'
+                text['font-size'] = text.get('font-size') or '13'
+                text['font-family'] = text.get('font-family') or "-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif"
+            elif not text.get('fill'):
+                text['fill'] = '#0f172a'
+        for line in svg_tag.find_all(['line','path']):
+            cls=(line.get('class') or [])
+            if isinstance(cls, str): cls=cls.split()
+            if 'a' in cls:
+                line['stroke'] = line.get('stroke') or '#64748b'
+                line['stroke-width'] = line.get('stroke-width') or '2'
+        # Hard fallback: any non-background rect still black becomes white box.
+        for rect in svg_tag.find_all('rect'):
+            fill=(rect.get('fill') or '').lower()
+            if fill in ('#000','#000000','black','rgb(0,0,0)'):
+                rect['fill']='#ffffff'; rect['stroke']=rect.get('stroke') or '#334155'; rect['stroke-width']=rect.get('stroke-width') or '1.5'
+    return str(soup)
+
+
 def sanitize_visuals_and_process_terms(html:str)->str:
     """Customer-facing hard cleanup: no dark text containers, no patch/process headings."""
+    html = inline_svg_styles(html)
     # Remove process/patch class names from DOM while keeping content.
     html = re.sub(r"\sclass=(['\"])(?:v21-section-patch|v21-enhance-\d+)(['\"])", "", html)
     # Formalize patch headings.
