@@ -3,6 +3,43 @@ const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(d
   headers: { 'content-type': 'application/json; charset=utf-8', ...headers },
 });
 
+
+function mobileQuestionnaireHtml(request) {
+  const origin = new URL(request.url).origin;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>快速版问卷 · 手机专用</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:14px;background:#f6f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',Arial,sans-serif}.wrap{max-width:720px;margin:0 auto}.hero{background:linear-gradient(135deg,#0f4c81,#1565c0);color:#fff;border-radius:18px;padding:20px;margin-bottom:12px;box-shadow:0 8px 20px rgba(21,101,192,.18)}h1{font-size:22px;margin:0 0 6px}.sub{font-size:13px;opacity:.9;line-height:1.6}.card{background:#fff;border-radius:16px;padding:15px;margin:12px 0;box-shadow:0 2px 10px rgba(15,23,42,.06)}label{display:block;font-size:14px;font-weight:800;margin:13px 0 6px;color:#253044}.req{color:#e53935}input,textarea,select{width:100%;border:1px solid #d9e2ef;border-radius:12px;padding:12px;font-size:16px;background:#fbfdff}textarea{min-height:78px;resize:vertical}.btn{width:100%;border:0;border-radius:14px;padding:15px 14px;background:#1565c0;color:#fff;font-size:17px;font-weight:900;margin:14px 0 6px}.btn.secondary{background:#eef5ff;color:#1565c0}.hint{font-size:12px;color:#667085;line-height:1.6}.ok{background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;border-radius:14px;padding:12px;margin:12px 0}.warn{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:14px;padding:12px;margin:12px 0}.mono{white-space:pre-wrap;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:12px;max-height:260px;overflow:auto;font-size:13px}.hide{display:none}a{color:#1565c0;font-weight:800}</style></head><body><div class="wrap"><div class="hero"><h1>⚡ 家庭全球规划 · 快速版问卷</h1><div class="sub">手机专用直连版 · 不需要 GitHub 登录 · 提交后自动生成诊断草案</div></div>
+<div id="status" class="card hide"></div>
+<form id="f" class="card" method="POST" action="${origin}/">
+<input type="hidden" name="redirect" value="${origin}/mobile.html"><input type="hidden" name="summary" id="summary">
+<label>姓名/代号 <span class="req">*</span></label><input name="name" required placeholder="例如：王总家庭">
+<label>家庭成员</label><textarea name="family" placeholder="如：夫43岁-企业主 / 妻40岁 / 女儿12岁"></textarea>
+<label>现有国籍/护照/永居</label><textarea name="nationality" placeholder="如：均中国籍，无第二护照/绿卡"></textarea>
+<label>当前居住国家/城市</label><input name="residence" placeholder="如：中国深圳">
+<label>税务居民国</label><input name="tax_resident" placeholder="如：中国 / 美国 / 不确定">
+<label>企业所在地 & 行业</label><textarea name="business" placeholder="如：深圳 / 跨境电商、供应链出口"></textarea>
+<label>企业年营收</label><select name="revenue"><option value="">请选择</option><option>500万以下</option><option>500万-2000万</option><option>2000万-5000万</option><option>5000万-1亿</option><option>1亿-5亿</option><option>5亿以上</option></select>
+<label>家庭资产规模</label><select name="assets"><option value="">请选择</option><option>500万以下</option><option>500万-1500万</option><option>1500万-3000万</option><option>3000万-5000万</option><option>5000万-1亿</option><option>1亿以上</option></select>
+<label>主要资产构成</label><textarea name="asset_structure" placeholder="房产、企业股权、存款、股票基金、保险、境外资产等"></textarea>
+<label>意向移民国家/地区 <span class="req">*</span></label><textarea name="target_countries" required placeholder="如：新加坡、香港、土耳其、澳大利亚、美国"></textarea>
+<label>核心诉求</label><textarea name="goals" placeholder="身份规划、税务优化、子女教育、资产安全、企业出海等"></textarea>
+<label>预算</label><select name="budget"><option value="">请选择</option><option>50万以下</option><option>50万-200万</option><option>200万-500万</option><option>500万-1500万</option><option>1500万+</option><option>无明确上限</option></select>
+<label>紧迫度</label><select name="urgency"><option value="">请选择</option><option>1个月内</option><option>3个月内</option><option>6个月内</option><option>1年内</option><option>不着急</option></select>
+<label>是否必须保留中国国籍？</label><select name="keep_cn"><option value="">请选择</option><option>必须保留</option><option>可放弃</option><option>待定</option></select>
+<label>资金跨境/海外资产/其他限制</label><textarea name="constraints" placeholder="已有海外账户、资金出境、已有计划、其他限制等"></textarea>
+<button class="btn" type="submit">📤 提交问卷并生成诊断草案</button><div class="hint">提交成功后会显示 Issue 编号，并自动等待诊断草案生成。</div></form>
+<div class="card"><button class="btn secondary" onclick="copySummary()">📋 复制已填问卷文本备用</button><div id="copyBox" class="mono hide"></div></div></div>
+<script>
+const labels={name:'姓名/代号',family:'家庭成员',nationality:'现有国籍/护照/永居',residence:'当前居住国家/城市',tax_resident:'税务居民国',business:'企业所在地&行业',revenue:'企业年营收',assets:'家庭资产规模',asset_structure:'主要资产构成',target_countries:'意向移民国家/地区',goals:'核心诉求',budget:'预算',urgency:'紧迫度',keep_cn:'是否必须保留中国国籍',constraints:'资金跨境/海外资产/其他限制'};
+function buildSummary(){const fd=new FormData(document.getElementById('f'));let lines=[];Object.keys(labels).forEach(k=>{let v=(fd.get(k)||'').toString().trim();if(v)lines.push(labels[k]+'：'+v)});return lines.join('\n')||'姓名/代号：未填';}
+function copySummary(){const t='【财税方案快速问卷提交】\n请直接生成诊断草案。\n\n【原始问卷数据】\n'+buildSummary();navigator.clipboard&&navigator.clipboard.writeText(t);document.getElementById('copyBox').classList.remove('hide');document.getElementById('copyBox').textContent=t;}
+document.getElementById('f').addEventListener('submit',()=>{document.getElementById('summary').value=buildSummary();});
+function showStatus(html){document.getElementById('f').classList.add('hide');const st=document.getElementById('status');st.classList.remove('hide');st.innerHTML=html;}
+async function poll(issue){showStatus('<div class="ok"><b>✅ 问卷已提交：Issue #'+issue+'</b><br>诊断草案生成中，请稍候。<br><a target="_blank" href="https://github.com/sewen38/family-plan/issues/'+issue+'">查看提交记录</a></div>');try{const r=await fetch('/api/diagnosis/'+issue);const j=await r.json();if(j.ok&&(j.stage==='diagnosis_done'||j.stage==='completed')){showStatus('<div class="ok"><b>✅ 诊断草案已生成</b><br><a target="_blank" href="https://sewen38.github.io/family-plan/cloud-output/diagnosis-draft-issue-'+issue+'.html">打开诊断草案</a><br><br><a target="_blank" href="https://github.com/sewen38/family-plan/issues/'+issue+'">查看 GitHub 记录</a></div>');return}}catch(e){}setTimeout(()=>poll(issue),8000)}
+const u=new URL(location.href);const issue=u.searchParams.get('issue');if(issue){poll(issue)}
+</script></body></html>`;
+}
+
 function corsHeaders(request) {
   const origin = request.headers.get('origin') || '';
   const allowed = 'https://sewen38.github.io';
@@ -102,6 +139,10 @@ export default {
     const repo = env.GITHUB_REPO || 'sewen38/family-plan';
 
     // ── GET /start.html or /start: serve same-origin questionnaire page ──
+    if (request.method === 'GET' && (path === '/mobile.html' || path === '/mobile' || path === '/phone')) {
+      return new Response(mobileQuestionnaireHtml(request), { status: 200, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store, max-age=0' } });
+    }
+
     if (request.method === 'GET' && (path === '/start.html' || path === '/start' || path === '/questionnaire')) {
       return serveQuestionnaire(request);
     }
