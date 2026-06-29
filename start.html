@@ -72,8 +72,8 @@ input[type=text]:focus,input[type=number]:focus{border-color:#4a90d9}
 </head>
 <body>
 
-<h1>⚡ 家庭全球规划 · 快速版问卷 <span style="font-size:12px;color:#0b8a2a">最新版 20260629 Worker-Fixed</span></h1>
-<div class="sub">9个板块 · 约15分钟 · 提交后自动创建 Issue 编号 · Worker 已修复 · 12个国家/地区可选</div>
+<h1>⚡ 家庭全球规划 · 快速版问卷 <span style="font-size:12px;color:#0b8a2a">最新版 20260629 GitHub-Only</span></h1>
+<div class="sub">9个板块 · 约15分钟 · 提交后跳转 GitHub 预填页 · 12个国家/地区可选</div>
 
 <div class="result-card" id="diagnosisCard">
   <h2>📄 我的诊断草案</h2>
@@ -781,38 +781,21 @@ document.getElementById('f').onsubmit=function(e){
     summary+=(summary?'\n':'')+Q[k]+'：'+v;
   }
   window._t=buildProtocolText(summary);
-  document.getElementById('ov').classList.remove('on');
-  renderDiagnosis('⏳ 正在提交问卷，请稍候...', '系统正在创建问卷编号。只有拿到 Issue 编号后才算提交成功。');
 
-  // Automatic channel: GitHub Issues API via Cloudflare Worker.
-  // Public GitHub Pages has no local /submit endpoint; calling it first creates a false 404 failure.
-  fetch(ISSUE_PROXY_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({name:(m.name||[]).join(','),summary:summary})
-  })
-  .then(function(r){return r.json()})
-  .then(function(r){
-    if(r.issue){
-      saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
-      markDiagnosisUrl(r.issue);
-      document.getElementById('ov').classList.remove('on');
-      renderDiagnosis('✅ 已提交，问卷编号 Issue #'+r.issue, '云端正在生成诊断草案，请稍后刷新。');
-      setTimeout(refreshDiagnosis,1200);
-    } else {
-      document.getElementById('ov').classList.remove('on');
-      var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
-      renderDiagnosis('⚠️ 自动提交未完成，请打开预填 GitHub Issue 提交页完成提交。','');
-      showGithubFallback(issueUrl,'打开预填问卷提交页','自动提交返回异常，未返回 Issue 编号。请点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
-    }
-  })
-  .catch(function(){
-    // Some in-app browsers (notably WeChat/enterprise WebViews) block cross-origin fetch even when CORS is correct.
-    // Fall back to a normal HTML form POST, which does not rely on Ajax/CORS.
-    document.getElementById('ov').classList.remove('on');
-    submitViaNavigationForm((m.name||[]).join(','), summary);
-  });
-  
+  // GitHub-only mode: no Cloudflare Worker dependency.
+  // The form redirects to a prefilled GitHub Issue page. After the user clicks
+  // "Submit new issue", GitHub Actions Cloud Runner will generate diagnosis draft.
+  var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
+  var s='<h3>✅ 问卷已整理完成</h3>';
+  s+='<div class="tip" style="color:#1565c0">下一步将打开 GitHub 预填提交页。请在打开页面后点击绿色 <b>Submit new issue</b>。提交成功后，系统会自动生成诊断草案。</div>';
+  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueUrl+'" target="_self" rel="noopener">🚀 打开 GitHub 预填提交页</a>';
+  s+='<button class="btn-copy" onclick="C()">📋 复制问卷文本备用</button>';
+  s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
+  s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
+  document.getElementById('rc').innerHTML=s;
+  document.getElementById('ov').classList.add('on');
+  window.scrollTo(0,0);
+};
   function showResult(msg,ok,minutes){
     var s='<h3>✅ '+(msg||'问卷已填写')+'</h3>';
     if(ok){
