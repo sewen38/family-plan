@@ -749,14 +749,24 @@ document.getElementById('f').onsubmit=function(e){
   }
   window._t=buildProtocolText(summary);
   document.getElementById('ov').classList.remove('on');
-  renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
+  renderDiagnosis('⏳ 正在提交问卷，请稍候...', '系统正在创建问卷编号。只有拿到 Issue 编号后才算提交成功。');
 
   // Automatic channels are best-effort only and run after the UI responds immediately.
   // Channel 1: try local server (same WiFi → instant processing)
   fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
   .then(function(r){return r.json()})
   .then(function(r){
-    if(r.issue){saveDiagnosisIssue(r.issue,(m.name||[]).join(','));document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');setTimeout(refreshDiagnosis,1200);}else{document.getElementById('ov').classList.remove('on');renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');}
+    if(r.issue){
+      saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
+      document.getElementById('ov').classList.remove('on');
+      renderDiagnosis('✅ 已提交，问卷编号 Issue #'+r.issue, '云端正在生成诊断草案，请稍后刷新。');
+      setTimeout(refreshDiagnosis,1200);
+    }else{
+      document.getElementById('ov').classList.remove('on');
+      var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
+      renderDiagnosis('⚠️ 未拿到问卷编号，提交未完成。请使用稳定版提交入口。','');
+      showGithubFallback(issueUrl,'打开预填问卷提交页','系统未返回 Issue 编号，不能算提交成功。请点按钮打开预填 Issue，登录后点 Submit new issue。');
+    }
   })
   .catch(function(){
     // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
@@ -771,7 +781,7 @@ document.getElementById('f').onsubmit=function(e){
       if(r.issue){
         saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
         document.getElementById('ov').classList.remove('on');
-        renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','');
+        renderDiagnosis('✅ 已提交，问卷编号 Issue #'+r.issue, '云端正在生成诊断草案，请稍后刷新。');
         setTimeout(refreshDiagnosis,1200);
         // Also try to trigger local server for instant processing
         try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.issue,name:(m.name||[]).join(',')})}) }catch(e){}
