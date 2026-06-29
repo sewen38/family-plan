@@ -93,13 +93,13 @@ def standard_child_supplement(title: str) -> str:
 
 def section_patch_html(n:int)->str:
     if n==10:
-        return """<div class='v21-section-patch'><h3>10.X 教育规划执行补充</h3><p>教育规划属于国家层内容，不能因客户只选择某一个身份项目而删除。执行时需同时考虑学校类型、入学窗口、身份阶段教育权益、学费与生活费预算、陪读安排、监护、保险、语言与课程衔接、材料准备和风险预案。客户子女处于中小学阶段时，应倒推未来两年国际高中、本地学校或海外转学申请，建立成绩单、推荐信、语言考试、疫苗、资金证明、住宿和监护材料清单。</p><p>教育风险包括身份获批时间与入学季错配、父母陪读触发税务居民、资金证明口径不一致、学校名额不足、课程体系转换失败和家庭居住地与学校选择不匹配。执行动作是先确定主教育国家与备选国家，再匹配身份递交、账户资金和居住安排。教育费用必须分年度列示，包括申请费、注册费、学费、校车、住宿、餐饮、保险、考试、语言培训、监护和紧急预备金。</p><div class='table-wrap'><table><tr><th>教育事项</th><th>执行动作</th><th>预算/来源</th><th>风险控制</th></tr><tr><td>学校选择</td><td>公立、私立、国际学校逐项筛选</td><td>学校官网、教育局、招生办公室</td><td>提前确认名额和身份要求</td></tr><tr><td>入学窗口</td><td>倒排申请截止日、考试、面试、签证</td><td>学校招生手册</td><td>身份申请与入学季同步</td></tr><tr><td>资金证明</td><td>教育资金、生活费、账户流水一致</td><td>银行流水、完税、分红凭证</td><td>避免资金来源无法解释</td></tr></table></div><p>补充执行要求：教育规划必须与身份递交、资金证明、居住安排和税务居民判断同步，任何学校申请、陪读安排或资金证明变化，都要回到客户年度出入境天数和资金来源证据链中复核，避免教育目标与身份路径脱节。</p></div>"""
+        return """<div class='section-note'><h3>10.4 教育规划执行要点</h3><p>教育规划属于国家层内容，不能因客户只选择某一个身份项目而删除。执行时需同时考虑学校类型、入学窗口、身份阶段教育权益、学费与生活费预算、陪读安排、监护、保险、语言与课程衔接、材料准备和风险预案。客户子女处于中小学阶段时，应倒推未来两年国际高中、本地学校或海外转学申请，建立成绩单、推荐信、语言考试、疫苗、资金证明、住宿和监护材料清单。</p><p>教育风险包括身份获批时间与入学季错配、父母陪读触发税务居民、资金证明口径不一致、学校名额不足、课程体系转换失败和家庭居住地与学校选择不匹配。执行动作是先确定主教育国家与备选国家，再匹配身份递交、账户资金和居住安排。教育费用必须分年度列示，包括申请费、注册费、学费、校车、住宿、餐饮、保险、考试、语言培训、监护和紧急预备金。</p><div class='table-wrap'><table><tr><th>教育事项</th><th>执行动作</th><th>预算/来源</th><th>风险控制</th></tr><tr><td>学校选择</td><td>公立、私立、国际学校逐项筛选</td><td>学校官网、教育局、招生办公室</td><td>提前确认名额和身份要求</td></tr><tr><td>入学窗口</td><td>倒排申请截止日、考试、面试、签证</td><td>学校招生手册</td><td>身份申请与入学季同步</td></tr><tr><td>资金证明</td><td>教育资金、生活费、账户流水一致</td><td>银行流水、完税、分红凭证</td><td>避免资金来源无法解释</td></tr></table></div><p>执行要求：教育规划必须与身份递交、资金证明、居住安排和税务居民判断同步，任何学校申请、陪读安排或资金证明变化，都要回到客户年度出入境天数和资金来源证据链中复核，避免教育目标与身份路径脱节。</p></div>"""
     if n==11:
-        return """<div class='v21-section-patch'><h3>11.X 福利与居住维护执行补充</h3><p>福利居住国规划必须区分临时签证、工作准证、投资居留、永居和公民阶段的医疗、养老、社保、公共福利、居住权稳定性、税务居民风险和年度身份维护。福利不得作为营销承诺，必须说明资格条件、缴费要求、等待期、商业保险补位和家庭成员覆盖。</p><p>执行动作包括建立续签日期、地址更新、保险续保、银行账户活跃度、学校注册、税务申报和雇佣或投资状态复核日历。医疗、福利、居住、税务和维护必须同时写清。客户如果长期保留中国经营和中国税务居民身份，不能把境外福利当作避税理由，也不能以未实际居住的身份获取公共资源。</p><div class='table-wrap'><table><tr><th>福利维度</th><th>适用边界</th><th>客户动作</th><th>维护材料</th></tr><tr><td>医疗</td><td>公共医疗、商业保险、等待期、既往症</td><td>落地前配置商业保险</td><td>保险单、就医记录</td></tr><tr><td>居住权</td><td>临签/永居/公民阶段不同</td><td>按期续签并保存居住证据</td><td>租约、账单、出入境记录</td></tr><tr><td>税务维护</td><td>居住天数和账户声明影响税务居民</td><td>年度税务居民复核</td><td>申报表、CRS声明、税务意见</td></tr></table></div><p>补充执行要求：福利与居住维护应按家庭成员逐人建档，记录证件有效期、保险生效期、税务申报期、地址证明、学校注册和银行账户状态，确保身份维护不是一次性递交，而是每年可被审计的持续合规。</p></div>"""
+        return """<div class='section-note'><h3>11.4 福利与居住维护要点</h3><p>福利居住国规划必须区分临时签证、工作准证、投资居留、永居和公民阶段的医疗、养老、社保、公共福利、居住权稳定性、税务居民风险和年度身份维护。福利不得作为营销承诺，必须说明资格条件、缴费要求、等待期、商业保险补位和家庭成员覆盖。</p><p>执行动作包括建立续签日期、地址更新、保险续保、银行账户活跃度、学校注册、税务申报和雇佣或投资状态复核日历。医疗、福利、居住、税务和维护必须同时写清。客户如果长期保留中国经营和中国税务居民身份，不能把境外福利当作避税理由，也不能以未实际居住的身份获取公共资源。</p><div class='table-wrap'><table><tr><th>福利维度</th><th>适用边界</th><th>客户动作</th><th>维护材料</th></tr><tr><td>医疗</td><td>公共医疗、商业保险、等待期、既往症</td><td>落地前配置商业保险</td><td>保险单、就医记录</td></tr><tr><td>居住权</td><td>临签/永居/公民阶段不同</td><td>按期续签并保存居住证据</td><td>租约、账单、出入境记录</td></tr><tr><td>税务维护</td><td>居住天数和账户声明影响税务居民</td><td>年度税务居民复核</td><td>申报表、CRS声明、税务意见</td></tr></table></div><p>执行要求：福利与居住维护应按家庭成员逐人建档，记录证件有效期、保险生效期、税务申报期、地址证明、学校注册和银行账户状态，确保身份维护不是一次性递交，而是每年可被审计的持续合规。</p></div>"""
     if n==12:
-        return """<div class='v21-section-patch'><h3>12.X 预算、三方费用与材料清单补充</h3><p>预算明细必须覆盖费用、三方费用、材料、三方材料、投资款、生活费用、年度维护和风险预备金。预算不得只列项目服务费，必须列官方费、律师费、税务费、翻译公证、银行账户、保险、教育、住房、交通、续签和申报成本。所有费用均需标注币种、付款节点、退款条件、是否含税、是否包含家庭成员、是否受汇率影响、是否需要年度续费。</p><div class='table-wrap'><table><tr><th>预算项</th><th>内容</th><th>数据来源</th></tr><tr><td>官方/项目费用</td><td>申请费、投资款、政府费、尽调费</td><td>官方、项目方、律师核验</td></tr><tr><td>专业服务</td><td>律师、税务师、会计师、顾问、翻译公证</td><td>合同与报价单</td></tr><tr><td>生活教育</td><td>住房、学校、保险、交通、年度维护</td><td>城市生活成本与学校报价</td></tr></table></div><div class='table-wrap'><table><tr><th>材料类别</th><th>客户侧</th><th>项目方/雇主侧</th><th>顾问侧</th></tr><tr><td>身份材料</td><td>护照、关系、学历、无犯罪、体检</td><td>申请表、雇主/项目文件</td><td>材料索引与一致性复核</td></tr><tr><td>资金材料</td><td>审计、完税、分红、流水</td><td>投资/薪资/收款文件</td><td>资金来源叙事和KYC/KYB复核</td></tr><tr><td>维护材料</td><td>居住、学校、保险、税务申报</td><td>续签/持有/退出证明</td><td>年度合规日历</td></tr></table></div><div class='table-wrap'><table><tr><th>三方费用</th><th>客户侧</th><th>项目方侧</th><th>顾问侧</th></tr><tr><td>申请阶段</td><td>官方费和材料费</td><td>项目证明和合同</td><td>方案、递交、补件</td></tr><tr><td>维护阶段</td><td>居住、保险、申报</td><td>年度文件</td><td>合规日历</td></tr></table></div></div>"""
+        return """<div class='section-note'><h3>12.4 预算、三方费用与材料清单</h3><p>预算明细必须覆盖费用、三方费用、材料、三方材料、投资款、生活费用、年度维护和风险预备金。预算不得只列项目服务费，必须列官方费、律师费、税务费、翻译公证、银行账户、保险、教育、住房、交通、续签和申报成本。所有费用均需标注币种、付款节点、退款条件、是否含税、是否包含家庭成员、是否受汇率影响、是否需要年度续费。</p><div class='table-wrap'><table><tr><th>预算项</th><th>内容</th><th>数据来源</th></tr><tr><td>官方/项目费用</td><td>申请费、投资款、政府费、尽调费</td><td>官方、项目方、律师核验</td></tr><tr><td>专业服务</td><td>律师、税务师、会计师、顾问、翻译公证</td><td>合同与报价单</td></tr><tr><td>生活教育</td><td>住房、学校、保险、交通、年度维护</td><td>城市生活成本与学校报价</td></tr></table></div><div class='table-wrap'><table><tr><th>材料类别</th><th>客户侧</th><th>项目方/雇主侧</th><th>顾问侧</th></tr><tr><td>身份材料</td><td>护照、关系、学历、无犯罪、体检</td><td>申请表、雇主/项目文件</td><td>材料索引与一致性复核</td></tr><tr><td>资金材料</td><td>审计、完税、分红、流水</td><td>投资/薪资/收款文件</td><td>资金来源叙事和KYC/KYB复核</td></tr><tr><td>维护材料</td><td>居住、学校、保险、税务申报</td><td>续签/持有/退出证明</td><td>年度合规日历</td></tr></table></div><div class='table-wrap'><table><tr><th>三方费用</th><th>客户侧</th><th>项目方侧</th><th>顾问侧</th></tr><tr><td>申请阶段</td><td>官方费和材料费</td><td>项目证明和合同</td><td>方案、递交、补件</td></tr><tr><td>维护阶段</td><td>居住、保险、申报</td><td>年度文件</td><td>合规日历</td></tr></table></div></div>"""
     if n==14:
-        return """<div class='v21-section-patch'><h3>14.X 财税执行策划案补充</h3><p>财税执行策划案必须覆盖中国经营主体利润形成、企业所得税、个人分红、个人所得税、银行流水沉淀、合规出境、境外账户KYC、CRS税务居民声明、FATCA和FBAR按美国路径识别、37号文、ODI、FDI按资金路径识别、项目国税务居民边界、保险与传承安排。资金双循环为经营收入、完税分红、境外账户、身份项目、教育生活、投资退出和回流申报。</p><p>禁止使用来源不明资金、地下钱庄、第三方无商业理由代付、虚假贸易或护照身份制造虚假税务居民。每笔资金必须回答谁赚的钱、税交在哪里、为什么转出、用于哪个项目、未来如何申报和退出。正式执行前应由中国税务师、目的国税务师、移民律师和银行合规团队共同复核。财税定制化执行策划案收齐上述材料后另行出具根据难易程度单独收费。</p></div>"""
+        return """<div class='section-note'><h3>14.4 财税执行策划案要点</h3><p>财税执行策划案必须覆盖中国经营主体利润形成、企业所得税、个人分红、个人所得税、银行流水沉淀、合规出境、境外账户KYC、CRS税务居民声明、FATCA和FBAR按美国路径识别、37号文、ODI、FDI按资金路径识别、项目国税务居民边界、保险与传承安排。资金双循环为经营收入、完税分红、境外账户、身份项目、教育生活、投资退出和回流申报。</p><p>禁止使用来源不明资金、地下钱庄、第三方无商业理由代付、虚假贸易或护照身份制造虚假税务居民。每笔资金必须回答谁赚的钱、税交在哪里、为什么转出、用于哪个项目、未来如何申报和退出。正式执行前应由中国税务师、目的国税务师、移民律师和银行合规团队共同复核。财税定制化执行策划案收齐上述材料后另行出具根据难易程度单独收费。</p></div>"""
     return ''
 
 def insert_before_next_chapter(h:str, n:int, patch:str)->str:
@@ -111,17 +111,27 @@ def insert_before_next_chapter(h:str, n:int, patch:str)->str:
         lab=labels.get(n,'')
         start=h.find(lab) if lab else -1
     if start<0: return h
+    # If current match is inside a section tag attribute, move to the beginning of that section.
+    sec_start=h.rfind('<section',0,start)
+    if sec_start>=0 and h.find('>',sec_start,start+200)>=start:
+        start=sec_start
     end=len(h)
     for k in range(n+1,16):
         m=re.search(rf'id\s*=\s*(["\']?)(?:ch|s){k}\b\1', h[start+1:], flags=re.I)
         if m:
-            end=start+1+m.start(); break
+            raw=start+1+m.start()
+            sec=h.rfind('<section',0,raw)
+            end=sec if sec>=0 and h.find('>',sec,raw+200)>=raw else raw
+            break
         labels={11:'十一、福利居住国规划',12:'十二、预算明细汇总',13:'十三、执行时间轴',14:'十四、财税执行策划案全文',15:'十五、重要风险声明'}
         lab=labels.get(k,'')
         if lab:
             pos=h.find(lab,start+1)
-            if pos>=0: end=pos; break
-    if 'v21-section-patch' in h[start:end]: return h
+            if pos>=0:
+                sec=h.rfind('<section',0,pos)
+                end=sec if sec>=0 and h.find('>',sec,pos+200)>=pos else pos
+                break
+    if 'section-note' in h[start:end] or 'v21-section-patch' in h[start:end]: return h
     return h[:end]+patch+h[end:]
 
 def patch_child_sections(h:str)->str:
@@ -142,7 +152,7 @@ def copy_modules(issue_num: int, modules):
         # to appear before the title/calculator/TOC, violating the final template order.
         # Keep each single-project source in its own natural 0/计算器/目录/1-15 order and only
         # clean customer-visible placeholders/internal terms.
-        for a,b in {'待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','fallback':'备用机制','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：','tax-assessment/':'财税执行策划案框架','fallback':'备用机制','补强':'完善','manual':'专业版','skills/family-plan':'标准模板','tr-assessment/':'土耳其评估','工作底稿':'正式交付版','底稿':'正式版','V20Plus':'V21','placeholder':'','根据实际情况':'以项目方最终书面确认为准','按官方':'按本页列明官方来源复核'}.items(): h=h.replace(a,b)
+        for a,b in {'待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','视情况':'按家庭成员和材料要求核验','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','fallback':'备用机制','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：','tax-assessment/':'财税执行策划案框架','fallback':'备用机制','补强':'完善','manual':'专业版','skills/family-plan':'标准模板','tr-assessment/':'土耳其评估','工作底稿':'正式交付版','底稿':'正式版','V20Plus':'V21','placeholder':'','根据实际情况':'以项目方最终书面确认为准','按官方':'按本页列明官方来源复核'}.items(): h=h.replace(a,b)
         h=re.sub(r'生成日期：[^<\n]*?(?:html|HTML)[^<\n]*', '生成日期：2026-06-17 ｜ 数据核验：官方/权威来源逐项记录', h)
         h=h.replace('final-single/manual/','').replace('.html','')
         h=patch_child_sections(h)
