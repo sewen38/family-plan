@@ -782,14 +782,16 @@ document.getElementById('f').onsubmit=function(e){
   }
   window._t=buildProtocolText(summary);
 
-  // GitHub-only mode: no Cloudflare Worker dependency.
-  // The form redirects to a prefilled GitHub Issue page. After the user clicks
-  // "Submit new issue", GitHub Actions Cloud Runner will generate diagnosis draft.
-  var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
+  // GitHub-only mode without giant prefilled URLs.
+  // Mobile/WeChat often fails when the prefilled Issue URL exceeds safe URL length.
+  // Therefore: copy questionnaire text, then open GitHub Issue Form template.
+  var issueFormUrl='https://github.com/sewen38/family-plan/issues/new?template=quick-questionnaire.yml';
+  var prefillLen=buildGithubIssueUrl((m.name||[]).join(','), summary).length;
   var s='<h3>✅ 问卷已整理完成</h3>';
-  s+='<div class="tip" style="color:#1565c0">下一步将打开 GitHub 预填提交页。请在打开页面后点击绿色 <b>Submit new issue</b>。提交成功后，系统会自动生成诊断草案。</div>';
-  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueUrl+'" target="_self" rel="noopener">🚀 打开 GitHub 预填提交页</a>';
-  s+='<button class="btn-copy" onclick="C()">📋 复制问卷文本备用</button>';
+  s+='<div class="tip" style="color:#1565c0">手机端已切换为稳定提交模式：先复制问卷文本，再打开 GitHub 表单。请在 GitHub 页面粘贴到“其他限制/补充说明”或相应字段后点击 <b>Submit new issue</b>。</div>';
+  s+='<div class="tip" style="color:#888">原因：完整预填链接长度约 '+prefillLen+' 字符，手机/微信容易拦截或无法跳转。</div>';
+  s+='<button class="btn-copy" onclick="C()">📋 第一步：复制问卷文本</button>';
+  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueFormUrl+'" target="_self" rel="noopener">🚀 第二步：打开 GitHub 表单提交</a>';
   s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
   s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
   document.getElementById('rc').innerHTML=s;
