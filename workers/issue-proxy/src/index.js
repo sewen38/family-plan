@@ -19,6 +19,26 @@ function cleanText(value, max = 20000) {
   return String(value || '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').slice(0, max);
 }
 
+
+async function serveQuestionnaire(request) {
+  const upstream = 'https://raw.githubusercontent.com/sewen38/family-plan/main/start.html';
+  const res = await fetch(upstream, { headers: { 'accept': 'text/html' } });
+  let html = await res.text();
+  const origin = new URL(request.url).origin;
+  // Same-origin mode: avoid Feishu/in-app browser cross-origin restrictions.
+  html = html.replace(/var ISSUE_PROXY_URL='[^']*';/, `var ISSUE_PROXY_URL='${origin}';`);
+  html = html.replace(/document\.html\?issue=/g, 'https://sewen38.github.io/family-plan/document.html?issue=');
+  html = html.replace('最新版 20260629 Worker-Fixed', '最新版 20260629 Same-Origin Worker');
+  return new Response(html, {
+    status: 200,
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'cache-control': 'no-store, max-age=0',
+      'x-family-plan-entry': 'worker-same-origin',
+    },
+  });
+}
+
 // GitHub API helper (uses stored token)
 async function gh(method, path, env, body = null) {
   const headers = {
@@ -80,6 +100,11 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
     const repo = env.GITHUB_REPO || 'sewen38/family-plan';
+
+    // ── GET /start.html or /start: serve same-origin questionnaire page ──
+    if (request.method === 'GET' && (path === '/start.html' || path === '/start' || path === '/questionnaire')) {
+      return serveQuestionnaire(request);
+    }
 
     // ── POST / (default): create issue from questionnaire ──
     if (request.method === 'POST' && (path === '/' || path === '' || path === '/api/create-issue')) {
