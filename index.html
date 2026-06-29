@@ -490,13 +490,34 @@ function extractDiagnosisComment(comments){
 function refreshDiagnosis(){
   var rec=getDiagnosisIssue(); if(!rec){return;}
   renderDiagnosis('正在查询 Issue #'+rec.issue+' 的诊断草案...', '');
-  fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+rec.issue+'/comments',{headers:{'Accept':'application/vnd.github+json'}})
-  .then(function(r){return r.json()}).then(function(comments){
-    var body=extractDiagnosisComment(comments);
-    if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
-      saveDiagnosisIssue(rec.issue,rec.name,body);}
-    else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体，按主 Skill V21 专业级标准生成诊断草案。','Issue #'+rec.issue+' 已记录。当前最终流程以复制问卷文本交给智能体生成为准，不依赖任何网络回调。');}
-  }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新。','Issue #'+rec.issue+' 已记录在本机浏览器。');});
+  // Use worker proxy to bypass GitHub API rate limits
+  fetch(ISSUE_PROXY_URL.replace('/api/create-issue','/api/diagnosis/'+rec.issue))
+  .then(function(r){return r.json()}).then(function(result){
+    if(result.ok && result.stage==='diagnosis_done'){
+      if(result.html){
+        renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', result.html);
+        saveDiagnosisIssue(rec.issue,rec.name,result.html);
+      } else {
+        renderDiagnosis('✅ 诊断草案已生成', '');
+        saveDiagnosisIssue(rec.issue,rec.name,'');
+      }
+    } else if(result.ok && result.stage==='pending'){
+      renderDiagnosis('⏳ 诊断草案生成中（云端执行器通常3-10分钟完成，请稍后点击刷新）','Issue #'+rec.issue+' 已提交，正在等待云端执行器生成诊断草案。');
+    } else if(result.ok && result.stage==='blocked'){
+      renderDiagnosis('⚠️ 云端生成遇到问题，请复制问卷文本发给当前智能体','Issue #'+rec.issue+' 云端处理被阻断。请使用下方的「复制问卷给智能体」按钮。');
+    } else {
+      renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体。','Issue #'+rec.issue+' 已记录。');
+    }
+  }).catch(function(){
+    // Fallback: try direct GitHub API
+    fetch('https://api.github.com/repos/sewen38/family-plan/issues/'+rec.issue+'/comments',{headers:{'Accept':'application/vnd.github+json'}})
+    .then(function(r){return r.json()}).then(function(comments){
+      var body=extractDiagnosisComment(comments);
+      if(body){renderDiagnosis('✅ 已生成诊断草案（48小时内可在本机重复查看）', body);
+        saveDiagnosisIssue(rec.issue,rec.name,body);}
+      else{renderDiagnosis('✅ 已提交。请复制问卷文本发给智能体。','Issue #'+rec.issue+' 已记录。');}
+    }).catch(function(){renderDiagnosis('⚠️ 查询失败，请稍后刷新或复制问卷文本发给智能体。','Issue #'+rec.issue+' 已记录。');});
+  });
 }
 // 国家名称 → 评估页URL 映射表
 var COUNTRY_URLS={
