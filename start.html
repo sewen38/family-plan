@@ -715,6 +715,21 @@ window.addEventListener('load',function(){
 
 
 
+
+function submitViaNavigationForm(name, summary){
+  renderDiagnosis('⏳ 正在切换备用提交方式...', '当前浏览器拦截了跨域 Ajax，系统正在改用普通表单 POST 提交。成功后会自动回到诊断等待页。');
+  var form=document.createElement('form');
+  form.method='POST';
+  form.action=ISSUE_PROXY_URL;
+  form.style.display='none';
+  function add(k,v){var input=document.createElement('input');input.type='hidden';input.name=k;input.value=v||'';form.appendChild(input);}
+  add('name',name||'');
+  add('summary',summary||'');
+  add('redirect',location.origin+location.pathname);
+  document.body.appendChild(form);
+  form.submit();
+}
+
 function buildGithubIssueUrl(name, summary){
   var title='📋 '+(name||'未知')+' · '+new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
   var body='## 原始问卷数据\n\n```\n'+summary+'\n```\n\n---\n📅 '+new Date().toISOString()+'\n来源：family-plan-github-fallback';
@@ -792,10 +807,10 @@ document.getElementById('f').onsubmit=function(e){
     }
   })
   .catch(function(){
+    // Some in-app browsers (notably WeChat/enterprise WebViews) block cross-origin fetch even when CORS is correct.
+    // Fall back to a normal HTML form POST, which does not rely on Ajax/CORS.
     document.getElementById('ov').classList.remove('on');
-    var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
-    renderDiagnosis('⚠️ 自动提交通道暂时不可用，请打开预填 GitHub Issue 提交页完成提交。','');
-    showGithubFallback(issueUrl,'打开预填问卷提交页','Worker/网络不可用时，点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
+    submitViaNavigationForm((m.name||[]).join(','), summary);
   });
   
   function showResult(msg,ok,minutes){

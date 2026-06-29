@@ -108,12 +108,26 @@ export default {
 
     // ── POST / (default): create issue from questionnaire ──
     if (request.method === 'POST' && (path === '/' || path === '' || path === '/api/create-issue')) {
-      let input;
-      try { input = await request.json(); } catch (_) { return json({ ok: false, error: 'invalid_json' }, 400, cors); }
+      let input = {};
+      let formMode = false;
+      const ctype = request.headers.get('content-type') || '';
+      try {
+        if (ctype.includes('application/json')) {
+          input = await request.json();
+        } else if (ctype.includes('application/x-www-form-urlencoded') || ctype.includes('multipart/form-data')) {
+          formMode = true;
+          const fd = await request.formData();
+          input = Object.fromEntries(fd.entries());
+        } else {
+          input = await request.json();
+        }
+      } catch (_) { return json({ ok: false, error: 'invalid_input' }, 400, cors); }
 
       const summary = cleanText(input.summary, 18000);
       const name = cleanText(input.name, 80) || '未知';
-      if (!summary || summary.length < 20) return json({ ok: false, error: 'empty_summary' }, 400, cors);
+      if (!summary || summary.length < 20) return formMode
+        ? Response.redirect(`https://sewen38.github.io/family-plan/start.html?stage=submit_failed&v=form-empty`, 303)
+        : json({ ok: false, error: 'empty_summary' }, 400, cors);
 
       const title = `📋 ${name} · ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}`;
       const body = `## 原始问卷数据\n\n\`\`\`\n${summary}\n\`\`\`\n\n---\n📅 ${new Date().toISOString()}\n来源：family-plan-issue-proxy`;
@@ -142,6 +156,14 @@ export default {
         } catch (_) {}
       }
 
+      if (formMode) {
+        const redirectBase = cleanText(input.redirect || 'https://sewen38.github.io/family-plan/start.html', 500);
+        const u = new URL(redirectBase);
+        u.searchParams.set('issue', data.number);
+        u.searchParams.set('stage', 'diagnosis');
+        u.searchParams.set('v', 'form-post-fallback');
+        return Response.redirect(u.toString(), 303);
+      }
       return json({ ok: true, issue: data.number, url: data.html_url }, 200, cors);
     }
 
