@@ -772,9 +772,13 @@ document.getElementById('f').onsubmit=function(e){
   document.getElementById('ov').classList.remove('on');
   renderDiagnosis('⏳ 正在提交问卷，请稍候...', '系统正在创建问卷编号。只有拿到 Issue 编号后才算提交成功。');
 
-  // Automatic channels are best-effort only and run after the UI responds immediately.
-  // Channel 1: try local server (same WiFi → instant processing)
-  fetch('/submit',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+  // Automatic channel: GitHub Issues API via Cloudflare Worker.
+  // Public GitHub Pages has no local /submit endpoint; calling it first creates a false 404 failure.
+  fetch(ISSUE_PROXY_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name:(m.name||[]).join(','),summary:summary})
+  })
   .then(function(r){return r.json()})
   .then(function(r){
     if(r.issue){
@@ -783,43 +787,18 @@ document.getElementById('f').onsubmit=function(e){
       document.getElementById('ov').classList.remove('on');
       renderDiagnosis('✅ 已提交，问卷编号 Issue #'+r.issue, '云端正在生成诊断草案，请稍后刷新。');
       setTimeout(refreshDiagnosis,1200);
-    }else{
+    } else {
       document.getElementById('ov').classList.remove('on');
       var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
-      renderDiagnosis('⚠️ 未拿到问卷编号，提交未完成。请使用稳定版提交入口。','');
-      showGithubFallback(issueUrl,'打开预填问卷提交页','系统未返回 Issue 编号，不能算提交成功。请点按钮打开预填 Issue，登录后点 Submit new issue。');
+      renderDiagnosis('⚠️ 自动提交未完成，请打开预填 GitHub Issue 提交页完成提交。','');
+      showGithubFallback(issueUrl,'打开预填问卷提交页','自动提交返回异常，未返回 Issue 编号。请点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
     }
   })
   .catch(function(){
-    // Channel 2: GitHub Issues API (remote → near-instant via 3-min scan)
-    var t='📋 '+((m.name||[]).join(',')||'未知')+' · '+new Date().toLocaleString('zh-CN','Asia/Shanghai');
-    fetch(ISSUE_PROXY_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:(m.name||[]).join(','),summary:summary})
-    })
-    .then(function(r){return r.json()})
-    .then(function(r){
-      if(r.issue){
-        saveDiagnosisIssue(r.issue,(m.name||[]).join(','));
-        document.getElementById('ov').classList.remove('on');
-        renderDiagnosis('✅ 已提交，问卷编号 Issue #'+r.issue, '云端正在生成诊断草案，请稍后刷新。');
-        setTimeout(refreshDiagnosis,1200);
-        // Also try to trigger local server for instant processing
-        try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.issue,name:(m.name||[]).join(',')})}) }catch(e){}
-      } else {
-        document.getElementById('ov').classList.remove('on');
-        var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
-        renderDiagnosis('⚠️ 自动提交未完成，请打开预填 GitHub Issue 提交页完成提交。','');
-        showGithubFallback(issueUrl,'打开预填问卷提交页','自动提交返回异常。请点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
-      }
-    })
-    .catch(function(){
-      document.getElementById('ov').classList.remove('on');
-      var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
-      renderDiagnosis('⚠️ 自动提交通道暂时不可用，请打开预填 GitHub Issue 提交页完成提交。','');
-      showGithubFallback(issueUrl,'打开预填问卷提交页','Worker/网络不可用时，点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
-    });
+    document.getElementById('ov').classList.remove('on');
+    var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
+    renderDiagnosis('⚠️ 自动提交通道暂时不可用，请打开预填 GitHub Issue 提交页完成提交。','');
+    showGithubFallback(issueUrl,'打开预填问卷提交页','Worker/网络不可用时，点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
   });
   
   function showResult(msg,ok,minutes){
