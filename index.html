@@ -693,6 +693,23 @@ window.addEventListener('load',function(){
 
 
 
+
+function buildGithubIssueUrl(name, summary){
+  var title='📋 '+(name||'未知')+' · '+new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'});
+  var body='## 原始问卷数据\n\n```\n'+summary+'\n```\n\n---\n📅 '+new Date().toISOString()+'\n来源：family-plan-github-fallback';
+  return 'https://github.com/sewen38/family-plan/issues/new?labels=questionnaire,pending&title='+encodeURIComponent(title)+'&body='+encodeURIComponent(body);
+}
+function showGithubFallback(issueUrl, title, tip){
+  var s='<h3>⚠️ 自动提交通道暂时不可用</h3>';
+  s+='<div class="tip" style="color:#e53935">'+(tip||'请点击下方按钮打开 GitHub 预填问卷页，再点绿色 Submit new issue。提交后云端会自动生成诊断草案。')+'</div>';
+  s+='<a class="btn-copy" style="display:block;text-align:center;text-decoration:none;background:#24292f;color:#fff;margin:12px 0" href="'+issueUrl+'" target="_blank" rel="noopener">🚀 打开预填问卷提交页</a>';
+  s+='<button class="btn-copy" onclick="C()">📋 同时复制问卷文本</button>';
+  s+='<div style="background:#f5f5f5;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;line-height:1.8;white-space:pre-wrap;max-height:260px;overflow:auto">'+(window._t||'')+'</div>';
+  s+='<button class="btn-back" onclick="document.getElementById(\'ov\').classList.remove(\'on\')">返回修改</button>';
+  document.getElementById('rc').innerHTML=s;
+  document.getElementById('ov').classList.add('on');window.scrollTo(0,0);
+}
+
 function buildProtocolText(summary){
   return '【财税方案快速问卷提交】\n'
     + '请直接进入 Step 2，生成《跨境家庭全球规划诊断草案》。不要再发送问卷链接。\n'
@@ -757,10 +774,17 @@ document.getElementById('f').onsubmit=function(e){
         try{ fetch('/trigger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:r.issue,name:(m.name||[]).join(',')})}) }catch(e){}
       } else {
         document.getElementById('ov').classList.remove('on');
-        renderDiagnosis('⚠️ 自动提交未完成，请复制问卷给智能体生成诊断草案。','');
+        var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
+        renderDiagnosis('⚠️ 自动提交未完成，请打开预填 GitHub Issue 提交页完成提交。','');
+        showGithubFallback(issueUrl,'打开预填问卷提交页','自动提交返回异常。请点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
       }
     })
-    .catch(function(){document.getElementById('ov').classList.remove('on');renderDiagnosis('⚠️ 当前网络无法自动提交，请复制问卷给智能体生成诊断草案。','');});
+    .catch(function(){
+      document.getElementById('ov').classList.remove('on');
+      var issueUrl=buildGithubIssueUrl((m.name||[]).join(','), summary);
+      renderDiagnosis('⚠️ 自动提交通道暂时不可用，请打开预填 GitHub Issue 提交页完成提交。','');
+      showGithubFallback(issueUrl,'打开预填问卷提交页','Worker/网络不可用时，点按钮打开预填 Issue，登录后点 Submit new issue。GitHub Actions 会自动生成诊断草案。');
+    });
   });
   
   function showResult(msg,ok,minutes){
