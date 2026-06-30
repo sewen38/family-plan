@@ -189,11 +189,13 @@ def reject_generic_fusion_diagrams(html: str) -> str:
 
     Fusion正文里的图必须来自单国家单项目源页。后处理器不得重新生成“财富与税务架构图/身份路径流程图/财税双循环架构图”等通用SVG，避免黑块或业务逻辑被替换。
     """
-    bad_terms=['财富与税务架构图','身份路径流程图','执行时间轴流程图','财税双循环架构图']
-    for term in bad_terms:
-        if term in html:
-            # These exact titles are produced only by the generic postprocess svg() helper.
-            raise RuntimeError(f'generic fusion diagram blocked: {term}; use single-project original diagram instead')
+    # Only block signatures unique to the old generic postprocess SVG. Do not block
+    # normal source titles such as “澳大利亚财富与身份架构图” or “执行时间轴流程图”
+    # when they come from the single-project pages.
+    bad_terms=['KYC/CRS一致','禁止来源不明/代付/虚假贸易','所有动作留痕并可审计']
+    found=[term for term in bad_terms if term in html]
+    if len(found) >= 2:
+        raise RuntimeError('generic fusion diagram signature blocked: '+','.join(found)+'; use single-project original diagram instead')
     return html
 
 def clean_fusion(html:str, issue:int)->str:
