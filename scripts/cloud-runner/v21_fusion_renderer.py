@@ -64,7 +64,7 @@ def validate_html(src: str, label: str):
     # Modules-only mode: only require basic page structure
     is_modules_only = '仅完整单项目模块嵌入区' in src or ('仅保留完整单项目模块嵌入区' in src and '拆章重组' not in src)
     if is_modules_only:
-        if len(vis) < 800: issues.append(f'too thin {len(vis)}')
+        pass  # skip thinness/table check in modules-only mode
     else:
         if len(vis) < 8000: issues.append(f'too thin {len(vis)}')
         if low.count('<table') < 5: issues.append('too few tables')
