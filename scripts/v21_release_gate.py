@@ -134,6 +134,14 @@ def check_svg_no_black_or_class_dependency(fusion:Path,msgs:list[str]):
     if issues:
         fail(msgs,'SVG black-box/readability gate failed: '+json.dumps(issues[:20],ensure_ascii=False))
 
+
+def check_no_generic_fusion_diagram_titles(fusion:Path,msgs:list[str]):
+    html=fusion.read_text(encoding='utf-8',errors='ignore')
+    bad=['财富与税务架构图','身份路径流程图','执行时间轴流程图','财税双循环架构图']
+    found=[x for x in bad if x in html]
+    if found:
+        fail(msgs,'融合正文图形不得由后处理器重画通用图，必须复用单国家单项目原图/原SVG；发现通用图标题: '+','.join(found))
+
 def check_template_shape(fusion:Path,msgs:list[str]):
     html=fusion.read_text(encoding='utf-8',errors='ignore')
     soup=BeautifulSoup(html,'html.parser')
@@ -230,6 +238,7 @@ def main():
         check_template_shape(fusion,msgs)
         check_same_country_merge(fusion,msgs)
         check_svg_no_black_or_class_dependency(fusion,msgs)
+        check_no_generic_fusion_diagram_titles(fusion,msgs)
         check_recursive(fusion,msgs)
         check_human_standard(fusion,msgs)
     print('# V21 RELEASE GATE')
