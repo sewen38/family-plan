@@ -209,28 +209,25 @@ def sanitize_client_output(text: str) -> str:
 
 
 def filter_country_sections(text: str, q: str) -> str:
-    """Remove country analysis sections that the client didn't mention in their questionnaire.
-    
-    The diagnosis HTML wraps AI-generated markdown with html.escape(), so country headers
-    appear as escaped text like '## \u7f8e\u56fd EB-1A' rather than HTML tags.
-    This filter works on keywords: if a client didn't mention a country, remove paragraphs
-    and sections primarily about that country.
-    """
-    all_countries = ['美国', '澳大利亚', '土耳其', '多米尼克', '新加坡', '香港']
-    # Detected countries from questionnaire
-    detected = [c for c in all_countries if c in q]
-    if not detected:
-        return text  # nothing to filter
-    # For each country NOT detected, remove analysis content about it
-    for country in all_countries:
-        if country in detected:
-            continue
-        # Remove sections that start with this country's name as a markdown header
-        # Pattern matches: ## Country ... up to the next ## header or end of section
-        for prefix in [country, f'## {country}', f'### {country}']:
-            # Match from this country header to the next section start
-            pat = re.escape(prefix) + r'.*?(?=(?:##\s|###\s|<section|<\/section)|$)'
-            text = re.sub(pat, '', text, flags=re.DOTALL)
+    """Post-filter: remove paragraphs/tables about countries client didn't mention."""
+    country_kw = {
+        '美国': ['美国','EB-1','EB1','NIW','O-1','E-2','E2','USCIS','IRS','FBAR'],
+        '澳大利亚': ['澳大利亚','澳洲','482','186','SID','ENS'],
+        '土耳其': ['土耳其','基金入籍','E-2','条约国'],
+        '多米尼克': ['多米尼克','CBI','捐款入籍'],
+        '新加坡': ['新加坡','EP','PIC','家办','COMPASS','MOM'],
+        '香港': ['香港','ASMTP','专才','高才','CIES','优才'],
+    }
+    detected = {c for c,kws in country_kw.items() if any(k in q for k in kws)}
+    if len(detected)==0 or len(detected)>=len(country_kw):
+        return text
+    for country, kws in country_kw.items():
+        if country in detected: continue
+        for kw in kws:
+            text = re.sub(
+                r'<[^>]*>[^<]*'+re.escape(kw)+r'[^<]*</[^>]*>',
+                '', text, flags=re.DOTALL
+            )
     return text
 def ensure_requested_coverage(text: str, q: str, execution: bool = False) -> str:
     countries = [x for x in ["新加坡", "香港", "美国", "澳大利亚", "土耳其", "多米尼克"] if x in q]
