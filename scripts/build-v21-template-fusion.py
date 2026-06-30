@@ -364,13 +364,12 @@ def build_html(projects: List[ProjectDoc], metrics_placeholder: bool = False) ->
     toc = "".join(f'<a href="#ch{i}">{i}章</a>' for i in range(1, 16))
     body_core = f"""
 <div class="progress" id="progress"></div>
-<div class="hero"><h1>11国V21单项目融合执行策划案</h1><p>以 template-v21-20260614/index.html 为母版｜完整单项目模块嵌入区 + 15章拆章重组融合</p><div class="quality-bar"><div class="quality-pill"><b>{len(projects)}个</b>单项目源页</div><div class="quality-pill"><b>{total_tables}个</b>源表格</div><div class="quality-pill"><b>{total_svg}个</b>源SVG</div><div class="quality-pill"><b>{total_pending}处</b>待确认</div></div></div>
+<div class="hero"><h1>V21单项目融合执行策划案</h1><p>定稿版｜仅保留完整单项目模块嵌入区｜已删除融合拆章重组内容</p><div class="quality-bar"><div class="quality-pill"><b>{len(projects)}个</b>单项目源页</div><div class="quality-pill"><b>{total_tables}个</b>源表格</div><div class="quality-pill"><b>{total_svg}个</b>源SVG</div><div class="quality-pill"><b>{total_pending}处</b>待确认</div></div></div>
 <div class="wrap">
-<section class="card"><h2>快速目录</h2><div class="toc">{toc}</div><div class="summary-grid"><div class="summary"><b>母版规则</b><br/>视觉/CSS/卡片结构沿用 template-v21-20260614/index.html。</div><div class="summary"><b>内容规则</b><br/>优先读取 final-single/generated-v21；同时复用3个标准单项目页。</div><div class="summary"><b>融合规则</b><br/>先保留完整单项目入口/预览，再按一至十五章拆章重组。</div></div></section>
+
 <section class="card chapter"><div class="section-kicker">Source Map</div><h2>单项目源页清单</h2>{source_overview(projects)}</section>
 __VALIDATION__
-<section class="card chapter"><div class="section-kicker">Section 01</div><h2>完整单项目模块嵌入区</h2><p>以下为本融合页的全部内容源。每个单项目页保持独立完整页面，可展开预览或单独打开；下方15章正文均从同一批页面拆章重组。</p>{build_full_modules(projects)}</section>
-{build_chapter_sections(projects)}
+<section class="card chapter"><div class="section-kicker">Section 01</div><h2>完整单项目模块嵌入区</h2><p>以下为本融合页的全部内容源。每个单项目页保持独立完整页面，可展开预览或单独打开。融合拆章重组内容已按定稿规则删除。</p>{build_full_modules(projects)}</section>
 <section class="commission"><h2>佣金与合规隔离提醒</h2><p>本融合页为模板级最终复核页。任何佣金、返点、第三方费用、投资收益、税务效果与身份获批判断，均须回到对应单项目源页及客户问卷逐项确认；不得用融合页摘要替代律师、税务师或持牌顾问意见。</p></section>
 </div>
 <div class="floating-tools"><button class="float-btn" onclick="window.scrollTo({{top:0,behavior:'smooth'}})">↑</button><button class="float-btn" onclick="window.print()">PDF</button></div>
