@@ -61,9 +61,14 @@ def validate_html(src: str, label: str):
     if 'charset="utf-8"' not in low and 'charset=utf-8' not in low: issues.append('missing utf-8 meta')
     for b in BAD:
         if b in vis or b in src: issues.append(f'bad term {b}')
-    if len(vis) < 8000: issues.append(f'too thin {len(vis)}')
-    if low.count('<table') < 5: issues.append('too few tables')
-    if low.count('<svg') + low.count('<img') < 1: issues.append('missing diagrams/images')
+    # Modules-only mode: only require basic page structure
+    is_modules_only = '仅完整单项目模块嵌入区' in src or ('仅保留完整单项目模块嵌入区' in src and '拆章重组' not in src)
+    if is_modules_only:
+        if len(vis) < 800: issues.append(f'too thin {len(vis)}')
+    else:
+        if len(vis) < 8000: issues.append(f'too thin {len(vis)}')
+        if low.count('<table') < 5: issues.append('too few tables')
+        if low.count('<svg') + low.count('<img') < 1: issues.append('missing diagrams/images')
     for m in re.finditer(r"data:image/svg\+xml;base64,([^\"']+)", src):
         try:
             dec=base64.b64decode(m.group(1)).decode('utf-8','replace')
