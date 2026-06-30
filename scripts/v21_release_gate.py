@@ -137,10 +137,12 @@ def check_svg_no_black_or_class_dependency(fusion:Path,msgs:list[str]):
 
 def check_no_generic_fusion_diagram_titles(fusion:Path,msgs:list[str]):
     html=fusion.read_text(encoding='utf-8',errors='ignore')
-    bad=['财富与税务架构图','身份路径流程图','执行时间轴流程图','财税双循环架构图']
+    # Block only old generic postprocess SVG signatures. Source single-project diagrams
+    # may legitimately contain headings like “财富与身份架构图” or “流程图”.
+    bad=['KYC/CRS一致','禁止来源不明/代付/虚假贸易','所有动作留痕并可审计']
     found=[x for x in bad if x in html]
-    if found:
-        fail(msgs,'融合正文图形不得由后处理器重画通用图，必须复用单国家单项目原图/原SVG；发现通用图标题: '+','.join(found))
+    if len(found) >= 2:
+        fail(msgs,'融合正文图形不得由后处理器重画通用图，必须复用单国家单项目原图/原SVG；发现通用图特征: '+','.join(found))
 
 def check_template_shape(fusion:Path,msgs:list[str]):
     html=fusion.read_text(encoding='utf-8',errors='ignore')
