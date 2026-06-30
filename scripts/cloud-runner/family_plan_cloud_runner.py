@@ -209,35 +209,28 @@ def sanitize_client_output(text: str) -> str:
 
 
 def filter_country_sections(text: str, q: str) -> str:
-    """Remove analysis sections for countries not mentioned in the questionnaire."""
-    country_patterns = {
-        '美国': r'<h2>美国 EB-1A.*?</section>',
-        '澳大利亚': r'<h2>澳大利亚 482.*?</section>',
-        '土耳其': r'<h2>土耳其基金.*?</section>',
-        '多米尼克': r'<h2>多米尼克捐款.*?</section>',
-        '香港': r'<h2>香港.*?</section>',
-        '新加坡': r'<h2>新加坡.*?</section>',
-    }
-    detected = [c for c in country_patterns if c in q]
-    # Always keep at least one country section if nothing is detected
+    """Remove country analysis sections that the client didn't mention in their questionnaire.
+    
+    The diagnosis HTML wraps AI-generated markdown with html.escape(), so country headers
+    appear as escaped text like '## \u7f8e\u56fd EB-1A' rather than HTML tags.
+    This filter works on keywords: if a client didn't mention a country, remove paragraphs
+    and sections primarily about that country.
+    """
+    all_countries = ['美国', '澳大利亚', '土耳其', '多米尼克', '新加坡', '香港']
+    # Detected countries from questionnaire
+    detected = [c for c in all_countries if c in q]
     if not detected:
-        detected = ['香港']  # default to HK as minimum
-    # Remove sections for countries NOT detected
-    for country, pattern in country_patterns.items():
-        if country not in detected:
-            text = re.sub(pattern, '', text, flags=re.DOTALL)
-    # Also filter the architecture SVG - remove references to non-selected countries
-    if '美国' not in detected:
-        text = re.sub(r'<rect[^>]*美国教育[^>]*>.*?</rect>', '', text)
-        text = re.sub(r'<text[^>]*美国[^<]*</text>', '', text)
-    if '澳大利亚' not in detected:
-        text = re.sub(r'<rect[^>]*澳洲[^>]*>.*?</rect>', '', text)
-        text = re.sub(r'<text[^>]*澳洲[^<]*</text>', '', text)
-    if '土耳其' not in detected and '多米尼克' not in detected:
-        text = re.sub(r'<rect[^>]*护照工具[^>]*>.*?</rect>', '', text)
-        text = re.sub(r'<text[^>]*护照工具[^<]*</text>', '', text)
-    # Remove empty lines
-    text = re.sub(r'\n\s*\n\s*\n', '\n\n', text)
+        return text  # nothing to filter
+    # For each country NOT detected, remove analysis content about it
+    for country in all_countries:
+        if country in detected:
+            continue
+        # Remove sections that start with this country's name as a markdown header
+        # Pattern matches: ## Country ... up to the next ## header or end of section
+        for prefix in [country, f'## {country}', f'### {country}']:
+            # Match from this country header to the next section start
+            pat = re.escape(prefix) + r'.*?(?=(?:##\s|###\s|<section|<\/section)|$)'
+            text = re.sub(pat, '', text, flags=re.DOTALL)
     return text
 def ensure_requested_coverage(text: str, q: str, execution: bool = False) -> str:
     countries = [x for x in ["新加坡", "香港", "美国", "澳大利亚", "土耳其", "多米尼克"] if x in q]
