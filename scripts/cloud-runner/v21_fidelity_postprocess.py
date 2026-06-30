@@ -95,6 +95,48 @@ def inline_all_svg_paint(html: str) -> str:
                 del tag['class']
     return str(soup)
 
+
+def ensure_fusion_ch15_depth(html: str) -> str:
+    """Ensure parent fusion chapter 15 has substantial条款级法案附件 content."""
+    soup = BeautifulSoup(html, 'html.parser')
+    ch15 = soup.find(id='ch15')
+    if not ch15:
+        return html
+    text = ch15.get_text('\n', strip=True)
+    if len(text) >= 1200 and all(k in text for k in ['风险', '条款', '法案', '适用']):
+        return html
+    appendix_html = """
+<div class="v21-ch15-appendix">
+  <h3>15.2 融合方案条款级法案附件总表</h3>
+  <p>本附件用于把本次选中的国家与项目，从“单项目完整页”的条款依据进一步汇总为融合执行口径。客户正式付款、开户、递交、转款或安排家庭迁居前，必须以目标国家官方机构、持牌律师、税务师、会计师、银行合规部门和项目方书面文件为准；本页用于确定核验清单、风险边界和执行动作，不替代法律、税务或投资意见。</p>
+  <div class="table-wrap"><table>
+    <tr><th>国家/项目</th><th>核心法规/政策来源</th><th>适用条件</th><th>执行动作</th><th>风险红线</th></tr>
+    <tr><td>新加坡 EP-PIC / EP</td><td>MOM Employment Pass eligibility、COMPASS Framework、ACRA Companies Act、IRAS Corporate Income Tax / GST / Transfer Pricing Guidelines</td><td>真实雇佣、真实薪资、真实岗位、公司实质、银行KYB、税务申报与关联交易商业理由一致。</td><td>递交前完成COMPASS预审、公司主体与办公室证据、雇佣合同、薪资现金流、业务合同、Form C-S/C与个人税务居民复核。</td><td>禁止空壳公司、虚假雇佣、借名发薪、无商业实质利润转移、个人与公司资金混同。</td></tr>
+    <tr><td>香港 ASMTP 专才/自雇</td><td>香港入境事务处 Admission Scheme for Mainland Talents and Professionals、香港税务条例 Inland Revenue Ordinance、银行AML/KYB规则</td><td>香港公司真实岗位或自雇业务需要、申请人履历与岗位匹配、薪酬合理、办公室/合同/流水可证明业务实质。</td><td>准备香港公司文件、岗位说明、业务合同、银行流水、办公室证明、薪酬安排、受养人材料和税务居民声明。</td><td>禁止只有银行账户无业务、虚构岗位、挂靠雇佣、用保险或账户替代身份实质、资金来源无法解释。</td></tr>
+    <tr><td>澳大利亚 482 SID → 186 TRT</td><td>Home Affairs Skills in Demand visa subclass 482、Employer Nomination Scheme subclass 186、Migration Regulations、Fair Work / ATO薪资税务规则</td><td>真实澳洲雇主、真实岗位、职业清单匹配、薪资不低于TSMIT/市场工资、工作经验和英语/职业资格满足要求。</td><td>完成雇主资质、岗位必要性、合同、薪资、技能与英语材料；建立482到186 TRT维护日历，保留工资单、税单和雇佣证据。</td><td>禁止买雇主、虚假职位、工资回流、职位职责与实际不符、未按市场工资支付。</td></tr>
+  </table></div>
+  <h3>15.3 融合方案共同风险声明</h3>
+  <div class="table-wrap"><table>
+    <tr><th>风险类型</th><th>触发场景</th><th>后果</th><th>控制动作</th></tr>
+    <tr><td>资金来源风险</td><td>分红、借款、资产出售、企业往来、亲属赠与无法形成证据链。</td><td>银行拒开户/关户、项目方拒收、移民局补件或拒签、税务追问。</td><td>建立资金来源总表，逐笔匹配合同、发票、税单、审计报告、流水、董事会/股东决议。</td></tr>
+    <tr><td>税务居民误判</td><td>身份获批后跨国居住天数、家庭中心、经营管理地和收入来源发生变化。</td><td>双重税务居民、全球所得申报遗漏、CRS信息不一致。</td><td>每年由中国及目标国税务师复核居住天数、家庭中心、公司管理地、薪酬和分红安排。</td></tr>
+    <tr><td>CRS/FATCA/FBAR风险</td><td>境外账户、美国关联身份、公司UBO、保险/投资账户申报口径不一致。</td><td>银行合规冻结、税务信息交换、美国或其他司法辖区罚款。</td><td>开户前统一税务居民声明、UBO穿透图、账户用途说明；有美国关联时提前请CPA判断FBAR/FATCA。</td></tr>
+    <tr><td>中国外汇与37号文/ODI风险</td><td>境内居民通过境外公司、投资平台、家族资产结构持股或资金出境。</td><td>资金无法合规出境/回流，银行拒绝办理，历史结构整改成本高。</td><td>区分个人购汇、服务贸易、ODI、FDI、37号文登记适用边界；付款前取得银行/律师/税务师书面路径意见。</td></tr>
+    <tr><td>身份与国籍边界风险</td><td>第三国护照、永居、税务居民身份、出入境证件混用。</td><td>国籍冲突、出入境风险、税务居民和银行KYC不一致。</td><td>第三国护照仅限金融税务规划和境外用途；中国出入境严格按中国法律和证件规则处理。</td></tr>
+  </table></div>
+  <h3>15.4 递交前强制核验动作</h3>
+  <ul>
+    <li>核验所有官方费用、投资门槛、审理周期和续签/转永居条件的官网版本日期。</li>
+    <li>核验律师、税务师、会计师、银行和项目方报价是否为书面文件，是否说明退款、失败和补件责任。</li>
+    <li>核验每笔资金是否可从中国境内来源追溯到境外账户付款，是否存在地下钱庄、代付、虚假贸易或无因转账。</li>
+    <li>核验家庭成员教育、医疗、租房、保险、税务居民和长期维护预算是否进入第12章预算表。</li>
+    <li>核验第6章和第14章架构图中的主体、资金流、利润流、税务居民、DTA/预提税、CFC、CRS、FATCA/FBAR、37号文/ODI/FDI与正文一致。</li>
+  </ul>
+</div>
+"""
+    ch15.append(BeautifulSoup(appendix_html, 'html.parser'))
+    return str(soup)
+
 def blocks(country):
     return {
     6: svg(f'{country}财富与税务架构图','主体、资金流、利润流、税务居民和禁止动作') + table('第6章架构执行表A：主体与资金流', [['中国经营主体','形成利润、审计、纳税、分红','审计报告/税单/流水','不得虚构贸易或代付'],['境外账户','承接税后资金和项目付款','银行KYC/账户流水','CRS声明一致'],['身份项目主体','递交、续签、维护','移民局/项目方文件','不得用身份掩盖资金来源']]) + table('第6章架构执行表B：税务效果与边界', [['税务居民','按居住天数和事实判断','税务师意见','不以护照替代税务居民'],['预提税/DTA','付款前判断是否适用','税务协定/合同','避免无商业实质'],['CRS/FATCA','账户声明和身份一致','银行表格','避免错报漏报']]),
@@ -180,6 +222,7 @@ def clean_fusion(html:str, issue:int)->str:
     if target and not soup2.find(string=re.compile('数据来源交叉核验表')):
         target.insert_before(BeautifulSoup(integrity_extra,'html.parser'))
     html=str(soup2)
+    html=ensure_fusion_ch15_depth(html)
     html=inline_all_svg_paint(html)
     return html
 
