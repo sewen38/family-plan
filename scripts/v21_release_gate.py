@@ -106,6 +106,34 @@ def check_registry_and_pristine(msgs:list[str]):
                     fail(msgs,f'pristine file differs from zip: {info.filename}')
     return tpl
 
+
+def check_svg_no_black_or_class_dependency(fusion:Path,msgs:list[str]):
+    """Block SVGs that can become browser-black boxes after CSS/style stripping."""
+    html=fusion.read_text(encoding='utf-8',errors='ignore')
+    soup=BeautifulSoup(html,'html.parser')
+    issues=[]
+    for idx,svg in enumerate(soup.find_all('svg'),1):
+        # Pure black fills/strokes/backgrounds are not acceptable for V21 diagrams.
+        for tag in svg.find_all(True):
+            vals=[]
+            for attr in ['fill','stroke','style']:
+                v=tag.get(attr)
+                if v: vals.append(str(v).lower().replace(' ',''))
+            if any(x in v for v in vals for x in ['#000','#000000','black','rgb(0,0,0)']):
+                issues.append(f'svg#{idx} black paint on <{tag.name}>')
+                break
+        # If rect/text/path depends on class-only styles, it may render black when style tags are stripped.
+        for tag in svg.find_all(['rect','text','path','polygon','line']):
+            if tag.get('class'):
+                if tag.name in ['rect','path','polygon'] and not tag.get('fill') and not tag.get('stroke'):
+                    issues.append(f'svg#{idx} class-only shape <{tag.name}> may render black')
+                    break
+                if tag.name == 'text' and not tag.get('fill') and not tag.get('style'):
+                    issues.append(f'svg#{idx} class-only text may become unreadable')
+                    break
+    if issues:
+        fail(msgs,'SVG black-box/readability gate failed: '+json.dumps(issues[:20],ensure_ascii=False))
+
 def check_template_shape(fusion:Path,msgs:list[str]):
     html=fusion.read_text(encoding='utf-8',errors='ignore')
     soup=BeautifulSoup(html,'html.parser')
@@ -201,6 +229,7 @@ def main():
     if fusion.exists():
         check_template_shape(fusion,msgs)
         check_same_country_merge(fusion,msgs)
+        check_svg_no_black_or_class_dependency(fusion,msgs)
         check_recursive(fusion,msgs)
         check_human_standard(fusion,msgs)
     print('# V21 RELEASE GATE')

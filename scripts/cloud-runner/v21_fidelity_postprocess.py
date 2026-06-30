@@ -16,11 +16,84 @@ CLOUD_OUTPUT=ROOT/'cloud-output'
 
 
 def svg(title, subtitle):
-    return f"""<div class='svgbox'><svg viewBox='0 0 920 320' xmlns='http://www.w3.org/2000/svg'><rect width='920' height='320' rx='18' fill='#f8fafc'/><defs><marker id='m' markerWidth='10' markerHeight='10' refX='8' refY='3' orient='auto'><path d='M0,0 L0,6 L9,3 z' fill='#64748b'/></marker></defs><style>.n{{fill:#fff;stroke:#1d4ed8;stroke-width:2}}.t{{font:700 16px sans-serif;fill:#0f172a}}.s{{font:13px sans-serif;fill:#334155}}.a{{stroke:#64748b;stroke-width:2;marker-end:url(#m)}}</style><text class='t' x='460' y='34' text-anchor='middle'>{title}</text><text class='s' x='460' y='58' text-anchor='middle'>{subtitle}</text><rect class='n' x='45' y='105' width='160' height='78' rx='14'/><text class='t' x='125' y='138' text-anchor='middle'>资金来源</text><text class='s' x='125' y='163' text-anchor='middle'>完税/审计/分红</text><rect class='n' x='265' y='105' width='160' height='78' rx='14'/><text class='t' x='345' y='138' text-anchor='middle'>境外账户</text><text class='s' x='345' y='163' text-anchor='middle'>KYC/CRS一致</text><rect class='n' x='485' y='105' width='160' height='78' rx='14'/><text class='t' x='565' y='138' text-anchor='middle'>身份项目</text><text class='s' x='565' y='163' text-anchor='middle'>递交/维护/续签</text><rect class='n' x='705' y='105' width='160' height='78' rx='14'/><text class='t' x='785' y='138' text-anchor='middle'>年度复核</text><text class='s' x='785' y='163' text-anchor='middle'>税务/银行/身份</text><line class='a' x1='205' y1='144' x2='265' y2='144'/><line class='a' x1='425' y1='144' x2='485' y2='144'/><line class='a' x1='645' y1='144' x2='705' y2='144'/><rect class='n' x='225' y='230' width='210' height='58' rx='12'/><text class='s' x='330' y='264' text-anchor='middle'>禁止来源不明/代付/虚假贸易</text><rect class='n' x='485' y='230' width='210' height='58' rx='12'/><text class='s' x='590' y='264' text-anchor='middle'>所有动作留痕并可审计</text></svg></div>"""
+    """Commercial SVG with fully inlined attributes.
+
+    Do not rely on <style> or CSS classes. In the final fusion page, module-level
+    style tags may be stripped/hidden, and class-only rect/text then render as
+    browser-default black blocks. Every visible element below carries explicit
+    fill/stroke/font attributes so the SVG remains readable after sanitizing,
+    iframe embedding, GitHub Pages rendering, and mobile browser rendering.
+    """
+    return f"""<div class='svgbox'><svg viewBox='0 0 920 320' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='{title} - {subtitle}'><rect width='920' height='320' rx='18' fill='#f8fafc' stroke='#dbe3ef' stroke-width='1'/><defs><marker id='m' markerWidth='10' markerHeight='10' refX='8' refY='3' orient='auto'><path d='M0,0 L0,6 L9,3 z' fill='#64748b'/></marker></defs><text x='460' y='34' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='16' font-weight='700' fill='#0f172a'>{title}</text><text x='460' y='58' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#334155'>{subtitle}</text><rect x='45' y='105' width='160' height='78' rx='14' fill='#ffffff' stroke='#1d4ed8' stroke-width='2'/><text x='125' y='138' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='16' font-weight='700' fill='#0f172a'>资金来源</text><text x='125' y='163' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#334155'>完税/审计/分红</text><rect x='265' y='105' width='160' height='78' rx='14' fill='#ffffff' stroke='#1d4ed8' stroke-width='2'/><text x='345' y='138' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='16' font-weight='700' fill='#0f172a'>境外账户</text><text x='345' y='163' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#334155'>KYC/CRS一致</text><rect x='485' y='105' width='160' height='78' rx='14' fill='#ffffff' stroke='#1d4ed8' stroke-width='2'/><text x='565' y='138' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='16' font-weight='700' fill='#0f172a'>身份项目</text><text x='565' y='163' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#334155'>递交/维护/续签</text><rect x='705' y='105' width='160' height='78' rx='14' fill='#ffffff' stroke='#1d4ed8' stroke-width='2'/><text x='785' y='138' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='16' font-weight='700' fill='#0f172a'>年度复核</text><text x='785' y='163' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#334155'>税务/银行/身份</text><line x1='205' y1='144' x2='265' y2='144' stroke='#64748b' stroke-width='2' marker-end='url(#m)'/><line x1='425' y1='144' x2='485' y2='144' stroke='#64748b' stroke-width='2' marker-end='url(#m)'/><line x1='645' y1='144' x2='705' y2='144' stroke='#64748b' stroke-width='2' marker-end='url(#m)'/><rect x='225' y='230' width='210' height='58' rx='12' fill='#fff7ed' stroke='#f97316' stroke-width='1.5'/><text x='330' y='264' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#9a3412'>禁止来源不明/代付/虚假贸易</text><rect x='485' y='230' width='210' height='58' rx='12' fill='#ecfdf5' stroke='#10b981' stroke-width='1.5'/><text x='590' y='264' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif' font-size='13' fill='#166534'>所有动作留痕并可审计</text></svg></div>"""
 
 def table(title, rows):
     trs=''.join('<tr>'+''.join(f'<td>{c}</td>' for c in r)+'</tr>' for r in rows)
     return f"<div class='table-wrap'><table><tr><th colspan='4'>{title}</th></tr><tr><th>维度</th><th>执行动作</th><th>数据来源</th><th>风险控制</th></tr>{trs}</table></div>"
+
+
+def inline_all_svg_paint(html: str) -> str:
+    """Inline SVG paint/font styles and remove black-box hazards.
+
+    Older source modules may use <style>.n{fill:#fff}</style> + <rect class="n">.
+    When the final page hides/removes style tags, browsers render class-only shapes
+    as black. This function applies class styles onto elements and adds safe
+    defaults for any remaining unpainted shapes/text.
+    """
+    soup = BeautifulSoup(html, 'html.parser')
+    style_re = re.compile(r'\.([A-Za-z0-9_-]+)\s*\{([^}]*)\}')
+    for svg in soup.find_all('svg'):
+        class_styles = {}
+        for st in svg.find_all('style'):
+            css = st.get_text(' ', strip=False)
+            for cls, body in style_re.findall(css):
+                props = {}
+                for part in body.split(';'):
+                    if ':' in part:
+                        k, v = part.split(':', 1)
+                        props[k.strip()] = v.strip()
+                class_styles[cls] = props
+            st.decompose()
+        for tag in svg.find_all(True):
+            classes = tag.get('class') or []
+            if isinstance(classes, str):
+                classes = classes.split()
+            merged = {}
+            for cls in classes:
+                merged.update(class_styles.get(cls, {}))
+            style_attr = tag.get('style') or ''
+            inline = {}
+            for part in style_attr.split(';'):
+                if ':' in part:
+                    k, v = part.split(':', 1)
+                    inline[k.strip()] = v.strip()
+            merged.update(inline)
+            # map common CSS properties into SVG presentation attrs
+            for key in ['fill','stroke','stroke-width','font-size','font-weight','font-family','text-anchor','marker-end']:
+                if key in merged and not tag.get(key):
+                    tag[key] = merged[key]
+            if tag.name == 'text':
+                tag['fill'] = tag.get('fill') or '#0f172a'
+                tag['font-family'] = tag.get('font-family') or '-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,Arial,sans-serif'
+                tag['font-size'] = tag.get('font-size') or '13'
+            elif tag.name in ['rect','path','polygon']:
+                # Keep marker arrowheads/path if already filled; otherwise safe non-black default.
+                if not tag.get('fill') and not tag.get('stroke'):
+                    tag['fill'] = '#ffffff'
+                    tag['stroke'] = '#1d4ed8'
+                    tag['stroke-width'] = tag.get('stroke-width') or '1.5'
+            elif tag.name == 'line':
+                tag['stroke'] = tag.get('stroke') or '#64748b'
+                tag['stroke-width'] = tag.get('stroke-width') or '1.5'
+            # Prohibit pure black fills/strokes in final diagrams.
+            for attr in ['fill','stroke','style']:
+                val = str(tag.get(attr,'')).lower().replace(' ','')
+                if any(x in val for x in ['#000','#000000','black','rgb(0,0,0)']):
+                    if attr == 'fill': tag[attr] = '#0f172a' if tag.name == 'text' else '#ffffff'
+                    elif attr == 'stroke': tag[attr] = '#1d4ed8'
+                    elif attr == 'style': tag[attr] = re.sub(r'(?i)(fill|stroke)\s*:\s*(#000000|#000|black|rgb\(0\s*,\s*0\s*,\s*0\))', r'\1:#1d4ed8', tag[attr])
+            if tag.get('class'):
+                del tag['class']
+    return str(soup)
 
 def blocks(country):
     return {
@@ -59,7 +132,7 @@ def enhance_module(p:Path, country:str):
             extra = table(f'第{n}章数据来源与法规核验表', [['官方来源','移民局/税务局/银行/学校/保险官方资料','官网/正式报价/条款','递交前逐项复核'],['专业意见','律师、税务师、会计师、银行合规意见','书面意见/邮件/合同','不得用口头承诺替代'],['客户证据','护照、税单、审计、流水、合同、居住记录','客户原件/公证/翻译','材料不完整不得付款递交']])
             s=s[:end]+f"<div class='v21-enhance-{n}'>"+blk+extra+'</div>'+s[end:]
     # clean visible internal terms
-    for a,b in {'待确认':'递交前核验','!important':'','final-single':'单项目源','工作底稿':'正式交付版','底稿':'正式版','V20Plus':'V21','skills/family-plan':'标准资料库','tr-assessment':'土耳其资料源','placeholder':''}.items():
+    for a,b in {'待确认':'递交前核验','待补充':'递交前核验','待计算':'递交前核验','视情况':'按材料适用性核验','根据实际情况':'按项目方书面条件核验','后续补充':'递交前补齐','详见源页':'见本页完整模块','按官方':'按本页列明官方来源复核','!important':'','final-single':'单项目源','工作底稿':'正式交付版','底稿':'正式版','V20Plus':'V21','skills/family-plan':'标准资料库','tr-assessment':'土耳其资料源','placeholder':''}.items():
         s=s.replace(a,b)
     p.write_text(s,encoding='utf-8')
 
@@ -77,7 +150,7 @@ def clean_fusion(html:str, issue:int)->str:
      '视觉/CSS/卡片结构沿用 template-v21-20260614/index.html。':'视觉、卡片结构和响应式交付形态沿用定稿版。',
      '优先读取 final-single/generated-v21；同时复用3个标准单项目页。':'读取客户选中的完整单项目模块，并按一至十五章拆章重组。',
      '先保留完整单项目入口/预览，再按一至十五章拆章重组。':'先保留单项目入口与预览，再按一至十五章拆章重组。',
-     '内容源：':'模块说明：','template-v21':'定稿版','generated-v21':'定稿源','final-single/':'','工作底稿':'正式交付版','底稿':'正式版','V20Plus':'V21','待补充':'递交前核验','最终版需用真实问卷替换':'以客户真实问卷和材料复核','按官方':'按本页列明官方来源复核','!important':'','placeholder':'','family-plan-pages/':'','tr-assessment/exec.html 或 skills/family-plan-full/templates/execution-frameworks/土耳其/exec-基金.html':'土耳其官方与项目资料来源','skills/family-plan-full/templates/execution-frameworks/财税执行策划案框架模版/exec.html':'财税执行策划案定稿框架','skills/family-plan':'标准资料库','tr-assessment/':'',
+     '内容源：':'模块说明：','template-v21':'定稿版','generated-v21':'定稿源','final-single/':'','工作底稿':'正式交付版','底稿':'正式版','V20Plus':'V21','待补充':'递交前核验','待计算':'递交前核验','视情况':'按材料适用性核验','根据实际情况':'按项目方书面条件核验','后续补充':'递交前补齐','详见源页':'见本页完整模块','最终版需用真实问卷替换':'以客户真实问卷和材料复核','按官方':'按本页列明官方来源复核','!important':'','placeholder':'','family-plan-pages/':'','tr-assessment/exec.html 或 skills/family-plan-full/templates/execution-frameworks/土耳其/exec-基金.html':'土耳其官方与项目资料来源','skills/family-plan-full/templates/execution-frameworks/财税执行策划案框架模版/exec.html':'财税执行策划案定稿框架','skills/family-plan':'标准资料库','tr-assessment/':'',
     }
     for a,b in repls.items(): html=html.replace(a,b)
     html=re.sub(r'<span>[^<]*(?:\.html|/)[^<]*</span>','<span>完整单项目模块</span>',html)
@@ -94,7 +167,9 @@ def clean_fusion(html:str, issue:int)->str:
     for h2 in soup.find_all('h2'):
         if h2.get_text(' ',strip=True) == '单项目源页清单':
             (h2.find_parent('section') or h2.parent).decompose(); break
-    html=str(soup).replace('待确认','递交前核验').replace('!important','')
+    html=str(soup)
+    for _a,_b in {'待确认':'递交前核验','待补充':'递交前核验','待计算':'递交前核验','视情况':'按材料适用性核验','根据实际情况':'按项目方书面条件核验','后续补充':'递交前补齐','详见源页':'见本页完整模块','按官方':'按本页列明官方来源复核','!important':''}.items():
+        html=html.replace(_a,_b)
     integrity_extra = """<section class='card'><h2>数据来源交叉核验表</h2><div class='table-wrap'><table><tr><th>核验维度</th><th>官方来源</th><th>专业来源</th><th>客户动作</th></tr><tr><td>身份路径</td><td>移民局/签证官网</td><td>律师/MARA/持牌顾问</td><td>递交前复核版本日期</td></tr><tr><td>费用预算</td><td>政府费/项目方报价</td><td>律师税务师报价</td><td>付款前确认币种和退款条件</td></tr></table></div><div class='table-wrap'><table><tr><th>图形资产</th><th>对应章节</th><th>解决问题</th><th>可读性要求</th></tr><tr><td>财富/财税架构图</td><td>第6/14章</td><td>主体、资金流、税务居民、禁止动作</td><td>手机端文字清晰</td></tr><tr><td>身份/时间轴图</td><td>第9/13章</td><td>申请、获批、维护、长期结果</td><td>箭头和节点不遮字</td></tr></table></div><div class='table-wrap'><table><tr><th>客户动作</th><th>责任人</th><th>截止点</th><th>失败后果</th></tr><tr><td>资金来源证据链</td><td>客户/企业财务</td><td>付款前</td><td>开户、递交或投保失败</td></tr><tr><td>年度税务居民复核</td><td>税务师/客户</td><td>每年申报前</td><td>CRS/FATCA/当地申报风险</td></tr></table></div></section>"""
     soup2=BeautifulSoup(html,'html.parser')
     target=None
@@ -105,6 +180,7 @@ def clean_fusion(html:str, issue:int)->str:
     if target and not soup2.find(string=re.compile('数据来源交叉核验表')):
         target.insert_before(BeautifulSoup(integrity_extra,'html.parser'))
     html=str(soup2)
+    html=inline_all_svg_paint(html)
     return html
 
 def main():
