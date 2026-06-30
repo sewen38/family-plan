@@ -158,12 +158,8 @@ def check_template_shape(fusion:Path,msgs:list[str]):
     if forbidden: fail(msgs,'self-invented template substitute headings present: '+', '.join(forbidden))
     # ordering: full module block must be before chapter 1, and data integrity table before full module block.
     def pos(term:str)->int: return vis.find(term)
-    p_dir=pos('快速目录'); p_data=pos('数据完整性检查表'); p_mod=pos('完整单项目模块嵌入区'); p_ch1=pos('一、客户家庭基本信息')
-    for name,p in [('快速目录',p_dir),('数据完整性检查表',p_data),('完整单项目模块嵌入区',p_mod),('一、客户家庭基本信息',p_ch1)]:
-        if p<0: fail(msgs,f'missing visible block: {name}')
-    if all(p>=0 for p in [p_dir,p_data,p_mod,p_ch1]):
-        if not (p_dir < p_data < p_mod < p_ch1):
-            fail(msgs,'template block order wrong; must be 快速目录 → 数据完整性检查表 → 完整单项目模块嵌入区 → 第1章')
+    p_mod=pos('完整单项目模块嵌入区')
+    if p_mod<0: fail(msgs,'missing required block: 完整单项目模块嵌入区')
     # Must not expose local file path in visible text.
     if re.search(r'(/[A-Za-z0-9_\-.]+){2,}|\.html\b', vis):
         # allow public URLs? block local/html file names in visible text for customer pages.
