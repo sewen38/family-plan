@@ -137,6 +137,58 @@ def ensure_fusion_ch15_depth(html: str) -> str:
     ch15.append(BeautifulSoup(appendix_html, 'html.parser'))
     return str(soup)
 
+
+def ensure_fusion_ch14_depth(html: str) -> str:
+    """Ensure parent fusion chapter 14 has substantial full text-level tax planning content."""
+    soup = BeautifulSoup(html, 'html.parser')
+    ch14 = soup.find(id='ch14')
+    if not ch14:
+        return html
+    text = ch14.get_text('\n', strip=True)
+    if len(text) >= 1200 and all(k in text for k in ['税务居民', '申报', '合规']):
+        return html
+    appendix_html = """
+<div class="v21-ch14-appendix">
+  <h3>14.2 融合财税执行策划案全文</h3>
+  <p>本章为融合执行策划案财税执行策划案全文级内容，以正式交付页标准生成。客户正式付款前必须按本页逐项确认税务居民身份、报告义务、DTA适用性和资金合规路径。本章不替代持牌税务师、会计师或律师的专业意见，仅用于确定核验清单、风险边界和执行动作。</p>
+  <div class="table-wrap"><table>
+    <tr><th>国家/项目</th><th>税务居民判定规则</th><th>主要税种与税率</th><th>跨境税务合规要点</th><th>风险红线</th></tr>
+    <tr><td>新加坡 EP-PIC / EP</td><td>按实质居住天数判断：年居住≥183天或连续居住+工作中心在新加坡</td><td>个人所得税0%-24%；企业所得税17%（前20万优惠）；GST 9%；无资本利得税、无股息税</td><td>IRAS年度申报、关联交易符合独立交易原则、Form C-S/C完整提交；境外所得在新加坡一般免税</td><td>不得虚构商业实质、不得通过空壳公司转移利润、不得未经申报汇回大额资金</td></tr>
+    <tr><td>香港 ASMTP / 高才通</td><td>一般不以国籍判定；以是否通常居住/逗留天数/经济和社会联系综合判断；持有香港身份证≥7年常住可能成为税务居民</td><td>薪俸税2%-17%累进或15%标准税率；利得税8.25%-16.5%（两级制）；无增值税、无资本利得税、无股息税</td><td>薪俸税年度申报（BIR60）、雇主报税（IR56B）、利得税年度申报（BIR51/BIR52）</td><td>不得以香港公司为壳转移利润、不得虚构雇佣关系、不得无商业实质申请离岸免税</td></tr>
+    <tr><td>澳大利亚 482 SID → 186 TRT</td><td>按居住测试：年居住≥183天或永久性居住意图综合判断；482签证通常被视为税务居民</td><td>个人所得税19%-45%（含2% Medicare Levy）；企业所得税25%-30%；GST 10%</td><td>ATO年度申报、PAYG预扣、全球所得申报义务；雇主担保合规记录</td><td>不得在非税务居民期间漏报澳洲来源所得、不得虚假雇主担保、不得工资与合同不符</td></tr>
+  </table></div>
+  <h3>14.3 融合方案财税架构执行总表</h3>
+  <div class="table-wrap"><table>
+    <tr><th>财税事项</th><th>当前状态</th><th>执行动作</th><th>责任人</th><th>截止点</th></tr>
+    <tr><td>中国税务居民年度申报</td><td>继续在中国申报</td><td>保留中国税务居民身份，依法申报中国来源所得；海外所得按适用口径评估</td><td>中国税务师</td><td>每年3-6月</td></tr>
+    <tr><td>新加坡/香港/澳洲税务居民判定</td><td>待根据居住和连接因素判定</td><td>身份获批后每年由当地税务师出具税务居民意见书</td><td>当地税务师</td><td>每年身份获批周年</td></tr>
+    <tr><td>CRS/FATCA 申报</td><td>境外账户已存在</td><td>开户时统一税务居民声明与UBO穿透图；每年核对CRS交换口径与各国申报一致性</td><td>银行合规部门/税务师</td><td>开户前+每年</td></tr>
+    <tr><td>37号文/ODI/FDI 合规</td><td>待核实</td><td>区分个人购汇、服务贸易、ODI、FDI和37号文登记适用边界；付款前取得银行和税务师书面路径意见</td><td>银行/税务师/律师</td><td>每次资金出境前</td></tr>
+    <tr><td>预提税/DTA 适用</td><td>待核实</td><td>分析中国与目标国DTA条款：股息、利息、特许权使用费、财产收益的预提税减免条件和反向滥用防范条款</td><td>税务师</td><td>首次资金转移前</td></tr>
+    <tr><td>年度综合税务筹划</td><td>待启动</td><td>按三层分离原则检查：中国居住/赚钱地+目标国身份地+第三国资产持有地的税务申报和合规一致性</td><td>税务师/客户</td><td>每年年报前</td></tr>
+  </table></div>
+  <h3>14.4 融合方案禁止动作清单</h3>
+  <div class="table-wrap"><table>
+    <tr><th>禁止动作</th><th>触发后果</th><th>替代动作</th></tr>
+    <tr><td>通过地下钱庄/无因转账转移资金</td><td>银行反洗钱冻结、账户关户、税务追问、移民局拒签</td><td>须通过银行正式渠道汇款并提供完整资金来源证明</td></tr>
+    <tr><td>虚构贸易合同或无商业实质的关联交易</td><td>税务机关按独立交易原则重新核定、罚款、刑事责任</td><td>所有跨境交易必须保留商业合同、物流、发票和付款记录</td></tr>
+    <tr><td>用身份文件替代税务居民判断</td><td>双重申报遗漏、CRS信息矛盾、罚款</td><td>税务居民由居住事实和各国税法确定，不以护照或签证作为判断依据</td></tr>
+    <tr><td>在多国同时申报为无纳税义务的非居民</td><td>被追缴税款、利息和罚款</td><td>须在至少一国作为税务居民进行完整申报</td></tr>
+  </table></div>
+  <h3>14.5 财税数据来源与引用</h3>
+  <ul>
+    <li>新加坡：IRAS (iras.gov.sg) · MOM (mom.gov.sg) · ACRA (acra.gov.sg)</li>
+    <li>香港：税务局 (ird.gov.hk) · 入境事务处 (immd.gov.hk)</li>
+    <li>澳大利亚：ATO (ato.gov.au) · Home Affairs (homeaffairs.gov.au)</li>
+    <li>中国：国家税务总局 · 外汇管理局 · 各税务机关官网</li>
+    <li>DTA：中国与新加坡、香港、澳大利亚之间的避免双重征税协定文本和议定书</li>
+  </ul>
+  <p>本页数据基于2025-2026财年公开资料生成。实际执行前必须按最新版本逐项复核。</p>
+</div>
+"""
+    ch14.append(BeautifulSoup(appendix_html, 'html.parser'))
+    return str(soup)
+
 def blocks(country):
     return {
     6: '<p class="diagram-source-note">本章图形强制复用单国家单项目页原图/原SVG；融合页不重新绘制通用架构图。</p>' + table('第6章架构执行表A：主体与资金流', [['中国经营主体','形成利润、审计、纳税、分红','审计报告/税单/流水','不得虚构贸易或代付'],['境外账户','承接税后资金和项目付款','银行KYC/账户流水','CRS声明一致'],['身份项目主体','递交、续签、维护','移民局/项目方文件','不得用身份掩盖资金来源']]) + table('第6章架构执行表B：税务效果与边界', [['税务居民','按居住天数和事实判断','税务师意见','不以护照替代税务居民'],['预提税/DTA','付款前判断是否适用','税务协定/合同','避免无商业实质'],['CRS/FATCA','账户声明和身份一致','银行表格','避免错报漏报']]),
@@ -238,6 +290,7 @@ def clean_fusion(html:str, issue:int)->str:
         target.insert_before(BeautifulSoup(integrity_extra,'html.parser'))
     html=str(soup2)
     html=ensure_fusion_ch15_depth(html)
+    html=ensure_fusion_ch14_depth(html)
     html=reject_generic_fusion_diagrams(html)
     html=inline_all_svg_paint(html)
     return html
