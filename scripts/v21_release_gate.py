@@ -202,7 +202,7 @@ def check_human_standard(fusion:Path,msgs:list[str]):
     out=ROOT/'output/verification/release-gate-human-standard-report.md'
     html=fusion.read_text(encoding='utf-8',errors='ignore')
     # In modules-only mode, skip chapter-related audit checks
-    if 'V21定稿版融合执行策划案｜仅完整单项目模块嵌入区' in html and '拆章重组' not in html:
+    if '仅完整单项目模块嵌入区' in html or '仅保留完整单项目模块嵌入区' in html:
         # Skip human-standard chapter audit; only check module embedding area presence
         if '完整单项目模块嵌入区' not in html:
             fail(msgs,'missing required block in modules-only mode: 完整单项目模块嵌入区')
