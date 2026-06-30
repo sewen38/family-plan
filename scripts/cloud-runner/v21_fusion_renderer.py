@@ -46,11 +46,11 @@ def visible_text(src: str) -> str:
 
 def detect_modules(q: str):
     # 2. Read client's actual selections from flow state
-    import json as _json
-    flow_match=_re.search(r'FP_FLOW_STATE\n([\s\S]*?)\nFP_FLOW_STATE', q)
+    
+    flow_match=re.search(r'FP_FLOW_STATE\n([\s\S]*?)\nFP_FLOW_STATE', q)
     if flow_match:
         try:
-            flow=_json.loads(flow_match.group(1).strip())
+            flow=__import__("json").loads(flow_match.group(1).strip())
             selections=flow.get('selections',{})
             selected_countries=list(selections.keys())
             if selected_countries:
