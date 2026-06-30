@@ -470,8 +470,19 @@ def process(issue: dict) -> None:
                 diag_html = Path(diag_out).read_text(encoding='utf-8')
                 diag_url = put_file(diag_out, diag_html, f"Add cloud diagnosis draft for issue {num}")
                 comment(num, f"## Diagnosis draft generated (template-driven)\n\nReview: {diag_url}")
-                set_labels(num, original_labs + ["questionnaire", "diagnosed"])
-                close_issue(num)
+                # Race guard: the user can request execution while diagnosis is still
+                # running. In that case, do not overwrite labels back to diagnosed or
+                # close the issue; keep execution-request open so the execution run can
+                # publish the final plan.
+                latest = gh("GET", f"/issues/{num}")
+                latest_labs = labels(latest)
+                latest_body = latest.get("body", "") or ""
+                if "execution-request" in latest_labs or "execution-requested" in latest_body:
+                    set_labels(num, [x for x in latest_labs if x not in ["pending", "diagnosed", "in-progress"]] + ["execution-request"])
+                    gh("PATCH", f"/issues/{num}", {"state": "open"})
+                else:
+                    set_labels(num, original_labs + ["questionnaire", "diagnosed"])
+                    close_issue(num)
             else:
                 comment(num, f"## Renderer blocked\n```\n{_rd.stderr[:2000] if _rd.stderr else 'exit='+str(_rd.returncode)}\n```")
                 set_labels(num, original_labs + ["pending", "cloud-blocked"])
