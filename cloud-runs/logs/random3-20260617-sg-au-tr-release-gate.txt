@@ -1,3 +1,4 @@
 # V21 RELEASE GATE
 fusion: /home/runner/work/family-plan/family-plan/cloud-runs/random3-20260617-sg-au-tr-execution.html
-RESULT: PASS
+RESULT: BLOCKED
+- SVG black-box/readability gate failed: ["svg#1 class-only text may become unreadable", "svg#2 class-only text may become unreadable", "svg#3 class-only text may become unreadable"]
