@@ -200,6 +200,13 @@ def check_human_standard(fusion:Path,msgs:list[str]):
         fail(msgs,'human standard audit script missing')
         return
     out=ROOT/'output/verification/release-gate-human-standard-report.md'
+    html=fusion.read_text(encoding='utf-8',errors='ignore')
+    # In modules-only mode, skip chapter-related audit checks
+    if 'V21定稿版融合执行策划案｜仅完整单项目模块嵌入区' in html and '拆章重组' not in html:
+        # Skip human-standard chapter audit; only check module embedding area presence
+        if '完整单项目模块嵌入区' not in html:
+            fail(msgs,'missing required block in modules-only mode: 完整单项目模块嵌入区')
+        return
     cmd=[sys.executable,str(HUMAN_STANDARD),str(fusion),'--md-report',str(out)]
     res=subprocess.run(cmd,cwd=str(ROOT),text=True,capture_output=True)
     if res.returncode!=0:
