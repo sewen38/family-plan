@@ -7,16 +7,5 @@ Calling model candidate 2/2: deepseek-chat provider=deepseek base=https://api.de
 Model JSON inadequate; using deterministic final-template fallback: topics too few: 0
 JSON: 8 topics, 3 plans
 Written cloud-runs/random3-20260617-sg-au-tr-diagnosis.html (22859 bytes)
-Traceback (most recent call last):
-  File "/home/runner/work/family-plan/family-plan/scripts/cloud-runner/v21_fusion_renderer.py", line 235, in <module>
-    if __name__=='__main__': raise SystemExit(main())
-                                              ^^^^^^
-  File "/home/runner/work/family-plan/family-plan/scripts/cloud-runner/v21_fusion_renderer.py", line 231, in main
-    mods=detect_modules(q); doc=build(issue,q,mods)
-         ^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/family-plan/family-plan/scripts/cloud-runner/v21_fusion_renderer.py", line 50, in detect_modules
-    flow_match=_re.search(r'FP_FLOW_STATE\n([\s\S]*?)\nFP_FLOW_STATE', q)
-               ^^^
-NameError: name '_re' is not defined. Did you mean: 're'?
-DIAG_CODE=0 EXEC_CODE=1 GATE_CODE=1 VISIBLE_CODE=0
-Cloud smoke failed; logs will be committed by next step
+Written cloud-runs/random3-20260617-sg-au-tr-execution.html modules=['sg-ep-pic', 'hk-asmtp', 'au-482', 'tr-fund'] bytes=3378 model=aitechflux/gpt-5.5 base=https://us.aitechflux.com/v1
+DIAG_CODE=0 EXEC_CODE=0 GATE_CODE=0 VISIBLE_CODE=0
