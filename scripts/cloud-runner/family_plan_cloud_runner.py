@@ -386,7 +386,7 @@ def put_file(path: str, content: str, message: str) -> str:
 
 
 def make_diagnosis(issue: dict, q: str, knowledge: str) -> str:
-    prompt = f"""按最终标准生成《跨境家庭全球规划诊断草案》。手机端Markdown。末尾必须有方案A/B/C/D和JSON。
+    prompt = f"""按最终标准生成《跨境家庭全球规划诊断草案》。{country_only_rule}。手机端Markdown。末尾必须有方案A/B/C/D和JSON。
 
 【问卷】\n{compact_text(q, 7000)}
 
@@ -501,6 +501,7 @@ def process(issue: dict) -> None:
             os.unlink(_tmp.name)
             if _rd.returncode == 0 and Path(diag_out).exists():
                 diag_html = Path(diag_out).read_text(encoding='utf-8')
+                diag_html = filter_country_sections(diag_html, q)
                 diag_url = put_file(diag_out, diag_html, f"Add cloud diagnosis draft for issue {num}")
                 comment(num, f"## Diagnosis draft generated (template-driven)\n\nReview: {diag_url}")
                 # Race guard: the user can request execution while diagnosis is still
