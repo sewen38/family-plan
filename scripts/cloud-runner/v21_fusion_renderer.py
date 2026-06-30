@@ -45,11 +45,35 @@ def visible_text(src: str) -> str:
     return soup.get_text('\n', strip=True)
 
 def detect_modules(q: str):
+    # 2. Read client's actual selections from flow state
+    import json as _json
+    flow_match=_re.search(r'FP_FLOW_STATE\n([\s\S]*?)\nFP_FLOW_STATE', q)
+    if flow_match:
+        try:
+            flow=_json.loads(flow_match.group(1).strip())
+            selections=flow.get('selections',{})
+            selected_countries=list(selections.keys())
+            if selected_countries:
+                country_module_map={
+                    'sg':'sg-ep-pic','hk':'hk-asmtp','us':'us-eb1a',
+                    'au':'au-482','tr':'tr-fund','dm':'dm-cbi',
+                    'eu':'hk-asmtp','jp':'hk-asmtp','ge':'tr-fund','vu':'dm-cbi'
+                }
+                found=[]
+                for c in selected_countries:
+                    m=country_module_map.get(c)
+                    if m and m not in found:
+                        found.append(m)
+                if found:
+                    return found
+        except: pass
+    # 3. Fallback: keyword match from questionnaire body, limited to mentioned countries
     found=[]
     rules=[('sg-ep-pic',['新加坡','EP','PIC','家办']),('hk-asmtp',['香港','专才','ASMTP','高才','CIES']),('us-eb1a',['EB-1A','EB1A','NIW','O-1','O1']),('au-482',['澳大利亚','澳洲','482','186']),('tr-fund',['土耳其','基金','E-2','E2']),('dm-cbi',['多米尼克','CBI','捐款'])]
     for key, terms in rules:
         if any(t in q for t in terms) and key not in found: found.append(key)
-    return found or ['sg-ep-pic','hk-asmtp','us-eb1a','au-482','tr-fund','dm-cbi']
+    # Only return matched countries, never default to all 6
+    return found
 
 def strip_customer_bad(src: str) -> str:
     reps={'Professional Review':'专业审核','Acceptance Review':'验收审核','Source Map':'资料来源','Clean Final':'最终交付版','clean':'最终交付','Clean':'最终交付','generated-v21':'V21','human-final':'最终交付版','template-v21':'V21模板','V20Plus':'V21','TODO':'','TBD':'','placeholder':'','仅供测试':'审核版','内部审核':'人工审核','final-single/generated':'内容源','工作底稿':'正式交付版','底稿':'正式版','补强说明':'说明','修复说明':'说明','待确认':'以递交前正式核验为准','待补充':'以客户完整材料补齐为准','待计算':'以计算器和正式报价核算','最终版需用真实问卷替换':'客户材料完整后复核','tax-assessment/exec.html':'财税执行策划案框架','fallback':'备用机制','核验记录':'权威来源记录','family-plan-pages/':'','输出路径：':'资料来源：'}
