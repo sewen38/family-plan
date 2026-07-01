@@ -206,6 +206,29 @@ def sanitize_client_output(text: str) -> str:
     return text.strip()
 
 
+
+
+def filter_country_sections(text: str, q: str) -> str:
+    """Post-filter: remove paragraphs/tables about countries client didn't mention."""
+    country_kw = {
+        '美国': ['美国','EB-1','EB1','NIW','O-1','E-2','E2','USCIS','IRS','FBAR'],
+        '澳大利亚': ['澳大利亚','澳洲','482','186','SID','ENS'],
+        '土耳其': ['土耳其','基金入籍','E-2','条约国'],
+        '多米尼克': ['多米尼克','CBI','捐款入籍'],
+        '新加坡': ['新加坡','EP','PIC','家办','COMPASS','MOM'],
+        '香港': ['香港','ASMTP','专才','高才','CIES','优才'],
+    }
+    detected = {c for c,kws in country_kw.items() if any(k in q for k in kws)}
+    if len(detected)==0 or len(detected)>=len(country_kw):
+        return text
+    for country, kws in country_kw.items():
+        if country in detected: continue
+        for kw in kws:
+            text = re.sub(
+                r'<[^>]*>[^<]*'+re.escape(kw)+r'[^<]*</[^>]*>',
+                '', text, flags=re.DOTALL
+            )
+    return text
 def ensure_requested_coverage(text: str, q: str, execution: bool = False) -> str:
     countries = [x for x in ["新加坡", "香港", "美国", "澳大利亚", "土耳其", "多米尼克"] if x in q]
     projects = [x for x in ["EP", "专才", "EB1A", "NIW", "O1", "O-1", "482", "E2", "E-2", "捐款"] if x in q]
@@ -353,7 +376,7 @@ def put_file(path: str, content: str, message: str) -> str:
 
 
 def make_diagnosis(issue: dict, q: str, knowledge: str) -> str:
-    prompt = f"""按最终标准生成《跨境家庭全球规划诊断草案》。手机端Markdown。末尾必须有方案A/B/C/D和JSON。
+    prompt = f"""按最终标准生成《跨境家庭全球规划诊断草案》。{country_only_rule}。手机端Markdown。末尾必须有方案A/B/C/D和JSON。
 
 【问卷】\n{compact_text(q, 7000)}
 
@@ -468,6 +491,7 @@ def process(issue: dict) -> None:
             os.unlink(_tmp.name)
             if _rd.returncode == 0 and Path(diag_out).exists():
                 diag_html = Path(diag_out).read_text(encoding='utf-8')
+                diag_html = filter_country_sections(diag_html, q)
                 diag_url = put_file(diag_out, diag_html, f"Add cloud diagnosis draft for issue {num}")
                 comment(num, f"## Diagnosis draft generated (template-driven)\n\nReview: {diag_url}")
                 # Race guard: the user can request execution while diagnosis is still
