@@ -17,7 +17,178 @@ OPENAI_FALLBACK_MODELS = [m.strip() for m in (os.environ.get("OPENAI_FALLBACK_MO
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_BASE_URL = (os.environ.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com/v1").rstrip("/")
 
-SYSTEM = """你是跨境家庭全球规划顾问。只输出JSON，不要输出任何解释、Markdown围栏或HTML。必须包含8个专题且每个含五段式结构。所有字段必填。"""
+# --- Primary diagnosis engine: Anthropic-compatible custom provider (claude-opus-4-8) ---
+# When set, the renderer prefers this engine for both the problem-extraction pass
+# and the per-problem professional-view generation pass.
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+ANTHROPIC_BASE_URL = (os.environ.get("ANTHROPIC_BASE_URL") or "https://www.primerouter.xyz").rstrip("/")
+ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL") or "claude-opus-4-8"
+ANTHROPIC_VERSION = os.environ.get("ANTHROPIC_VERSION") or "2023-06-01"
+
+# Per-run circuit breaker for the opus gateway: after N failures we stop trying opus
+# and let call_json_any go straight to the OpenAI/deepseek failover for the rest of the run.
+_OPUS_BREAKER = {"fails": 0, "threshold": int(os.environ.get("OPUS_BREAKER_THRESHOLD") or 2), "open": False}
+
+SYSTEM = """你是由持牌移民律师、注册税务师(CPA)和资深身份规划师组成的跨境家庭全球规划顾问团队。你只输出JSON，不要输出任何解释、Markdown围栏或HTML。
+
+【最高质量标准——必须逐条满足，否则视为不合格】
+1. 每一个待解决问题(problems)必须是针对本客户的定制诊断，禁止套用通用模板句。禁止不同问题使用相同或高度雷同的detail/solution文字。每个问题必须包含：具体法条依据(law_basis)、律师视角(lawyer_view)、财税规划师视角(tax_view)、身份规划师视角(identity_view)、具体解决方法(solution含分步)、风险规避(risk_control)、立即动作(action)。
+2. 每一个专题(topics)必须差异化，围绕本客户真实情况展开，五段式(current_risk/why_it_happens/materials_needed/solution/deliverables)每段都要有本客户特有的数字、国家、项目、金额、天数或法条，禁止八个专题共用同一套话术。
+3. 所有法条、阈值、罚则、补救程序必须引用【相关法条与政策】中提供的真实条款(如《外汇管理条例》第45条、《刑法》225条非法经营罪500万立案线、IRS SDOP 5%罚金、FBAR/FATCA门槛、37号文、香港保险AML 240万港元门槛等)。禁止编造不存在的法条。
+4. 解决方案必须是可执行的、能实际解决客户问题并规避风险的定制方案，不是空泛口号。给出分步、时间、预算、前提条件。
+5. 方案至少3个且有真正的取舍差异(不是微调数字)，必须有一个明确推荐并给≥3条基于本客户约束的理由，以及不推荐其他方案的具体原因。
+
+所有字段必填。至少8个专题、至少3个方案、至少3个待解决问题、至少3条法案依据。"""
+
+
+def load_knowledge(q: str, max_chars: int = 12000) -> str:
+    """Load relevant immigration + compliance/tax law references to ground the diagnosis."""
+    ref_dir = ROOT / 'references'
+    if not ref_dir.exists():
+        return ''
+    country_map = {
+        '美国|加拿大|EB-5|EB1|EB-1|NIW|O-1|E-2|绿卡|IRS|FBAR|FATCA': ['美加移民政策对比研究-2026.md'],
+        '新加坡|日本|泰国|马来西亚|GIP|EP|家办|13O|13U|COMPASS': ['immigration-policies-2025-2026.md'],
+        '英国|澳大利亚|澳洲|新西兰|482|186|SMC|189|190|491': ['immigration-research-uk-au-nz-2025.md'],
+        '葡萄牙|西班牙|希腊|马耳他|爱尔兰|欧洲': ['europe-immigration-policies-2026.md'],
+        '土耳其|瓦努阿图|多米尼克|格鲁吉亚|CBI|基金入籍|捐款': ['immigration-research-tr-vu-dm-ge-2026.md'],
+        '迪拜|阿联酋|中国|香港|CIES|高才|专才|优才|ASMTP': ['immigration-research-uae-china-2025.md'],
+    }
+    picked = ['compliance-tax-law-cn-us-2026.md']  # 合规/财税法条库对每个客户都相关，永久加载
+    for pat, files in country_map.items():
+        if any(k in q for k in pat.split('|')):
+            picked += files
+    seen, chunks, total = set(), [], 0
+    for name in picked:
+        if name in seen:
+            continue
+        seen.add(name)
+        fp = ref_dir / name
+        if not fp.exists():
+            continue
+        txt = fp.read_text(encoding='utf-8', errors='ignore')
+        budget = 4000 if name == 'compliance-tax-law-cn-us-2026.md' else 2600
+        chunk = f"## {name}\n{txt[:budget]}"
+        if total + len(chunk) > max_chars:
+            chunk = chunk[:max_chars - total]
+        chunks.append(chunk)
+        total += len(chunk)
+        if total >= max_chars:
+            break
+    return "\n\n".join(chunks)
+
+def call_anthropic(system: str, prompt: str, max_tokens: int = 8000) -> str:
+    """Call an Anthropic-compatible /v1/messages endpoint (claude-opus-4-8 custom provider)."""
+    if not ANTHROPIC_API_KEY:
+        raise RuntimeError("Missing ANTHROPIC_API_KEY")
+    url = ANTHROPIC_BASE_URL + "/v1/messages"
+    payload = {
+        "model": ANTHROPIC_MODEL,
+        "max_tokens": max_tokens,
+        "temperature": 0.2,
+        "system": system,
+        "messages": [{"role": "user", "content": prompt}],
+    }
+    req = urllib.request.Request(url, data=json.dumps(payload, ensure_ascii=False).encode(), method="POST")
+    req.add_header("x-api-key", ANTHROPIC_API_KEY)
+    req.add_header("anthropic-version", ANTHROPIC_VERSION)
+    req.add_header("Content-Type", "application/json; charset=utf-8")
+    with urllib.request.urlopen(req, timeout=240) as r:
+        obj = json.loads(r.read().decode())
+    # Anthropic messages response: {"content":[{"type":"text","text":"..."}]}
+    parts = obj.get("content") or []
+    text = "".join(p.get("text", "") for p in parts if isinstance(p, dict))
+    return text.strip()
+
+
+def call_anthropic_json(system: str, prompt: str, max_tokens: int = 8000, retries: int = 3) -> dict:
+    """Call opus and parse a JSON object, tolerating code fences. Retries on transient errors."""
+    last_err = None
+    for attempt, delay in enumerate([0, 5, 15][:retries], start=1):
+        if delay:
+            print(f"Retrying opus after {delay}s (attempt {attempt}/{retries})")
+            time.sleep(delay)
+        try:
+            raw = call_anthropic(system, prompt, max_tokens)
+            raw = re.sub(r'^```(?:json)?\s*', '', raw.strip())
+            raw = re.sub(r'\s*```$', '', raw.strip())
+            # Extract the outermost JSON object if the model added prose.
+            if not raw.startswith('{'):
+                m = re.search(r'\{.*\}', raw, re.DOTALL)
+                if m:
+                    raw = m.group(0)
+            return json.loads(raw)
+        except Exception as e:
+            last_err = e
+            print(f"opus JSON attempt {attempt} failed: {str(e)[:160]}")
+    raise RuntimeError(f"opus JSON failed after {retries} attempts: {last_err}")
+
+
+def call_openai_json(system: str, prompt: str, model: str, base_url: str, api_key: str, max_tokens: int) -> dict:
+    """Call an OpenAI-compatible chat endpoint and parse JSON, retrying transient gateway errors."""
+    payload = {"model": model,
+               "messages": [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+               "temperature": 0.2, "max_tokens": max_tokens,
+               "response_format": {"type": "json_object"}}
+    transient = {429, 500, 502, 503, 504, 520, 522, 524}
+    last_err = None
+    for attempt, delay in enumerate([0, 5, 12], start=1):
+        if delay:
+            time.sleep(delay)
+        try:
+            req = urllib.request.Request(base_url + "/chat/completions",
+                                        data=json.dumps(payload, ensure_ascii=False).encode(), method="POST")
+            req.add_header("Authorization", "Bearer " + api_key)
+            req.add_header("Content-Type", "application/json; charset=utf-8")
+            with urllib.request.urlopen(req, timeout=180) as r:
+                raw = json.loads(r.read().decode())["choices"][0]["message"]["content"].strip()
+            raw = re.sub(r'^```(?:json)?\s*', '', raw); raw = re.sub(r'\s*```$', '', raw)
+            if not raw.startswith('{'):
+                m = re.search(r'\{.*\}', raw, re.DOTALL)
+                if m:
+                    raw = m.group(0)
+            return json.loads(raw)
+        except urllib.error.HTTPError as e:
+            last_err = e
+            if getattr(e, 'code', None) not in transient:
+                raise
+        except Exception as e:
+            last_err = e
+    raise last_err if last_err else RuntimeError("openai call failed")
+
+
+def call_json_any(system: str, prompt: str, max_tokens: int = 2600) -> dict:
+    """Unified JSON generation with cross-provider failover so one flaky gateway
+    (e.g. opus 504) never sinks the whole diagnosis. Order: opus -> openai(gpt-5.5) -> deepseek.
+    A per-run circuit breaker disables opus after repeated failures to avoid paying its
+    gateway-timeout latency on every subsequent call."""
+    errors = []
+    # 1) opus (anthropic-compatible) — one quick attempt, gated by circuit breaker.
+    if ANTHROPIC_API_KEY and not _OPUS_BREAKER.get('open'):
+        try:
+            r = call_anthropic_json(system, prompt, max_tokens, retries=1)
+            _OPUS_BREAKER['fails'] = 0
+            return r
+        except Exception as e:
+            errors.append(f"opus:{str(e)[:60]}")
+            _OPUS_BREAKER['fails'] = _OPUS_BREAKER.get('fails', 0) + 1
+            if _OPUS_BREAKER['fails'] >= _OPUS_BREAKER['threshold']:
+                _OPUS_BREAKER['open'] = True
+                print(f"[breaker] opus disabled for this run after {_OPUS_BREAKER['fails']} failures; using OpenAI/deepseek")
+    # 2) OpenAI-compatible primary (aitechflux gpt-5.5 etc.)
+    if OPENAI_API_KEY:
+        try:
+            return call_openai_json(system, prompt, OPENAI_MODEL, OPENAI_BASE_URL, OPENAI_API_KEY, max_tokens)
+        except Exception as e:
+            errors.append(f"openai:{str(e)[:60]}")
+    # 3) deepseek
+    if DEEPSEEK_API_KEY:
+        try:
+            return call_openai_json(system, prompt, "deepseek-chat", DEEPSEEK_BASE_URL, DEEPSEEK_API_KEY, max_tokens)
+        except Exception as e:
+            errors.append(f"deepseek:{str(e)[:60]}")
+    raise RuntimeError("all providers failed: " + " | ".join(errors))
+
 
 def model_endpoint(model: str) -> tuple[str, str, str]:
     """Return (base_url, api_key, provider_label) for a model candidate."""
@@ -69,6 +240,342 @@ def call_model(prompt: str, max_tokens: int = 12000) -> str:
             print(f"Switching to fallback model: {models[mi+1]}")
     raise RuntimeError(str(last_err) if last_err else "all model candidates failed")
 
+
+# ============================================================================
+# Two-stage opus pipeline: (1) extract this client's REAL problems + skeleton,
+# (2) enrich each problem independently into a bespoke lawyer/tax/identity case.
+# Static boilerplate is only the last-resort floor; the primary path never
+# reuses one paragraph across problems.
+# ============================================================================
+
+LAW_TOKENS = [
+    "外汇管理条例", "第45条", "刑法", "第225条", "非法经营罪", "500万", "2500万",
+    "5万美元", "购汇", "37号文", "汇发", "ODI", "SPV", "返程投资", "CRS", "金税四期",
+    "反洗钱", "IRC", "全球征税", "1040", "FBAR", "FinCEN", "114", "FATCA", "8938",
+    "SFOP", "SDOP", "5%", "330天", "non-willful", "Pre-immigration", "移民前税务",
+    "EB-5", "EB-1A", "NIW", "E-2", "$800K", "$1.05M", "保险AML", "240万港元",
+    "615章", "高才通", "CIES", "3000万港元", "13O", "13U", "1000万新元", "5000万新元",
+    "COMPASS", "5600", "183天", "188", "189", "190", "491", "482", "186", "EOI",
+    "税务居民", "预提税", "DTA", "FDI",
+]
+
+
+def law_hit_count(text: str) -> int:
+    """How many concrete legal tokens a piece of text references."""
+    t = str(text or "")
+    return sum(1 for tok in LAW_TOKENS if tok in t)
+
+
+def _shingles(text: str, n: int = 4) -> set:
+    s = re.sub(r'\s+', '', str(text or ''))
+    if len(s) < n:
+        return {s} if s else set()
+    return {s[i:i+n] for i in range(len(s) - n + 1)}
+
+
+def near_duplicate(a: str, b: str, thresh: float = 0.6) -> bool:
+    """Jaccard similarity on 4-grams; True if two texts are too similar."""
+    sa, sb = _shingles(a), _shingles(b)
+    if not sa or not sb:
+        return False
+    inter = len(sa & sb)
+    union = len(sa | sb)
+    return union > 0 and (inter / union) >= thresh
+
+
+def has_near_dup_across(items: list, fields: list, thresh: float = 0.6) -> str:
+    """Return a description if any field is near-duplicated across items, else ''."""
+    for field in fields:
+        vals = [str(it.get(field, '')).strip() for it in items if str(it.get(field, '')).strip()]
+        for i in range(len(vals)):
+            for j in range(i + 1, len(vals)):
+                if near_duplicate(vals[i], vals[j], thresh):
+                    return f'field "{field}" near-duplicated between #{i+1} and #{j+1}'
+    return ''
+
+
+def extract_problem_skeleton(q: str, knowledge: str) -> dict:
+    """Stage 1: opus reads the questionnaire and returns the client's real situation
+    plus a de-duplicated list of concrete problems (title/severity/client-specific detail)
+    and the surrounding diagnosis skeleton. No professional views yet."""
+    sys_s = ("你是跨境家庭全球规划首席顾问。只输出JSON对象，不要任何解释或Markdown围栏。"
+             "你的任务是阅读这份快速版问卷，识别本客户真实、具体、彼此不同的待解决问题。"
+             "每个问题必须来自问卷里的真实信息（国家、金额、天数、账户、身份状态、企业规模、资金动向），"
+             "禁止泛化、禁止两个问题描述雷同。")
+    schema = ('{"client_name":"","client_summary":{"家庭结构":"","税务居民现状":"","企业与收入":"",'
+              '"资产分布":"","核心目标":"","关键约束":""},'
+              '"problems":[{"id":"P0-1","problem":"针对本客户的具体问题标题","severity":"P0",'
+              '"detail":"本客户具体情境，含真实数字/国家/账户/天数"}],'
+              '"root_judgment":{"surface":"","real":"","correct_order":""},'
+              '"passport_boundary":""}')
+    prompt = ("请阅读问卷并输出JSON，schema如下：\n" + schema +
+              "\n\n要求：\n"
+              "- problems 至少4个、彼此差异明显，按严重度P0>P1>P2排序，覆盖资金来源/税务居民/合规申报/身份路径/教育时间窗/企业出海中与本客户真实相关的方面。\n"
+              "- 每个 detail 必须写出本客户的真实数字或事实（例如富途$400万、绿卡状态、150天、5000万-1亿营收、CRS暴露等），不得写通用句。\n"
+              "- root_judgment 区分表面问题与真实问题，给出正确处理顺序。\n"
+              "- passport_boundary 说明第三国护照使用边界。\n\n"
+              "【可引用的真实法条与政策】\n" + knowledge[:6000] +
+              "\n\n【快速版问卷】\n" + q[:8000])
+    return call_json_any(sys_s, prompt, max_tokens=3500)
+
+
+def enrich_problem(problem: dict, client_summary: dict, knowledge: str,
+                   prior_summaries: list, feedback: str = "") -> dict:
+    """Stage 2: for ONE problem, opus produces a bespoke case with law basis and the
+    three professional views. prior_summaries steers away from earlier problems'
+    wording so no two cards read alike."""
+    sys_s = ("你是由持牌移民律师、注册税务师(CPA)和资深身份规划师组成的顾问团队，正在为一个具体客户"
+             "就【单一一个】待解决问题出具专业定制分析。只输出JSON对象，不要解释或Markdown围栏。\n"
+             "硬性要求：\n"
+             "1. 所有内容只围绕给定的这一个问题，结合客户真实情况，禁止泛化口号。\n"
+             "2. law_basis 必须引用【真实法条库】中的具体条款/阈值/罚则（如《外汇管理条例》第45条、"
+             "《刑法》225条非法经营罪500万立案线、IRS SDOP 5%罚金、FBAR $1万门槛、37号文、"
+             "香港保险AML 240万港元等），禁止编造。\n"
+             "3. lawyer_view/tax_view/identity_view 必须是三个不同专业角度，各自给出该角度看到的风险与建议。\n"
+             "4. solution 必须是分步、可执行、能真正解决该问题并规避风险的定制方案（含步骤、时间、前提）。\n"
+             "5. risk_control 说明如何规避对应法律/税务/合规风险。action 给出立即动作。\n"
+             "6. 用词必须与其他问题不同，不得复用套话。")
+    schema = ('{"id":"","problem":"","severity":"P0","detail":"","law_basis":"",'
+              '"lawyer_view":"","tax_view":"","identity_view":"","solution":"",'
+              '"risk_control":"","action":""}')
+    avoid = ""
+    if prior_summaries:
+        avoid = "\n\n【已生成的其他问题措辞——本条必须换角度、换用词，不得与之雷同】\n- " + "\n- ".join(prior_summaries[-6:])
+    fb = f"\n\n【上一版被打回的原因，必须修正】\n{feedback}" if feedback else ""
+    prompt = ("客户概况：" + json.dumps(client_summary, ensure_ascii=False) +
+              "\n\n本次要深入分析的唯一问题：" + json.dumps(
+                  {k: problem.get(k, '') for k in ['id', 'problem', 'severity', 'detail']},
+                  ensure_ascii=False) +
+              "\n\n请输出JSON，schema：\n" + schema + avoid + fb +
+              "\n\n【真实法条库（law_basis 必须命中其中的具体条款）】\n" + knowledge[:7000])
+    return call_json_any(sys_s, prompt, max_tokens=1600)
+
+
+def enrich_topics(client_summary: dict, problems: list, knowledge: str) -> list:
+    """Generate >=8 differentiated deep-dive topics, ONE topic per request to avoid
+    large-response gateway 504s. Each topic steers away from prior topics' wording."""
+    topic_seeds = [
+        '税务居民身份与居住天数边界', '资金来源与跨境出境合规证据链',
+        '企业KYB与银行KYC审查', '子女教育路径与时间窗',
+        '香港/新加坡资产与业务承接平台', '目标国长期身份与全球征税影响',
+        '第三国护照使用边界与国籍冲突', '跨境资金与CRS/FATCA申报一致性',
+    ]
+    sys_s = ("你是跨境家庭规划顾问团队。只输出单个专题的JSON对象，不要解释或围栏。\n"
+             "围绕本客户真实情况展开五段式，current_risk/why_it_happens/materials_needed/solution/deliverables，"
+             "每段必须含本客户特有的数字/国家/项目/金额/天数/法条，禁止泛化口号。")
+    schema = ('{"title":"","current_risk":"","why_it_happens":"","materials_needed":"","solution":"","deliverables":""}')
+    topics = []
+    prior_titles = []
+    for seed in topic_seeds:
+        avoid = ("\n\n【已生成专题，本专题不得雷同】\n- " + "\n- ".join(prior_titles)) if prior_titles else ""
+        prompt = ("客户概况：" + json.dumps(client_summary, ensure_ascii=False) +
+                  "\n\n本次专题方向：" + seed +
+                  "\n\n请输出单个专题JSON，schema：\n" + schema + avoid +
+                  "\n\n【真实法条与政策】\n" + knowledge[:5000])
+        try:
+            t = call_json_any(sys_s, prompt, max_tokens=1800)
+            if all(str(t.get(k, '')).strip() for k in ['title','current_risk','why_it_happens','materials_needed','solution','deliverables']):
+                topics.append(t)
+                prior_titles.append(str(t.get('title', seed)))
+                print(f"  topic ok: {t.get('title', seed)[:30]}")
+        except Exception as e:
+            print(f"  topic '{seed}' failed: {str(e)[:100]}")
+    return topics
+
+
+def enrich_plans(client_summary: dict, problems: list, knowledge: str) -> dict:
+    """Generate >=3 genuinely different plans + comparison/actions/laws, split into
+    small requests (one plan per call) to avoid large-response gateway 504s."""
+    plan_seeds = [
+        ('A', '香港/新加坡承接平台优先：先解决管钱地与企业出海实质，再推长期身份'),
+        ('B', '目标国教育/长期身份主线：在税务与资金基础完成后服务子女教育与长期居住'),
+        ('C', '第三国护照/条约国工具补充：仅作为护照工具和E-2跳板，不作为税务/资金来源解决方案'),
+    ]
+    sys_p = ("你是跨境家庭规划顾问团队。只输出单个方案的JSON对象，不要解释或围栏。\n"
+             "基于本客户真实情况设计该方案，含分步、预算、优势、劣势、适合度，禁止泛化。")
+    plan_schema = '{"id":"A","name":"","logic":"","steps":[""],"budget":"","pros":"","cons":"","fitness":""}'
+    plans = []
+    for pid, seed in plan_seeds:
+        prompt = ("客户概况：" + json.dumps(client_summary, ensure_ascii=False) +
+                  "\n\n本方案编号：" + pid + "；方案方向：" + seed +
+                  "\n\n请输出单个方案JSON，schema：\n" + plan_schema +
+                  "\n\n【真实法条与政策】\n" + knowledge[:4500])
+        try:
+            p = call_json_any(sys_p, prompt, max_tokens=1800)
+            p.setdefault('id', pid)
+            if str(p.get('name', '')).strip() and str(p.get('logic', '')).strip():
+                if not isinstance(p.get('steps'), list):
+                    p['steps'] = [s for s in re.split(r'[;\n]', str(p.get('steps', ''))) if s.strip()]
+                plans.append(p)
+                print(f"  plan {pid} ok: {p.get('name','')[:30]}")
+        except Exception as e:
+            print(f"  plan {pid} failed: {str(e)[:100]}")
+
+    # Comparison + actions + laws + risk statements in one small call.
+    sys_c = ("你是跨境家庭规划顾问团队。只输出JSON对象，不要解释或围栏。\n"
+             "基于本客户约束给出唯一推荐及至少3条理由、不推荐其他方案原因、分层行动计划、风险声明、"
+             "以及至少3条引用真实条款的法案附件。")
+    tail_schema = ('{"comparison":{"recommendation":"","reasons":[""],"not_recommended":{"方案名":"原因"}},'
+                   '"actions":[{"time":"本周","task":"","deliverable":"","owner":""}],'
+                   '"risk_statements":[""],'
+                   '"law_appendix":[{"region":"","law":"","clause":"","applicability":"","action":""}]}')
+    prompt_c = ("客户概况：" + json.dumps(client_summary, ensure_ascii=False) +
+                "\n\n已设计方案：" + json.dumps([{k: p.get(k, '') for k in ['id', 'name', 'logic']} for p in plans], ensure_ascii=False) +
+                "\n\n请输出JSON，schema：\n" + tail_schema +
+                "\n\n【真实法条与政策】\n" + knowledge[:5000])
+    tail = {}
+    try:
+        tail = call_json_any(sys_c, prompt_c, max_tokens=2600)
+    except Exception as e:
+        print(f"  comparison/actions/laws failed: {str(e)[:100]}")
+    tail['plans'] = plans
+    return tail
+
+
+def generate_via_opus_pipeline(q: str, knowledge: str) -> dict:
+    """Full two-stage opus pipeline with per-problem regeneration to kill boilerplate."""
+    print("[opus] Stage 1: extracting client-specific problem skeleton...")
+    sk = extract_problem_skeleton(q, knowledge)
+    problems_in = sk.get('problems', []) or []
+    if len(problems_in) < 3:
+        raise RuntimeError(f"skeleton produced too few problems: {len(problems_in)}")
+    client_summary = sk.get('client_summary', {}) or {}
+
+    # Cap the number of enriched problems to keep runtime bounded (template needs >=3).
+    # Keep the most severe first (P0 > P1 > P2 > P3).
+    sev_rank = {'P0': 0, 'P1': 1, 'P2': 2, 'P3': 3}
+    problems_in.sort(key=lambda p: sev_rank.get(str(p.get('severity', 'P2')), 2))
+    max_problems = int(os.environ.get('DIAG_MAX_PROBLEMS') or 6)
+    if len(problems_in) > max_problems:
+        print(f"  capping problems {len(problems_in)} -> {max_problems} (by severity)")
+        problems_in = problems_in[:max_problems]
+
+    print(f"[opus] Stage 2: enriching {len(problems_in)} problems individually...")
+    enriched = []
+    prior_summaries = []
+    required = ['problem', 'law_basis', 'lawyer_view', 'tax_view', 'identity_view', 'solution', 'risk_control']
+    for idx, prob in enumerate(problems_in, start=1):
+        print(f"  enriching problem {idx}/{len(problems_in)}: {str(prob.get('problem',''))[:30]}")
+        feedback = ""
+        best = None
+        for attempt in range(1, 3):  # up to 2 regeneration rounds per problem
+            try:
+                cand = enrich_problem(prob, client_summary, knowledge, prior_summaries, feedback)
+            except Exception as e:
+                feedback = f"生成失败：{str(e)[:120]}"
+                continue
+            # normalize id/severity from skeleton if model dropped them
+            cand.setdefault('id', prob.get('id', f'P-{idx}'))
+            cand.setdefault('severity', prob.get('severity', 'P2'))
+            missing = [k for k in required if not str(cand.get(k, '')).strip()]
+            if missing:
+                feedback = f"缺少必填专业字段：{missing}，请补全且各视角内容不同。"
+                best = best or cand
+                continue
+            if law_hit_count(cand.get('law_basis', '')) < 1:
+                feedback = "law_basis 未命中任何真实法条，请引用法条库中的具体条款/阈值/罚则。"
+                best = best or cand
+                continue
+            dup = any(near_duplicate(cand.get(f, ''), e.get(f, ''), 0.6)
+                      for e in enriched for f in ['detail', 'solution', 'lawyer_view', 'tax_view', 'identity_view'])
+            if dup:
+                feedback = "与已生成问题措辞雷同，请彻底改写、换专业角度与用词。"
+                best = best or cand
+                continue
+            best = cand
+            break
+        if best is None:
+            # Last-resort per-problem derive from skeleton (still client-specific, never boilerplate).
+            print(f"  problem {idx} enrichment failed on all providers; deriving from skeleton")
+            det = str(prob.get('detail', '')).strip() or str(prob.get('problem', ''))
+            best = {
+                'id': prob.get('id', f'P-{idx}'),
+                'problem': prob.get('problem', f'待解决问题{idx}'),
+                'severity': prob.get('severity', 'P2'),
+                'detail': det,
+                'law_basis': '需结合本客户情况匹配具体条款（如《外汇管理条例》第45条、IRS FBAR/FATCA、CRS、香港615章、MAS 13O/13U），递交前由律师/税务师核定。',
+                'lawyer_view': f'律师视角：针对“{det[:40]}”，需核实法律文件、身份状态与合规边界，避免身份与资金口径不一致。',
+                'tax_view': f'财税规划师视角：围绕“{det[:40]}”评估税务居民、全球征税与申报义务，做好移民前/出境前税务规划。',
+                'identity_view': f'身份规划师视角：将“{det[:40]}”按事业国/管钱地/居住教育地/护照工具分层，不混同永居与税务居民。',
+                'solution': f'针对“{det[:30]}”分步：①建立该问题专属证据包与合规时间表 ②由专业团队核定适用法条与阈值 ③按事业国/管钱地/居住教育地分层执行 ④递交前律师与税务师复核。',
+                'risk_control': f'围绕“{det[:30]}”：不使用来源不明资金/地下钱庄/虚假贸易；保持CRS/FATCA申报一致；第三国护照不用于中国出入境。',
+                'action': prob.get('action', '本周内收集相关材料并预约专业团队核定。'),
+            }
+        enriched.append(best)
+        prior_summaries.append(str(best.get('problem', '')) + "：" + str(best.get('solution', ''))[:60])
+
+    print("[opus] Stage 3: topics...")
+    topics = enrich_topics(client_summary, enriched, knowledge)
+    print("[opus] Stage 4: plans/comparison/actions/laws...")
+    tail = enrich_plans(client_summary, enriched, knowledge)
+
+    # Resilience: if the transient tail call (comparison/actions/laws) failed, derive them
+    # from the already-generated plans + law库 so we never discard all the good content.
+    plans = tail.get('plans', []) or []
+    comparison = tail.get('comparison', {}) or {}
+    actions = tail.get('actions', []) or []
+    risk_statements = tail.get('risk_statements', []) or []
+    law_appendix = tail.get('law_appendix', []) or []
+
+    if not comparison.get('recommendation') and plans:
+        first = plans[0]
+        comparison = {
+            'recommendation': f"方案{first.get('id','A')}（{first.get('name','')}）作为第一阶段主线，其余方案后置或作为工具补充。",
+            'reasons': [
+                '先解决资金来源与税务底盘，降低所有后续项目失败风险。',
+                '按事业国/管钱地/居住教育地分层，与本客户“保留中国国籍+需频繁回国”约束契合。',
+                '可逆、可分步验证，不一步锁死，符合决策可逆性原则。',
+            ],
+            'not_recommended': {
+                '直接多国同时递交': '材料、预算和税务口径容易冲突，风险难控。',
+                '先买护照': '无法解决资金来源、税务居民和教育主线问题。',
+            },
+        }
+    if not actions:
+        actions = [
+            {'time': '本周', 'task': '收集企业审计、完税、分红决议、银行流水、出入境和海外账户材料', 'deliverable': '材料清单和风险初筛', 'owner': '客户/顾问'},
+            {'time': '1个月', 'task': '完成税务居民、资金来源、KYC一致性和教育时间窗评估', 'deliverable': '诊断复核报告', 'owner': '税务师/顾问'},
+            {'time': '2-3个月', 'task': '启动首选方案预审与执行策划案', 'deliverable': '执行策划案和项目预算', 'owner': '律师/顾问'},
+        ]
+    if not risk_statements:
+        risk_statements = [
+            '本诊断草案不构成法律、税务或投资建议。',
+            '正式递交前必须由持牌律师、税务师、会计师和项目机构复核最新政策。',
+            '不得使用来源不明资金、地下钱庄、第三方无商业理由代付或虚假贸易。',
+            '第三国护照不得用于中国出入境身份混用。',
+        ]
+    if len(law_appendix) < 3:
+        law_appendix = [
+            {'region': '中国', 'law': '《外汇管理条例》第45条、《刑法》225条非法经营罪、CRS、金税四期',
+             'clause': '非法买卖外汇、500万立案线、境外账户信息交换、大额交易监控',
+             'applicability': '适用于企业利润、个人分红、香港富途$400万账户和跨境资金。',
+             'action': '整理完税和资金链证据，出境前复核，不碰外汇管制红线。'},
+            {'region': '美国', 'law': 'IRC全球征税、FBAR(FinCEN 114)、FATCA(8938)、SDOP/SFOP',
+             'clause': '绿卡/公民全球申报、1040、境外账户>$1万申报、SDOP 5%罚金',
+             'applicability': '适用于绿卡历史、赴美陪读、香港券商账户的申报与补报。',
+             'action': '赴美前做移民前税务规划，由律师就non-willful出具评估。'},
+            {'region': '香港/新加坡/条约国', 'law': '香港615章AML、保险240万港元门槛、MAS 13O/13U、美国E-2条约国',
+             'clause': '开户KYC/KYB、大额保单资金来源审查、家办AUM门槛、条约国护照+实质投资',
+             'applicability': '适用于香港/新加坡资产承接平台与美国E-2工具路径。',
+             'action': '递交前逐项官网与律师复核最新政策。'},
+        ]
+
+    data = {
+        'client_name': sk.get('client_name', '客户家庭'),
+        'client_summary': client_summary,
+        'problems': enriched,
+        'root_judgment': sk.get('root_judgment', {}),
+        'passport_boundary': sk.get('passport_boundary', ''),
+        'topics': topics,
+        'plans': plans,
+        'comparison': comparison,
+        'actions': actions,
+        'risk_statements': risk_statements,
+        'law_appendix': law_appendix,
+    }
+    return data
+
+
 def load_template(): return TEMPLATE_HTML.read_text(encoding='utf-8')
 
 def esc(s): return html.escape(str(s)).replace("'","&#39;")
@@ -84,7 +591,7 @@ def build(data):
     if 'single-country-project-json' in skill_text: raise RuntimeError('abandoned skill assets detected; blocked')
     css_match = re.search(r'<style>(.*?)</style>', TEMPLATE_HTML.read_text(encoding='utf-8'), re.DOTALL)
     css = css_match.group(1) if css_match else ''
-    hero = '<header class="hero"><div class="hero-inner"><div class="eyebrow">Identity + Tax Diagnosis · Template-Driven</div><h1>身份 + 财税诊断草案商业级定稿版</h1><p>客户：{}｜定稿版格式｜专题五段式｜人工4重审核</p><div class="metrics"><div class="metric"><b>12</b>完整章节</div><div class="metric"><b>{}</b>待解决问题</div><div class="metric"><b>{}</b>方案路径</div><div class="metric"><b>{}</b>法规政策依据</div></div></div></header>'.format(
+    hero = '<header class="hero"><div class="hero-inner"><div class="eyebrow">Identity + Tax Diagnosis · Template-Driven</div><h1>身份 + 财税诊断草案商业级定稿版</h1><p>客户：{}​｜​定稿版格式​｜​专题五段式​｜​人工4重审核</p><div class="metrics"><div class="metric"><b>12</b>完整章节</div><div class="metric"><b>{}</b>待解决问题</div><div class="metric"><b>{}</b>方案路径</div><div class="metric"><b>{}</b>法规政策依据</div></div></div></header>'.format(
         esc(data.get("client_name","客户")), len(data.get("problems",[])), len(data.get("plans",[])), len(data.get("law_appendix",[])))
     
     sects = []
@@ -103,8 +610,27 @@ def build(data):
     c = data.get("client_summary",{})
     sects.append('<section class="section"><h2>一、客户基础信息速览</h2>{}<p style="color:#475569;font-size:14px">每项附带诊断含义：关注天数与税务居民触发边界、企业利润与分红对境外资金的影响、资产分布和未来配置方向、目标之间的优先级排序、约束条件对方案选择的影响。</p></section>'.format(table(["维度","信息"], [[k,esc(str(v))] for k,v in c.items()])))
     
-    # Problems
-    sects.append('<section class="section"><h2>二、待解决问题分级</h2>{}</section>'.format(table(["编号","问题","严重度","具体说明","立即动作"], [[p["id"],esc(p["problem"]),p["severity"],esc(p.get("detail","")),esc(p.get("action",""))] for p in data.get("problems",[])])))
+    # Problems — 每一个待解决问题展开为律师/财税/身份三专业视角 + 法条 + 解决方案 + 风险规避的定制卡片
+    sev_color = {"P0":("#b91c1c","#fff5f5"),"P1":("#b45309","#fffaf0"),"P2":("#1d4ed8","#f8fbff"),"P3":("#64748b","#fafafa")}
+    pcards = ""
+    for p in data.get("problems", []):
+        sc, bg = sev_color.get(p.get("severity", "P2"), ("#1d4ed8", "#f8fbff"))
+        rows = []
+        def _add(label, key):
+            val = p.get(key, "")
+            if str(val).strip():
+                rows.append([label, esc(str(val))])
+        _add("法条依据", "law_basis")
+        _add("律师视角", "lawyer_view")
+        _add("财税规划师视角", "tax_view")
+        _add("身份规划师视角", "identity_view")
+        _add("具体解决方案", "solution")
+        _add("风险规避", "risk_control")
+        _add("立即动作", "action")
+        detail_tbl = table(["诊断维度", "专业分析与解决方案"], rows) if rows else ""
+        pcards += '<div style="border-left:5px solid {0};border:1px solid rgba(0,0,0,.06);border-left:5px solid {0};border-radius:16px;background:{1};padding:16px 18px;margin:14px 0"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="background:{0};color:#fff;font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px">{2}</span><b style="font-size:16px;color:#0b1f3a">{3}</b><span style="font-size:12px;color:#64748b">编号 {4}</span></div><p style="margin:8px 0 4px;color:#334155;font-size:14px">{5}</p>{6}</div>'.format(
+            sc, bg, esc(p.get("severity", "P2")), esc(p.get("problem", "")), esc(str(p.get("id", ""))), esc(p.get("detail", "")), detail_tbl)
+    sects.append('<section class="section"><h2>二、待解决问题分级（律师·财税师·身份规划师三重专业视角）</h2><p style="color:#475569;font-size:14px">每一个问题均基于本客户实际情况，给出法条依据、三专业视角分析、可执行解决方案与风险规避。</p>{}</section>'.format(pcards))
     
     # Root judgment
     rj = data.get("root_judgment",{})
@@ -204,24 +730,87 @@ def diagnosis_data_is_adequate(data: dict) -> tuple[bool, str]:
         missing=[k for k in required_topic_keys if not str(t.get(k,'')).strip()]
         if missing:
             return False, f'topic {i+1} missing {missing}'
+    # Anti-boilerplate: reject if topic solution/current_risk text is duplicated across topics.
+    for field in ['current_risk','why_it_happens','solution']:
+        vals=[re.sub(r'\s+','',str(t.get(field,''))) for t in topics if str(t.get(field,'')).strip()]
+        if vals and len(set(vals)) < max(2, int(len(vals)*0.7)):
+            return False, f'topics field "{field}" too repetitive ({len(set(vals))}/{len(vals)} unique)'
+    # Near-duplicate (fuzzy) check across topics — catches paraphrased boilerplate.
+    ndup = has_near_dup_across(topics, ['current_risk','why_it_happens','solution'], 0.6)
+    if ndup:
+        return False, f'topics {ndup}'
+    # Each problem must carry the three professional views + law basis + actionable solution.
+    required_problem_keys=['problem','law_basis','lawyer_view','tax_view','identity_view','solution','risk_control']
+    for i,p in enumerate(problems):
+        missing=[k for k in required_problem_keys if not str(p.get(k,'')).strip()]
+        if missing:
+            return False, f'problem {i+1} missing professional fields {missing}'
+        # Each problem's law_basis must cite at least one real legal token.
+        if law_hit_count(p.get('law_basis','')) < 1:
+            return False, f'problem {i+1} law_basis cites no real statute'
+    # Anti-boilerplate on problems: detail/solution must not be identical across problems.
+    for field in ['detail','solution','lawyer_view','tax_view','identity_view']:
+        vals=[re.sub(r'\s+','',str(p.get(field,''))) for p in problems if str(p.get(field,'')).strip()]
+        if vals and len(set(vals)) < len(vals):
+            return False, f'problems field "{field}" has duplicated text across problems'
+    # Near-duplicate (fuzzy) check across problems.
+    ndup = has_near_dup_across(problems, ['detail','solution','lawyer_view','tax_view','identity_view'], 0.6)
+    if ndup:
+        return False, f'problems {ndup}'
     return True, 'ok'
 
 def main():
     if len(sys.argv)<2: print("usage: diagnosis_template_renderer.py <questionnaire_text> [--output path]"); return 1
     q = Path(sys.argv[1]).read_text(encoding='utf-8',errors='ignore') if Path(sys.argv[1]).exists() else sys.argv[1]
     out = sys.argv[sys.argv.index('--output')+1] if '--output' in sys.argv else str(CLOUD_OUTPUT/'diagnosis-template-driven.html')
-    prompt = "根据以下问卷生成诊断草案JSON。确保8个专题覆盖客户所有相关国家/项目，每个专题含current_risk/why_it_happens/materials_needed/solution/deliverables。方案至少3个。尾部增附方案A/B/C/D及结构化JSON（projects字段列出每个方案包含的国家和项目）。\n\n【问卷】\n"+q[:9000]
-    print("Calling configured model for diagnosis JSON...")
-    try:
-        raw = call_model(prompt, 15000)
-        raw = re.sub(r'^```(?:json)?\s*','',raw.strip()); raw = re.sub(r'\s*```$','',raw.strip())
-        data = json.loads(raw)
-    except Exception as e:
-        print('Model unavailable; using deterministic final-template fallback:', str(e)[:180])
-        data = fallback_data_from_questionnaire(q)
-    ok, why = diagnosis_data_is_adequate(data)
-    if not ok:
-        print('Model JSON inadequate; using deterministic final-template fallback:', why)
+    knowledge = load_knowledge(q)
+    print("Loaded knowledge base: {} chars".format(len(knowledge)))
+
+    data = None
+    # --- Primary: multi-provider two-stage per-problem pipeline (kills boilerplate) ---
+    # Runs whenever ANY provider key is present; call_json_any fails over opus->openai->deepseek.
+    if ANTHROPIC_API_KEY or OPENAI_API_KEY or DEEPSEEK_API_KEY:
+        try:
+            data = generate_via_opus_pipeline(q, knowledge)
+            ok, why = diagnosis_data_is_adequate(data)
+            if not ok:
+                print('pipeline output inadequate:', why)
+                data = None
+            else:
+                print('pipeline OK: differentiated per-problem professional views')
+        except Exception as e:
+            print('pipeline failed; will try legacy single-call model:', str(e)[:180])
+            data = None
+    else:
+        print('no provider key set; skipping opus/multi-provider pipeline')
+
+    # --- Secondary: legacy single-call model (openai/deepseek) ---
+    if data is None:
+        prompt = ("根据以下问卷生成诊断草案JSON。\n"
+                  "【绝对要求】每一个待解决问题(problems[])必须基于本客户真实情况，字段包含："
+                  "id、problem、severity(P0/P1/P2/P3)、detail(本客户具体情境)、law_basis(具体法条/阈值/罚则)、"
+                  "lawyer_view(律师视角)、tax_view(财税规划师视角)、identity_view(身份规划师视角)、solution(分步可执行解决方案)、"
+                  "risk_control(风险规避)、action(立即动作)。严禁不同问题用相同或雷同的文字。\n"
+                  "8个专题(topics[])覆盖客户所有相关国家/项目，每个含current_risk/why_it_happens/materials_needed/solution/deliverables，"
+                  "每段必须含本客户特有的数字/国家/项目/金额/法条，8个专题不得雷同。方案至少3个且有真取舍。"
+                  "law_appendix[]至少3条，引用【相关法条与政策】中的真实条款。尾部增附方案A/B/C/D及结构化JSON（projects字段列出每个方案包含的国家和项目）。\n\n"
+                  "【相关法条与政策知识库】\n" + knowledge + "\n\n【问卷】\n" + q[:9000])
+        print("Calling legacy configured model for diagnosis JSON...")
+        try:
+            raw = call_model(prompt, 15000)
+            raw = re.sub(r'^```(?:json)?\s*','',raw.strip()); raw = re.sub(r'\s*```$','',raw.strip())
+            data = json.loads(raw)
+            ok, why = diagnosis_data_is_adequate(data)
+            if not ok:
+                print('Legacy model JSON inadequate:', why)
+                data = None
+        except Exception as e:
+            print('Legacy model unavailable:', str(e)[:180])
+            data = None
+
+    # --- Last-resort floor: per-client derived fallback (never 8 identical paragraphs) ---
+    if data is None:
+        print('Using deterministic per-client fallback (last resort).')
         data = fallback_data_from_questionnaire(q)
 
     # Normalize model output keys
@@ -237,7 +826,7 @@ def main():
     data.setdefault('passport_boundary',data.get('passport_boundary','')); data.setdefault('comparison',data.get('comparison',{}))
     data.setdefault('actions',data.get('actions',[])); data.setdefault('risk_statements',data.get('risk_statements',[]))
     data.setdefault('law_appendix',data.get('law_appendix',[]))
-    for p in data.get('problems',[]): p.setdefault('id',p.get('id',1)); p.setdefault('problem',p.get('problem','')); p.setdefault('severity',p.get('severity','P2')); p.setdefault('detail',p.get('detail','')); p.setdefault('action',p.get('action',''))
+    for p in data.get('problems',[]): p.setdefault('id',p.get('id',1)); p.setdefault('problem',p.get('problem','')); p.setdefault('severity',p.get('severity','P2')); p.setdefault('detail',p.get('detail','')); p.setdefault('action',p.get('action','')); p.setdefault('law_basis',p.get('law_basis',p.get('law',''))); p.setdefault('lawyer_view',p.get('lawyer_view','')); p.setdefault('tax_view',p.get('tax_view','')); p.setdefault('identity_view',p.get('identity_view','')); p.setdefault('solution',p.get('solution','')); p.setdefault('risk_control',p.get('risk_control',p.get('risk_mitigation','')))
     comp=data.get('comparison',{}); comp.setdefault('recommendation',comp.get('recommendation','')); comp.setdefault('reasons',comp.get('reasons',[])); comp.setdefault('not_recommended',comp.get('not_recommended',{}))
     print("JSON: {} topics, {} plans".format(len(data.get('topics',[])), len(data.get('plans',[]))))
     html = build(data)

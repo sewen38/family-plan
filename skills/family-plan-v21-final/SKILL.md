@@ -110,6 +110,23 @@ python3 family-plan-pages/scripts/v21_release_gate.py <fusion.html>
 - 发布前必须进行人工审核：图文完整、无乱码、无溢出、文字清晰、数据有来源、法规可执行、客户交付干净、内容厚度达标。
 - 任一项不满足，必须停止发送，继续修复；不得把半成品命名为 final/定稿/最终版。
 
+### 4. 诊断草案定制化生成引擎（2026-07-01 强制升级）
+
+诊断草案的生成必须走 `family-plan-pages/scripts/cloud-runner/diagnosis_template_renderer.py` 的【定制化两阶段生成流水线】，禁止再退化为“一次调用出全部 JSON + 静态兜底”的旧逻辑（旧逻辑会导致每个待解决问题文字雷同、8个专题共用同一段话）。
+
+生成必须满足以下硬规则：
+
+- **每个待解决问题必须是独立定制的专业方案**：基于客户快速问卷的真实数字/国家/账户/天数/身份状态，逐个问题单独调用模型生成，字段必须包含 `law_basis`（真实法条/阈值/罚则）、`lawyer_view`（律师视角）、`tax_view`（财税规划师视角）、`identity_view`（身份规划师视角）、`solution`（分步可执行）、`risk_control`（风险规避）、`action`（立即动作）。禁止不同问题使用相同或雷同文字。
+- **专题、方案逐个生成**：8个专题、3个方案均逐条独立生成，每条必须带客户特有的数字/国家/项目/金额/法条，禁止共用话术。
+- **法条命中校验**：每个问题的 `law_basis` 必须命中 `references/compliance-tax-law-cn-us-2026.md` 等法条库中的真实条款（如《外汇管理条例》第45条、《刑法》225条非法经营罪500万立案线、IRS SDOP 5%、FBAR/FATCA门槛、37号文、香港保险AML 240万港元、MAS 13O/13U 等）。没命中必须重生成，禁止编造。
+- **近似查重（反雷同）**：对问题的 detail/solution/三视角、专题的 current_risk/why_it_happens/solution 做 4-gram Jaccard 近似查重，相似度≥0.6 视为雷同必须重写；不再只拦“完全相同”。
+- **多引擎失效转移 + 熔断**：主引擎 `claude-opus-4-8`（`custom-www-primerouter-xyz`，Anthropic 协议），失败自动降级 OpenAI 兼容（gpt-5.5）→ deepseek；网关持续超时时用熔断器停用故障引擎，避免每次都等超时。任一小请求全部引擎失败时，从该问题自身 skeleton 派生（仍客户特定），绝不回退到“8段同文”的死模板。
+- **内容厚度参照定稿版**：最终 HTML 必须达到或超过定稿版模板厚度（≥12章、≥13表、≥18KB），并通过 `diagnosis_data_is_adequate()` 校验（≥3问题各带三视角+法条、≥8专题五段式、≥3方案、≥3法案）。
+- **两级问卷两级产物**：快速问卷 → 定制诊断草案；快速问卷 + 评估问卷 → 定制执行策划案。诊断草案的问题/专题/方案必须由客户填写内容驱动，不得套通用模板。
+- **手机端可读**：定稿模板已加移动端媒体查询（hero 标题换行、副标题高对比、表格 overflow-x 滚动），发布前必须实测手机端标题不裁切、副标题清晰、表格可横向滚动。
+
+环境变量：`ANTHROPIC_API_KEY`/`ANTHROPIC_BASE_URL`/`ANTHROPIC_MODEL` 配主引擎；`OPENAI_API_KEY`/`OPENAI_BASE_URL`/`OPENAI_MODEL` 配降级引擎；`OPUS_BREAKER_THRESHOLD`（默认2）控制熔断阈值；`DIAG_MAX_PROBLEMS`（默认6）控制问题数上限以约束运行时长。
+
 ## Release Gate 必检项
 
 1. 模板注册表存在且最高优先级模板可读取。

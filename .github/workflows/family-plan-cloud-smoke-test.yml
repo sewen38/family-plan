@@ -41,6 +41,11 @@ jobs:
           OPENAI_FALLBACK_MODELS: deepseek-chat
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           DEEPSEEK_BASE_URL: https://api.deepseek.com/v1
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: https://www.primerouter.xyz
+          ANTHROPIC_MODEL: claude-opus-4-8
+          OPUS_BREAKER_THRESHOLD: "1"
+          DIAG_MAX_PROBLEMS: "6"
         run: |
           mkdir -p cloud-runs/logs
           REQ=$(ls -t cloud-requests/random3-*.txt | head -1)
