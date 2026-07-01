@@ -3,14 +3,14 @@ Loaded knowledge base: 12008 chars
 [opus] Stage 1: extracting client-specific problem skeleton...
   capping problems 7 -> 6 (by severity)
 [opus] Stage 2: enriching 6 problems individually...
-  enriching problem 1/6: 1500万人民币跨境出境缺乏合规通道，个人5万美元额度远不够
+  enriching problem 1/6: 1500万人民币跨境资金缺乏合法出境通道，个人购汇额度严重不
 opus JSON attempt 1 failed: HTTP Error 504: Gateway Time-out
 [breaker] opus disabled for this run after 1 failures; using OpenAI/deepseek
-  enriching problem 2/6: 香港账户历史资产仅部分申报，CRS已对中国税务机关透明
-  enriching problem 3/6: 资金来源材料尚未整理，将卡住新加坡开户与土耳其基金入籍的KY
-  enriching problem 4/6: 新加坡EP+家办路径的营收与AUM门槛与客户体量不匹配
-  enriching problem 5/6: 澳洲投资移民已关停，482 SID路径与'不能长期离开企业'
-  enriching problem 6/6: 女儿12岁教育时间窗紧迫，身份与入学节奏需倒排
+  enriching problem 2/6: 香港账户CRS已暴露且历史仅‘部分申报’，赴美E-2后FBA
+  enriching problem 3/6: 误将短期停留天数等同于身份，税务居民边界与资金去向未对齐
+  enriching problem 4/6: 土耳其护照+美国E-2的使用边界与国籍冲突未厘清
+  enriching problem 5/6: 新加坡EP/PIC与企业规模不匹配，GIP门槛远超客户体量
+  enriching problem 6/6: 澳洲482 SID依赖雇主担保，与‘不能长期离开中国企业’约
 [opus] Stage 3: topics...
   topic ok: 税务居民身份与居住天数边界
   topic ok: 资金来源与跨境出境合规证据链
@@ -21,18 +21,11 @@ opus JSON attempt 1 failed: HTTP Error 504: Gateway Time-out
   topic ok: 第三国护照使用边界与国籍冲突
   topic ok: 跨境资金与CRS/FATCA申报一致性
 [opus] Stage 4: plans/comparison/actions/laws...
-  plan A ok: 香港/新加坡承接平台优先方案
-  plan B ok: 新加坡教育+澳洲身份备份+美国E-2备选方案
-  plan C ok: 第三国护照/条约国工具补充方案
-pipeline output inadequate: problem 6 law_basis cites no real statute
-Calling legacy configured model for diagnosis JSON...
-Calling model candidate 1/2: aitechflux/gpt-5.5 provider=primary base=https://us.aitechflux.com/v1 attempt 1/3
-Model aitechflux/gpt-5.5 HTTP 401
-Switching to fallback model: deepseek-chat
-Calling model candidate 2/2: deepseek-chat provider=deepseek base=https://api.deepseek.com/v1 attempt 1/3
-Legacy model JSON inadequate: plans too few: 0
-Using deterministic per-client fallback (last resort).
+  plan A ok: 香港/新加坡双平台承接，先管钱后身份
+  plan B ok: 香港优才+新加坡PIC自雇EP双身份教育主线方案
+  plan C ok: 第三国护照工具+E-2跳板方案
+pipeline OK: differentiated per-problem professional views
 JSON: 8 topics, 3 plans
-Written cloud-runs/random3-20260617-sg-au-tr-diagnosis.html (25469 bytes)
+Written cloud-runs/random3-20260617-sg-au-tr-diagnosis.html (53633 bytes)
 Written cloud-runs/random3-20260617-sg-au-tr-execution.html modules=['sg-ep-pic', 'hk-asmtp', 'au-482', 'tr-fund'] bytes=3378 model=aitechflux/gpt-5.5 base=https://us.aitechflux.com/v1
 DIAG_CODE=0 EXEC_CODE=0 GATE_CODE=0 VISIBLE_CODE=0
