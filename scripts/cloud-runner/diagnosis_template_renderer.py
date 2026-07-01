@@ -13,9 +13,12 @@ CLOUD_OUTPUT.mkdir(parents=True, exist_ok=True)
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_BASE_URL = (os.environ.get("OPENAI_BASE_URL") or "https://us.aitechflux.com/v1").rstrip("/")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL") or "aitechflux/gpt-5.5"
-OPENAI_FALLBACK_MODELS = [m.strip() for m in (os.environ.get("OPENAI_FALLBACK_MODELS") or "deepseek-chat").split(",") if m.strip()]
+OPENAI_FALLBACK_MODELS = [m.strip() for m in (os.environ.get("OPENAI_FALLBACK_MODELS") or "apimart/gpt-4o,deepseek-chat").split(",") if m.strip()]
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_BASE_URL = (os.environ.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com/v1").rstrip("/")
+# apimart 中转站备用（primary 不可用时切换）
+APIMART_API_KEY = os.environ.get("APIMART_API_KEY", "sk-WoMb4ByFomztNVr8xuPyXPQ7xfu5Mr1IvM8B3nSUsq8UB9YV")
+APIMART_BASE_URL = (os.environ.get("APIMART_BASE_URL") or "https://api.apimart.ai/v1").rstrip("/")
 
 # --- Primary diagnosis engine: Anthropic-compatible custom provider (claude-opus-4-8) ---
 # When set, the renderer prefers this engine for both the problem-extraction pass
@@ -192,6 +195,8 @@ def call_json_any(system: str, prompt: str, max_tokens: int = 2600) -> dict:
 
 def model_endpoint(model: str) -> tuple[str, str, str]:
     """Return (base_url, api_key, provider_label) for a model candidate."""
+    if model.startswith("apimart/") and APIMART_API_KEY:
+        return APIMART_BASE_URL, APIMART_API_KEY, "apimart"
     if model.startswith("deepseek") and DEEPSEEK_API_KEY:
         return DEEPSEEK_BASE_URL, DEEPSEEK_API_KEY, "deepseek"
     return OPENAI_BASE_URL, OPENAI_API_KEY, "primary"
@@ -201,7 +206,8 @@ def call_one_model(model: str, prompt: str, max_tokens: int) -> str:
     base_url, api_key, provider = model_endpoint(model)
     if not api_key:
         raise RuntimeError(f"Missing API key for provider={provider} model={model}")
-    payload = {"model": model, "messages": [{"role":"system","content":SYSTEM},{"role":"user","content":prompt}],
+    wire_model = model.split("/", 1)[1] if provider == "apimart" and "/" in model else model
+    payload = {"model": wire_model, "messages": [{"role":"system","content":SYSTEM},{"role":"user","content":prompt}],
                "temperature": 0.15, "max_tokens": max_tokens, "response_format": {"type":"json_object"}}
     req = urllib.request.Request(base_url+"/chat/completions", data=json.dumps(payload,ensure_ascii=False).encode(), method="POST")
     req.add_header("Authorization","Bearer "+api_key)
